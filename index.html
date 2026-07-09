@@ -181,6 +181,9 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
 .pcard{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:18px;box-shadow:var(--sh);transition:border-color .15s}
 .pcard:hover{border-color:var(--b2)}
+.pcard.closed{opacity:.55;border-style:dashed}
+.pcard.closed:hover{opacity:.85}
+.closed-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;background:var(--gy2);color:var(--gy);font-size:11px;font-weight:700}
 .pct{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
 .pcn{font-size:15px;font-weight:700}
 .pcc{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--di);margin-top:2px}
@@ -458,7 +461,15 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     </div>
     <!-- PROYECTOS -->
     <div class="sec" id="sec-proyectos">
-      <div class="sh"><span class="st">Proyectos</span><button class="btn bp admin-only" onclick="openNewProj()">＋ Nuevo proyecto</button></div>
+      <div class="sh">
+  <span class="st">Proyectos</span>
+  <div style="display:flex;align-items:center;gap:8px">
+    <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);cursor:pointer">
+      <input type="checkbox" id="show-closed" onchange="renderProjs()" style="cursor:pointer"> Mostrar cerrados
+    </label>
+    <button class="btn bp admin-only" onclick="openNewProj()">＋ Nuevo proyecto</button>
+  </div>
+</div>
       <div class="pg" id="pgrid"></div>
     </div>
     <!-- PERSONAS -->
@@ -543,7 +554,7 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
       <div class="fr"><div class="fg"><label>Etapa</label><input id="fp-e" type="text" list="elist" placeholder="Selecciona o escribe…" autocomplete="off"><datalist id="elist"><option value="Cotización"/><option value="Estudios"/><option value="Diseños"/><option value="Construcción"/><option value="Entregado"/></datalist></div><div class="fg"><label>Responsable</label><select id="fp-pe"></select></div></div>
       <div class="fr"><div class="fg"><label>Ubicación</label><input id="fp-u" type="text" placeholder="Ciudad…"></div><div class="fg"><label>Cliente</label><input id="fp-cl" type="text" placeholder="Cliente…"></div></div>
     </div>
-    <div class="mf"><button class="btn bd admin-only" id="btn-delp" onclick="deleteProj()" style="display:none">Eliminar</button><button class="btn" onclick="co('ov-proj')">Cancelar</button><button class="btn bp" onclick="saveProj()">Guardar</button></div>
+    <div class="mf"><button class="btn bd admin-only" id="btn-delp" onclick="deleteProj()" style="display:none">Eliminar</button><button class="btn" id="btn-closep" onclick="toggleCerrarProj()" style="display:none">🔒 Cerrar proyecto</button><button class="btn" onclick="co('ov-proj')">Cancelar</button><button class="btn bp" onclick="saveProj()">Guardar</button></div>
   </div>
 </div>
 <!-- MODAL PERSONA -->
@@ -713,10 +724,13 @@ function visTasks(){
   if(isEquipo())return S.tasks.filter(t=>EQUIPO.includes(t.persona));
   return S.tasks;
 }
-function visProjs(){
-  if(isAdmin())return S.projects;
-  if(isEquipo())return S.projects.filter(p=>EQUIPO.includes(p.persona));
-  return S.projects;
+function visProjs(includeClosed=false){
+  let list;
+  if(isAdmin())list=S.projects;
+  else if(isEquipo())list=S.projects.filter(p=>EQUIPO.includes(p.persona));
+  else list=S.projects;
+  if(!includeClosed)list=list.filter(p=>!p.cerrado);
+  return list;
 }
 
 /* ── FILTERED TASKS ── */
@@ -743,7 +757,7 @@ function renderDash(){
   g('d-al').innerHTML=urg.length?urg.map(t=>{const d=dLeft(t.fecha),cls=d<0?'red':'amber',ds=d<0?`Vencida hace ${Math.abs(d)}d`:d===0?'Vence hoy':`${d}d`;return`<div class="ali" onclick="openDet('${t.id}')"><div class="ald ${cls}"></div><div class="alinf"><div class="alt">${esc(t.descripcion)}</div><div class="alm">${t.proyecto} · ${chip(t.persona)} · ${ds}</div></div></div>`;}).join(''):'<div class="emp"><div class="ei">✅</div>Sin alertas urgentes</div>';
   const showP=isEquipo()?S.personas.filter(p=>EQUIPO.includes(p.nombre)):S.personas;
   g('d-pe').innerHTML=showP.map(p=>{const pt=list.filter(t=>t.persona===p.nombre),ptot=pt.length,pc=pt.filter(t=>t.estado==='Completada').length,enc=pt.filter(t=>t.estado==='En curso').length,pen=pt.filter(t=>t.estado==='Pendiente').length,pct=ptot?Math.round(pc/ptot*100):0;return`<div class="pr"><div class="pav" style="background:${p.color}22;color:${p.color}">${ini(p.nombre)}</div><div class="pnm" style="color:${p.color}">${p.nombre}</div><div class="bar"><div class="bf" style="width:${pct}%;background:${p.color}"></div></div><div class="pst"><div class="pi"><strong style="color:var(--ac)">${enc}</strong>curso</div><div class="pi"><strong>${pen}</strong>pend.</div><div class="pi"><strong style="color:${p.color}">${pct}%</strong>done</div></div></div>`;}).join('');
-  const pjs=visProjs();
+  const pjs=visProjs(false); // only active projects in dashboard
   g('d-pj').innerHTML=pjs.length?pjs.map(p=>{const pn=list.filter(t=>t.proyecto===p.nombre&&t.estado!=='Completada').length;return`<div class="pjc" onclick="filterProj('${p.nombre}')"><div class="pjl"><span class="pjcode">${p.codigo||''}</span><span class="pjnm">${p.nombre}</span></div><div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><span class="et ${etCl(p.etapa)}">${p.etapa||''}</span><span style="font-size:11px;color:var(--mu)">${pn} pend.</span></div></div>`;}).join(''):'<div style="color:var(--mu);font-size:13px">Sin proyectos</div>';
   const cols={Pendiente:'#4b6a82','En curso':'#2563eb',Completada:'#15803d',Bloqueada:'#d97706'};
   g('d-st').innerHTML=Object.entries(cols).map(([e,c])=>{const cnt=list.filter(t=>t.estado===e).length,pct=tot?Math.round(cnt/tot*100):0;return`<div class="pr cp" onclick="filterSt('${e}')"><div style="width:90px;font-size:12px;font-weight:600;color:${c}">${e}</div><div class="bar"><div class="bf" style="width:${pct}%;background:${c}"></div></div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:${c};width:28px;text-align:right">${cnt}</div><div style="font-size:11px;color:var(--di);width:32px;text-align:right">${pct}%</div></div>`;}).join('');
@@ -775,11 +789,22 @@ function sortBy(col){if(S.sortCol===col)S.sortDir*=-1;else{S.sortCol=col;S.sortD
 
 /* ── PROYECTOS ── */
 function renderProjs(){
-  const list=visProjs().filter(p=>isAdmin()?(S.activeUser==='todos'||p.persona===S.activeUser):true);
-  if(!list.length){g('pgrid').innerHTML='<div class="emp"><div class="ei">📁</div>No hay proyectos.</div>';return;}
+  const showClosed = g('show-closed')?.checked || false;
+  const list = visProjs(showClosed).filter(p=>isAdmin()?(S.activeUser==='todos'||p.persona===S.activeUser):true);
+  if(!list.length){
+    g('pgrid').innerHTML=`<div class="emp"><div class="ei">📁</div>${showClosed?'No hay proyectos.':'No hay proyectos activos. Activa "Mostrar cerrados" para ver todos.'}</div>`;
+    return;
+  }
   g('pgrid').innerHTML=list.map(p=>{
     const pcol=pCol(p.persona),act=S.tasks.filter(t=>t.proyecto===p.nombre&&t.estado!=='Completada').slice(0,3);
-    return`<div class="pcard"><div class="pct"><div><div class="pcn">${esc(p.nombre)}</div><div class="pcc">${p.codigo||''}</div></div><span class="et ${etCl(p.etapa)}">${p.etapa||''}</span></div><div class="pcm"><span>📍 ${p.ubicacion||'—'}</span><span>👤 <span style="color:${pcol}">${p.persona||'—'}</span></span><span>🏢 ${p.cliente||'—'}</span></div>${act.length?`<div class="ml">${act.map(t=>{const dc={'En curso':'var(--ac)','Pendiente':'var(--mu)','Bloqueada':'var(--am)'}[t.estado]||'var(--di)';return`<div class="mi"><div class="md" style="background:${dc}"></div>${esc(t.descripcion)}</div>`;}).join('')}</div>`:''}<div class="pca">${isAdmin()?`<button class="btn bsm" onclick="event.stopPropagation();openEditP(${p.id})">✏️ Editar</button>`:''}</div></div>`;
+    const closedBadge=p.cerrado?'<span class="closed-badge">🔒 Cerrado</span>':'';
+    const editBtn=isAdmin()||(!isAdmin())?`<button class="btn bsm" onclick="event.stopPropagation();openEditP(${p.id})">${p.cerrado?'🔓 Reabrir / Editar':'✏️ Editar'}</button>`:'';
+    return`<div class="pcard${p.cerrado?' closed':''}">
+      <div class="pct"><div><div class="pcn">${esc(p.nombre)}</div><div class="pcc">${p.codigo||''}</div></div><div style="display:flex;align-items:center;gap:6px">${closedBadge}<span class="et ${etCl(p.etapa)}">${p.etapa||''}</span></div></div>
+      <div class="pcm"><span>📍 ${p.ubicacion||'—'}</span><span>👤 <span style="color:${pcol}">${p.persona||'—'}</span></span><span>🏢 ${p.cliente||'—'}</span></div>
+      ${!p.cerrado&&act.length?`<div class="ml">${act.map(t=>{const dc={'En curso':'var(--ac)','Pendiente':'var(--mu)','Bloqueada':'var(--am)'}[t.estado]||'var(--di)';return`<div class="mi"><div class="md" style="background:${dc}"></div>${esc(t.descripcion)}</div>`;}).join('')}</div>`:''}
+      <div class="pca">${editBtn}</div>
+    </div>`;
   }).join('');
 }
 
@@ -974,7 +999,7 @@ function repByProj(tks){
 function togRBlk(id){const b=g(id),ic=g('ic-'+id);if(!b)return;const op=b.style.display!=='none';b.style.display=op?'none':'';if(ic)ic.classList.toggle('open',!op);}
 
 /* ── MODAL TAREA ── */
-function fillPS(id){g(id).innerHTML=visProjs().map(p=>`<option value="${esc(p.nombre)}">${esc(p.nombre)}</option>`).join('');}
+function fillPS(id){g(id).innerHTML=visProjs(false).map(p=>`<option value="${esc(p.nombre)}">${esc(p.nombre)}</option>`).join('');}
 function fillPeS(id){g(id).innerHTML=S.personas.map(p=>`<option value="${esc(p.nombre)}">${esc(p.nombre)}</option>`).join('');}
 function autoPers(pj){const p=S.projects.find(x=>x.nombre===pj),fp=g('ft-pe');if(p&&p.persona){fp.value=p.persona;fp.disabled=true;fp.style.opacity='.6';}else{fp.disabled=false;fp.style.opacity='1';}}
 function openNewTask(){
@@ -1043,12 +1068,35 @@ async function applyQE(v,tid,f){g('qem').classList.remove('on');const t=S.tasks.
 document.addEventListener('click',e=>{const m=g('qem');if(m&&!m.contains(e.target))m.classList.remove('on');});
 
 /* ── MODAL PROYECTO ── */
-function openNewProj(){S.editProj=null;g('proj-tt').textContent='Nuevo proyecto';g('btn-delp').style.display='none';fillPeS('fp-pe');['fp-n','fp-c','fp-e','fp-u','fp-cl'].forEach(id=>g(id).value='');openOv('ov-proj');}
-function openEditP(id){const p=S.projects.find(x=>x.id===id);if(!p)return;S.editProj=id;g('proj-tt').textContent='Editar proyecto';g('btn-delp').style.display='';fillPeS('fp-pe');g('fp-n').value=p.nombre||'';g('fp-c').value=p.codigo||'';g('fp-e').value=p.etapa||'';g('fp-pe').value=p.persona||'';g('fp-u').value=p.ubicacion||'';g('fp-cl').value=p.cliente||'';openOv('ov-proj');}
+function openNewProj(){S.editProj=null;g('proj-tt').textContent='Nuevo proyecto';g('btn-delp').style.display='none';const bc=g('btn-closep');if(bc)bc.style.display='none';fillPeS('fp-pe');['fp-n','fp-c','fp-e','fp-u','fp-cl'].forEach(id=>g(id).value='');openOv('ov-proj');}
+function openEditP(id){
+  const p=S.projects.find(x=>x.id===id);if(!p)return;
+  S.editProj=id;g('proj-tt').textContent='Editar proyecto';
+  g('btn-delp').style.display=isAdmin()?'':'none';
+  const bc=g('btn-closep');
+  if(bc){bc.style.display='';bc.textContent=p.cerrado?'🔓 Reabrir proyecto':'🔒 Cerrar proyecto';bc.className='btn '+(p.cerrado?'bp':'');}
+  fillPeS('fp-pe');
+  g('fp-n').value=p.nombre||'';g('fp-c').value=p.codigo||'';g('fp-e').value=p.etapa||'';
+  g('fp-pe').value=p.persona||'';g('fp-u').value=p.ubicacion||'';g('fp-cl').value=p.cliente||'';
+  openOv('ov-proj');
+}
 async function saveProj(){
   const n=g('fp-n').value.trim();if(!n){toast('Nombre obligatorio','err');return;}const np=g('fp-pe').value;
   const pj={nombre:n,codigo:g('fp-c').value.trim(),etapa:g('fp-e').value,persona:np,ubicacion:g('fp-u').value.trim(),cliente:g('fp-cl').value.trim()};synd('busy');
   try{if(S.editProj){const old=S.projects.find(p=>p.id===S.editProj),oN=old?.nombre||'',oP=old?.persona||'';const{error}=await db.from('proyectos').update(pj).eq('id',S.editProj);if(error)throw error;if(oN&&oN!==n)await db.from('tareas').update({proyecto:n,updated_at:new Date().toISOString()}).eq('proyecto',oN);if(oP!==np)await db.from('tareas').update({persona:np,updated_at:new Date().toISOString()}).eq('proyecto',n);toast('Proyecto y tareas actualizados ✓','ok');}else{const{error}=await db.from('proyectos').insert(pj);if(error)throw error;toast('Proyecto creado','ok');}co('ov-proj');await loadAll();}catch(e){synd('err');toast('Error: '+e.message,'err');}
+}
+async function toggleCerrarProj(){
+  if(!S.editProj)return;
+  const p=S.projects.find(x=>x.id===S.editProj);if(!p)return;
+  const closing=!p.cerrado;
+  if(closing&&!confirm(`¿Cerrar el proyecto "${p.nombre}"? Dejará de aparecer en la vista activa.`))return;
+  synd('busy');
+  try{
+    const{error}=await db.from('proyectos').update({cerrado:closing}).eq('id',S.editProj);
+    if(error)throw error;
+    toast(closing?'Proyecto cerrado 🔒':'Proyecto reabierto 🔓','ok');
+    co('ov-proj');await loadAll();
+  }catch(e){synd('err');toast('Error: '+e.message,'err');}
 }
 async function deleteProj(){if(!S.editProj||!confirm('¿Eliminar?'))return;synd('busy');try{const{error}=await db.from('proyectos').delete().eq('id',S.editProj);if(error)throw error;toast('Eliminado','ok');co('ov-proj');}catch(e){synd('err');toast('Error: '+e.message,'err');}}
 
