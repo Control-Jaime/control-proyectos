@@ -846,6 +846,14 @@ function renderReuEntries(){
   const srch=(g('rs')?.value||'').toLowerCase();
   let ents=S.reuns.filter(r=>r.proyecto===S.reuProj);
   if(srch)ents=ents.filter(r=>(r.notas||'').toLowerCase().includes(srch)||(r.acuerdos||[]).some(a=>(a.texto||'').toLowerCase().includes(srch)));
+  // Compute completed state; push completed entries to the end (pending first, then by date desc)
+  const isDone=r=>{const acs=r.acuerdos||[];const hasAcs=acs.length>0;const allDone=hasAcs&&acs.every(a=>a.estado==='completado');return allDone?true:(r.estado==='completado');};
+  ents.sort((a,b)=>{
+    const da=isDone(a),dbb=isDone(b);
+    if(da!==dbb)return da?1:-1; // pending (false) first
+    // within same group, newest first
+    return (b.fecha||'').localeCompare(a.fecha||'');
+  });
   const cont=g('re2');
   if(!ents.length){cont.innerHTML=`<div class="remp"><div class="rei">${srch?'🔍':'📝'}</div><span>${srch?'Sin resultados':'Sin entradas aún.'}</span></div>`;return;}
   cont.innerHTML=ents.map(r=>{
