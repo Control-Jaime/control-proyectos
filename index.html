@@ -1106,7 +1106,31 @@ async function toggleCerrarProj(){
     co('ov-proj');await loadAll();
   }catch(e){synd('err');toast('Error: '+e.message,'err');}
 }
-async function deleteProj(){if(!S.editProj||!confirm('¿Eliminar?'))return;synd('busy');try{const{error}=await db.from('proyectos').delete().eq('id',S.editProj);if(error)throw error;toast('Eliminado','ok');co('ov-proj');}catch(e){synd('err');toast('Error: '+e.message,'err');}}
+async function deleteProj(){
+  if(!S.editProj)return;
+  const p=S.projects.find(x=>x.id===S.editProj);if(!p)return;
+  const projTasks=S.tasks.filter(t=>t.proyecto===p.nombre);
+  const msg=projTasks.length
+    ? `¿Eliminar el proyecto "${p.nombre}"?\n\nEsto también eliminará ${projTasks.length} tarea(s) vinculada(s). Se moverán a la papelera.`
+    : `¿Eliminar el proyecto "${p.nombre}"?`;
+  if(!confirm(msg))return;
+  synd('busy');
+  try{
+    // 1. Move linked tasks to papelera and delete them
+    if(projTasks.length){
+      const papeleraRows=projTasks.map(t=>({...t,eliminada_por:S.user?.nombre||'?',eliminada_at:new Date().toISOString()}));
+      await db.from('papelera').insert(papeleraRows);
+      const{error:te}=await db.from('tareas').delete().eq('proyecto',p.nombre);
+      if(te)throw te;
+    }
+    // 2. Delete the project
+    const{error}=await db.from('proyectos').delete().eq('id',S.editProj);
+    if(error)throw error;
+    toast(projTasks.length?`Proyecto y ${projTasks.length} tarea(s) eliminados`:'Proyecto eliminado','ok');
+    co('ov-proj');
+    await loadAll();
+  }catch(e){synd('err');toast('Error: '+e.message,'err');}
+}
 
 /* ── MODAL PERSONA ── */
 function drawSwt(){g('swt').innerHTML=PAL.map(c=>`<div class="sw3${S.selColor===c?' sel':''}" style="background:${c}" onclick="S.selColor='${c}';drawSwt()"></div>`).join('');}
