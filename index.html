@@ -359,6 +359,43 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .rtic{font-size:12px;color:var(--di);transition:transform .2s}
 .rtic.open{transform:rotate(180deg)}
 .remp2{text-align:center;padding:48px;color:var(--mu)}
+/* PROJECT DETAIL */
+.pd-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);background:transparent;border:none;cursor:pointer;margin-bottom:16px;padding:4px 0}
+.pd-back:hover{color:var(--ac)}
+.pd-hero{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:22px 24px;margin-bottom:20px;box-shadow:var(--sh)}
+.pd-hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.pd-name{font-size:22px;font-weight:700;line-height:1.2}
+.pd-code{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--di);margin-top:4px}
+.pd-meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--mu)}
+.pd-meta strong{color:var(--tx);font-weight:600}
+.pd-kpis{display:flex;gap:20px;flex-wrap:wrap}
+.pd-kpi{text-align:center}
+.pd-kpi-v{font-size:24px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1}
+.pd-kpi-l{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+.pd-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pd-panel{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;display:flex;flex-direction:column}
+.pd-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--b1)}
+.pd-panel-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+.pd-panel-body{padding:8px 0;max-height:520px;overflow-y:auto}
+.pd-task{display:flex;align-items:flex-start;gap:10px;padding:10px 18px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .1s}
+.pd-task:last-child{border-bottom:none}
+.pd-task:hover{background:var(--surf)}
+.pd-task.done{opacity:.6}
+.pd-task-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.pd-task-info{flex:1;min-width:0}
+.pd-task-desc{font-size:13px;font-weight:500}
+.pd-task-desc.strike{text-decoration:line-through;color:var(--mu)}
+.pd-task-meta{font-size:11px;color:var(--di);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pd-reu{padding:12px 18px;border-bottom:1px solid var(--b1)}
+.pd-reu:last-child{border-bottom:none}
+.pd-reu.done-e{opacity:.6}
+.pd-reu-hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.pd-reu-date{font-size:12px;font-weight:700}
+.pd-reu-notes{font-size:12px;color:var(--mu);line-height:1.5;white-space:pre-wrap;margin-bottom:6px}
+.pd-reu-acu{font-size:11px;color:var(--di);display:flex;align-items:center;gap:6px;padding:2px 0}
+.pd-reu-acu .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.pd-empty{padding:32px;text-align:center;color:var(--di);font-size:13px}
+@media(max-width:768px){.pd-cols{grid-template-columns:1fr}}
 @media(max-width:768px){
   .kg,.rsum{grid-template-columns:1fr 1fr}.dg,.fr{grid-template-columns:1fr}.dg2{grid-template-columns:1fr}
   .tb{padding:0 12px;height:auto;min-height:56px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
@@ -471,6 +508,11 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
   </div>
 </div>
       <div class="pg" id="pgrid"></div>
+    </div>
+    <!-- PROJECT DETAIL -->
+    <div class="sec" id="sec-projdet">
+      <button class="pd-back" onclick="showTab('proyectos')">← Volver a proyectos</button>
+      <div id="pd-content"></div>
     </div>
     <!-- PERSONAS -->
     <div class="sec" id="sec-personas">
@@ -800,7 +842,7 @@ function renderProjs(){
     const closedBadge=p.cerrado?'<span class="closed-badge">🔒 Cerrado</span>':'';
     const editBtn=isAdmin()||(!isAdmin())?`<button class="btn bsm" onclick="event.stopPropagation();openEditP(${p.id})">${p.cerrado?'🔓 Reabrir / Editar':'✏️ Editar'}</button>`:'';
     return`<div class="pcard${p.cerrado?' closed':''}">
-      <div class="pct"><div><div class="pcn">${esc(p.nombre)}</div><div class="pcc">${p.codigo||''}</div></div><div style="display:flex;align-items:center;gap:6px">${closedBadge}<span class="et ${etCl(p.etapa)}">${p.etapa||''}</span></div></div>
+      <div class="pct"><div style="cursor:pointer" onclick="openProjDetail(${p.id})"><div class="pcn" style="transition:color .15s" onmouseover="this.style.color='var(--ac)'" onmouseout="this.style.color=''">${esc(p.nombre)}</div><div class="pcc">${p.codigo||''}</div></div><div style="display:flex;align-items:center;gap:6px">${closedBadge}<span class="et ${etCl(p.etapa)}">${p.etapa||''}</span></div></div>
       <div class="pcm"><span>📍 ${p.ubicacion||'—'}</span><span>👤 <span style="color:${pcol}">${p.persona||'—'}</span></span><span>🏢 ${p.cliente||'—'}</span></div>
       ${!p.cerrado&&act.length?`<div class="ml">${act.map(t=>{const dc={'En curso':'var(--ac)','Pendiente':'var(--mu)','Bloqueada':'var(--am)'}[t.estado]||'var(--di)';return`<div class="mi"><div class="md" style="background:${dc}"></div>${esc(t.descripcion)}</div>`;}).join('')}</div>`:''}
       <div class="pca">${editBtn}</div>
@@ -1006,6 +1048,119 @@ function repByProj(tks){
   return`<div class="rsec"><div class="rsect">📁 Por proyecto</div>${keys.map(pj=>{const list=grps[pj],don=list.filter(t=>t.estado==='Completada').length,pen=list.length-don,pct=Math.round(don/list.length*100),pi=S.projects.find(p=>p.nombre===pj),id='rp-'+pj.replace(/[^a-z0-9]/gi,'_');return`<div class="rblk"><div class="rblkh" onclick="togRBlk('${id}')"><div><div class="rblkn">${esc(pj)}</div>${pi?`<div style="font-size:11px;color:var(--mu);margin-top:2px">${pi.etapa||''} · ${pi.cliente||''}</div>`:''}</div><div style="display:flex;align-items:center;gap:12px"><div class="rsts"><span class="rsc ok">✓ ${don}</span><span class="rsc nd">○ ${pen}</span></div><span class="rpct">${pct}%</span><span class="rtic open" id="ic-${id}">▾</span></div></div><div class="rblkb" id="${id}"><div class="rpbar"><div class="rpbr"><div class="rpbf" style="width:${pct}%"></div></div><div class="rpbl">${don} de ${list.length} completadas</div></div>${list.sort((a,b)=>a.fecha.localeCompare(b.fecha)).map(t=>repRow(t)).join('')}</div></div>`;}).join('')}</div>`;}
 function togRBlk(id){const b=g(id),ic=g('ic-'+id);if(!b)return;const op=b.style.display!=='none';b.style.display=op?'none':'';if(ic)ic.classList.toggle('open',!op);}
 
+
+/* ── PROJECT DETAIL ── */
+let pdProjId=null;
+async function openProjDetail(id){
+  pdProjId=id;
+  S.tab='projdet';
+  // Load reuniones if admin and not yet loaded
+  if(isAdmin() && !S.reuns.length){ await loadReuns(); }
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  g('sec-projdet').classList.add('on');
+  // keep "Proyectos" nav highlighted
+  document.querySelector('.nb[data-tab="proyectos"]')?.classList.add('on');
+  renderProjDetail();
+}
+function renderProjDetail(){
+  const p=S.projects.find(x=>x.id===pdProjId);
+  if(!p){g('pd-content').innerHTML='<div class="pd-empty">Proyecto no encontrado</div>';return;}
+  const pcol=pCol(p.persona);
+  const allT=S.tasks.filter(t=>t.proyecto===p.nombre);
+  const act=allT.filter(t=>t.estado!=='Completada');
+  const done=allT.filter(t=>t.estado==='Completada');
+  const venc=act.filter(t=>dLeft(t.fecha)<0).length;
+  const pct=allT.length?Math.round(done.length/allT.length*100):0;
+
+  // Sort active: by due date; then completed at end
+  const sortT=list=>[...list].sort((a,b)=>(a.fecha||'9999').localeCompare(b.fecha||'9999'));
+  const orderedTasks=[...sortT(act),...sortT(done)];
+
+  const canEditTasks=isAdmin();
+  const newTaskBtn=`<button class="btn bp bsm" onclick="openNewTaskFor('${p.nombre.replace(/'/g,"\\'")}')">＋ Tarea</button>`;
+
+  const tasksHtml=orderedTasks.length?orderedTasks.map(t=>{
+    const isD=t.estado==='Completada';
+    const d=dLeft(t.fecha);
+    const dotC=isD?'var(--gr)':(d!==null&&d<0?'var(--re)':(d!==null&&d<=7?'var(--am)':'var(--di)'));
+    const ec=t.estado.toLowerCase().replace(/ /g,'-').replace('ó','o');
+    const pc=(t.prioridad||'').toLowerCase();
+    return`<div class="pd-task${isD?' done':''}" onclick="openDet('${t.id}')">
+      <div class="pd-task-dot" style="background:${dotC}"></div>
+      <div class="pd-task-info">
+        <div class="pd-task-desc${isD?' strike':''}">${esc(t.descripcion)}</div>
+        <div class="pd-task-meta">${chip(t.persona)}<span class="badge ${pc}" style="font-size:10px;padding:1px 6px">${t.prioridad}</span><span class="badge ${ec}" style="font-size:10px;padding:1px 6px">${t.estado}</span><span>📅 ${fmt(t.fecha)}</span></div>
+      </div>
+    </div>`;
+  }).join(''):'<div class="pd-empty">Sin tareas para este proyecto</div>';
+
+  // Reuniones (admin only)
+  let reunHtml='';
+  if(isAdmin()){
+    const reuns=S.reuns.filter(r=>r.proyecto===p.nombre);
+    const isDone=r=>{const acs=r.acuerdos||[];const ha=acs.length>0;const ad=ha&&acs.every(a=>a.estado==='completado');return ad?true:(r.estado==='completado');};
+    const sortedReuns=[...reuns].sort((a,b)=>{const da=isDone(a),dbb=isDone(b);if(da!==dbb)return da?1:-1;return(b.fecha||'').localeCompare(a.fecha||'');});
+    const reunBody=sortedReuns.length?sortedReuns.map(r=>{
+      const fecha=r.fecha?new Date(r.fecha).toLocaleString('es-EC',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+      const acs=r.acuerdos||[];
+      const done=isDone(r);
+      const acuLines=acs.map(a=>{const ad=a.estado==='completado';return`<div class="pd-reu-acu"><div class="dot" style="background:${ad?'var(--gr)':'var(--am)'}"></div><span style="${ad?'text-decoration:line-through':''}">${esc(a.texto)}</span></div>`;}).join('');
+      return`<div class="pd-reu${done?' done-e':''}">
+        <div class="pd-reu-hdr"><span class="pd-reu-date">📅 ${fecha} ${done?'✓':''}</span><button class="btn bsm" onclick="openEditR('${r.id}')">✏️</button></div>
+        ${r.notas?`<div class="pd-reu-notes">${esc(r.notas)}</div>`:''}
+        ${acuLines}
+      </div>`;
+    }).join(''):'<div class="pd-empty">Sin apuntes de reunión</div>';
+    reunHtml=`<div class="pd-panel">
+      <div class="pd-panel-hdr"><span class="pd-panel-title">📓 Apuntes de reunión</span><button class="btn bp bsm" onclick="openNewReuFor('${p.nombre.replace(/'/g,"\\'")}')">＋ Entrada</button></div>
+      <div class="pd-panel-body">${reunBody}</div>
+    </div>`;
+  }
+
+  g('pd-content').innerHTML=`
+    <div class="pd-hero">
+      <div class="pd-hero-top">
+        <div>
+          <div class="pd-name">${esc(p.nombre)}${p.cerrado?' <span class="closed-badge">🔒 Cerrado</span>':''}</div>
+          <div class="pd-code">${p.codigo||''}</div>
+          <div class="pd-meta">
+            <span><strong>Etapa:</strong> ${p.etapa||'—'}</span>
+            <span><strong>Responsable:</strong> <span style="color:${pcol}">${p.persona||'—'}</span></span>
+            <span><strong>Ubicación:</strong> ${p.ubicacion||'—'}</span>
+            <span><strong>Cliente:</strong> ${p.cliente||'—'}</span>
+          </div>
+        </div>
+        <div class="pd-kpis">
+          <div class="pd-kpi"><div class="pd-kpi-v">${allT.length}</div><div class="pd-kpi-l">Total</div></div>
+          <div class="pd-kpi"><div class="pd-kpi-v" style="color:var(--gr)">${done.length}</div><div class="pd-kpi-l">Completadas</div></div>
+          <div class="pd-kpi"><div class="pd-kpi-v" style="color:var(--re)">${venc}</div><div class="pd-kpi-l">Vencidas</div></div>
+          <div class="pd-kpi"><div class="pd-kpi-v" style="color:var(--ac)">${pct}%</div><div class="pd-kpi-l">Avance</div></div>
+        </div>
+      </div>
+      ${isAdmin()?`<div style="margin-top:16px;display:flex;gap:8px"><button class="btn bsm" onclick="openEditP(${p.id})">✏️ Editar proyecto</button></div>`:''}
+    </div>
+    <div class="pd-cols">
+      <div class="pd-panel">
+        <div class="pd-panel-hdr"><span class="pd-panel-title">✅ Tareas</span>${canEditTasks?newTaskBtn:''}</div>
+        <div class="pd-panel-body">${tasksHtml}</div>
+      </div>
+      ${reunHtml}
+    </div>`;
+}
+
+// Open new task pre-filled with a project
+function openNewTaskFor(projName){
+  openNewTask();
+  const sel=g('ft-p');
+  if(sel){sel.value=projName;autoPers(projName);}
+}
+// Open new reunion pre-filled with a project
+function openNewReuFor(projName){
+  S.reuProj=projName;
+  openNewReu();
+}
+
 /* ── MODAL TAREA ── */
 function fillPS(id){g(id).innerHTML=visProjs(false).map(p=>`<option value="${esc(p.nombre)}">${esc(p.nombre)}</option>`).join('');}
 function fillPeS(id){g(id).innerHTML=S.personas.map(p=>`<option value="${esc(p.nombre)}">${esc(p.nombre)}</option>`).join('');}
@@ -1165,6 +1320,7 @@ function renderAll(){
   if(S.tab==='eliminadas')renderElim();
   if(S.tab==='reuniones') renderReuns();
   if(S.tab==='reportes')  {initRep();renderReporte();}
+  if(S.tab==='projdet')   renderProjDetail();
   applyPerms();
 }
 
