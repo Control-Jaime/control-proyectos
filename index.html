@@ -184,6 +184,10 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .pcard.closed{opacity:.55;border-style:dashed}
 .pcard.closed:hover{opacity:.85}
 .closed-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;background:var(--gy2);color:var(--gy);font-size:11px;font-weight:700}
+.cnt-badge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px;border-radius:11px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;vertical-align:middle;margin-left:8px}
+.cnt-badge.zero{background:var(--gr2);color:var(--gr)}
+.cnt-badge.some{background:var(--ac2);color:var(--ac)}
+.cnt-badge.over{background:var(--re2);color:var(--re)}
 .pct{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
 .pcn{font-size:15px;font-weight:700}
 .pcc{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--di);margin-top:2px}
@@ -395,6 +399,19 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .pd-reu-acu{font-size:11px;color:var(--di);display:flex;align-items:center;gap:6px;padding:2px 0}
 .pd-reu-acu .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 .pd-empty{padding:32px;text-align:center;color:var(--di);font-size:13px}
+.pd-notes{background:#fffdf5;border:1px solid #f0e0b8;border-radius:var(--r);box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
+.pd-notes-hdr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px;border-bottom:1px solid #f0e0b8;background:#fdf8e8}
+.pd-notes-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;color:#8a6d1f}
+.pd-notes-body{padding:14px 18px}
+.pd-notes-ta{width:100%;min-height:90px;padding:11px 13px;background:#fff;border:1px solid #f0e0b8;border-radius:var(--rs);color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;line-height:1.6;resize:vertical;outline:none}
+.pd-notes-ta:focus{border-color:#d9b53c}
+.pd-notes-ta::placeholder{color:#c4b183}
+.pd-notes-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+.pd-notes-hint{font-size:11px;color:#a8925c}
+.pd-notes-view{font-size:13px;line-height:1.65;white-space:pre-wrap;color:var(--tx)}
+.pd-notes-empty{font-size:13px;color:#b8a370;font-style:italic}
+.btn-note{background:#d9b53c;border-color:#d9b53c;color:#fff}
+.btn-note:hover{background:#c4a032;border-color:#c4a032;color:#fff}
 @media(max-width:768px){.pd-cols{grid-template-columns:1fr}}
 @media(max-width:768px){
   .kg,.rsum{grid-template-columns:1fr 1fr}.dg,.fr{grid-template-columns:1fr}.dg2{grid-template-columns:1fr}
@@ -722,7 +739,7 @@ function applyPerms(){
   g('tab-rep').style.display=adm?'':'none';
   g('tab-personas').style.display=(adm&&S.activeUser==='todos')?'':'none';
   g('sw').style.display=eq?'none':'';
-  const be=g('btn-edet');if(be)be.style.display=adm?'':'none';
+  const be=g('btn-edet');if(be)be.style.display='';
   g('ui').innerHTML=`<span style="font-size:12px;color:var(--mu)">Hola, <strong style="color:${S.user.color}">${S.user.nombre}</strong></span><button class="btn" style="padding:4px 10px;font-size:11px" onclick="logout()">Salir</button>`;
 }
 
@@ -819,8 +836,8 @@ function renderTareas(){
   if(!act.length){tb.innerHTML=`<tr><td colspan="9"><div class="emp"><div class="ei">${don.length?'✅':'🔍'}</div>${don.length?'Todas las tareas completadas':'Sin resultados'}</div></td></tr>`;}
   else{tb.innerHTML=act.map(t=>{
     const d=dLeft(t.fecha),al=alrt(t),rc=d!==null&&d<0?'vn':'',ds=d===null?'—':d===0?'Hoy':d<0?`${d}d`:`+${d}d`,dc=d===null?'':d<0?'neg':d<=7?'warn':'',ec=t.estado.toLowerCase().replace(/ /g,'-').replace('ó','o'),pc=(t.prioridad||'').toLowerCase();
-    const qP=isAdmin()?`<span class="badge ${pc}" style="cursor:pointer" onclick="event.stopPropagation();openQE(event,'prioridad','${t.id}')">${t.prioridad} ▾</span>`:`<span class="badge ${pc}">${t.prioridad}</span>`;
-    const qE=isAdmin()?`<span class="badge ${ec}" style="cursor:pointer" onclick="event.stopPropagation();openQE(event,'estado','${t.id}')">${t.estado} ▾</span>`:`<span class="badge ${ec}">${t.estado}</span>`;
+    const qP=`<span class="badge ${pc}" style="cursor:pointer" onclick="event.stopPropagation();openQE(event,'prioridad','${t.id}')">${t.prioridad} ▾</span>`;
+    const qE=`<span class="badge ${ec}" style="cursor:pointer" onclick="event.stopPropagation();openQE(event,'estado','${t.id}')">${t.estado} ▾</span>`;
     return`<tr class="${rc}" onclick="openDet('${t.id}')"><td><div class="pc">${esc(t.proyecto)}</div><div class="cc">${esc(t.categoria||'')}</div></td><td><div class="dw"><div class="dm">${esc(t.descripcion)}</div>${t.notas?`<div class="ds">${esc(t.notas)}</div>`:''}</div></td><td>${chip(t.persona)}</td><td>${qP}</td><td>${qE}</td><td><span class="dc">${fmt(t.fecha)}</span></td><td><span class="dy ${dc}">${ds}</span></td><td><span class="ac2">${al.txt}</span></td><td><span class="cr">${t.created_at?fmtS(t.created_at):'—'}</span></td></tr>`;
   }).join('');}
   const cs=g('csec'),td2=g('tbody-d'),cc=g('ccount');
@@ -838,11 +855,15 @@ function renderProjs(){
     return;
   }
   g('pgrid').innerHTML=list.map(p=>{
-    const pcol=pCol(p.persona),act=S.tasks.filter(t=>t.proyecto===p.nombre&&t.estado!=='Completada').slice(0,3);
+    const pcol=pCol(p.persona);
+    const pend=S.tasks.filter(t=>t.proyecto===p.nombre&&t.estado!=='Completada');
+    const pendCount=pend.length;
+    const vencCount=pend.filter(t=>dLeft(t.fecha)!==null&&dLeft(t.fecha)<0).length;
+    const act=pend.slice(0,3);
     const closedBadge=p.cerrado?'<span class="closed-badge">🔒 Cerrado</span>':'';
     const editBtn=isAdmin()||(!isAdmin())?`<button class="btn bsm" onclick="event.stopPropagation();openEditP(${p.id})">${p.cerrado?'🔓 Reabrir / Editar':'✏️ Editar'}</button>`:'';
     return`<div class="pcard${p.cerrado?' closed':''}">
-      <div class="pct"><div style="cursor:pointer" onclick="openProjDetail(${p.id})"><div class="pcn" style="transition:color .15s" onmouseover="this.style.color='var(--ac)'" onmouseout="this.style.color=''">${esc(p.nombre)}</div><div class="pcc">${p.codigo||''}</div></div><div style="display:flex;align-items:center;gap:6px">${closedBadge}<span class="et ${etCl(p.etapa)}">${p.etapa||''}</span></div></div>
+      <div class="pct"><div style="cursor:pointer" onclick="openProjDetail(${p.id})"><div class="pcn" style="transition:color .15s" onmouseover="this.style.color='var(--ac)'" onmouseout="this.style.color=''">${esc(p.nombre)}<span class="cnt-badge ${pendCount===0?'zero':(vencCount>0?'over':'some')}" title="${pendCount} tarea(s) sin completar${vencCount?' · '+vencCount+' vencida(s)':''}">${pendCount}</span></div><div class="pcc">${p.codigo||''}</div></div><div style="display:flex;align-items:center;gap:6px">${closedBadge}<span class="et ${etCl(p.etapa)}">${p.etapa||''}</span></div></div>
       <div class="pcm"><span>📍 ${p.ubicacion||'—'}</span><span>👤 <span style="color:${pcol}">${p.persona||'—'}</span></span><span>🏢 ${p.cliente||'—'}</span></div>
       ${!p.cerrado&&act.length?`<div class="ml">${act.map(t=>{const dc={'En curso':'var(--ac)','Pendiente':'var(--mu)','Bloqueada':'var(--am)'}[t.estado]||'var(--di)';return`<div class="mi"><div class="md" style="background:${dc}"></div>${esc(t.descripcion)}</div>`;}).join('')}</div>`:''}
       <div class="pca">${editBtn}</div>
@@ -1051,11 +1072,13 @@ function togRBlk(id){const b=g(id),ic=g('ic-'+id);if(!b)return;const op=b.style.
 
 /* ── PROJECT DETAIL ── */
 let pdProjId=null;
+let pdNotesEdit=false;
+let pdNotesDirty=false;
 async function openProjDetail(id){
-  pdProjId=id;
+  pdProjId=id;pdNotesEdit=false;pdNotesDirty=false;
   S.tab='projdet';
   // Load reuniones if admin and not yet loaded
-  if(isAdmin() && !S.reuns.length){ await loadReuns(); }
+  if(!S.reuns.length){ await loadReuns(); }
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
   g('sec-projdet').classList.add('on');
@@ -1064,6 +1087,8 @@ async function openProjDetail(id){
   renderProjDetail();
 }
 function renderProjDetail(){
+  // Don't clobber unsaved text if the user is typing notes
+  if(pdNotesEdit&&pdNotesDirty)return;
   const p=S.projects.find(x=>x.id===pdProjId);
   if(!p){g('pd-content').innerHTML='<div class="pd-empty">Proyecto no encontrado</div>';return;}
   const pcol=pCol(p.persona);
@@ -1077,7 +1102,7 @@ function renderProjDetail(){
   const sortT=list=>[...list].sort((a,b)=>(a.fecha||'9999').localeCompare(b.fecha||'9999'));
   const orderedTasks=[...sortT(act),...sortT(done)];
 
-  const canEditTasks=isAdmin();
+  const canEditTasks=true;
   const newTaskBtn=`<button class="btn bp bsm" onclick="openNewTaskFor('${p.nombre.replace(/'/g,"\\'")}')">＋ Tarea</button>`;
 
   const tasksHtml=orderedTasks.length?orderedTasks.map(t=>{
@@ -1097,7 +1122,7 @@ function renderProjDetail(){
 
   // Reuniones (admin only)
   let reunHtml='';
-  if(isAdmin()){
+  {
     const reuns=S.reuns.filter(r=>r.proyecto===p.nombre);
     const isDone=r=>{const acs=r.acuerdos||[];const ha=acs.length>0;const ad=ha&&acs.every(a=>a.estado==='completado');return ad?true:(r.estado==='completado');};
     const sortedReuns=[...reuns].sort((a,b)=>{const da=isDone(a),dbb=isDone(b);if(da!==dbb)return da?1:-1;return(b.fecha||'').localeCompare(a.fecha||'');});
@@ -1107,16 +1132,36 @@ function renderProjDetail(){
       const done=isDone(r);
       const acuLines=acs.map(a=>{const ad=a.estado==='completado';return`<div class="pd-reu-acu"><div class="dot" style="background:${ad?'var(--gr)':'var(--am)'}"></div><span style="${ad?'text-decoration:line-through':''}">${esc(a.texto)}</span></div>`;}).join('');
       return`<div class="pd-reu${done?' done-e':''}">
-        <div class="pd-reu-hdr"><span class="pd-reu-date">📅 ${fecha} ${done?'✓':''}</span><button class="btn bsm" onclick="openEditR('${r.id}')">✏️</button></div>
+        <div class="pd-reu-hdr"><span class="pd-reu-date">📅 ${fecha} ${done?'✓':''}</span>${isAdmin()?`<button class="btn bsm" onclick="openEditR('${r.id}')">✏️</button>`:''}</div>
         ${r.notas?`<div class="pd-reu-notes">${esc(r.notas)}</div>`:''}
         ${acuLines}
       </div>`;
     }).join(''):'<div class="pd-empty">Sin apuntes de reunión</div>';
     reunHtml=`<div class="pd-panel">
-      <div class="pd-panel-hdr"><span class="pd-panel-title">📓 Apuntes de reunión</span><button class="btn bp bsm" onclick="openNewReuFor('${p.nombre.replace(/'/g,"\\'")}')">＋ Entrada</button></div>
+      <div class="pd-panel-hdr"><span class="pd-panel-title">📓 Apuntes de reunión</span>${isAdmin()?`<button class="btn bp bsm" onclick="openNewReuFor('${p.nombre.replace(/'/g,"\\'")}')">＋ Entrada</button>`:''}</div>
       <div class="pd-panel-body">${reunBody}</div>
     </div>`;
   }
+
+  const notasTxt=p.notas||'';
+  const notesHtml=pdNotesEdit
+    ? `<div class="pd-notes">
+        <div class="pd-notes-hdr"><span class="pd-notes-title">📌 Puntos importantes del proyecto</span></div>
+        <div class="pd-notes-body">
+          <textarea class="pd-notes-ta" id="pd-notes-ta" placeholder="Ej. El cliente exige aprobación escrita antes de cualquier cambio de alcance.&#10;Acceso a obra solo de 7h00 a 17h00.&#10;Facturación se tramita con Contabilidad, no con el cliente." oninput="pdNotesDirty=true">${esc(notasTxt)}</textarea>
+          <div class="pd-notes-foot">
+            <span class="pd-notes-hint">Estas notas quedan siempre visibles al abrir el proyecto.</span>
+            <div style="display:flex;gap:6px">
+              <button class="btn bsm" onclick="cancelProjNotes()">Cancelar</button>
+              <button class="btn btn-note bsm" onclick="saveProjNotes()">Guardar notas</button>
+            </div>
+          </div>
+        </div>
+      </div>`
+    : `<div class="pd-notes">
+        <div class="pd-notes-hdr"><span class="pd-notes-title">📌 Puntos importantes del proyecto</span><button class="btn bsm" onclick="editProjNotes()">${notasTxt?'✏️ Editar':'＋ Agregar notas'}</button></div>
+        <div class="pd-notes-body">${notasTxt?`<div class="pd-notes-view">${esc(notasTxt)}</div>`:'<div class="pd-notes-empty">Sin notas todavía. Usa este espacio para lo que siempre debas tener presente en este proyecto.</div>'}</div>
+      </div>`;
 
   g('pd-content').innerHTML=`
     <div class="pd-hero">
@@ -1140,6 +1185,7 @@ function renderProjDetail(){
       </div>
       ${isAdmin()?`<div style="margin-top:16px;display:flex;gap:8px"><button class="btn bsm" onclick="openEditP(${p.id})">✏️ Editar proyecto</button></div>`:''}
     </div>
+    ${notesHtml}
     <div class="pd-cols">
       <div class="pd-panel">
         <div class="pd-panel-hdr"><span class="pd-panel-title">✅ Tareas</span>${canEditTasks?newTaskBtn:''}</div>
@@ -1147,6 +1193,25 @@ function renderProjDetail(){
       </div>
       ${reunHtml}
     </div>`;
+}
+
+function editProjNotes(){pdNotesEdit=true;pdNotesDirty=false;renderProjDetail();setTimeout(()=>g('pd-notes-ta')?.focus(),0);}
+function cancelProjNotes(){
+  if(pdNotesDirty&&!confirm('¿Descartar los cambios en las notas?'))return;
+  pdNotesEdit=false;pdNotesDirty=false;renderProjDetail();
+}
+async function saveProjNotes(){
+  const ta=g('pd-notes-ta');if(!ta||!pdProjId)return;
+  const txt=ta.value.trim();
+  synd('busy');
+  try{
+    const{error}=await db.from('proyectos').update({notas:txt||null}).eq('id',pdProjId);
+    if(error)throw error;
+    const p=S.projects.find(x=>x.id===pdProjId);if(p)p.notas=txt||null;
+    pdNotesEdit=false;pdNotesDirty=false;
+    synd('ok');toast('Notas guardadas ✓','ok');
+    renderProjDetail();
+  }catch(e){synd('err');toast('Error: '+e.message,'err');}
 }
 
 // Open new task pre-filled with a project
@@ -1173,7 +1238,6 @@ function openNewTask(){
   const fv=g('ft-p').value;if(fv)autoPers(fv);openOv('ov-task');
 }
 function openEditT(tid){
-  if(!isAdmin()){toast('Sin permiso para editar tareas','err');return;}
   const t=S.tasks.find(x=>x.id===tid);if(!t)return;
   S.editTask=tid;g('task-tt').textContent='Editar tarea';g('btn-delt').style.display='';
   fillPS('ft-p');fillPeS('ft-pe');
@@ -1203,7 +1267,7 @@ function openDet(tid){
   const ds=d===null?'—':d===0?'Hoy':d<0?`${d} (vencida)`:'+'+d+' días';
   g('det-tt').textContent=t.descripcion;
   g('det-bd').innerHTML=`<div class="dg2"><div><div class="dl">Proyecto</div><div class="dv">${esc(t.proyecto)}</div></div><div><div class="dl">Categoría</div><div class="dv">${esc(t.categoria||'—')}</div></div><div><div class="dl">Persona</div><div class="dv">${chip(t.persona)}</div></div><div><div class="dl">Estado</div><div class="dv"><span class="badge ${ec}">${t.estado}</span></div></div><div><div class="dl">Prioridad</div><div class="dv"><span class="badge ${pc}">${t.prioridad}</span></div></div><div><div class="dl">Alerta</div><div class="dv">${al.txt}</div></div><div><div class="dl">Fecha límite</div><div class="dv">${fmt(t.fecha)}</div></div><div><div class="dl">Días restantes</div><div class="dv" style="font-family:'JetBrains Mono',monospace">${ds}</div></div><div><div class="dl">Creada el</div><div class="dv">${t.created_at?fmtS(t.created_at):'—'}</div></div></div>${t.notas?`<div class="dl" style="margin-bottom:6px">Notas</div><div class="dn">${esc(t.notas)}</div>`:''}`;
-  const be=g('btn-edet');if(be)be.style.display=isAdmin()?'':'none';
+  const be=g('btn-edet');if(be)be.style.display='';
   openOv('ov-det');loadCmts(tid);
 }
 function editFromDet(){if(S.detTask)openEditT(S.detTask);}
