@@ -707,6 +707,8 @@ function chip(n){const c=pCol(n);return`<span class="chip" style="background:${c
 function ini(n){if(!n)return'?';const p=n.trim().split(' ');return(p.length>1?p[0][0]+p[1][0]:n.slice(0,2)).toUpperCase();}
 function etCl(e){const l=(e||'').toLowerCase();if(l.includes('diseño'))return'ed';if(l.includes('construc'))return'ec';if(l.includes('cotiz'))return'eq';if(l.includes('estudio'))return'ee';return'ef';}
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+// Igual que esc() pero SIN convertir saltos de línea: para <textarea> y atributos value=""
+function escT(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function uid(){return crypto.randomUUID?crypto.randomUUID():'id-'+Date.now()+'-'+Math.random().toString(36).slice(2);}
 function isAdmin(){return S.user&&S.user.rol==='admin';}
 function isEquipo(){return S.user&&S.user.rol==='equipo';}
@@ -955,7 +957,7 @@ function openEditR(id){
   g('fr-n').value=r.notas||'';renderAcuInputs(r.acuerdos||[]);openOv('ov-reu');
 }
 function renderAcuInputs(acs){
-  g('aclist').innerHTML=acs.map((a,i)=>`<div class="acrow" id="ac-${i}"><input type="text" value="${esc(a.texto||'')}" placeholder="Describe el acuerdo…"><button class="acdel" onclick="rmAcu(${i})">×</button></div>`).join('');
+  g('aclist').innerHTML=acs.map((a,i)=>`<div class="acrow" id="ac-${i}"><input type="text" value="${escT(a.texto||'')}" placeholder="Describe el acuerdo…"><button class="acdel" onclick="rmAcu(${i})">×</button></div>`).join('');
 }
 function addAcuerdo(){
   const l=g('aclist'),n=l.querySelectorAll('.acrow').length,d=document.createElement('div');
@@ -1148,7 +1150,7 @@ function renderProjDetail(){
     ? `<div class="pd-notes">
         <div class="pd-notes-hdr"><span class="pd-notes-title">📌 Puntos importantes del proyecto</span></div>
         <div class="pd-notes-body">
-          <textarea class="pd-notes-ta" id="pd-notes-ta" placeholder="Ej. El cliente exige aprobación escrita antes de cualquier cambio de alcance.&#10;Acceso a obra solo de 7h00 a 17h00.&#10;Facturación se tramita con Contabilidad, no con el cliente." oninput="pdNotesDirty=true">${esc(notasTxt)}</textarea>
+          <textarea class="pd-notes-ta" id="pd-notes-ta" placeholder="Ej. El cliente exige aprobación escrita antes de cualquier cambio de alcance.&#10;Acceso a obra solo de 7h00 a 17h00.&#10;Facturación se tramita con Contabilidad, no con el cliente." oninput="pdNotesDirty=true">${escT(notasTxt)}</textarea>
           <div class="pd-notes-foot">
             <span class="pd-notes-hint">Estas notas quedan siempre visibles al abrir el proyecto.</span>
             <div style="display:flex;gap:6px">
