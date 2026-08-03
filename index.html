@@ -399,19 +399,46 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .pd-reu-acu{font-size:11px;color:var(--di);display:flex;align-items:center;gap:6px;padding:2px 0}
 .pd-reu-acu .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 .pd-empty{padding:32px;text-align:center;color:var(--di);font-size:13px}
-.pd-notes{background:#fffdf5;border:1px solid #f0e0b8;border-radius:var(--r);box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
-.pd-notes-hdr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px;border-bottom:1px solid #f0e0b8;background:#fdf8e8}
-.pd-notes-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;color:#8a6d1f}
-.pd-notes-body{padding:14px 18px}
-.pd-notes-ta{width:100%;min-height:90px;padding:11px 13px;background:#fff;border:1px solid #f0e0b8;border-radius:var(--rs);color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;line-height:1.6;resize:vertical;outline:none}
-.pd-notes-ta:focus{border-color:#d9b53c}
-.pd-notes-ta::placeholder{color:#c4b183}
-.pd-notes-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
-.pd-notes-hint{font-size:11px;color:#a8925c}
-.pd-notes-view{font-size:13px;line-height:1.65;white-space:pre-wrap;color:var(--tx)}
-.pd-notes-empty{font-size:13px;color:#b8a370;font-style:italic}
+.pd-chk{background:#fffdf5;border:1px solid #f0e0b8;border-radius:var(--r);box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
+.pd-chk-hdr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px;border-bottom:1px solid #f0e0b8;background:#fdf8e8;flex-wrap:wrap}
+.pd-chk-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;color:#8a6d1f}
+.pd-chk-prog{display:flex;align-items:center;gap:8px}
+.pd-chk-bar{width:90px;height:5px;background:#f0e4c4;border-radius:3px;overflow:hidden}
+.pd-chk-fill{height:100%;background:var(--gr);border-radius:3px;transition:width .25s}
+.pd-chk-cnt{font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a6d1f;font-weight:600}
+.pd-chk-body{padding:6px 0}
+.pd-chk-i{display:flex;align-items:flex-start;gap:10px;padding:9px 18px;border-bottom:1px solid #f5ecd4;transition:background .1s}
+.pd-chk-i:last-child{border-bottom:none}
+.pd-chk-i:hover{background:#fffaeb}
+.pd-chk-i:hover .pd-chk-acts{opacity:1}
+.pd-chk-box{width:19px;height:19px;border-radius:5px;border:2px solid #d9c48a;background:#fff;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;transition:all .15s;padding:0;line-height:1}
+.pd-chk-box:hover{border-color:var(--gr)}
+.pd-chk-box.ok{background:var(--gr);border-color:var(--gr)}
+.pd-chk-box.na{background:var(--gy);border-color:var(--gy);font-size:11px}
+.pd-chk-main{flex:1;min-width:0}
+.pd-chk-tx{font-size:13px;line-height:1.5;color:var(--tx)}
+.pd-chk-tx.ok{text-decoration:line-through;color:var(--mu)}
+.pd-chk-tx.na{color:var(--di);font-style:italic}
+.pd-chk-meta{font-size:11px;color:#a8925c;margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pd-org{display:inline-flex;align-items:center;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;white-space:nowrap}
+.pd-org.Cliente{background:#dbeafe;color:#1d4ed8}
+.pd-org.Jefatura{background:#ede9fe;color:#5b21b6}
+.pd-org.Normativa{background:#fee2e2;color:#b91c1c}
+.pd-org.Interno{background:#e2eaf2;color:#2d5a7a}
+.pd-org.Cliente,.pd-org.Jefatura,.pd-org.Normativa,.pd-org.Interno{border:none}
+.pd-chk-acts{display:flex;gap:4px;flex-shrink:0;opacity:.35;transition:opacity .15s}
+.pd-chk-act{background:transparent;border:none;font-size:13px;padding:2px 5px;border-radius:4px;cursor:pointer;line-height:1;color:var(--mu)}
+.pd-chk-act:hover{background:#f5ecd4;color:var(--tx)}
+.pd-chk-act.del:hover{background:var(--re2);color:var(--re)}
+.pd-chk-empty{padding:26px 18px;text-align:center;color:#b8a370;font-size:13px;font-style:italic}
+.pd-chk-form{padding:12px 18px;border-top:1px solid #f0e0b8;background:#fdf8e8;display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
+.pd-chk-form textarea{flex:1;min-width:220px;min-height:38px;padding:8px 11px;background:#fff;border:1px solid #f0e0b8;border-radius:var(--rs);color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;line-height:1.5;resize:vertical;outline:none}
+.pd-chk-form textarea:focus{border-color:#d9b53c}
+.pd-chk-form select{padding:8px 10px;background:#fff;border:1px solid #f0e0b8;border-radius:var(--rs);color:var(--tx);font-size:12px;outline:none}
+.pd-chk-form select:focus{border-color:#d9b53c}
 .btn-note{background:#d9b53c;border-color:#d9b53c;color:#fff}
 .btn-note:hover{background:#c4a032;border-color:#c4a032;color:#fff}
+.pd-imp{padding:10px 18px;background:#fff8e1;border-top:1px solid #f0e0b8;font-size:12px;color:#8a6d1f;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 @media(max-width:768px){.pd-cols{grid-template-columns:1fr}}
 @media(max-width:768px){
   .kg,.rsum{grid-template-columns:1fr 1fr}.dg,.fr{grid-template-columns:1fr}.dg2{grid-template-columns:1fr}
@@ -1074,10 +1101,10 @@ function togRBlk(id){const b=g(id),ic=g('ic-'+id);if(!b)return;const op=b.style.
 
 /* ── PROJECT DETAIL ── */
 let pdProjId=null;
-let pdNotesEdit=false;
-let pdNotesDirty=false;
+let pdAddPunto=false;
+let pdEditPunto=null;
 async function openProjDetail(id){
-  pdProjId=id;pdNotesEdit=false;pdNotesDirty=false;
+  pdProjId=id;pdAddPunto=false;pdEditPunto=null;
   S.tab='projdet';
   // Load reuniones if admin and not yet loaded
   if(!S.reuns.length){ await loadReuns(); }
@@ -1089,8 +1116,8 @@ async function openProjDetail(id){
   renderProjDetail();
 }
 function renderProjDetail(){
-  // Don't clobber unsaved text if the user is typing notes
-  if(pdNotesEdit&&pdNotesDirty)return;
+  // Don't clobber the form while the user is typing a punto
+  if(pdAddPunto||pdEditPunto){const t=g('pd-pt-tx');if(t&&t.value.trim())return;}
   const p=S.projects.find(x=>x.id===pdProjId);
   if(!p){g('pd-content').innerHTML='<div class="pd-empty">Proyecto no encontrado</div>';return;}
   const pcol=pCol(p.persona);
@@ -1145,25 +1172,62 @@ function renderProjDetail(){
     </div>`;
   }
 
-  const notasTxt=p.notas||'';
-  const notesHtml=pdNotesEdit
-    ? `<div class="pd-notes">
-        <div class="pd-notes-hdr"><span class="pd-notes-title">📌 Puntos importantes del proyecto</span></div>
-        <div class="pd-notes-body">
-          <textarea class="pd-notes-ta" id="pd-notes-ta" placeholder="Ej. El cliente exige aprobación escrita antes de cualquier cambio de alcance.&#10;Acceso a obra solo de 7h00 a 17h00.&#10;Facturación se tramita con Contabilidad, no con el cliente." oninput="pdNotesDirty=true">${escT(notasTxt)}</textarea>
-          <div class="pd-notes-foot">
-            <span class="pd-notes-hint">Estas notas quedan siempre visibles al abrir el proyecto.</span>
-            <div style="display:flex;gap:6px">
-              <button class="btn bsm" onclick="cancelProjNotes()">Cancelar</button>
-              <button class="btn btn-note bsm" onclick="saveProjNotes()">Guardar notas</button>
-            </div>
-          </div>
-        </div>
-      </div>`
-    : `<div class="pd-notes">
-        <div class="pd-notes-hdr"><span class="pd-notes-title">📌 Puntos importantes del proyecto</span><button class="btn bsm" onclick="editProjNotes()">${notasTxt?'✏️ Editar':'＋ Agregar notas'}</button></div>
-        <div class="pd-notes-body">${notasTxt?`<div class="pd-notes-view">${esc(notasTxt)}</div>`:'<div class="pd-notes-empty">Sin notas todavía. Usa este espacio para lo que siempre debas tener presente en este proyecto.</div>'}</div>
-      </div>`;
+  // ── Checklist de verificación ──
+  const pts = Array.isArray(p.puntos) ? p.puntos : [];
+  const nOk = pts.filter(x=>x.estado==='verificado').length;
+  const nNa = pts.filter(x=>x.estado==='na').length;
+  const nAplica = pts.length - nNa;
+  const pctChk = nAplica ? Math.round(nOk/nAplica*100) : 0;
+
+  const rowsHtml = pts.length ? pts.map(it=>{
+    const st = it.estado||'pendiente';
+    const boxCls = st==='verificado'?'ok':(st==='na'?'na':'');
+    const boxTxt = st==='verificado'?'✓':(st==='na'?'—':'');
+    const org = it.origen?`<span class="pd-org ${it.origen}">${it.origen}</span>`:'';
+    const firma = st==='verificado'&&it.verif_por
+      ? `<span>Verificado por ${esc(it.verif_por)}${it.verif_at?' · '+fmtS(it.verif_at):''}</span>` : '';
+    const naLbl = st==='na'?'<span>No aplica</span>':'';
+    const meta = (org||firma||naLbl)?`<div class="pd-chk-meta">${org}${firma}${naLbl}</div>`:'';
+    return `<div class="pd-chk-i">
+      <button class="pd-chk-box ${boxCls}" title="${st==='verificado'?'Marcar como pendiente':'Marcar como verificado'}" onclick="togPunto('${it.id}')">${boxTxt}</button>
+      <div class="pd-chk-main">
+        <div class="pd-chk-tx ${boxCls}">${esc(it.texto)}</div>
+        ${meta}
+      </div>
+      <div class="pd-chk-acts">
+        <button class="pd-chk-act" title="Editar" onclick="editPunto('${it.id}')">✏️</button>
+        <button class="pd-chk-act" title="${st==='na'?'Reactivar':'Marcar como No aplica'}" onclick="naPunto('${it.id}')">${st==='na'?'↩':'⊘'}</button>
+        <button class="pd-chk-act del" title="Eliminar" onclick="delPunto('${it.id}')">✕</button>
+      </div>
+    </div>`;
+  }).join('') : '<div class="pd-chk-empty">Sin puntos todavía. Agrega aquí lo que siempre debas verificar en este proyecto.</div>';
+
+  const ed = pdEditPunto ? pts.find(x=>x.id===pdEditPunto) : null;
+  const formHtml = (pdAddPunto||ed) ? `<div class="pd-chk-form">
+      <textarea id="pd-pt-tx" placeholder="Ej. Verificar que render y presupuesto reflejen la pintura verde" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();savePunto()}">${escT(ed?ed.texto:'')}</textarea>
+      <select id="pd-pt-org">
+        ${['','Cliente','Jefatura','Normativa','Interno'].map(o=>`<option value="${o}"${ed&&ed.origen===o?' selected':''}>${o||'Origen…'}</option>`).join('')}
+      </select>
+      <button class="btn btn-note bsm" onclick="savePunto()">${ed?'Guardar':'Agregar'}</button>
+      <button class="btn bsm" onclick="cancelPunto()">Cancelar</button>
+    </div>` : '';
+
+  const impHtml = (!pts.length && p.notas) ? `<div class="pd-imp">
+      <span>Tienes notas guardadas en el formato anterior. ¿Convertirlas en puntos de verificación?</span>
+      <button class="btn btn-note bsm" onclick="importNotas()">Importar ${(p.notas.split('\n').filter(l=>l.trim()).length)} línea(s)</button>
+    </div>` : '';
+
+  const notesHtml = `<div class="pd-chk">
+    <div class="pd-chk-hdr">
+      <span class="pd-chk-title">📌 Puntos de verificación</span>
+      <div class="pd-chk-prog">
+        ${nAplica?`<div class="pd-chk-bar"><div class="pd-chk-fill" style="width:${pctChk}%"></div></div><span class="pd-chk-cnt">${nOk}/${nAplica} verificados</span>`:''}
+        ${(pdAddPunto||ed)?'':`<button class="btn bsm" onclick="addPunto()">＋ Agregar punto</button>`}
+      </div>
+    </div>
+    <div class="pd-chk-body">${rowsHtml}</div>
+    ${formHtml}${impHtml}
+  </div>`;
 
   g('pd-content').innerHTML=`
     <div class="pd-hero">
@@ -1197,23 +1261,67 @@ function renderProjDetail(){
     </div>`;
 }
 
-function editProjNotes(){pdNotesEdit=true;pdNotesDirty=false;renderProjDetail();setTimeout(()=>g('pd-notes-ta')?.focus(),0);}
-function cancelProjNotes(){
-  if(pdNotesDirty&&!confirm('¿Descartar los cambios en las notas?'))return;
-  pdNotesEdit=false;pdNotesDirty=false;renderProjDetail();
-}
-async function saveProjNotes(){
-  const ta=g('pd-notes-ta');if(!ta||!pdProjId)return;
-  const txt=ta.value.trim();
+/* ── Checklist de verificación del proyecto ── */
+function curProj(){return S.projects.find(x=>x.id===pdProjId)||null;}
+function curPuntos(){const p=curProj();return p&&Array.isArray(p.puntos)?JSON.parse(JSON.stringify(p.puntos)):[];}
+async function persistPuntos(arr,msg){
+  if(!pdProjId)return false;
   synd('busy');
   try{
-    const{error}=await db.from('proyectos').update({notas:txt||null}).eq('id',pdProjId);
+    const{error}=await db.from('proyectos').update({puntos:arr}).eq('id',pdProjId);
     if(error)throw error;
-    const p=S.projects.find(x=>x.id===pdProjId);if(p)p.notas=txt||null;
-    pdNotesEdit=false;pdNotesDirty=false;
-    synd('ok');toast('Notas guardadas ✓','ok');
+    const p=curProj();if(p)p.puntos=arr;
+    synd('ok');if(msg)toast(msg,'ok');
     renderProjDetail();
-  }catch(e){synd('err');toast('Error: '+e.message,'err');}
+    return true;
+  }catch(e){synd('err');toast('Error: '+e.message,'err');return false;}
+}
+function addPunto(){pdAddPunto=true;pdEditPunto=null;renderProjDetail();setTimeout(()=>g('pd-pt-tx')?.focus(),0);}
+function editPunto(id){pdEditPunto=id;pdAddPunto=false;renderProjDetail();setTimeout(()=>{const t=g('pd-pt-tx');if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length);}},0);}
+function cancelPunto(){pdAddPunto=false;pdEditPunto=null;renderProjDetail();}
+async function savePunto(){
+  const ta=g('pd-pt-tx');if(!ta)return;
+  const txt=ta.value.trim();
+  if(!txt){toast('Escribe el punto antes de guardar','err');return;}
+  const org=g('pd-pt-org')?.value||'';
+  const arr=curPuntos();
+  if(pdEditPunto){
+    const it=arr.find(x=>x.id===pdEditPunto);
+    if(it){it.texto=txt;it.origen=org||null;}
+  }else{
+    arr.push({id:uid(),texto:txt,origen:org||null,estado:'pendiente',verif_por:null,verif_at:null});
+  }
+  const wasEdit=!!pdEditPunto;
+  pdAddPunto=false;pdEditPunto=null;
+  await persistPuntos(arr,wasEdit?'Punto actualizado ✓':'Punto agregado ✓');
+}
+async function togPunto(id){
+  const arr=curPuntos();const it=arr.find(x=>x.id===id);if(!it)return;
+  if(it.estado==='verificado'){
+    it.estado='pendiente';it.verif_por=null;it.verif_at=null;
+  }else{
+    it.estado='verificado';it.verif_por=S.user?.nombre||'?';it.verif_at=new Date().toISOString();
+  }
+  await persistPuntos(arr);
+}
+async function naPunto(id){
+  const arr=curPuntos();const it=arr.find(x=>x.id===id);if(!it)return;
+  if(it.estado==='na'){it.estado='pendiente';}
+  else{it.estado='na';it.verif_por=null;it.verif_at=null;}
+  await persistPuntos(arr);
+}
+async function delPunto(id){
+  const arr=curPuntos();const it=arr.find(x=>x.id===id);if(!it)return;
+  if(!confirm(`¿Eliminar este punto?\n\n"${it.texto}"`))return;
+  await persistPuntos(arr.filter(x=>x.id!==id),'Punto eliminado');
+}
+async function importNotas(){
+  const p=curProj();if(!p||!p.notas)return;
+  const lineas=p.notas.split('\n').map(l=>l.replace(/^\s*[-*•]\s*/,'').trim()).filter(Boolean);
+  if(!lineas.length){toast('No hay líneas para importar','err');return;}
+  if(!confirm(`Se crearán ${lineas.length} punto(s) a partir de las notas actuales. ¿Continuar?`))return;
+  const arr=lineas.map(t=>({id:uid(),texto:t,origen:null,estado:'pendiente',verif_por:null,verif_at:null}));
+  await persistPuntos(arr,`${lineas.length} punto(s) importado(s) ✓`);
 }
 
 // Open new task pre-filled with a project
