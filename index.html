@@ -1716,7 +1716,7 @@ function checklistHtml(p){
     const mark= st === 'verificado' ? '✓' : (st === 'na' ? '—' : '');
     const org = it.origen ? `<span class="org ${it.origen}">${it.origen}</span>` : '';
     const firma = (st === 'verificado' && it.verif_por)
-      ? `<span>Verificado por ${esc(it.verif_por)}${it.verif_at ? ' · ' + fmtISO(it.verif_at) : ''}</span>` : '';
+      ? `<span${it.verif_por === 'vía Claude' ? ' style="color:#7c3aed;font-weight:600"' : ''}>${it.verif_por === 'vía Claude' ? 'Verificado vía Claude' : 'Verificado por ' + esc(it.verif_por)}${it.verif_at ? ' · ' + fmtISO(it.verif_at) : ''}</span>` : '';
     const naTxt = st === 'na' ? '<span>No aplica</span>' : '';
     const meta  = (org || firma || naTxt) ? `<div class="chk-meta">${org}${firma}${naTxt}</div>` : '';
     return `<div class="chk-i">
