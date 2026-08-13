@@ -565,6 +565,10 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
       </table></div>
       <div class="done-sec" id="done-sec" style="display:none">
         <div class="done-h"><span style="font-size:16px">✅</span><span class="done-t">Tareas completadas</span><span class="done-c" id="done-count">0</span></div>
+        <div class="filters" style="margin-bottom:8px">
+          <select id="fd-proj" onchange="renderTareas()"><option value="">Todos los proyectos</option></select>
+          <select id="fd-pers" onchange="renderTareas()"><option value="">Todas las personas</option></select>
+        </div>
         <div class="done-w"><table>
           <thead><tr><th>Proyecto</th><th>Descripción</th><th>Persona</th><th>Prioridad</th><th>Fecha límite</th><th>Completada</th></tr></thead>
           <tbody id="tb-done"></tbody>
@@ -1174,6 +1178,15 @@ function filteredTasks(){
   if(pj) list = list.filter(t => t.proyecto === pj);
   return list;
 }
+function doneTasks(){
+  let list = visibleTasks().filter(t => t.estado === 'Completada');
+  if(isAdmin() && S.activeUser !== 'todos') list = list.filter(t => t.persona === S.activeUser);
+  const pj = g('fd-proj')?.value || '';
+  const pe = g('fd-pers')?.value || '';
+  if(pj) list = list.filter(t => t.proyecto === pj);
+  if(pe) list = list.filter(t => t.persona === pe);
+  return [...list].sort((a,b) => (b.updated_at||'').localeCompare(a.updated_at||''));
+}
 function sortTasks(list){
   const fn = SORT_KEYS[S.sortCol] || SORT_KEYS.proyecto;
   return [...list].sort((a,b) => {
@@ -1193,9 +1206,21 @@ function renderTareas(){
   g('f-proj').innerHTML = '<option value="">Todos los proyectos</option>' +
     projOpts.map(p => `<option${p === selProj ? ' selected' : ''}>${esc(p)}</option>`).join('');
 
-  const all    = sortTasks(filteredTasks());
-  const active = all.filter(t => t.estado !== 'Completada');
-  const done   = all.filter(t => t.estado === 'Completada');
+  const all    = sortTasks(filteredTasks()).filter(t => t.estado !== 'Completada');
+  const active = all;
+
+  // Filtros propios de la sección de completadas (proyecto y persona)
+  const selDoneProj = g('fd-proj').value;
+  const selDonePers = g('fd-pers').value;
+  const doneBase = visibleTasks().filter(t => t.estado === 'Completada');
+  const doneProjOpts = [...new Set(doneBase.map(t => t.proyecto).filter(Boolean))].sort();
+  g('fd-proj').innerHTML = '<option value="">Todos los proyectos</option>' +
+    doneProjOpts.map(p => `<option${p === selDoneProj ? ' selected' : ''}>${esc(p)}</option>`).join('');
+  const donePersOpts = (isEquipo() ? S.personas.filter(p => EQUIPO.includes(p.nombre)) : S.personas);
+  g('fd-pers').innerHTML = '<option value="">Todas las personas</option>' +
+    donePersOpts.map(p => `<option${p.nombre === selDonePers ? ' selected' : ''}>${esc(p.nombre)}</option>`).join('');
+
+  const done = doneTasks();
   g('t-count').textContent = `${active.length} tarea(s) activa(s)`;
 
   Object.keys(SORT_KEYS).forEach(k => {
@@ -1205,7 +1230,7 @@ function renderTareas(){
 
   const tb = g('tb-active');
   if(!active.length){
-    tb.innerHTML = `<tr><td colspan="9"><div class="empty"><div class="empty-ico">${done.length?'✅':'🔍'}</div>${done.length?'Todas las tareas completadas':'Sin resultados'}</div></td></tr>`;
+    tb.innerHTML = `<tr><td colspan="9"><div class="empty"><div class="empty-ico">${doneBase.length?'✅':'🔍'}</div>${doneBase.length?'Todas las tareas completadas':'Sin resultados'}</div></td></tr>`;
   }else{
     tb.innerHTML = active.map(t => {
       const d  = daysLeft(t.fecha);
@@ -1227,17 +1252,17 @@ function renderTareas(){
     }).join('');
   }
 
-  if(done.length){
+  if(doneBase.length){
     g('done-sec').style.display = '';
     g('done-count').textContent = done.length;
-    g('tb-done').innerHTML = done.map(t => `<tr onclick="taskDetail('${t.id}')">
+    g('tb-done').innerHTML = done.length ? done.map(t => `<tr onclick="taskDetail('${t.id}')">
       <td><div class="td-proj">${esc(t.proyecto)}</div><div class="td-cat">${esc(t.categoria||'')}</div></td>
       <td><span class="strike">${esc(t.descripcion)}</span></td>
       <td>${persChip(t.persona)}</td>
       <td><span class="badge ${(t.prioridad||'').toLowerCase()}">${t.prioridad}</span></td>
       <td><span class="td-date">${fmtDate(t.fecha)}</span></td>
       <td><span style="font-size:12px;color:var(--gr)">${t.updated_at?fmtISO(t.updated_at):'—'}</span></td>
-    </tr>`).join('');
+    </tr>`).join('') : `<tr><td colspan="6"><div class="empty"><div class="empty-ico">🔍</div>Sin resultados</div></td></tr>`;
   }else{
     g('done-sec').style.display = 'none';
   }
