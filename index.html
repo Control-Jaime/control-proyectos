@@ -288,9 +288,6 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .toast.err{border-left:3px solid var(--re)}
 
 /* ══════════ APUNTES (seguimientos) ══════════ */
-.apu-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.apu-bar select{padding:8px 12px;background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);color:var(--tx);outline:none}
-.apu-bar select:focus{border-color:var(--ac)}
 .apu-chk{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);cursor:pointer;white-space:nowrap}
 .apu-list{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
 .apu-sep{padding:9px 18px;background:var(--surf);border-bottom:1px solid var(--b1);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu)}
@@ -316,6 +313,31 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .apu-a:hover{background:var(--surf);color:var(--tx)}
 .apu-a.del:hover{background:var(--re2);color:var(--re)}
 .apu-empty{padding:40px 20px;text-align:center;color:var(--mu);font-size:13px}
+.apu-layout{display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start}
+.apu-side{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;display:flex;flex-direction:column;max-height:calc(100vh - 210px)}
+.apu-side-h{padding:12px 14px;border-bottom:1px solid var(--b1);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);display:flex;align-items:center;justify-content:space-between;gap:6px}
+.apu-plist{overflow-y:auto;flex:1}
+.apu-pi{padding:9px 14px;cursor:pointer;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;gap:8px;transition:background .1s;border-left:3px solid transparent}
+.apu-pi:last-child{border-bottom:none}
+.apu-pi:hover{background:var(--surf)}
+.apu-pi.on{background:var(--ac2);border-left-color:var(--ac)}
+.apu-pi.head{background:var(--surf);font-weight:700}
+.apu-pn{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.apu-pc{font-size:11px;font-weight:700;color:var(--mu);background:var(--surf);padding:1px 7px;border-radius:10px;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.apu-pi.on .apu-pc{background:#fff}
+.apu-pc.over{background:var(--re2);color:var(--re)}
+.apu-pc.zero{background:var(--gr2);color:var(--gr)}
+.apu-panel{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.apu-panel-h{padding:11px 16px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.apu-panel-t{font-size:14px;font-weight:700;margin-right:auto}
+.apu-panel-h select{padding:6px 10px;background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);color:var(--tx);font-size:12px;outline:none}
+.apu-panel-h select:focus{border-color:var(--ac)}
+.apu-sch{position:relative;flex:1;min-width:150px;max-width:260px}
+.apu-sch input{width:100%;padding:6px 10px 6px 28px;background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);color:var(--tx);outline:none;font-size:13px}
+.apu-sch input:focus{border-color:var(--ac)}
+.apu-sch-i{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--di);font-size:12px;pointer-events:none}
+.apu-entries{max-height:calc(100vh - 265px);overflow-y:auto}
+.apu-grp{padding:8px 18px;background:var(--surf);border-bottom:1px solid var(--b1);font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--ac)}
 
 /* ══════════ REPORTES ══════════ */
 .rep-bar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:14px 18px;box-shadow:var(--sh)}
@@ -431,7 +453,9 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
   .main{padding:12px}
   .nav{padding:8px 12px 0}
   .nav-b{padding:7px 10px;font-size:12px}
-  .pj-grid,.pe-grid{grid-template-columns:1fr}
+  .pj-grid,.pe-grid,.apu-layout{grid-template-columns:1fr}
+  .apu-side{max-height:210px}
+  .apu-entries{max-height:none}
   .apu-i{flex-wrap:wrap}
   .sec-head{flex-direction:column;align-items:flex-start;gap:8px}
   td:nth-child(4),th:nth-child(4){display:none}
@@ -579,24 +603,31 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <div class="sec" id="sec-apuntes">
       <div class="sec-head">
         <span class="sec-title">Apuntes de seguimiento</span>
-        <button class="btn btn-pri" onclick="apuNew()">＋ Nuevo apunte</button>
+        <button class="btn btn-pri" onclick="apuNewHere()">＋ Nuevo apunte</button>
       </div>
-      <div class="apu-bar">
-        <div class="search"><span class="search-ico">🔍</span><input id="fa-q" type="text" placeholder="Buscar en apuntes, proyecto o destinatario…" oninput="renderApuntes()"></div>
-        <select id="fa-estado" onchange="renderApuntes()">
-          <option value="activos" selected>Activos</option>
-          <option value="pendiente">Pendiente</option>
-          <option value="espera">En espera</option>
-          <option value="resuelto">Resuelto</option>
-          <option value="descartado">Descartado</option>
-          <option value="">Todos</option>
-        </select>
-        <select id="fa-proj" onchange="renderApuntes()"><option value="">Todos los proyectos</option></select>
-        <select id="fa-pers" onchange="renderApuntes()"><option value="">Todas las personas</option></select>
-        <label class="apu-chk"><input type="checkbox" id="fa-venc" onchange="renderApuntes()" style="cursor:pointer"> Solo vencidos</label>
-        <span class="count" id="apu-count"></span>
+      <div class="apu-layout">
+        <div class="apu-side">
+          <div class="apu-side-h"><span>Proyectos</span><span id="apu-total" style="font-weight:600"></span></div>
+          <div class="apu-plist" id="apu-plist"></div>
+        </div>
+        <div class="apu-panel">
+          <div class="apu-panel-h">
+            <span class="apu-panel-t" id="apu-title">Todos los apuntes</span>
+            <div class="apu-sch"><span class="apu-sch-i">🔍</span><input id="fa-q" type="text" placeholder="Buscar…" oninput="renderApuntes()"></div>
+            <select id="fa-estado" onchange="renderApuntes()">
+              <option value="activos" selected>Activos</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="espera">En espera</option>
+              <option value="resuelto">Resuelto</option>
+              <option value="descartado">Descartado</option>
+              <option value="">Todos</option>
+            </select>
+            <select id="fa-pers" onchange="renderApuntes()"><option value="">Todas las personas</option></select>
+            <label class="apu-chk"><input type="checkbox" id="fa-venc" onchange="renderApuntes()" style="cursor:pointer"> Vencidos</label>
+          </div>
+          <div class="apu-entries" id="apu-list"></div>
+        </div>
       </div>
-      <div class="apu-list" id="apu-list"></div>
     </div>
 
     <!-- ══════════ REPORTES ══════════ -->
@@ -781,6 +812,7 @@ const S = {
   // ids en edición
   editTask: null, detTask: null, editProj: null, editPers: null, editApu: null,
   cmtTask: null,
+  apuProj: '__todos',   // proyecto elegido en la barra lateral de Apuntes
   swatch: '#2563eb',
   // detalle de proyecto
   pdProj: null, pdAdd: false, pdEdit: null,
@@ -2004,11 +2036,10 @@ function apuItemHtml(a, showProj){
     <div class="apu-acts">${pill}${acts}</div>
   </div>`;
 }
-function apuFiltered(){
-  let list = visibleApuntes();
+/** Filtros del panel derecho. El proyecto NO se filtra aquí: lo define la barra lateral. */
+function apuFiltered(list){
   const q  = (g('fa-q')?.value || '').toLowerCase();
   const es = g('fa-estado') ? g('fa-estado').value : 'activos';
-  const pj = g('fa-proj')?.value || '';
   const pe = g('fa-pers')?.value || '';
   const sv = g('fa-venc')?.checked || false;
   if(q) list = list.filter(a =>
@@ -2017,42 +2048,78 @@ function apuFiltered(){
     (a.a_quien||'').toLowerCase().includes(q));
   if(es === 'activos') list = list.filter(a => !apuIsCerrado(a));
   else if(es)          list = list.filter(a => (a.estado||'pendiente') === es);
-  if(pj) list = list.filter(a => (a.proyecto||'') === pj);
   if(pe) list = list.filter(a => a.creado_por === pe);
   if(sv) list = list.filter(a => !apuIsCerrado(a) && a.fecha_limite && daysLeft(a.fecha_limite) < 0);
   return list;
 }
+/** Apuntes del proyecto seleccionado en la barra lateral. */
+function apuScope(){
+  const all = visibleApuntes();
+  if(S.apuProj === '__todos') return all;
+  if(S.apuProj === '__sin')   return all.filter(a => !a.proyecto);
+  return all.filter(a => a.proyecto === S.apuProj);
+}
+function apuSelect(key){ S.apuProj = key; renderApuntes(); }
+/** Nuevo apunte, preseleccionando el proyecto de la barra lateral si hay uno. */
+function apuNewHere(){
+  const p = (S.apuProj && S.apuProj !== '__todos' && S.apuProj !== '__sin') ? S.apuProj : '';
+  apuNew(p);
+}
 function renderApuntes(){
-  const base = visibleApuntes();
+  const all = visibleApuntes();
 
-  // Refrescar los desplegables conservando la selección
-  const selP = g('fa-proj').value;
-  const projOpts = [...new Set(base.map(a => a.proyecto).filter(Boolean))].sort();
-  g('fa-proj').innerHTML = '<option value="">Todos los proyectos</option>' +
-    projOpts.map(p => `<option${p === selP ? ' selected' : ''}>${esc(p)}</option>`).join('');
+  // Desplegable de personas, conservando la selección
   const selPe = g('fa-pers').value;
-  const persOpts = [...new Set(base.map(a => a.creado_por).filter(Boolean))].sort();
+  const persOpts = [...new Set(all.map(a => a.creado_por).filter(Boolean))].sort();
   g('fa-pers').innerHTML = '<option value="">Todas las personas</option>' +
     persOpts.map(p => `<option${p === selPe ? ' selected' : ''}>${esc(p)}</option>`).join('');
 
-  const list     = apuSort(apuFiltered());
-  const abiertos = list.filter(a => !apuIsCerrado(a));
-  const cerrados = list.filter(a => apuIsCerrado(a));
-  const vencidos = abiertos.filter(a => a.fecha_limite && daysLeft(a.fecha_limite) < 0).length;
-  g('apu-count').textContent = `${abiertos.length} abierto(s)` + (vencidos ? ` · ${vencidos} vencido(s)` : '');
+  // ── Barra lateral de proyectos ──
+  const abiertosDe = l => l.filter(a => !apuIsCerrado(a)).length;
+  const vencidosDe = l => l.filter(a => !apuIsCerrado(a) && a.fecha_limite && daysLeft(a.fecha_limite) < 0).length;
+  const fila = (key, label, list, extra) => {
+    const ab = abiertosDe(list), ve = vencidosDe(list);
+    const cls = ve ? 'over' : (ab ? '' : 'zero');
+    const tip = ve ? `${ab} abierto(s) · ${ve} vencido(s)` : `${ab} abierto(s)`;
+    return `<div class="apu-pi${S.apuProj===key?' on':''}${extra?' '+extra:''}" title="${escT(tip)}" onclick="apuSelect('${escJs(key)}')">
+      <span class="apu-pn">${esc(label)}</span><span class="apu-pc ${cls}">${ab}</span></div>`;
+  };
+  const nombres = [...new Set(all.map(a => a.proyecto).filter(Boolean))].sort();
+  const sinProj = all.filter(a => !a.proyecto);
+  g('apu-total').textContent = `${abiertosDe(all)} abierto(s)`;
+  g('apu-plist').innerHTML =
+    fila('__todos', 'Todos los proyectos', all, 'head') +
+    (sinProj.length ? fila('__sin', 'Sin proyecto', sinProj) : '') +
+    nombres.map(n => fila(n, n, all.filter(a => a.proyecto === n))).join('');
 
-  const box = g('apu-list');
+  // ── Panel derecho ──
+  g('apu-title').textContent = S.apuProj === '__todos' ? 'Todos los apuntes'
+                             : S.apuProj === '__sin'   ? 'Sin proyecto' : S.apuProj;
+  const list = apuSort(apuFiltered(apuScope()));
+  const box  = g('apu-list');
   if(!list.length){
-    box.innerHTML = `<div class="apu-empty">${base.length
-      ? 'Sin resultados con estos filtros.'
+    box.innerHTML = `<div class="apu-empty">${all.length
+      ? 'Sin apuntes que coincidan con estos filtros.'
       : 'Aún no hay apuntes. Anota aquí lo que estás esperando de alguien más.'}</div>`;
     return;
   }
-  box.innerHTML =
-    abiertos.map(a => apuItemHtml(a, true)).join('') +
-    (cerrados.length
-      ? `<div class="apu-sep">Cerrados (${cerrados.length})</div>` + cerrados.map(a => apuItemHtml(a, true)).join('')
-      : '');
+  // Dentro de cada bloque: abiertos primero, cerrados al fondo
+  const bloque = l => {
+    const ab = l.filter(a => !apuIsCerrado(a));
+    const ce = l.filter(a => apuIsCerrado(a));
+    return ab.map(a => apuItemHtml(a, false)).join('') +
+      (ce.length ? `<div class="apu-sep">Cerrados (${ce.length})</div>` + ce.map(a => apuItemHtml(a, false)).join('') : '');
+  };
+  if(S.apuProj === '__todos'){
+    // Vista global: agrupada por proyecto, nunca mezclada
+    const grupos = {};
+    list.forEach(a => { const k = a.proyecto || 'Sin proyecto'; (grupos[k] = grupos[k] || []).push(a); });
+    box.innerHTML = Object.keys(grupos).sort().map(k =>
+      `<div class="apu-grp">📁 ${esc(k)} · ${grupos[k].filter(a => !apuIsCerrado(a)).length} abierto(s)</div>${bloque(grupos[k])}`
+    ).join('');
+  }else{
+    box.innerHTML = bloque(list);
+  }
 }
 /* ── Cambio rápido de estado (reusa el menú .qe de las tareas) ── */
 function apuEstadoOpen(ev, id){
