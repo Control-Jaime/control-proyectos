@@ -287,61 +287,35 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .toast.ok{border-left:3px solid var(--gr)}
 .toast.err{border-left:3px solid var(--re)}
 
-/* ══════════ REUNIONES ══════════ */
-.reu-layout{display:grid;grid-template-columns:240px 1fr;gap:16px;height:calc(100vh - 180px);min-height:500px}
-.reu-side{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh)}
-.reu-side-h{padding:12px 14px;border-bottom:1px solid var(--b1);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);display:flex;align-items:center;justify-content:space-between}
-.reu-plist{overflow-y:auto;flex:1}
-.reu-pi{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--b1);transition:background .1s;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.reu-pi:last-child{border-bottom:none}
-.reu-pi:hover{background:var(--surf)}
-.reu-pi.on{background:var(--ac2);border-left:3px solid var(--ac)}
-.reu-pn{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.reu-pc{font-size:11px;color:var(--mu);background:var(--surf);padding:1px 6px;border-radius:10px;flex-shrink:0}
-.reu-pi.on .reu-pc{background:#fff}
-.reu-main{display:flex;flex-direction:column;overflow:hidden}
-.reu-main-h{background:var(--card);border:1px solid var(--b1);border-radius:var(--r) var(--r) 0 0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--b1)}
-.reu-main-t{font-size:15px;font-weight:700;flex-shrink:0}
-.reu-search{position:relative;flex:1;max-width:280px}
-.reu-search input{width:100%;padding:7px 12px 7px 30px;background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);color:var(--tx);outline:none;font-size:13px}
-.reu-search input:focus{border-color:var(--ac)}
-.reu-search-i{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--di);font-size:13px;pointer-events:none}
-.reu-entries{flex:1;overflow-y:auto;background:var(--card);border:1px solid var(--b1);border-top:none;border-radius:0 0 var(--r) var(--r);box-shadow:var(--sh)}
-.reu-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;color:var(--mu)}
-.reu-empty-i{font-size:32px;margin-bottom:8px}
-.reu-e{border-bottom:1px solid var(--b1);padding:18px 20px}
-.reu-e:last-child{border-bottom:none}
-.reu-e.done{opacity:.65}
-.reu-e.done:hover{opacity:1}
-.reu-e-h{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
-.reu-e-date{font-size:13px;font-weight:700}
-.reu-e-proj{font-size:11px;color:var(--mu);margin-top:3px}
-.reu-e-acts{display:flex;align-items:center;gap:8px}
-.reu-e-body{font-size:13px;line-height:1.6;color:var(--tx);white-space:pre-wrap;margin-bottom:12px}
-.acu-box{background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);padding:12px 14px}
-.acu-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);margin-bottom:8px}
-.acu-i{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--b1)}
-.acu-i:last-child{border-bottom:none}
-.acu-tx{flex:1;font-size:13px;line-height:1.4}
-.acu-tx.done{text-decoration:line-through;color:var(--mu)}
-.acu-acts{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.st-pill{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:700;cursor:pointer;border:none;transition:all .15s;white-space:nowrap}
-.st-pill.pendiente{background:#e2eaf2;color:#2d5a7a}
-.st-pill.pendiente:hover{background:var(--ac2);color:#1e40af}
-.st-pill.completado{background:var(--gr2);color:var(--gr)}
-.st-pill.completado:hover{background:#bbf7d0;color:#14532d}
-.st-pill.auto{cursor:default !important}
-.st-pill.big{padding:3px 10px}
-.link-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--gr2);color:var(--gr);font-weight:600;white-space:nowrap;border:none;cursor:pointer}
-.link-tag:hover{background:var(--gr);color:#fff}
-.link-tag.linked{background:var(--ac2);color:var(--ac);cursor:default}
-.acu-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.acu-row input{flex:1;padding:8px 12px;background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);color:var(--tx);outline:none;font-size:13px}
-.acu-row input:focus{border-color:var(--ac)}
-.acu-del{background:transparent;border:none;color:var(--di);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;flex-shrink:0}
-.acu-del:hover{color:var(--re)}
-.acu-add{font-size:12px;color:var(--ac);background:transparent;border:1px dashed var(--ac);border-radius:var(--rs);padding:6px 12px;cursor:pointer;width:100%;text-align:center;margin-top:4px}
-.acu-add:hover{background:var(--ac2)}
+/* ══════════ APUNTES (seguimientos) ══════════ */
+.apu-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.apu-bar select{padding:8px 12px;background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);color:var(--tx);outline:none}
+.apu-bar select:focus{border-color:var(--ac)}
+.apu-chk{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);cursor:pointer;white-space:nowrap}
+.apu-list{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.apu-sep{padding:9px 18px;background:var(--surf);border-bottom:1px solid var(--b1);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu)}
+.apu-i{display:flex;align-items:flex-start;gap:12px;padding:13px 18px;border-bottom:1px solid var(--b1);transition:background .1s}
+.apu-i:last-child{border-bottom:none}
+.apu-i:hover{background:var(--surf)}
+.apu-i:hover .apu-acts{opacity:1}
+.apu-i.cerrado{opacity:.6}
+.apu-i.cerrado:hover{opacity:1}
+.apu-d{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.apu-main{flex:1;min-width:0}
+.apu-tx{font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.apu-tx.done{text-decoration:line-through;color:var(--mu)}
+.apu-meta{font-size:11px;color:var(--mu);margin-top:5px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.apu-meta .venc{color:var(--re);font-weight:700}
+.apu-meta .pronto{color:var(--am);font-weight:700}
+.apu-meta .firma{color:var(--gr)}
+.apu-quien{display:inline-flex;align-items:center;padding:1px 8px;border-radius:10px;background:var(--surf);border:1px solid var(--b1);font-size:10px;font-weight:700;color:var(--tx)}
+.apu-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;border:none;cursor:pointer;white-space:nowrap;transition:filter .15s}
+.apu-pill:hover{filter:brightness(.93)}
+.apu-acts{display:flex;align-items:center;gap:4px;flex-shrink:0;opacity:.4;transition:opacity .15s}
+.apu-a{background:transparent;border:none;font-size:13px;padding:3px 6px;border-radius:4px;cursor:pointer;line-height:1;color:var(--mu)}
+.apu-a:hover{background:var(--surf);color:var(--tx)}
+.apu-a.del:hover{background:var(--re2);color:var(--re)}
+.apu-empty{padding:40px 20px;text-align:center;color:var(--mu);font-size:13px}
 
 /* ══════════ REPORTES ══════════ */
 .rep-bar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:14px 18px;box-shadow:var(--sh)}
@@ -408,14 +382,6 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .pd-task-i{flex:1;min-width:0}
 .pd-task-x{font-size:13px;font-weight:500}
 .pd-task-m{font-size:11px;color:var(--di);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.pd-reu{padding:12px 18px;border-bottom:1px solid var(--b1)}
-.pd-reu:last-child{border-bottom:none}
-.pd-reu.done{opacity:.6}
-.pd-reu-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
-.pd-reu-d{font-size:12px;font-weight:700}
-.pd-reu-n{font-size:12px;color:var(--mu);line-height:1.5;white-space:pre-wrap;margin-bottom:6px}
-.pd-reu-a{font-size:11px;color:var(--di);display:flex;align-items:center;gap:6px;padding:2px 0}
-.pd-reu-a .d{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 .pd-empty{padding:32px;text-align:center;color:var(--di);font-size:13px}
 
 /* ══════════ CHECKLIST (PUNTOS) ══════════ */
@@ -465,10 +431,8 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
   .main{padding:12px}
   .nav{padding:8px 12px 0}
   .nav-b{padding:7px 10px;font-size:12px}
-  .pj-grid,.pe-grid,.reu-layout{grid-template-columns:1fr}
-  .reu-layout{height:auto}
-  .reu-side{max-height:200px}
-  .reu-entries{max-height:400px}
+  .pj-grid,.pe-grid{grid-template-columns:1fr}
+  .apu-i{flex-wrap:wrap}
   .sec-head{flex-direction:column;align-items:flex-start;gap:8px}
   td:nth-child(4),th:nth-child(4){display:none}
   .ov{align-items:flex-end;padding:0}
@@ -520,7 +484,7 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <button class="nav-b"    data-tab="proyectos"  onclick="go('proyectos')">Proyectos</button>
     <button class="nav-b"    data-tab="personas"   onclick="go('personas')"   id="nav-personas">Personas</button>
     <button class="nav-b"    data-tab="eliminadas" onclick="go('eliminadas')" id="nav-elim" style="display:none">🗑 Eliminadas</button>
-    <button class="nav-b"    data-tab="reuniones"  onclick="go('reuniones')"  id="nav-reun" style="display:none">📓 Reuniones</button>
+    <button class="nav-b"    data-tab="apuntes"    onclick="go('apuntes')"    id="nav-apu">📌 Apuntes</button>
     <button class="nav-b"    data-tab="reportes"   onclick="go('reportes')"   id="nav-rep"  style="display:none">📊 Reportes</button>
   </nav>
 
@@ -611,22 +575,28 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
       </table></div>
     </div>
 
-    <!-- ══════════ REUNIONES ══════════ -->
-    <div class="sec" id="sec-reuniones">
-      <div class="reu-layout">
-        <div class="reu-side">
-          <div class="reu-side-h"><span>Proyectos</span><span id="reu-total" style="font-size:11px;color:var(--mu)"></span></div>
-          <div class="reu-plist" id="reu-plist"></div>
-        </div>
-        <div class="reu-main">
-          <div class="reu-main-h">
-            <span class="reu-main-t" id="reu-title">Selecciona un proyecto</span>
-            <div class="reu-search"><span class="reu-search-i">🔍</span><input id="reu-search" type="text" placeholder="Buscar en apuntes…" oninput="renderReuEntries()"></div>
-            <button class="btn btn-pri btn-sm" id="reu-new-btn" onclick="reuNew()" style="display:none">＋ Nueva entrada</button>
-          </div>
-          <div class="reu-entries" id="reu-entries"><div class="reu-empty"><div class="reu-empty-i">📓</div><span>Selecciona un proyecto</span></div></div>
-        </div>
+    <!-- ══════════ APUNTES ══════════ -->
+    <div class="sec" id="sec-apuntes">
+      <div class="sec-head">
+        <span class="sec-title">Apuntes de seguimiento</span>
+        <button class="btn btn-pri" onclick="apuNew()">＋ Nuevo apunte</button>
       </div>
+      <div class="apu-bar">
+        <div class="search"><span class="search-ico">🔍</span><input id="fa-q" type="text" placeholder="Buscar en apuntes, proyecto o destinatario…" oninput="renderApuntes()"></div>
+        <select id="fa-estado" onchange="renderApuntes()">
+          <option value="activos" selected>Activos</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="espera">En espera</option>
+          <option value="resuelto">Resuelto</option>
+          <option value="descartado">Descartado</option>
+          <option value="">Todos</option>
+        </select>
+        <select id="fa-proj" onchange="renderApuntes()"><option value="">Todos los proyectos</option></select>
+        <select id="fa-pers" onchange="renderApuntes()"><option value="">Todas las personas</option></select>
+        <label class="apu-chk"><input type="checkbox" id="fa-venc" onchange="renderApuntes()" style="cursor:pointer"> Solo vencidos</label>
+        <span class="count" id="apu-count"></span>
+      </div>
+      <div class="apu-list" id="apu-list"></div>
     </div>
 
     <!-- ══════════ REPORTES ══════════ -->
@@ -738,35 +708,31 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
   </div>
 </div>
 
-<!-- ══════════ MODAL: REUNIÓN ══════════ -->
-<div class="ov" id="ov-reu">
-  <div class="modal wide">
-    <div class="mo-h"><span class="mo-t" id="reu-modal-title">Nueva entrada</span><button class="mo-x" onclick="closeOv('ov-reu')">✕</button></div>
+<!-- ══════════ MODAL: APUNTE ══════════ -->
+<div class="ov" id="ov-apu">
+  <div class="modal">
+    <div class="mo-h"><span class="mo-t" id="apu-modal-title">Nuevo apunte</span><button class="mo-x" onclick="closeOv('ov-apu')">✕</button></div>
     <div class="mo-b">
+      <div class="frow one"><div class="fld"><label>Apunte *</label><textarea id="af-texto" placeholder="Ej. Pedí a Contecon la aprobación del plano de implantación" style="min-height:90px"></textarea></div></div>
       <div class="frow">
-        <div class="fld"><label>Proyecto *</label><select id="rf-proj"></select></div>
-        <div class="fld"><label>Fecha y hora *</label><input id="rf-fecha" type="datetime-local"></div>
+        <div class="fld"><label>Proyecto</label><select id="af-proj"></select></div>
+        <div class="fld"><label>A quién se le pidió</label><input id="af-quien" type="text" list="quien-list" placeholder="Persona o empresa…" autocomplete="off"><datalist id="quien-list"></datalist></div>
       </div>
-      <div class="frow one"><div class="fld"><label>Apuntes / Notas</label><textarea id="rf-notas" placeholder="Escribe los apuntes de la reunión…" style="min-height:140px"></textarea></div></div>
-      <div class="frow one"><div class="fld"><label>Acuerdos / Compromisos</label><div id="acu-list"></div><button class="acu-add" onclick="acuAdd()">＋ Agregar acuerdo</button></div></div>
+      <div class="frow">
+        <div class="fld"><label>Fecha límite / recordatorio</label><input id="af-fecha" type="date"></div>
+        <div class="fld"><label>Estado</label><select id="af-estado">
+          <option value="pendiente" selected>Pendiente</option>
+          <option value="espera">En espera de respuesta</option>
+          <option value="resuelto">Resuelto</option>
+          <option value="descartado">Descartado</option>
+        </select></div>
+      </div>
     </div>
     <div class="mo-f">
-      <button class="btn btn-del" id="reu-del" onclick="reuDelete()" style="display:none">Eliminar</button>
-      <button class="btn" onclick="closeOv('ov-reu')">Cancelar</button>
-      <button class="btn btn-pri" onclick="reuSave()">Guardar entrada</button>
+      <button class="btn btn-del" id="apu-del" onclick="apuDelete()" style="display:none">Eliminar</button>
+      <button class="btn" onclick="closeOv('ov-apu')">Cancelar</button>
+      <button class="btn btn-pri" onclick="apuSave()">Guardar apunte</button>
     </div>
-  </div>
-</div>
-
-<!-- ══════════ MODAL: VINCULAR ══════════ -->
-<div class="ov" id="ov-link">
-  <div class="modal narrow">
-    <div class="mo-h"><span class="mo-t">Vincular a tarea</span><button class="mo-x" onclick="closeOv('ov-link')">✕</button></div>
-    <div class="mo-b">
-      <div class="fld" style="margin-bottom:14px"><label>Buscar tarea</label><input id="link-search" type="text" placeholder="Escribe para buscar…" oninput="renderLinkList()"></div>
-      <div id="link-list" style="max-height:280px;overflow-y:auto"></div>
-    </div>
-    <div class="mo-f"><button class="btn" onclick="closeOv('ov-link')">Cancelar</button></div>
   </div>
 </div>
 
@@ -792,19 +758,29 @@ const EQUIPO  = ['José','Gladys'];
 const PALETTE = ['#2563eb','#059669','#d97706','#dc2626','#7c3aed','#db2777','#0891b2','#ea580c','#65a30d','#475569'];
 const ORIGENES = ['Cliente','Jefatura','Normativa','Interno'];
 
+/* Estados de los apuntes de seguimiento.
+   'resuelto' y 'descartado' son estados CERRADOS: al entrar en ellos se firma
+   automáticamente quién y cuándo; al salir, la firma se borra. */
+const APU_EST = {
+  pendiente:  {lbl:'Pendiente',  bg:'#e2eaf2', fg:'#2d5a7a', dot:'#4b6a82', cerrado:false},
+  espera:     {lbl:'En espera',  bg:'#ede9fe', fg:'#5b21b6', dot:'#7c3aed', cerrado:false},
+  resuelto:   {lbl:'Resuelto',   bg:'#dcfce7', fg:'#15803d', dot:'#15803d', cerrado:true},
+  descartado: {lbl:'Descartado', bg:'#f3f4f6', fg:'#374151', dot:'#6b7280', cerrado:true},
+};
+const apuEst = e => APU_EST[e] || APU_EST.pendiente;
+
 /* ═══════════════════════════════════════════════════
    ESTADO GLOBAL
    ═══════════════════════════════════════════════════ */
 const S = {
   user: null,
-  projects: [], tasks: [], personas: [], reuniones: [],
+  projects: [], tasks: [], personas: [], apuntes: [],
   tab: 'dashboard',
   activeUser: 'todos',
   sortCol: 'dias', sortDir: 1,
   // ids en edición
-  editTask: null, detTask: null, editProj: null, editPers: null, editReu: null,
+  editTask: null, detTask: null, editProj: null, editPers: null, editApu: null,
   cmtTask: null,
-  reuProj: null, linkEntry: null, linkIdx: null,
   swatch: '#2563eb',
   // detalle de proyecto
   pdProj: null, pdAdd: false, pdEdit: null,
@@ -928,10 +904,11 @@ function bootApp(){
    admin  (jaime, admin) : todo
    equipo (jose, gladys) : solo tareas/proyectos del EQUIPO.
                            Pueden crear, editar y borrar tareas.
-                           Ven apuntes de reunión en el detalle de
-                           proyecto, pero en modo lectura.
-                           No acceden a Personas, Eliminadas,
-                           Reuniones ni Reportes.
+                           Ven y crean apuntes de seguimiento; solo
+                           editan y borran los propios, y solo ven
+                           los creados por el EQUIPO.
+                           No acceden a Personas, Eliminadas
+                           ni Reportes.
    ═══════════════════════════════════════════════════ */
 const isAdmin  = () => S.user && S.user.rol === 'admin';
 const isEquipo = () => S.user && S.user.rol === 'equipo';
@@ -941,7 +918,6 @@ function applyPermissions(){
   const adm = isAdmin();
   document.querySelectorAll('.admin-only').forEach(el => el.style.display = adm ? '' : 'none');
   g('nav-elim').style.display     = adm ? '' : 'none';
-  g('nav-reun').style.display     = adm ? '' : 'none';
   g('nav-rep').style.display      = adm ? '' : 'none';
   g('nav-personas').style.display = (adm && S.activeUser === 'todos') ? '' : 'none';
   g('switcher').style.display     = adm ? '' : 'none';
@@ -958,6 +934,14 @@ function visibleTasks(){
 function visibleProjects(includeClosed = false){
   let list = isEquipo() ? S.projects.filter(p => EQUIPO.includes(p.persona)) : S.projects;
   return includeClosed ? list : list.filter(p => !p.cerrado);
+}
+/** Apuntes visibles: el equipo solo ve los creados por el EQUIPO. */
+function visibleApuntes(){
+  return isEquipo() ? S.apuntes.filter(a => EQUIPO.includes(a.creado_por)) : S.apuntes;
+}
+/** Solo el admin o el autor pueden editar o eliminar un apunte. */
+function canEditApu(a){
+  return isAdmin() || (S.user && a && a.creado_por === S.user.nombre);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -980,6 +964,8 @@ async function loadAll(){
       S.personas = (rpe.data && rpe.data.length) ? rpe.data : derivePersonas();
     }catch(_){ S.personas = derivePersonas(); }
 
+    await loadApuntes();
+
     sync('ok');
     g('dash-loading').style.display = 'none';
     g('dash-body').style.display = 'block';
@@ -1000,18 +986,21 @@ function derivePersonas(){
   return [...new Set(S.projects.map(p => p.persona).filter(Boolean))]
     .map((n,i) => ({id:i+1, nombre:n, color:cols[i % cols.length]}));
 }
-async function loadReuniones(){
+/** Carga los apuntes. Si la tabla aún no existe, degrada a lista vacía
+    en vez de romper el arranque de la app. */
+async function loadApuntes(){
   try{
-    const {data, error} = await db.from('reuniones').select('*').order('fecha', {ascending:false});
+    const {data, error} = await db.from('apuntes').select('*').order('created_at', {ascending:false});
     if(error) throw error;
-    S.reuniones = data || [];
-  }catch(_){ S.reuniones = []; }
+    S.apuntes = data || [];
+  }catch(_){ S.apuntes = []; }
 }
 function subscribeRealtime(){
   db.channel('cparq-live')
     .on('postgres_changes', {event:'*', schema:'public', table:'tareas'},    () => loadAll())
     .on('postgres_changes', {event:'*', schema:'public', table:'proyectos'}, () => loadAll())
     .on('postgres_changes', {event:'*', schema:'public', table:'personas'},  () => loadAll())
+    .on('postgres_changes', {event:'*', schema:'public', table:'apuntes'},   () => loadAll())
     .subscribe();
 }
 
@@ -1052,7 +1041,7 @@ function render(){
     case 'projdet':    renderProjDetail();break;
     case 'personas':   renderPersonas();  break;
     case 'eliminadas': renderEliminadas();break;
-    case 'reuniones':  renderReuniones(); break;
+    case 'apuntes':    renderApuntes();   break;
     case 'reportes':   repInit(); renderReporte(); break;
   }
   applyPermissions();
@@ -1561,9 +1550,11 @@ async function projSave(){
       const oldName = old?.nombre || '', oldPers = old?.persona || '';
       const {error} = await db.from('proyectos').update(row).eq('id', S.editProj);
       if(error) throw error;
-      // Propagar cambios a las tareas del proyecto
-      if(oldName && oldName !== nombre)
+      // Propagar cambios a las tareas y apuntes del proyecto
+      if(oldName && oldName !== nombre){
         await db.from('tareas').update({proyecto:nombre, updated_at:new Date().toISOString()}).eq('proyecto', oldName);
+        try{ await db.from('apuntes').update({proyecto:nombre, updated_at:new Date().toISOString()}).eq('proyecto', oldName); }catch(_){}
+      }
       if(oldPers !== persona)
         await db.from('tareas').update({persona, updated_at:new Date().toISOString()}).eq('proyecto', nombre);
       toast('Proyecto y tareas actualizados ✓');
@@ -1626,7 +1617,6 @@ async function openProjDetail(id){
   document.querySelectorAll('.nav-b').forEach(b => b.classList.remove('on'));
   g('sec-projdet').classList.add('on');
   document.querySelector('.nav-b[data-tab="proyectos"]')?.classList.add('on');
-  if(!S.reuniones.length) await loadReuniones();
   renderProjDetail();
   applyPermissions();
 }
@@ -1666,25 +1656,11 @@ function renderProjDetail(){
       </div></div>`;
   }).join('') : '<div class="pd-empty">Sin tareas para este proyecto</div>';
 
-  // Apuntes de reunión: todos los ven; solo admin crea/edita
-  const reuns = S.reuniones.filter(r => r.proyecto === p.nombre);
-  const reunSorted = [...reuns].sort((a,b) => {
-    const da = reuIsDone(a), dbb = reuIsDone(b);
-    if(da !== dbb) return da ? 1 : -1;
-    return (b.fecha||'').localeCompare(a.fecha||'');
-  });
-  const reunBody = reunSorted.length ? reunSorted.map(r => {
-    const done = reuIsDone(r);
-    const acus = (r.acuerdos||[]).map(a => {
-      const ok = a.estado === 'completado';
-      return `<div class="pd-reu-a"><div class="d" style="background:${ok?'var(--gr)':'var(--am)'}"></div><span style="${ok?'text-decoration:line-through':''}">${esc(a.texto)}</span></div>`;
-    }).join('');
-    return `<div class="pd-reu${done?' done':''}">
-      <div class="pd-reu-h"><span class="pd-reu-d">📅 ${fmtDateTime(r.fecha)} ${done?'✓':''}</span>${isAdmin()?`<button class="btn btn-sm" onclick="reuEdit('${r.id}')">✏️</button>`:''}</div>
-      ${r.notas?`<div class="pd-reu-n">${esc(r.notas)}</div>`:''}
-      ${acus}
-    </div>`;
-  }).join('') : '<div class="pd-empty">Sin apuntes de reunión</div>';
+  // Apuntes de seguimiento de este proyecto
+  const apus = apuSort(visibleApuntes().filter(a => a.proyecto === p.nombre));
+  const apuBody = apus.length
+    ? apus.map(a => apuItemHtml(a, false)).join('')
+    : '<div class="pd-empty">Sin apuntes de seguimiento</div>';
 
   g('pd-body').innerHTML = `
     <div class="pd-hero">
@@ -1716,9 +1692,9 @@ function renderProjDetail(){
         <div class="pd-panel-b">${tasksHtml}</div>
       </div>
       <div class="pd-panel">
-        <div class="pd-panel-h"><span class="pd-panel-t">📓 Apuntes de reunión</span>
-          ${isAdmin()?`<button class="btn btn-pri btn-sm" onclick="reuNewFor('${escJs(p.nombre)}')">＋ Entrada</button>`:''}</div>
-        <div class="pd-panel-b">${reunBody}</div>
+        <div class="pd-panel-h"><span class="pd-panel-t">📌 Apuntes de seguimiento</span>
+          <button class="btn btn-pri btn-sm" onclick="apuNewFor('${escJs(p.nombre)}')">＋ Apunte</button></div>
+        <div class="pd-panel-b">${apuBody}</div>
       </div>
     </div>`;
 }
@@ -1969,256 +1945,243 @@ async function renderEliminadas(){
 }
 
 /* ═══════════════════════════════════════════════════
-   REUNIONES
-   Una entrada está completada si:
-     · tiene acuerdos y TODOS están completados (automático), o
-     · no tiene acuerdos y se marcó manualmente.
-   Las completadas se ordenan al final.
+   APUNTES DE SEGUIMIENTO
+   Un apunte es algo que quedó en el aire y depende de un
+   tercero: un correo sin respuesta, un encargo de jefatura,
+   un tema suelto de una reunión. No es una tarea asignada.
+
+   Estados: pendiente · espera · resuelto · descartado
+   Al pasar a un estado cerrado se firma quién y cuándo;
+   al reabrirlo, la firma se borra.
    ═══════════════════════════════════════════════════ */
-function reuIsDone(r){
-  const acus = r.acuerdos || [];
-  if(acus.length) return acus.every(a => a.estado === 'completado');
-  return r.estado === 'completado';
-}
-async function renderReuniones(){
-  await loadReuniones();
-  renderReuSidebar();
-  if(S.reuProj) renderReuEntries();
-}
-function renderReuSidebar(){
-  const counts = {};
-  S.reuniones.forEach(r => counts[r.proyecto] = (counts[r.proyecto]||0) + 1);
-  const names = [...new Set([...S.projects.map(p => p.nombre), ...S.reuniones.map(r => r.proyecto)])].sort();
-  g('reu-total').textContent = `${S.reuniones.length} entrada(s)`;
-  g('reu-plist').innerHTML = names.map(n =>
-    `<div class="reu-pi${S.reuProj===n?' on':''}" onclick="reuSelect('${escJs(n)}')">
-      <span class="reu-pn">${esc(n)}</span><span class="reu-pc">${counts[n]||0}</span>
-    </div>`).join('');
-}
-function reuSelect(name){
-  S.reuProj = name;
-  g('reu-title').textContent = name;
-  g('reu-new-btn').style.display = '';
-  renderReuSidebar();
-  renderReuEntries();
-}
-function renderReuEntries(){
-  if(!S.reuProj) return;
-  const q = (g('reu-search')?.value || '').toLowerCase();
-  let list = S.reuniones.filter(r => r.proyecto === S.reuProj);
-  if(q) list = list.filter(r =>
-    (r.notas||'').toLowerCase().includes(q) ||
-    (r.acuerdos||[]).some(a => (a.texto||'').toLowerCase().includes(q)));
+function findApu(id){ return S.apuntes.find(a => a.id === id) || null; }
+function apuIsCerrado(a){ return apuEst(a.estado).cerrado; }
 
-  // Pendientes primero (más recientes arriba), completadas al final
-  list = [...list].sort((a,b) => {
-    const da = reuIsDone(a), dbb = reuIsDone(b);
-    if(da !== dbb) return da ? 1 : -1;
-    return (b.fecha||'').localeCompare(a.fecha||'');
+/** Activos primero (fecha límite más próxima, sin fecha al final);
+    cerrados al fondo, por fecha de cierre más reciente. */
+function apuSort(list){
+  return [...list].sort((a,b) => {
+    const ca = apuIsCerrado(a), cb = apuIsCerrado(b);
+    if(ca !== cb) return ca ? 1 : -1;
+    if(ca) return (b.cerrado_at||'').localeCompare(a.cerrado_at||'');
+    const fa = a.fecha_limite || '9999-99-99', fb = b.fecha_limite || '9999-99-99';
+    if(fa !== fb) return fa.localeCompare(fb);
+    return (b.created_at||'').localeCompare(a.created_at||'');
   });
+}
+/** Dibuja un apunte. showProj agrega el proyecto (pestaña global). */
+function apuItemHtml(a, showProj){
+  const st  = apuEst(a.estado);
+  const cer = st.cerrado;
+  const d   = a.fecha_limite ? daysLeft(a.fecha_limite) : null;
+  const fCls = (cer || d === null) ? '' : (d < 0 ? 'venc' : (d <= 3 ? 'pronto' : ''));
+  const fSuf = (!cer && d !== null)
+    ? (d < 0 ? ` · vencido hace ${Math.abs(d)}d` : d === 0 ? ' · vence hoy' : ` · ${d}d`) : '';
+  const meta = [
+    (showProj && a.proyecto) ? `<span>📁 ${esc(a.proyecto)}</span>` : '',
+    a.a_quien ? `<span class="apu-quien">👤 ${esc(a.a_quien)}</span>` : '',
+    a.fecha_limite ? `<span class="${fCls}">📅 ${fmtDate(a.fecha_limite)}${fSuf}</span>` : '',
+    (cer && a.cerrado_por)
+      ? `<span class="firma">${st.lbl} por ${esc(a.cerrado_por)}${a.cerrado_at ? ' · ' + fmtISO(a.cerrado_at) : ''}</span>`
+      : (a.creado_por ? `<span>Anotó ${esc(a.creado_por)}</span>` : ''),
+  ].filter(Boolean).join('');
 
-  const box = g('reu-entries');
+  const editable = canEditApu(a);
+  const pill = editable
+    ? `<button class="apu-pill" style="background:${st.bg};color:${st.fg}" onclick="apuEstadoOpen(event,'${a.id}')">${st.lbl} ▾</button>`
+    : `<span class="apu-pill" style="background:${st.bg};color:${st.fg};cursor:default">${st.lbl}</span>`;
+  const acts = editable
+    ? `<button class="apu-a" title="Convertir en tarea" onclick="apuToTask('${a.id}')">➕</button>
+       <button class="apu-a" title="Editar" onclick="apuEdit('${a.id}')">✏️</button>
+       <button class="apu-a del" title="Eliminar" onclick="apuDeleteById('${a.id}')">✕</button>` : '';
+
+  return `<div class="apu-i${cer?' cerrado':''}">
+    <div class="apu-d" style="background:${st.dot}"></div>
+    <div class="apu-main">
+      <div class="apu-tx${cer?' done':''}">${esc(a.texto)}</div>
+      ${meta ? `<div class="apu-meta">${meta}</div>` : ''}
+    </div>
+    <div class="apu-acts">${pill}${acts}</div>
+  </div>`;
+}
+function apuFiltered(){
+  let list = visibleApuntes();
+  const q  = (g('fa-q')?.value || '').toLowerCase();
+  const es = g('fa-estado') ? g('fa-estado').value : 'activos';
+  const pj = g('fa-proj')?.value || '';
+  const pe = g('fa-pers')?.value || '';
+  const sv = g('fa-venc')?.checked || false;
+  if(q) list = list.filter(a =>
+    (a.texto||'').toLowerCase().includes(q)    ||
+    (a.proyecto||'').toLowerCase().includes(q) ||
+    (a.a_quien||'').toLowerCase().includes(q));
+  if(es === 'activos') list = list.filter(a => !apuIsCerrado(a));
+  else if(es)          list = list.filter(a => (a.estado||'pendiente') === es);
+  if(pj) list = list.filter(a => (a.proyecto||'') === pj);
+  if(pe) list = list.filter(a => a.creado_por === pe);
+  if(sv) list = list.filter(a => !apuIsCerrado(a) && a.fecha_limite && daysLeft(a.fecha_limite) < 0);
+  return list;
+}
+function renderApuntes(){
+  const base = visibleApuntes();
+
+  // Refrescar los desplegables conservando la selección
+  const selP = g('fa-proj').value;
+  const projOpts = [...new Set(base.map(a => a.proyecto).filter(Boolean))].sort();
+  g('fa-proj').innerHTML = '<option value="">Todos los proyectos</option>' +
+    projOpts.map(p => `<option${p === selP ? ' selected' : ''}>${esc(p)}</option>`).join('');
+  const selPe = g('fa-pers').value;
+  const persOpts = [...new Set(base.map(a => a.creado_por).filter(Boolean))].sort();
+  g('fa-pers').innerHTML = '<option value="">Todas las personas</option>' +
+    persOpts.map(p => `<option${p === selPe ? ' selected' : ''}>${esc(p)}</option>`).join('');
+
+  const list     = apuSort(apuFiltered());
+  const abiertos = list.filter(a => !apuIsCerrado(a));
+  const cerrados = list.filter(a => apuIsCerrado(a));
+  const vencidos = abiertos.filter(a => a.fecha_limite && daysLeft(a.fecha_limite) < 0).length;
+  g('apu-count').textContent = `${abiertos.length} abierto(s)` + (vencidos ? ` · ${vencidos} vencido(s)` : '');
+
+  const box = g('apu-list');
   if(!list.length){
-    box.innerHTML = `<div class="reu-empty"><div class="reu-empty-i">${q?'🔍':'📝'}</div><span>${q?'Sin resultados':'Sin entradas aún.'}</span></div>`;
+    box.innerHTML = `<div class="apu-empty">${base.length
+      ? 'Sin resultados con estos filtros.'
+      : 'Aún no hay apuntes. Anota aquí lo que estás esperando de alguien más.'}</div>`;
     return;
   }
-  box.innerHTML = list.map(r => {
-    const acus    = r.acuerdos || [];
-    const hasAcus = acus.length > 0;
-    const allDone = hasAcus && acus.every(a => a.estado === 'completado');
-    const st      = allDone ? 'completado' : (r.estado || 'pendiente');
-    const lbl     = st === 'completado' ? '✓ Completado' : '○ Pendiente';
-    const pill    = hasAcus
-      ? `<span class="st-pill big ${st} auto" title="${allDone?'Completado automáticamente':'Completa todos los acuerdos'}">${lbl}</span>`
-      : `<button class="st-pill big ${st}" onclick="reuToggleEntry('${r.id}')">${lbl}</button>`;
-    const acuBox = hasAcus ? `<div class="acu-box">
-        <div class="acu-h">📋 Acuerdos (${acus.filter(a => a.estado === 'completado').length}/${acus.length} completados)</div>
-        ${acus.map((a,i) => {
-          const ast = a.estado || 'pendiente';
-          const al  = ast === 'completado' ? '✓ Completado' : '○ Pendiente';
-          const lk  = a.tarea_id ? S.tasks.find(t => t.id === a.tarea_id) : null;
-          const tag = lk
-            ? `<span class="link-tag linked" title="Tarea: ${escT(lk.descripcion)}">✅ Vinculada</span>`
-            : `<button class="link-tag" onclick="linkOpen('${r.id}',${i})">🔗 Vincular</button>`;
-          return `<div class="acu-i">
-            <span class="acu-tx${ast==='completado'?' done':''}">${esc(a.texto)}</span>
-            <div class="acu-acts">
-              <button class="st-pill ${ast}" onmousedown="event.preventDefault();reuToggleAcuerdo('${r.id}',${i})">${al}</button>${tag}
-            </div></div>`;
-        }).join('')}
-      </div>` : '';
-    return `<div class="reu-e${st==='completado'?' done':''}">
-      <div class="reu-e-h">
-        <div><div class="reu-e-date">📅 ${fmtDateTime(r.fecha)}</div><div class="reu-e-proj">${esc(r.proyecto)}</div></div>
-        <div class="reu-e-acts">${pill}<button class="btn btn-sm" onclick="reuEdit('${r.id}')">✏️ Editar</button></div>
-      </div>
-      ${r.notas?`<div class="reu-e-body">${esc(r.notas)}</div>`:''}
-      ${acuBox}
-    </div>`;
-  }).join('');
+  box.innerHTML =
+    abiertos.map(a => apuItemHtml(a, true)).join('') +
+    (cerrados.length
+      ? `<div class="apu-sep">Cerrados (${cerrados.length})</div>` + cerrados.map(a => apuItemHtml(a, true)).join('')
+      : '');
 }
-/* ── Modal de reunión ── */
-function reuFillProjSelect(selected){
-  g('rf-proj').innerHTML = S.projects.map(p =>
-    `<option value="${escT(p.nombre)}"${p.nombre===selected?' selected':''}>${esc(p.nombre)}</option>`).join('');
-}
-function reuNew(){
-  S.editReu = null;
-  g('reu-modal-title').textContent = 'Nueva entrada';
-  g('reu-del').style.display = 'none';
-  reuFillProjSelect(S.reuProj);
-  const now = new Date(); now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-  g('rf-fecha').value = now.toISOString().slice(0,16);
-  g('rf-notas').value = '';
-  acuRender([]);
-  openOv('ov-reu');
-}
-function reuNewFor(projName){ S.reuProj = projName; reuNew(); }
-function reuEdit(id){
-  const r = S.reuniones.find(x => x.id === id); if(!r) return;
-  S.editReu = id;
-  g('reu-modal-title').textContent = 'Editar entrada';
-  g('reu-del').style.display = '';
-  reuFillProjSelect(r.proyecto);
-  if(r.fecha){
-    const d = new Date(r.fecha); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-    g('rf-fecha').value = d.toISOString().slice(0,16);
-  }
-  g('rf-notas').value = r.notas || '';
-  acuRender(r.acuerdos || []);
-  openOv('ov-reu');
-}
-function acuRender(acus){
-  g('acu-list').innerHTML = acus.map((a,i) =>
-    `<div class="acu-row" id="acu-${i}">
-      <input type="text" value="${escT(a.texto||'')}" placeholder="Describe el acuerdo…">
-      <button class="acu-del" onclick="acuRemove(${i})">×</button>
+/* ── Cambio rápido de estado (reusa el menú .qe de las tareas) ── */
+function apuEstadoOpen(ev, id){
+  ev.stopPropagation();
+  const menu = g('qe');
+  if(menu.classList.contains('on')){ menu.classList.remove('on'); return; }
+  const cur = findApu(id)?.estado || 'pendiente';
+  g('qe-items').innerHTML = Object.entries(APU_EST).map(([k,o]) =>
+    `<div class="qe-i" style="color:${o.dot}" onmousedown="event.preventDefault();apuSetEstado('${k}','${id}')">
+      <div class="qe-d" style="background:${o.dot}"></div>${o.lbl}${k===cur?' ✓':''}
     </div>`).join('');
+  menu.style.left = Math.min(ev.clientX, window.innerWidth - 170) + 'px';
+  menu.style.top  = Math.min(ev.clientY + 6, window.innerHeight - 200) + 'px';
+  menu.classList.add('on');
 }
-function acuAdd(){
-  const list = g('acu-list');
-  const n = list.querySelectorAll('.acu-row').length;
-  const row = document.createElement('div');
-  row.className = 'acu-row'; row.id = 'acu-' + n;
-  row.innerHTML = `<input type="text" placeholder="Describe el acuerdo…"><button class="acu-del" onclick="acuRemove(${n})">×</button>`;
-  list.appendChild(row);
-  row.querySelector('input').focus();
-}
-function acuRemove(i){ g('acu-' + i)?.remove(); }
-function acuCollect(){
-  const inputs = g('acu-list').querySelectorAll('input[type="text"]');
-  const prev = S.editReu ? (S.reuniones.find(r => r.id === S.editReu)?.acuerdos || []) : [];
-  return Array.from(inputs).map((inp,i) => {
-    const txt = inp.value.trim();
-    if(!txt) return null;
-    const old = prev[i];
-    return {texto:txt, tarea_id:old?.tarea_id || null, estado:old?.estado || 'pendiente'};
-  }).filter(Boolean);
-}
-async function reuSave(){
-  const proj  = g('rf-proj').value;
-  const fecha = g('rf-fecha').value;
-  if(!proj || !fecha){ toast('Proyecto y fecha son obligatorios', 'err'); return; }
-  const prev = S.editReu ? S.reuniones.find(r => r.id === S.editReu) : null;
-  const row = {
-    proyecto: proj,
-    fecha: new Date(fecha).toISOString(),
-    notas: g('rf-notas').value.trim(),
-    acuerdos: acuCollect(),
-    estado: prev?.estado || 'pendiente',
+async function apuSetEstado(val, id){
+  g('qe').classList.remove('on');
+  const a = findApu(id);
+  if(!a || !canEditApu(a) || a.estado === val) return;
+  const cerrando = apuEst(val).cerrado;
+  const upd = {
+    estado: val,
+    cerrado_por: cerrando ? (S.user?.nombre || '?') : null,
+    cerrado_at:  cerrando ? new Date().toISOString() : null,
+    updated_at:  new Date().toISOString(),
   };
   sync('busy');
   try{
-    const {error} = S.editReu
-      ? await db.from('reuniones').update(row).eq('id', S.editReu)
-      : await db.from('reuniones').insert({...row, id:uid()});
+    const {error} = await db.from('apuntes').update(upd).eq('id', id);
     if(error) throw error;
-    toast(S.editReu ? 'Entrada actualizada' : 'Entrada guardada');
-    closeOv('ov-reu');
-    await loadReuniones();
+    Object.assign(a, upd);
+    sync('ok'); toast(`Apunte: ${apuEst(val).lbl.toLowerCase()} ✓`);
     render();
   }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
 }
-async function reuDelete(){
-  if(!S.editReu || !confirm('¿Eliminar esta entrada?')) return;
+/* ── Modal de apunte ── */
+function apuFillProjSelect(selected){
+  g('af-proj').innerHTML = '<option value="">— Sin proyecto —</option>' +
+    visibleProjects(true).map(p =>
+      `<option value="${escT(p.nombre)}"${p.nombre === selected ? ' selected' : ''}>${esc(p.nombre)}</option>`).join('');
+  if(!selected) g('af-proj').value = '';
+}
+function apuFillQuienList(){
+  const vals = [...new Set(S.apuntes.map(a => a.a_quien).filter(Boolean))].sort();
+  g('quien-list').innerHTML = vals.map(v => `<option value="${escT(v)}"></option>`).join('');
+}
+function apuNew(prefillProject){
+  S.editApu = null;
+  g('apu-modal-title').textContent = 'Nuevo apunte';
+  g('apu-del').style.display = 'none';
+  apuFillProjSelect(prefillProject || '');
+  apuFillQuienList();
+  ['af-texto','af-quien','af-fecha'].forEach(id => g(id).value = '');
+  g('af-estado').value = 'pendiente';
+  openOv('ov-apu');
+  setTimeout(() => g('af-texto').focus(), 0);
+}
+function apuNewFor(projName){ apuNew(projName); }
+function apuEdit(id){
+  const a = findApu(id);
+  if(!a) return;
+  if(!canEditApu(a)){ toast('Solo el autor puede editar este apunte', 'err'); return; }
+  S.editApu = id;
+  g('apu-modal-title').textContent = 'Editar apunte';
+  g('apu-del').style.display = '';
+  apuFillProjSelect(a.proyecto || '');
+  apuFillQuienList();
+  g('af-texto').value  = a.texto || '';
+  g('af-quien').value  = a.a_quien || '';
+  g('af-fecha').value  = a.fecha_limite || '';
+  g('af-estado').value = a.estado || 'pendiente';
+  openOv('ov-apu');
+}
+async function apuSave(){
+  const texto = g('af-texto').value.trim();
+  if(!texto){ toast('Escribe el apunte antes de guardar', 'err'); return; }
+  const prev      = S.editApu ? findApu(S.editApu) : null;
+  const estado    = g('af-estado').value;
+  const cerrando  = apuEst(estado).cerrado;
+  const yaCerrado = !!(prev && apuEst(prev.estado).cerrado);
+  const row = {
+    texto,
+    proyecto:     g('af-proj').value || null,
+    a_quien:      g('af-quien').value.trim() || null,
+    fecha_limite: g('af-fecha').value || null,
+    estado,
+    // Conserva la firma si ya estaba cerrado, firma al cerrar, la borra al reabrir
+    cerrado_por: cerrando ? (yaCerrado ? prev.cerrado_por : (S.user?.nombre || '?')) : null,
+    cerrado_at:  cerrando ? (yaCerrado ? prev.cerrado_at  : new Date().toISOString()) : null,
+    updated_at:  new Date().toISOString(),
+  };
   sync('busy');
   try{
-    const {error} = await db.from('reuniones').delete().eq('id', S.editReu);
+    const {error} = S.editApu
+      ? await db.from('apuntes').update(row).eq('id', S.editApu)
+      : await db.from('apuntes').insert({...row, id:uid(), creado_por:S.user?.nombre || '?', created_at:new Date().toISOString()});
     if(error) throw error;
-    toast('Entrada eliminada');
-    closeOv('ov-reu');
-    await loadReuniones();
+    toast(S.editApu ? 'Apunte actualizado ✓' : 'Apunte guardado ✓');
+    closeOv('ov-apu');
+    await loadApuntes();
     render();
   }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
 }
-async function reuToggleAcuerdo(rid, idx){
-  const r = S.reuniones.find(x => x.id === rid); if(!r) return;
-  const acus = JSON.parse(JSON.stringify(r.acuerdos || []));
-  if(idx >= acus.length) return;
-  acus[idx].estado = acus[idx].estado === 'completado' ? 'pendiente' : 'completado';
-  const allDone = acus.length > 0 && acus.every(a => a.estado === 'completado');
-  const upd = {acuerdos:acus, updated_at:new Date().toISOString()};
-  if(allDone) upd.estado = 'completado';
-  else if(r.estado === 'completado') upd.estado = 'pendiente';
+async function apuDelete(){ if(S.editApu) await apuRemove(S.editApu, true); }
+async function apuDeleteById(id){ await apuRemove(id, false); }
+async function apuRemove(id, fromModal){
+  const a = findApu(id);
+  if(!a) return;
+  if(!canEditApu(a)){ toast('Solo el autor puede eliminar este apunte', 'err'); return; }
+  if(!confirm(`¿Eliminar este apunte?\n\n"${a.texto}"`)) return;
   sync('busy');
   try{
-    const {error} = await db.from('reuniones').update(upd).eq('id', rid);
+    const {error} = await db.from('apuntes').delete().eq('id', id);
     if(error) throw error;
-    sync('ok');
-    r.acuerdos = acus;
-    if('estado' in upd) r.estado = upd.estado;
-    if(allDone) toast('¡Todos los acuerdos completados! ✓');
+    toast('Apunte eliminado');
+    if(fromModal) closeOv('ov-apu');
+    await loadApuntes();
     render();
   }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
 }
-async function reuToggleEntry(rid){
-  const r = S.reuniones.find(x => x.id === rid);
-  if(!r || (r.acuerdos||[]).length > 0) return;   // con acuerdos el estado es automático
-  const next = (r.estado || 'pendiente') === 'completado' ? 'pendiente' : 'completado';
-  sync('busy');
-  try{
-    const {error} = await db.from('reuniones').update({estado:next, updated_at:new Date().toISOString()}).eq('id', rid);
-    if(error) throw error;
-    sync('ok'); r.estado = next; render();
-  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
-}
-/* ── Vincular acuerdo a tarea ── */
-function linkOpen(rid, idx){
-  S.linkEntry = rid; S.linkIdx = idx;
-  const r = S.reuniones.find(x => x.id === rid);
-  g('link-search').value = r ? r.proyecto : '';
-  renderLinkList();
-  openOv('ov-link');
-}
-function renderLinkList(){
-  const q = (g('link-search')?.value || '').toLowerCase();
-  let list = S.tasks.filter(t => t.estado !== 'Completada');
-  if(q) list = list.filter(t =>
-    (t.descripcion||'').toLowerCase().includes(q) || (t.proyecto||'').toLowerCase().includes(q));
-  const box = g('link-list');
-  if(!list.length){ box.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mu)">Sin tareas que coincidan</div>'; return; }
-  box.innerHTML = list.slice(0,20).map(t =>
-    `<div style="padding:10px 12px;border-bottom:1px solid var(--b1);cursor:pointer"
-       onmouseover="this.style.background='var(--surf)'" onmouseout="this.style.background=''"
-       onclick="linkApply('${t.id}')">
-      <div style="font-size:13px;font-weight:500">${esc(t.descripcion)}</div>
-      <div style="font-size:11px;color:var(--mu);margin-top:3px;display:flex;gap:8px">
-        <span>${esc(t.proyecto)}</span><span class="badge mini ${(t.prioridad||'').toLowerCase()}">${t.prioridad}</span>
-      </div></div>`).join('');
-}
-async function linkApply(tid){
-  const r = S.reuniones.find(x => x.id === S.linkEntry); if(!r) return;
-  const acus = JSON.parse(JSON.stringify(r.acuerdos || []));
-  if(S.linkIdx < acus.length) acus[S.linkIdx] = {...acus[S.linkIdx], tarea_id:tid};
-  sync('busy');
-  try{
-    const {error} = await db.from('reuniones').update({acuerdos:acus}).eq('id', S.linkEntry);
-    if(error) throw error;
-    toast('Acuerdo vinculado ✓');
-    closeOv('ov-link');
-    await loadReuniones();
-    render();
-  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
+/** Abre el modal de nueva tarea con los datos del apunte pre-llenados.
+    No crea vínculo: el apunte sigue su propio curso. */
+function apuToTask(id){
+  const a = findApu(id);
+  if(!a) return;
+  taskNew(a.proyecto || undefined);
+  g('tf-desc').value = a.texto || '';
+  if(a.fecha_limite) g('tf-fecha').value = a.fecha_limite;
+  toast('Revisa y guarda la tarea. El apunte no cambia.');
 }
 
 /* ═══════════════════════════════════════════════════
