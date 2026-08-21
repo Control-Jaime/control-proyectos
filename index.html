@@ -79,6 +79,7 @@ input,select,textarea{font-family:inherit;font-size:14px}
 .nav-b{padding:8px 16px;border:1px solid transparent;border-bottom:none;background:transparent;color:var(--mu);font-size:13px;font-weight:500;border-radius:var(--rs) var(--rs) 0 0;position:relative;bottom:-1px;white-space:nowrap;transition:color .15s}
 .nav-b:hover{color:var(--tx)}
 .nav-b.on{background:var(--card);color:var(--tx);border-color:var(--b1);border-bottom-color:var(--card);font-weight:600}
+.nav-badge{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 5px;margin-left:6px;border-radius:9px;background:var(--re);color:#fff;font-size:10px;font-weight:800;line-height:1;vertical-align:middle;font-family:'JetBrains Mono',monospace}
 
 /* ══════════ LAYOUT ══════════ */
 .main{padding:24px;max-width:1400px;margin:0 auto}
@@ -327,6 +328,8 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .apu-pi.on .apu-pc{background:#fff}
 .apu-pc.over{background:var(--re2);color:var(--re)}
 .apu-pc.zero{background:var(--gr2);color:var(--gr)}
+.apu-pr{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.apu-warn{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--re);color:#fff;font-size:11px;font-weight:800;line-height:1;flex-shrink:0}
 .apu-panel{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
 .apu-panel-h{padding:11px 16px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .apu-panel-t{font-size:14px;font-weight:700;margin-right:auto}
@@ -508,7 +511,7 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <button class="nav-b"    data-tab="proyectos"  onclick="go('proyectos')">Proyectos</button>
     <button class="nav-b"    data-tab="personas"   onclick="go('personas')"   id="nav-personas">Personas</button>
     <button class="nav-b"    data-tab="eliminadas" onclick="go('eliminadas')" id="nav-elim" style="display:none">🗑 Eliminadas</button>
-    <button class="nav-b"    data-tab="apuntes"    onclick="go('apuntes')"    id="nav-apu">📌 Apuntes</button>
+    <button class="nav-b"    data-tab="apuntes"    onclick="go('apuntes')"    id="nav-apu">📌 Apuntes<span class="nav-badge" id="nav-apu-badge" style="display:none"></span></button>
     <button class="nav-b"    data-tab="reportes"   onclick="go('reportes')"   id="nav-rep"  style="display:none">📊 Reportes</button>
   </nav>
 
@@ -953,6 +956,7 @@ function applyPermissions(){
   g('nav-rep').style.display      = adm ? '' : 'none';
   g('nav-personas').style.display = (adm && S.activeUser === 'todos') ? '' : 'none';
   g('switcher').style.display     = adm ? '' : 'none';
+  apuBadge();
   g('whoami').innerHTML =
     `<span style="font-size:12px;color:var(--mu)">Hola, <strong style="color:${S.user.color}">${S.user.nombre}</strong></span>` +
     `<button class="btn" style="padding:4px 10px;font-size:11px" onclick="logout()">Salir</button>`;
@@ -970,6 +974,20 @@ function visibleProjects(includeClosed = false){
 /** Apuntes visibles: el equipo solo ve los creados por el EQUIPO. */
 function visibleApuntes(){
   return isEquipo() ? S.apuntes.filter(a => EQUIPO.includes(a.creado_por)) : S.apuntes;
+}
+/** Apuntes abiertos cuya fecha límite ya pasó. Base del aviso en la pestaña. */
+function apuVencidos(list){
+  return (list || []).filter(a =>
+    !apuIsCerrado(a) && a.fecha_limite && daysLeft(a.fecha_limite) < 0);
+}
+/** Insignia roja junto a "Apuntes" con el número de seguimientos caducados. */
+function apuBadge(){
+  const el = g('nav-apu-badge');
+  if(!el) return;
+  const n = (S.apuntes && S.apuntes.length) ? apuVencidos(visibleApuntes()).length : 0;
+  el.textContent = n;
+  el.style.display = n ? '' : 'none';
+  g('nav-apu').title = n ? `${n} seguimiento(s) con fecha vencida` : '';
 }
 /** Solo el admin o el autor pueden editar o eliminar un apunte. */
 function canEditApu(a){
@@ -2076,13 +2094,15 @@ function renderApuntes(){
 
   // ── Barra lateral de proyectos ──
   const abiertosDe = l => l.filter(a => !apuIsCerrado(a)).length;
-  const vencidosDe = l => l.filter(a => !apuIsCerrado(a) && a.fecha_limite && daysLeft(a.fecha_limite) < 0).length;
+  const vencidosDe = l => apuVencidos(l).length;
   const fila = (key, label, list, extra) => {
     const ab = abiertosDe(list), ve = vencidosDe(list);
     const cls = ve ? 'over' : (ab ? '' : 'zero');
     const tip = ve ? `${ab} abierto(s) · ${ve} vencido(s)` : `${ab} abierto(s)`;
     return `<div class="apu-pi${S.apuProj===key?' on':''}${extra?' '+extra:''}" title="${escT(tip)}" onclick="apuSelect('${escJs(key)}')">
-      <span class="apu-pn">${esc(label)}</span><span class="apu-pc ${cls}">${ab}</span></div>`;
+      <span class="apu-pn">${esc(label)}</span><span class="apu-pr">${
+        ve ? `<span class="apu-warn">!</span>` : ''
+      }<span class="apu-pc ${cls}">${ab}</span></span></div>`;
   };
   const nombres = [...new Set(all.map(a => a.proyecto).filter(Boolean))].sort();
   const sinProj = all.filter(a => !a.proyecto);
