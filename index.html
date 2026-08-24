@@ -784,11 +784,11 @@ const db = supabase.createClient(DB_URL, DB_KEY);
 
 const USERS = {
   jaime:  {hash:'79ea1dce151be5b12983483a7df57162a34a49bfa75374c6908b8cdaeb518c8a', nombre:'Jaime',  rol:'admin',  color:'#2563eb'},
-  jose:   {hash:'a31984c2d728b43b2ceac66f690e4158e4226adb707d459ad3bc66f5b84babed', nombre:'José',   rol:'equipo', color:'#d97706'},
-  gladys: {hash:'88958f73f5f7ff4a3bf4cbf434abe774b6550c97f4a0f70453ac1d361dfb1d49', nombre:'Gladys', rol:'equipo', color:'#059669'},
+  jose:   {hash:'a31984c2d728b43b2ceac66f690e4158e4226adb707d459ad3bc66f5b84babed', nombre:'José',   rol:'admin',  color:'#d97706'},
+  emily:  {hash:'60c08b0cbd72417bcfdda3c5605177869718c8dfaf59e65cc5712179892ce1df', nombre:'Emily',  rol:'admin',  color:'#059669'},
   admin:  {hash:'69c5c0f4f991916c6c2c0178c40738ba756bba5c10b6d7dd1cbe10f8f6c84ed9', nombre:'Admin',  rol:'admin',  color:'#7c3aed'},
 };
-const EQUIPO  = ['José','Gladys'];
+const EQUIPO  = ['José','Emily'];
 const PALETTE = ['#2563eb','#059669','#d97706','#dc2626','#7c3aed','#db2777','#0891b2','#ea580c','#65a30d','#475569'];
 const ORIGENES = ['Cliente','Jefatura','Normativa','Interno'];
 
@@ -936,14 +936,13 @@ function bootApp(){
 /* ═══════════════════════════════════════════════════
    PERMISOS
    ═══════════════════════════════════════════════════
-   admin  (jaime, admin) : todo
-   equipo (jose, gladys) : solo tareas/proyectos del EQUIPO.
-                           Pueden crear, editar y borrar tareas.
-                           Ven y crean apuntes de seguimiento; solo
-                           editan y borran los propios, y solo ven
-                           los creados por el EQUIPO.
-                           No acceden a Personas, Eliminadas
-                           ni Reportes.
+   Desde ago-2026 TODOS los usuarios (jaime, admin, jose, emily)
+   tienen rol 'admin': acceso total a todos los proyectos, tareas,
+   apuntes, personas, eliminadas y reportes.
+
+   El rol 'equipo' y las funciones isEquipo()/EQUIPO se conservan
+   intactos por si hiciera falta volver a restringir: basta con
+   cambiar rol:'admin' por rol:'equipo' en USERS.
    ═══════════════════════════════════════════════════ */
 const isAdmin  = () => S.user && S.user.rol === 'admin';
 const isEquipo = () => S.user && S.user.rol === 'equipo';
