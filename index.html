@@ -169,6 +169,8 @@ tbody tr:last-child{border-bottom:none}
 tbody tr:hover{background:var(--surf)}
 tbody tr.overdue{border-left:3px solid var(--re);background:#fff5f5}
 tbody tr.overdue:hover{background:#fee8e8}
+tbody tr.blocked{border-left:3px solid var(--am);background:#fffbeb}
+tbody tr.blocked:hover{background:#fef3c7}
 td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .td-proj{font-size:13px;font-weight:600;color:var(--tx)}
 .td-cat{font-size:11px;color:var(--di);margin-top:1px}
@@ -213,6 +215,7 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .cnt-badge.zero{background:var(--gr2);color:var(--gr)}
 .cnt-badge.some{background:var(--ac2);color:var(--ac)}
 .cnt-badge.over{background:var(--re2);color:var(--re)}
+.cnt-badge.blq{background:var(--am2);color:var(--am)}
 
 /* ══════════ PERSONA CARDS ══════════ */
 .pe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
@@ -863,6 +866,9 @@ function stateClass(e){ return (e||'').toLowerCase().replace(/ /g,'-').replace('
 function alertOf(t){
   if(t.estado === 'Completada') return {txt:'✅ OK', dot:''};
   const d = daysLeft(t.fecha);
+  // Bloqueada manda sobre vencida: el atraso no es del responsable, está esperando algo.
+  if(t.estado === 'Bloqueada')
+    return {txt: (d !== null && d < 0) ? `🟡 Bloqueada (atraso ${Math.abs(d)}d)` : '🟡 Bloqueada', dot:'amber'};
   if(d === null) return {txt:'—', dot:''};
   if(d < 0)      return {txt:'🔴 Vencida', dot:'red'};
   if(d <= 7)     return {txt:'🟡 Urgente', dot:'amber'};
@@ -1106,13 +1112,15 @@ function dashScope(){
 function renderDashboard(){
   const list = dashScope();
   const total = list.length;
-  const venc  = list.filter(t => t.estado !== 'Completada' && daysLeft(t.fecha) < 0).length;
+  // Las bloqueadas no suman a "Vencidas": se cuentan aparte.
+  const venc  = list.filter(t => t.estado !== 'Completada' && t.estado !== 'Bloqueada' && daysLeft(t.fecha) < 0).length;
+  const blq   = list.filter(t => t.estado === 'Bloqueada').length;
   const curso = list.filter(t => t.estado === 'En curso').length;
   const done  = list.filter(t => t.estado === 'Completada').length;
 
   g('dash-kpis').innerHTML = `
     <div class="kpi"><div class="kpi-l">Total tareas</div><div class="kpi-v">${total}</div><div class="kpi-s">registradas</div></div>
-    <div class="kpi"><div class="kpi-l">Vencidas</div><div class="kpi-v red">${venc}</div><div class="kpi-s">requieren atención</div></div>
+    <div class="kpi"><div class="kpi-l">Vencidas</div><div class="kpi-v red">${venc}</div><div class="kpi-s">${blq?`+ ${blq} bloqueada(s)`:'requieren atención'}</div></div>
     <div class="kpi"><div class="kpi-l">En curso</div><div class="kpi-v blue">${curso}</div><div class="kpi-s">activas ahora</div></div>
     <div class="kpi"><div class="kpi-l">Completadas</div><div class="kpi-v green">${done}</div><div class="kpi-s">${total?Math.round(done/total*100):0}% del total</div></div>`;
 
@@ -1123,9 +1131,11 @@ function renderDashboard(){
     .slice(0,6);
   g('dash-alerts').innerHTML = urg.length ? urg.map(t => {
     const d = daysLeft(t.fecha);
-    const txt = d < 0 ? `Vencida hace ${Math.abs(d)}d` : d === 0 ? 'Vence hoy' : `${d}d`;
+    const esBlq = t.estado === 'Bloqueada';
+    const txt = esBlq ? (d < 0 ? `Bloqueada · atraso ${Math.abs(d)}d` : 'Bloqueada')
+              : d < 0 ? `Vencida hace ${Math.abs(d)}d` : d === 0 ? 'Vence hoy' : `${d}d`;
     return `<div class="alert-i" onclick="taskDetail('${t.id}')">
-      <div class="alert-d ${d<0?'red':'amber'}"></div>
+      <div class="alert-d ${(!esBlq && d<0)?'red':'amber'}"></div>
       <div style="flex:1;min-width:0">
         <div class="alert-t">${esc(t.descripcion)}</div>
         <div class="alert-m">${esc(t.proyecto)} · ${persChip(t.persona)} · ${txt}</div>
@@ -1274,9 +1284,11 @@ function renderTareas(){
       const d  = daysLeft(t.fecha);
       const al = alertOf(t);
       const ds = d === null ? '—' : d === 0 ? 'Hoy' : d < 0 ? `${d}d` : `+${d}d`;
-      const dc = d === null ? '' : d < 0 ? 'neg' : d <= 7 ? 'warn' : '';
+      const blq = t.estado === 'Bloqueada';
+      const dc = d === null ? '' : blq ? 'warn' : d < 0 ? 'neg' : d <= 7 ? 'warn' : '';
+      const rowc = blq ? 'blocked' : (d !== null && d < 0 ? 'overdue' : '');
       const ec = stateClass(t.estado), pc = (t.prioridad||'').toLowerCase();
-      return `<tr class="${d!==null&&d<0?'overdue':''}" onclick="taskDetail('${t.id}')">
+      return `<tr class="${rowc}" onclick="taskDetail('${t.id}')">
         <td><div class="td-proj">${esc(t.proyecto)}</div><div class="td-cat">${esc(t.categoria||'')}</div></td>
         <td><div class="td-desc"><div class="td-desc-m">${esc(t.descripcion)}</div>${t.notas?`<div class="td-desc-s">${esc(t.notas)}</div>`:''}</div></td>
         <td>${persChip(t.persona)}</td>
@@ -1525,9 +1537,10 @@ function renderProyectos(){
     const col  = persColor(p.persona);
     const pend = S.tasks.filter(t => t.proyecto === p.nombre && t.estado !== 'Completada');
     const nPend = pend.length;
-    const nVenc = pend.filter(t => daysLeft(t.fecha) !== null && daysLeft(t.fecha) < 0).length;
-    const badgeCls = nPend === 0 ? 'zero' : (nVenc > 0 ? 'over' : 'some');
-    const tip = `${nPend} tarea(s) sin completar${nVenc ? ' · ' + nVenc + ' vencida(s)' : ''}`;
+    const nVenc = pend.filter(t => t.estado !== 'Bloqueada' && daysLeft(t.fecha) !== null && daysLeft(t.fecha) < 0).length;
+    const nBlq  = pend.filter(t => t.estado === 'Bloqueada').length;
+    const badgeCls = nPend === 0 ? 'zero' : (nVenc > 0 ? 'over' : (nBlq > 0 ? 'blq' : 'some'));
+    const tip = `${nPend} tarea(s) sin completar${nVenc ? ' · ' + nVenc + ' vencida(s)' : ''}${nBlq ? ' · ' + nBlq + ' bloqueada(s)' : ''}`;
     const preview = pend.slice(0,3);
     return `<div class="pj-card${p.cerrado?' closed':''}">
       <div class="pj-top">
@@ -1684,7 +1697,7 @@ function renderProjDetail(){
   const all   = S.tasks.filter(t => t.proyecto === p.nombre);
   const open  = all.filter(t => t.estado !== 'Completada');
   const done  = all.filter(t => t.estado === 'Completada');
-  const venc  = open.filter(t => daysLeft(t.fecha) < 0).length;
+  const venc  = open.filter(t => t.estado !== 'Bloqueada' && daysLeft(t.fecha) < 0).length;
   const pct   = all.length ? Math.round(done.length/all.length*100) : 0;
 
   const byDate = l => [...l].sort((a,b) => (a.fecha||'9999').localeCompare(b.fecha||'9999'));
@@ -1693,7 +1706,9 @@ function renderProjDetail(){
   const tasksHtml = tasks.length ? tasks.map(t => {
     const isDone = t.estado === 'Completada';
     const d = daysLeft(t.fecha);
-    const dot = isDone ? 'var(--gr)' : (d !== null && d < 0 ? 'var(--re)' : (d !== null && d <= 7 ? 'var(--am)' : 'var(--di)'));
+    const dot = isDone ? 'var(--gr)'
+              : t.estado === 'Bloqueada' ? 'var(--am)'
+              : (d !== null && d < 0 ? 'var(--re)' : (d !== null && d <= 7 ? 'var(--am)' : 'var(--di)'));
     return `<div class="pd-task${isDone?' done':''}" onclick="taskDetail('${t.id}')">
       <div class="pd-task-d" style="background:${dot}"></div>
       <div class="pd-task-i">
