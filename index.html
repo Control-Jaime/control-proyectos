@@ -979,6 +979,15 @@ const USERS = {
   jose:   {hash:'a31984c2d728b43b2ceac66f690e4158e4226adb707d459ad3bc66f5b84babed', nombre:'José',   rol:'admin',  color:'#d97706'},
   emily:  {hash:'60c08b0cbd72417bcfdda3c5605177869718c8dfaf59e65cc5712179892ce1df', nombre:'Emily',  rol:'admin',  color:'#059669'},
   admin:  {hash:'69c5c0f4f991916c6c2c0178c40738ba756bba5c10b6d7dd1cbe10f8f6c84ed9', nombre:'Admin',  rol:'admin',  color:'#7c3aed'},
+  /* Usuarios de obra: uno por proyecto. Entran directo al panel de
+     contrataciones de su obra y no ven nada más de la app.
+     La clave del objeto se compara en minúsculas (doLogin hace toLowerCase),
+     así que aquí va en minúsculas aunque el usuario escriba "Obra BOC".
+     Para dar de alta otra obra, duplicar la línea cambiando clave, hash,
+     nombre y el campo 'proyecto' (debe coincidir EXACTO con el nombre
+     del proyecto en la base). */
+  'obra boc': {hash:'10e15f138227f2510d028d3fe892642b38dcbe2bf6a4629f2b51894341a529e2',
+             nombre:'Obra BOC', rol:'obra', color:'#0891b2', proyecto:'Buijo Office Center'},
 };
 const EQUIPO  = ['José','Emily'];
 const PALETTE = ['#2563eb','#059669','#d97706','#dc2626','#7c3aed','#db2777','#0891b2','#ea580c','#65a30d','#475569'];
@@ -1170,6 +1179,13 @@ function bootApp(){
    ═══════════════════════════════════════════════════ */
 const isAdmin  = () => S.user && S.user.rol === 'admin';
 const isEquipo = () => S.user && S.user.rol === 'equipo';
+/** Rol 'obra': personal técnico de una sola obra. Entra directo al panel de
+    contrataciones de su proyecto; no ve pestañas, ni otros proyectos, ni
+    tareas, puntos o apuntes. Puede crear, editar y eliminar trámites, pero
+    no tocar la estructura (rubros, frentes) ni desactivar el módulo.
+    OJO: la restricción es de interfaz, no de base de datos. */
+const isObra    = () => S.user && S.user.rol === 'obra';
+const obraProy  = () => (isObra() && S.user.proyecto) || null;
 
 function applyPermissions(){
   if(!S.user) return;
@@ -1179,6 +1195,11 @@ function applyPermissions(){
   g('nav-rep').style.display      = adm ? '' : 'none';
   g('nav-personas').style.display = (adm && S.activeUser === 'todos') ? '' : 'none';
   g('switcher').style.display     = adm ? '' : 'none';
+  // El usuario de obra no navega: la app es una sola pantalla para él.
+  if(isObra()){
+    document.querySelector('.nav').style.display = 'none';
+    document.querySelectorAll('.top-r .btn-pri').forEach(b => b.style.display = 'none');
+  }
   apuBadge();
   g('whoami').innerHTML =
     `<span style="font-size:12px;color:var(--mu)">Hola, <strong style="color:${S.user.color}">${S.user.nombre}</strong></span>` +
@@ -1254,6 +1275,15 @@ async function loadAll(){
     g('dash-loading').style.display = 'none';
     g('dash-body').style.display = 'block';
     buildSwitcher();
+    // El usuario de obra aterriza directo en la ficha de su proyecto.
+    if(isObra()){
+      const p = S.projects.find(x => x.nombre === obraProy());
+      if(p){
+        S.pdProj = p.id; S.tab = 'projdet';
+        document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+        g('sec-projdet').classList.add('on');
+      }
+    }
     render();
   }catch(e){
     sync('err');
@@ -1310,6 +1340,7 @@ function subscribeRealtime(){
    NAVEGACIÓN
    ═══════════════════════════════════════════════════ */
 function go(tab){
+  if(isObra()) return;   // el rol obra no navega fuera de su ficha
   S.tab = tab;
   document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
   document.querySelectorAll('.nav-b').forEach(b => b.classList.remove('on'));
@@ -1975,6 +2006,19 @@ function renderProjDetail(){
   const p = pdProject();
   if(!p){ g('pd-body').innerHTML = '<div class="pd-empty">Proyecto no encontrado</div>'; return; }
 
+  // Vista reducida para el personal de obra: solo contrataciones.
+  if(isObra()){
+    document.querySelector('.pd-back').style.display = 'none';
+    g('pd-body').innerHTML = `
+      <div class="pd-hero">
+        <div class="pd-name">${esc(p.nombre)}</div>
+        <div class="pd-code">${esc(p.codigo||'')}</div>
+        <div class="pd-meta"><span>Control de contrataciones</span></div>
+      </div>
+      ${contratHtml(p)}`;
+    return;
+  }
+
   const col   = persColor(p.persona);
   const all   = S.tasks.filter(t => t.proyecto === p.nombre);
   const open  = all.filter(t => t.estado !== 'Completada');
@@ -2089,10 +2133,15 @@ function checklistHtml(p){
       <button class="btn btn-sm" onclick="chkCancel()">Cancelar</button>
     </div>` : '';
 
-  const importable = (!pts.length && p.notas) ? p.notas.split('\n').filter(l => l.trim()).length : 0;
+  // El aviso de importar solo aparece mientras 'puntos' nunca se haya tocado
+  // (null). Al descartarlo se guarda [], y no vuelve a salir.
+  const importable = (p.puntos == null && p.notas) ? p.notas.split('\n').filter(l => l.trim()).length : 0;
   const imp = importable ? `<div class="chk-imp">
       <span>Tienes notas guardadas en el formato anterior. ¿Convertirlas en puntos de verificación?</span>
-      <button class="btn btn-gold btn-sm" onclick="chkImport()">Importar ${importable} línea(s)</button>
+      <span style="display:flex;gap:6px">
+        <button class="btn btn-sm" onclick="chkDismiss()">No, descartar</button>
+        <button class="btn btn-gold btn-sm" onclick="chkImport()">Importar ${importable} línea(s)</button>
+      </span>
     </div>` : '';
 
   return `<div class="chk">
@@ -2157,6 +2206,11 @@ async function chkDelete(id){
   const arr = chkList(); const it = arr.find(x => x.id === id); if(!it) return;
   if(!confirm(`¿Eliminar este punto?\n\n"${it.texto}"`)) return;
   await chkPersist(arr.filter(x => x.id !== id), 'Punto eliminado');
+}
+/** Descarta el aviso de importar sin borrar las notas antiguas:
+    guarda una lista vacía, que es la señal de "ya lo decidí". */
+async function chkDismiss(){
+  await chkPersist([], 'Aviso descartado');
 }
 async function chkImport(){
   const p = pdProject(); if(!p || !p.notas) return;
@@ -2292,6 +2346,10 @@ function ctAcum(list){
 /* ── Render del panel ── */
 function contratHtml(p){
   if(!ctActivo(p)){
+    if(isObra()) return `<div class="ct ct-off"><div class="ct-off-i">
+      <div><strong>Control de contrataciones</strong>
+        <div class="ct-off-s">Todavía no está configurado para esta obra. Pídeselo a Jaime.</div></div>
+    </div></div>`;
     return `<div class="ct ct-off">
       <div class="ct-off-i">
         <div><strong>Control de contrataciones</strong>
@@ -2318,9 +2376,9 @@ function contratHtml(p){
           <button class="ct-tab${S.ctVista==='rubro'?' on':''}"  onclick="ctVista('rubro')">Rubros</button>
           <button class="ct-tab${S.ctVista==='matriz'?' on':''}" onclick="ctVista('matriz')">Matriz</button>
         </div>
-        <button class="btn btn-sm" onclick="ctFrentesEdit()">⛶ Frentes</button>
+        ${isObra() ? '' : `<button class="btn btn-sm" onclick="ctFrentesEdit()">⛶ Frentes</button>
         <button class="btn btn-sm" onclick="ctRubroAdd()">＋ Rubro</button>
-        <button class="ct-apagar" title="Desactivar el control de contrataciones en este proyecto" onclick="ctDesactivar()">Desactivar</button>
+        <button class="ct-apagar" title="Desactivar el control de contrataciones en este proyecto" onclick="ctDesactivar()">Desactivar</button>`}
       </div>
     </div>
     <div class="ct-b">${body}</div>
@@ -2344,7 +2402,8 @@ function ctListaHtml(p, rubros){
         <span class="ct-rn">${esc(r.rubro)}</span>
         <label class="ct-rf" title="Fecha en que este rubro debe estar trabajando en obra. La heredan sus frentes.">
           <span class="ct-rf-l">En obra</span>
-          <input type="date" value="${r.fecha_requerida||''}" onchange="ctRubroFecha('${r.id}', this.value)">
+          <input type="date" value="${r.fecha_requerida||''}"${isObra()?' disabled style="opacity:.65"':''}
+            onchange="ctRubroFecha('${r.id}', this.value)">
         </label>
         ${ac.suma ? `<span class="ct-acum${ac.frag?' frag':''}" title="${ac.frag
             ? 'Varios trámites bajo $20k que juntos superan el umbral. Revisa que la división sea por alcances realmente distintos.'
@@ -2352,9 +2411,9 @@ function ctListaHtml(p, rubros){
         <span class="ct-rc">${list.length}</span>
         <div class="ct-acts">
           <button class="ct-a" title="Agregar un trámite a este rubro" onclick="ctNew('${escJs(r.rubro)}')">＋</button>
-          <button class="ct-a" title="Renombrar el rubro" onclick="ctRubroRename('${r.id}')">Aa</button>
+          ${isObra() ? '' : `<button class="ct-a" title="Renombrar el rubro" onclick="ctRubroRename('${r.id}')">Aa</button>
           <button class="ct-a" title="Escalonar fechas por frente" onclick="ctEscalonar('${r.id}')">⇵</button>
-          <button class="ct-a del" title="Quitar rubro" onclick="ctRubroDel('${r.id}')">✕</button>
+          <button class="ct-a del" title="Quitar rubro" onclick="ctRubroDel('${r.id}')">✕</button>`}
         </div>
       </div>
       <div class="ct-rb">${filas}</div>
