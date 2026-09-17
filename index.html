@@ -967,18 +967,28 @@ function applyPermissions(){
     `<button class="btn" style="padding:4px 10px;font-size:11px" onclick="logout()">Salir</button>`;
 }
 
-/** Tareas que el usuario actual tiene permitido ver. */
-function visibleTasks(){
-  return isEquipo() ? S.tasks.filter(t => EQUIPO.includes(t.persona)) : S.tasks;
+/** True si el proyecto (buscado por nombre) está marcado como cerrado.
+    Base del ocultamiento de tareas y apuntes en las vistas globales. */
+function projIsClosed(nombre){
+  const p = S.projects.find(x => x.nombre === nombre);
+  return !!(p && p.cerrado);
+}
+/** Tareas que el usuario actual tiene permitido ver.
+    Excluye las de proyectos cerrados salvo que se pida lo contrario. */
+function visibleTasks(includeClosed = false){
+  let list = isEquipo() ? S.tasks.filter(t => EQUIPO.includes(t.persona)) : S.tasks;
+  return includeClosed ? list : list.filter(t => !projIsClosed(t.proyecto));
 }
 /** Proyectos visibles. Por defecto excluye los cerrados. */
 function visibleProjects(includeClosed = false){
   let list = isEquipo() ? S.projects.filter(p => EQUIPO.includes(p.persona)) : S.projects;
   return includeClosed ? list : list.filter(p => !p.cerrado);
 }
-/** Apuntes visibles: el equipo solo ve los creados por el EQUIPO. */
-function visibleApuntes(){
-  return isEquipo() ? S.apuntes.filter(a => EQUIPO.includes(a.creado_por)) : S.apuntes;
+/** Apuntes visibles: el equipo solo ve los creados por el EQUIPO.
+    Excluye los de proyectos cerrados salvo que se pida lo contrario. */
+function visibleApuntes(includeClosed = false){
+  let list = isEquipo() ? S.apuntes.filter(a => EQUIPO.includes(a.creado_por)) : S.apuntes;
+  return includeClosed ? list : list.filter(a => !projIsClosed(a.proyecto));
 }
 /** Apuntes abiertos cuya fecha límite ya pasó. Base del aviso en la pestaña. */
 function apuVencidos(list){
@@ -1401,7 +1411,9 @@ function taskEdit(tid){
   g('tf-fecha').value  = t.fecha || '';
   g('tf-notas').value  = t.notas || '';
   taskAutoPers(t.proyecto);
-  g('tf-pers').value = t.persona || '';
+  // Solo pisar el responsable heredado del proyecto si la tarea ya tiene uno.
+  // Con `|| ''` una tarea huérfana dejaba el desplegable sin selección y se volvía a guardar vacía.
+  if(t.persona) g('tf-pers').value = t.persona;
   closeOv('ov-det');
   openOv('ov-task');
 }
@@ -1409,15 +1421,23 @@ function taskEditFromDet(){ if(S.detTask) taskEdit(S.detTask); }
 async function taskSave(){
   const desc = g('tf-desc').value.trim();
   if(!desc){ toast('La descripción es obligatoria', 'err'); return; }
+  // Red de seguridad: ninguna tarea debe quedar sin responsable.
+  const proj = g('tf-proj').value;
+  let pers = g('tf-pers').value;
+  if(!pers){
+    const p = S.projects.find(x => x.nombre === proj);
+    pers = (p && p.persona) || '';
+  }
+  if(!pers){ toast('Asigna un responsable a la tarea', 'err'); return; }
   const row = {
     id: S.editTask || uid(),
-    proyecto:    g('tf-proj').value,
+    proyecto:    proj,
     categoria:   g('tf-cat').value.trim(),
     descripcion: desc,
     prioridad:   g('tf-prio').value,
     estado:      g('tf-estado').value,
     fecha:       g('tf-fecha').value || null,
-    persona:     g('tf-pers').value,
+    persona:     pers,
     notas:       g('tf-notas').value.trim(),
     updated_at:  new Date().toISOString(),
   };
@@ -1721,7 +1741,8 @@ function renderProjDetail(){
   }).join('') : '<div class="pd-empty">Sin tareas para este proyecto</div>';
 
   // Apuntes de seguimiento de este proyecto
-  const apus = apuSort(visibleApuntes().filter(a => a.proyecto === p.nombre));
+  // includeClosed: dentro de la ficha sí se ve el histórico de un proyecto cerrado
+  const apus = apuSort(visibleApuntes(true).filter(a => a.proyecto === p.nombre));
   const apuBody = apus.length
     ? apus.map(a => apuItemHtml(a, false)).join('')
     : '<div class="pd-empty">Sin apuntes de seguimiento</div>';
@@ -1892,7 +1913,7 @@ function renderPersonas(){
     return;
   }
   g('pe-grid').innerHTML = S.personas.map(p => {
-    const pt = S.tasks.filter(t => t.persona === p.nombre);
+    const pt = visibleTasks().filter(t => t.persona === p.nombre);
     const ok = pt.filter(t => t.estado === 'Completada').length;
     const en = pt.filter(t => t.estado === 'En curso').length;
     const pe = pt.filter(t => t.estado === 'Pendiente').length;
