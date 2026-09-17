@@ -451,6 +451,96 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .chk-form select:focus{border-color:var(--gold)}
 .chk-imp{padding:10px 18px;background:#fff8e1;border-top:1px solid var(--gold-b);font-size:12px;color:var(--gold-tx);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 
+/* ══════════ CONTRATACIONES ══════════ */
+.frow.three{grid-template-columns:1fr 1fr 1fr}
+.ct{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
+.ct-off{background:var(--surf);border-style:dashed}
+.ct-off-i{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;flex-wrap:wrap}
+.ct-off-s{font-size:12px;color:var(--mu);margin-top:3px;max-width:520px}
+.ct-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px;border-bottom:1px solid var(--b1);background:var(--surf);flex-wrap:wrap}
+.ct-t{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ct-hr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ct-kpi{font-size:11px;font-weight:700;color:var(--mu);background:var(--card);border:1px solid var(--b1);padding:3px 9px;border-radius:10px;font-family:'JetBrains Mono',monospace}
+.ct-kpi.rojo{background:var(--re2);color:var(--re);border-color:var(--re2)}
+.ct-kpi.ambar{background:var(--am2);color:var(--am);border-color:var(--am2)}
+.ct-tabs{display:flex;border:1px solid var(--b1);border-radius:var(--rs);overflow:hidden}
+.ct-tab{padding:5px 12px;border:none;background:var(--card);color:var(--mu);font-size:12px;font-weight:600}
+.ct-tab.on{background:var(--ac2);color:var(--ac)}
+.ct-apagar{background:transparent;border:none;color:var(--di);font-size:11px;font-weight:600;padding:4px 6px;border-radius:var(--rs);text-decoration:underline;text-underline-offset:2px}
+.ct-apagar:hover{color:var(--re);background:var(--re2);text-decoration:none}
+.ct-b{padding:0}
+.ct-empty{padding:22px 18px;text-align:center;color:var(--di);font-size:13px;font-style:italic}
+.ct-vacio{padding:5px 18px 5px 30px;color:var(--di);font-size:11px;font-style:italic}
+.ct-rf-l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--di)}
+.fld-help{font-size:10px;color:var(--di);font-weight:400;text-transform:none;letter-spacing:0;margin-top:-1px}
+.ct-r{border-bottom:1px solid var(--b1)}
+.ct-r:last-child{border-bottom:none}
+.ct-rh{display:flex;align-items:center;gap:10px;padding:10px 18px;background:#fbfcfe;flex-wrap:wrap}
+.ct-rh:hover .ct-acts{opacity:1}
+.ct-rn{font-size:13px;font-weight:700;margin-right:auto}
+.ct-rf{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--mu)}
+.ct-rf input{padding:3px 7px;background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);color:var(--tx);font-size:11px;outline:none}
+.ct-rf input:focus{border-color:var(--ac)}
+.ct-acum{font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--mu);background:var(--surf);padding:2px 8px;border-radius:10px}
+.ct-acum.frag{background:var(--am2);color:var(--am);cursor:help}
+.ct-rc{min-width:20px;text-align:center;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--mu);background:var(--surf);border-radius:10px;padding:2px 7px}
+.ct-rb{padding:2px 0 4px}
+.ct-sem{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:var(--di)}
+.ct-sem.rojo{background:var(--re)}.ct-sem.ambar{background:var(--am)}
+.ct-sem.verde{background:var(--gr)}.ct-sem.gris{background:#d1d5db}
+.ct-i{display:flex;align-items:flex-start;gap:10px;padding:8px 18px 8px 30px;transition:background .1s}
+.ct-i:hover{background:var(--surf)}
+.ct-i:hover .ct-acts{opacity:1}
+.ct-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.ct-main{flex:1;min-width:0}
+.ct-tx{font-size:13px;font-weight:500}
+.ct-desc{font-size:11px;color:var(--mu);font-weight:400}
+.ct-meta{font-size:11px;color:var(--mu);margin-top:3px;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.ct-pill{display:inline-flex;padding:2px 9px;border-radius:11px;font-size:10px;font-weight:700;white-space:nowrap}
+.ct-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--di)}
+.ct-her{color:var(--di);font-style:italic}
+.ct-sx{font-weight:700}
+.ct-sx.rojo{color:var(--re)}.ct-sx.ambar{color:var(--am)}
+.ct-sx.verde{color:var(--gr)}.ct-sx.gris{color:var(--di)}
+.ct-acts{display:flex;gap:4px;flex-shrink:0;opacity:.35;transition:opacity .15s}
+.ct-a{background:transparent;border:none;font-size:13px;padding:2px 6px;border-radius:4px;cursor:pointer;line-height:1;color:var(--mu)}
+.ct-a:hover{background:var(--b1);color:var(--tx)}
+.ct-a.av:hover{background:var(--gr2);color:var(--gr)}
+.ct-a.del:hover{background:var(--re2);color:var(--re)}
+.ct-mwrap{overflow-x:auto;padding:4px 0}
+.ct-m{border-collapse:collapse;font-size:11px}
+.ct-m th,.ct-m td{border:1px solid var(--b1);padding:3px;vertical-align:top;text-align:left}
+.ct-m thead th{background:var(--surf);font-size:10px;font-weight:700;color:var(--mu);white-space:nowrap;text-align:center;padding:6px 8px;min-width:150px;position:sticky;top:0;z-index:2}
+.ct-mr{font-weight:700;font-size:11px;background:var(--surf);position:sticky;left:0;z-index:1;min-width:190px;max-width:190px;padding:6px 10px!important;vertical-align:middle!important}
+.ct-m0{background:#fbfcfe}
+.ct-madd{width:100%;min-height:26px;border:none;background:transparent;color:transparent;font-size:14px;border-radius:4px}
+.ct-m0:hover .ct-madd{color:var(--di);background:var(--surf)}
+.ct-madd:hover{color:var(--ac)!important;background:var(--ac2)!important}
+.ct-mc{display:block;width:100%;text-align:left;border:1px solid var(--b1);border-left:3px solid var(--di);
+  border-radius:4px;padding:5px 7px;margin:0 0 3px;cursor:pointer;white-space:normal}
+.ct-mc:last-child{margin-bottom:0}
+.ct-mc:hover{filter:brightness(.96)}
+.ct-mc-n{display:block;font-size:11px;font-weight:700;line-height:1.25;color:var(--tx);word-break:break-word}
+.ct-mc-e{display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+.ct-mc-x{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--mu);margin-top:1px}
+.ct-mc-d{display:block;font-size:9px;color:var(--mu);font-style:italic;margin-top:1px;line-height:1.3}
+.ct-mc-s{display:block;font-size:9px;font-weight:700;margin-top:3px}
+.ct-mc-s.rojo{color:var(--re)}.ct-mc-s.ambar{color:var(--am)}
+.ct-mc-s.verde{color:var(--gr)}.ct-mc-s.gris{color:var(--di)}
+.ct-falta{margin-left:6px;font-size:9px;font-weight:700;color:var(--am);background:var(--am2);padding:1px 5px;border-radius:8px;cursor:help}
+.ct-hint{font-size:11px;color:var(--ac);font-weight:600;margin:-6px 0 14px}
+.ct-sep{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);border-top:1px solid var(--b1);padding-top:12px;margin-bottom:10px}
+.cs-lead{font-size:13px;color:var(--mu);margin-bottom:14px}
+.cs-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.cs-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu)}
+.cs-all{display:flex;gap:4px}
+.cs-list{max-height:250px;overflow-y:auto;border:1px solid var(--b1);border-radius:var(--rs);background:var(--surf);padding:8px 12px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
+.cs-list label.cs-i{display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer;
+  font-size:13px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--tx);line-height:1.35}
+.cs-list input[type=checkbox]{width:15px;height:15px;min-width:15px;padding:0;margin:0;flex:0 0 auto;cursor:pointer;accent-color:var(--ac)}
+.fr-uso{font-size:12px;color:var(--mu);background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);padding:10px 12px;line-height:1.5}
+.fr-uso:empty{display:none}
+
 /* ══════════ RESPONSIVE ══════════ */
 @media(max-width:768px){
   .kpi-grid,.rep-kpis{grid-template-columns:1fr 1fr}
@@ -460,6 +550,7 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
   .nav{padding:8px 12px 0}
   .nav-b{padding:7px 10px;font-size:12px}
   .pj-grid,.pe-grid,.apu-layout{grid-template-columns:1fr}
+  .cs-list{grid-template-columns:1fr}
   .apu-side{max-height:210px}
   .apu-entries{max-height:none}
   .apu-i{flex-wrap:wrap}
@@ -773,6 +864,104 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
   </div>
 </div>
 
+<!-- ══════════ MODAL: ACTIVAR CONTRATACIONES ══════════ -->
+<div class="ov" id="ov-ctsetup">
+  <div class="modal">
+    <div class="mo-h"><span class="mo-t">Activar control de contrataciones</span><button class="mo-x" onclick="closeOv('ov-ctsetup')">✕</button></div>
+    <div class="mo-b">
+      <div class="cs-lead">Proyecto: <strong id="cs-proj"></strong></div>
+      <div class="cs-head">
+        <span class="cs-lbl">Rubros del proyecto</span>
+        <span class="cs-all">
+          <button class="btn btn-sm" onclick="ctSetupAll(true)">Todos</button>
+          <button class="btn btn-sm" onclick="ctSetupAll(false)">Ninguno</button>
+        </span>
+      </div>
+      <div class="cs-list" id="cs-list"></div>
+      <div class="frow one"><div class="fld"><label>Otros rubros (uno por línea)</label>
+        <textarea id="cs-extra" placeholder="Los que no están en el catálogo…" style="min-height:60px"></textarea></div></div>
+      <div class="frow one"><div class="fld"><label>Frentes: pisos, torres o etapas (uno por línea, opcional)</label>
+        <textarea id="cs-frentes" placeholder="Subsuelo&#10;PB&#10;Piso 1&#10;Piso 2&#10;Áreas comunes" style="min-height:110px"></textarea></div></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-ctsetup')">Cancelar</button>
+      <button class="btn btn-pri" onclick="ctSetupSave()">Activar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: FRENTES DEL PROYECTO ══════════ -->
+<div class="ov" id="ov-frentes">
+  <div class="modal">
+    <div class="mo-h"><span class="mo-t">Frentes del proyecto</span><button class="mo-x" onclick="closeOv('ov-frentes')">✕</button></div>
+    <div class="mo-b">
+      <div class="cs-lead">Pisos, torres, etapas o áreas. Uno por línea.
+        El orden que escribas es el de las columnas de la matriz.
+        Dejalo vacío si el proyecto no se divide.</div>
+      <div class="frow one"><div class="fld">
+        <textarea id="fr-text" style="min-height:190px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7"
+          placeholder="Subsuelo&#10;PB&#10;Piso 1&#10;Piso 2&#10;Áreas comunes"></textarea>
+      </div></div>
+      <div class="fr-uso" id="fr-uso"></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-frentes')">Cancelar</button>
+      <button class="btn btn-pri" onclick="ctFrentesSave()">Guardar frentes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: TRÁMITE DE CONTRATACIÓN ══════════ -->
+<div class="ov" id="ov-ct">
+  <div class="modal wide">
+    <div class="mo-h"><span class="mo-t" id="ct-title">Nuevo trámite</span><button class="mo-x" onclick="closeOv('ov-ct')">✕</button></div>
+    <div class="mo-b">
+      <div class="frow">
+        <div class="fld"><label>Rubro *</label><select id="cf-rubro" onchange="ctHint()"></select></div>
+        <div class="fld"><label>Frente</label><select id="cf-frente"></select></div>
+      </div>
+      <div class="frow">
+        <div class="fld"><label>Contratista</label>
+          <input id="cf-contratista" type="text" list="cf-clist" placeholder="Escribe el nombre…" autocomplete="off">
+          <datalist id="cf-clist"></datalist></div>
+        <div class="fld"><label>Alcance / detalle</label><input id="cf-desc" type="text" placeholder="ej. solo sellado exterior"></div>
+      </div>
+      <div class="frow">
+        <div class="fld"><label>Monto estimado (USD)</label><input id="cf-monto" type="number" step="100" placeholder="0" oninput="ctHint()"></div>
+        <div class="fld"><label>Ruta</label><select id="cf-ruta" onchange="ctHint()">
+          <option value="auto">Automática por monto</option>
+          <option value="directa">Directa (sin contrato)</option>
+          <option value="contrato">Con contrato</option>
+          <option value="marco">Contrato marco vigente</option>
+          <option value="na">No aplica</option>
+        </select></div>
+      </div>
+      <div class="ct-hint" id="ct-hint"></div>
+      <div class="frow">
+        <div class="fld"><label>Estado</label><select id="cf-estado"></select></div>
+        <div class="fld"><label>Ingreso a obra de este frente</label>
+          <input id="cf-fecha" type="date" onchange="ctHint()">
+          <span class="fld-help">Vacío = usa la fecha del rubro</span></div>
+      </div>
+      <div class="ct-sep">Números de trámite</div>
+      <div class="frow">
+        <div class="fld"><label>N.º SOLPED</label><input id="cf-solped" type="text" placeholder="ej. 41668"></div>
+        <div class="fld"><label>N.º OC</label><input id="cf-oc" type="text" placeholder="ej. 30256"></div>
+      </div>
+      <div class="frow">
+        <div class="fld"><label>Contrato solicitado</label><input id="cf-fcsol" type="date"></div>
+        <div class="fld"><label>Contrato firmado</label><input id="cf-cfirm" type="date"></div>
+      </div>
+      <div class="frow one"><div class="fld"><label>Notas</label><textarea id="cf-notas" placeholder="ej. falta fecha de pago de anticipo"></textarea></div></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn btn-del" id="ct-del" onclick="ctDel()" style="display:none">Eliminar</button>
+      <button class="btn" onclick="closeOv('ov-ct')">Cancelar</button>
+      <button class="btn btn-pri" onclick="ctSaveForm()">Guardar trámite</button>
+    </div>
+  </div>
+</div>
+
 <div class="qe" id="qe"><div id="qe-items"></div></div>
 <div class="toast" id="toast"></div>
 <script>
@@ -794,6 +983,32 @@ const USERS = {
 const EQUIPO  = ['José','Emily'];
 const PALETTE = ['#2563eb','#059669','#d97706','#dc2626','#7c3aed','#db2777','#0891b2','#ea580c','#65a30d','#475569'];
 const ORIGENES = ['Cliente','Jefatura','Normativa','Interno'];
+
+/* ── CONTRATACIONES ──────────────────────────────────
+   Umbral sobre el cual el proceso exige firma de contrato.
+   PLAZOS en días: los teóricos de Minutocorp. La bitácora
+   (contrataciones_log) permitirá medir los reales más adelante. */
+const UMBRAL_CONTRATO = 20000;
+const PLAZOS = { solped:3, contrato:30, oc:2, margen:5 };
+
+/* Máquina de estados del trámite. 'marco' y 'na' son respuestas
+   reales, no vacíos: quedan fuera del conteo de progreso. */
+const CT_EST = {
+  'Sin iniciar':         {bg:'#f3f4f6', fg:'#374151', dot:'#9ca3af', orden:0},
+  'SOLPED solicitada':   {bg:'#e2eaf2', fg:'#2d5a7a', dot:'#4b6a82', orden:1},
+  'SOLPED aprobada':     {bg:'#dbeafe', fg:'#1d4ed8', dot:'#2563eb', orden:2},
+  'Contrato en trámite': {bg:'#ede9fe', fg:'#5b21b6', dot:'#7c3aed', orden:3},
+  'Contrato firmado':    {bg:'#e0e7ff', fg:'#3730a3', dot:'#4f46e5', orden:4},
+  'OC emitida':          {bg:'#ccfbf1', fg:'#0f766e', dot:'#0d9488', orden:5},
+  'En obra':             {bg:'#dcfce7', fg:'#15803d', dot:'#15803d', orden:6},
+  'Contrato marco':      {bg:'#fef3c7', fg:'#8a6d1f', dot:'#d9b53c', orden:7},
+  'No aplica':           {bg:'#f3f4f6', fg:'#6b7280', dot:'#d1d5db', orden:8},
+};
+const CT_FLUJO_DIR = ['Sin iniciar','SOLPED solicitada','SOLPED aprobada','OC emitida','En obra'];
+const CT_FLUJO_CTR = ['Sin iniciar','SOLPED solicitada','Contrato en trámite','Contrato firmado','OC emitida','En obra'];
+const ctEst = e => CT_EST[e] || CT_EST['Sin iniciar'];
+/** Estados que ya no exigen trámite: no generan alerta ni cuentan como pendientes. */
+const CT_CERRADO = ['En obra','Contrato marco','No aplica'];
 
 /* Estados de los apuntes de seguimiento.
    'resuelto' y 'descartado' son estados CERRADOS: al entrar en ellos se firma
@@ -822,6 +1037,9 @@ const S = {
   swatch: '#2563eb',
   // detalle de proyecto
   pdProj: null, pdAdd: false, pdEdit: null,
+  // contrataciones
+  rubros: [], prubros: [], contrat: [],
+  ctEdit: null, ctVista: 'rubro',   // 'rubro' | 'matriz'
 };
 
 /* ═══════════════════════════════════════════════════
@@ -1030,6 +1248,7 @@ async function loadAll(){
     }catch(_){ S.personas = derivePersonas(); }
 
     await loadApuntes();
+    await loadContrat();
 
     sync('ok');
     g('dash-loading').style.display = 'none';
@@ -1060,12 +1279,30 @@ async function loadApuntes(){
     S.apuntes = data || [];
   }catch(_){ S.apuntes = []; }
 }
+/** Carga catálogo de rubros, rubros del proyecto y contrataciones.
+    Si las tablas aún no existen, degrada a listas vacías: el módulo
+    simplemente no aparece y la app arranca igual. */
+async function loadContrat(){
+  try{
+    const [rr, rp, rc] = await Promise.all([
+      db.from('rubros').select('*').order('orden'),
+      db.from('proyecto_rubros').select('*').order('orden'),
+      db.from('contrataciones').select('*').order('orden'),
+    ]);
+    if(rr.error || rp.error || rc.error) throw (rr.error || rp.error || rc.error);
+    S.rubros  = rr.data || [];
+    S.prubros = rp.data || [];
+    S.contrat = rc.data || [];
+  }catch(_){ S.rubros = []; S.prubros = []; S.contrat = []; }
+}
 function subscribeRealtime(){
   db.channel('cparq-live')
     .on('postgres_changes', {event:'*', schema:'public', table:'tareas'},    () => loadAll())
     .on('postgres_changes', {event:'*', schema:'public', table:'proyectos'}, () => loadAll())
     .on('postgres_changes', {event:'*', schema:'public', table:'personas'},  () => loadAll())
     .on('postgres_changes', {event:'*', schema:'public', table:'apuntes'},   () => loadAll())
+    .on('postgres_changes', {event:'*', schema:'public', table:'contrataciones'},  () => loadAll())
+    .on('postgres_changes', {event:'*', schema:'public', table:'proyecto_rubros'}, () => loadAll())
     .subscribe();
 }
 
@@ -1150,7 +1387,28 @@ function renderDashboard(){
         <div class="alert-t">${esc(t.descripcion)}</div>
         <div class="alert-m">${esc(t.proyecto)} · ${persChip(t.persona)} · ${txt}</div>
       </div></div>`;
-  }).join('') : '<div class="empty"><div class="empty-ico">✅</div>Sin alertas urgentes</div>';
+  }).join('') : '';
+
+  // Alertas de contrataciones: trámites en rojo o ámbar de proyectos abiertos.
+  // Se anexan a las de tareas porque el motivo es distinto pero la urgencia es la misma.
+  const ctAlert = S.contrat
+    .filter(c => !CT_CERRADO.includes(c.estado) && !projIsClosed(c.proyecto))
+    .map(c => ({c, s:ctSemaforo(c), h:ctHolgura(c)}))
+    .filter(x => x.s.k === 'rojo' || x.s.k === 'ambar')
+    .sort((a,b) => (a.h ?? 999) - (b.h ?? 999))
+    .slice(0,6);
+  g('dash-alerts').innerHTML += ctAlert.map(({c,s}) => {
+    const pj = S.projects.find(x => x.nombre === c.proyecto);
+    const et = [c.rubro, c.frente, c.contratista].filter(Boolean).join(' · ');
+    return `<div class="alert-i"${pj?` onclick="openProjDetail(${pj.id})"`:''}>
+      <div class="alert-d ${s.k==='rojo'?'red':'amber'}"></div>
+      <div style="flex:1;min-width:0">
+        <div class="alert-t">📄 ${esc(et)}</div>
+        <div class="alert-m">${esc(c.proyecto)} · ${esc(c.estado)} · ${esc(s.txt)}</div>
+      </div></div>`;
+  }).join('');
+  if(!urg.length && !ctAlert.length)
+    g('dash-alerts').innerHTML = '<div class="empty"><div class="empty-ico">✅</div>Sin alertas urgentes</div>';
 
   // Carga por persona
   g('dash-load-card').style.display = (isAdmin() && S.activeUser !== 'todos') ? 'none' : '';
@@ -1636,6 +1894,10 @@ async function projSave(){
       if(oldName && oldName !== nombre){
         await db.from('tareas').update({proyecto:nombre, updated_at:new Date().toISOString()}).eq('proyecto', oldName);
         try{ await db.from('apuntes').update({proyecto:nombre, updated_at:new Date().toISOString()}).eq('proyecto', oldName); }catch(_){}
+        // Contrataciones y rubros del proyecto guardan el NOMBRE, igual que tareas.
+        // Si esto no se propaga, las contrataciones quedan huérfanas sin aviso.
+        try{ await db.from('contrataciones').update({proyecto:nombre}).eq('proyecto', oldName); }catch(_){}
+        try{ await db.from('proyecto_rubros').update({proyecto:nombre}).eq('proyecto', oldName); }catch(_){}
       }
       if(oldPers !== persona)
         await db.from('tareas').update({persona, updated_at:new Date().toISOString()}).eq('proyecto', nombre);
@@ -1770,6 +2032,7 @@ function renderProjDetail(){
       ${isAdmin()?`<div style="margin-top:16px"><button class="btn btn-sm" onclick="projEdit(${p.id})">✏️ Editar proyecto</button></div>`:''}
     </div>
     ${checklistHtml(p)}
+    ${contratHtml(p)}
     <div class="pd-cols">
       <div class="pd-panel">
         <div class="pd-panel-h"><span class="pd-panel-t">✅ Tareas</span>
@@ -1902,6 +2165,660 @@ async function chkImport(){
   if(!confirm(`Se crearán ${lineas.length} punto(s) a partir de las notas actuales. ¿Continuar?`)) return;
   const arr = lineas.map(t => ({id:uid(), texto:t, origen:null, estado:'pendiente', verif_por:null, verif_at:null}));
   await chkPersist(arr, `${lineas.length} punto(s) importado(s) ✓`);
+}
+
+/* ═══════════════════════════════════════════════════
+   CONTRATACIONES
+   Un trámite por fila: rubro + frente. La fecha de ingreso
+   a obra vive en el rubro (proyecto_rubros) y la heredan sus
+   frentes salvo que tengan una propia.
+   ═══════════════════════════════════════════════════ */
+/* ── Consultas base ── */
+function ctRubrosDe(nombre){
+  return S.prubros.filter(r => r.proyecto === nombre)
+                  .sort((a,b) => (a.orden||0)-(b.orden||0) || a.rubro.localeCompare(b.rubro));
+}
+function ctDe(nombre, rubro){
+  let l = S.contrat.filter(c => c.proyecto === nombre);
+  if(rubro !== undefined) l = l.filter(c => c.rubro === rubro);
+  return l.sort((a,b) => (a.orden||0)-(b.orden||0) || (a.frente||'').localeCompare(b.frente||''));
+}
+function ctFrentes(p){ return Array.isArray(p.frentes) ? p.frentes : []; }
+/** El módulo aparece solo si el proyecto tiene rubros cargados. */
+function ctActivo(p){ return ctRubrosDe(p.nombre).length > 0; }
+
+/* ── Ruta, plazos y fechas ── */
+/** 'auto' resuelve por monto contra el umbral de $20k. */
+function ctRuta(c){
+  if(c.ruta && c.ruta !== 'auto') return c.ruta;
+  if(c.monto_estimado == null) return 'directa';
+  return Number(c.monto_estimado) >= UMBRAL_CONTRATO ? 'contrato' : 'directa';
+}
+function ctFlujo(c){ return ctRuta(c) === 'contrato' ? CT_FLUJO_CTR : CT_FLUJO_DIR; }
+/** Días de anticipación totales entre iniciar el trámite y pisar obra. */
+function ctLead(c){
+  const r = ctRuta(c);
+  if(r === 'marco' || r === 'na') return 0;
+  return (r === 'contrato' ? PLAZOS.contrato : PLAZOS.solped) + PLAZOS.oc + PLAZOS.margen;
+}
+/** Fecha de ingreso a obra: la propia, o la heredada del rubro. */
+function ctFechaReq(c){
+  if(c.fecha_requerida) return c.fecha_requerida;
+  const pr = S.prubros.find(x => x.proyecto === c.proyecto && x.rubro === c.rubro);
+  return pr ? pr.fecha_requerida : null;
+}
+function ctHereda(c){ return !c.fecha_requerida; }
+function ctDiasDesde(f){ const d = parseDate(f); return d ? Math.round((today()-d)/86400000) : null; }
+
+/* ── Semáforos ──
+   Son DOS causas distintas y se resuelven distinto:
+   1. estancado  → el trámite lleva más días en su estado que el plazo teórico
+   2. riesgo     → ya no alcanza el tiempo para llegar a la fecha de obra    */
+
+/** Días que el trámite todavía exige desde hoy, según en qué estado está. */
+function ctRestante(c){
+  const r = ctRuta(c);
+  if(r === 'marco' || r === 'na' || CT_CERRADO.includes(c.estado)) return 0;
+  const resta = (plazo, desde) => Math.max(0, plazo - (ctDiasDesde(desde) ?? 0));
+  switch(c.estado){
+    case 'Sin iniciar':
+      return (r === 'contrato' ? PLAZOS.contrato : PLAZOS.solped) + PLAZOS.oc;
+    case 'SOLPED solicitada':
+      return r === 'contrato'
+        ? resta(PLAZOS.contrato, c.f_contrato_solicitado || c.f_solped_solicitada) + PLAZOS.oc
+        : resta(PLAZOS.solped, c.f_solped_solicitada) + PLAZOS.oc;
+    case 'SOLPED aprobada':
+      return r === 'contrato'
+        ? resta(PLAZOS.contrato, c.f_contrato_solicitado) + PLAZOS.oc
+        : PLAZOS.oc;
+    case 'Contrato en trámite': return resta(PLAZOS.contrato, c.f_contrato_solicitado) + PLAZOS.oc;
+    case 'Contrato firmado':    return PLAZOS.oc;
+    default: return 0;
+  }
+}
+/** Días de holgura: los que sobran entre hoy+restante y la fecha de obra. */
+function ctHolgura(c){
+  const f = ctFechaReq(c);
+  if(!f || CT_CERRADO.includes(c.estado)) return null;
+  return daysLeft(f) - ctRestante(c);
+}
+/** Trámite estancado: más días en el estado actual que el plazo teórico. */
+function ctEstancado(c){
+  if(c.estado === 'SOLPED solicitada'){
+    const t = ctDiasDesde(c.f_solped_solicitada);
+    if(t != null && t > PLAZOS.solped) return t;
+  }
+  if(c.estado === 'Contrato en trámite'){
+    const t = ctDiasDesde(c.f_contrato_solicitado);
+    if(t != null && t > PLAZOS.contrato) return t;
+  }
+  return null;
+}
+/** Semáforo resumido de un trámite. */
+function ctSemaforo(c){
+  if(CT_CERRADO.includes(c.estado)) return {k:'gris', txt:''};
+  const est = ctEstancado(c);
+  const h   = ctHolgura(c);
+  if(h != null && h < 0)  return {k:'rojo',  txt:`Tarde ${Math.abs(h)}d`, det:'No alcanza para la fecha de obra'};
+  if(est != null)         return {k:'ambar', txt:`Estancado ${est}d`,     det:'Lleva más del plazo teórico en este estado'};
+  if(h != null && h <= 7) return {k:'ambar', txt:`Ajustado ${h}d`,        det:'Queda poco margen'};
+  if(h != null)           return {k:'verde', txt:`${h}d margen`,          det:''};
+  return {k:'gris', txt:'Sin fecha', det:'Falta la fecha de ingreso a obra'};
+}
+/** Semáforo de un rubro = el peor de sus frentes. Promediar escondería
+    justamente el frente que va a parar la obra. */
+function ctSemRubro(list){
+  const orden = {rojo:0, ambar:1, gris:2, verde:3};
+  let peor = null;
+  list.forEach(c => { const s = ctSemaforo(c); if(!peor || orden[s.k] < orden[peor.k]) peor = s; });
+  return peor || {k:'gris', txt:''};
+}
+
+/* ── Formato ── */
+function ctMonto(v){
+  if(v == null || v === '') return '';
+  return '$' + Number(v).toLocaleString('es-EC', {minimumFractionDigits:0, maximumFractionDigits:0});
+}
+/** Acumulado del rubro y aviso de posible fraccionamiento: varios trámites
+    bajo el umbral que juntos lo superan. No bloquea nada, solo lo hace visible. */
+function ctAcum(list){
+  const suma = list.reduce((a,c) => a + (Number(c.monto_estimado)||0), 0);
+  const frag = suma >= UMBRAL_CONTRATO &&
+               list.length > 1 &&
+               list.every(c => ctRuta(c) !== 'contrato' && ctRuta(c) !== 'marco');
+  return {suma, frag};
+}
+
+/* ── Render del panel ── */
+function contratHtml(p){
+  if(!ctActivo(p)){
+    return `<div class="ct ct-off">
+      <div class="ct-off-i">
+        <div><strong>Control de contrataciones</strong>
+          <div class="ct-off-s">SOLPED, contrato y OC por rubro, con aviso de cuándo hay que arrancar cada trámite.</div></div>
+        <button class="btn btn-pri btn-sm" onclick="ctSetup()">Activar para este proyecto</button>
+      </div></div>`;
+  }
+  const rubros = ctRubrosDe(p.nombre);
+  const todas  = ctDe(p.nombre);
+  const abiertas = todas.filter(c => !CT_CERRADO.includes(c.estado));
+  const rojas  = abiertas.filter(c => ctSemaforo(c).k === 'rojo').length;
+  const ambar  = abiertas.filter(c => ctSemaforo(c).k === 'ambar').length;
+
+  const body = S.ctVista === 'matriz' ? ctMatrizHtml(p, rubros) : ctListaHtml(p, rubros);
+
+  return `<div class="ct">
+    <div class="ct-h">
+      <span class="ct-t">📄 Contrataciones</span>
+      <div class="ct-hr">
+        <span class="ct-kpi">${todas.length} trámite(s)</span>
+        ${rojas ? `<span class="ct-kpi rojo">${rojas} tarde</span>` : ''}
+        ${ambar ? `<span class="ct-kpi ambar">${ambar} en riesgo</span>` : ''}
+        <div class="ct-tabs">
+          <button class="ct-tab${S.ctVista==='rubro'?' on':''}"  onclick="ctVista('rubro')">Rubros</button>
+          <button class="ct-tab${S.ctVista==='matriz'?' on':''}" onclick="ctVista('matriz')">Matriz</button>
+        </div>
+        <button class="btn btn-sm" onclick="ctFrentesEdit()">⛶ Frentes</button>
+        <button class="btn btn-sm" onclick="ctRubroAdd()">＋ Rubro</button>
+        <button class="ct-apagar" title="Desactivar el control de contrataciones en este proyecto" onclick="ctDesactivar()">Desactivar</button>
+      </div>
+    </div>
+    <div class="ct-b">${body}</div>
+  </div>`;
+}
+function ctVista(v){ S.ctVista = v; renderProjDetail(); }
+
+/* Vista por rubro: cada rubro con su fecha de obra y sus trámites debajo. */
+function ctListaHtml(p, rubros){
+  if(!rubros.length) return '<div class="ct-empty">Sin rubros. Agrega el primero con ＋ Rubro.</div>';
+  return rubros.map(r => {
+    const list = ctDe(p.nombre, r.rubro);
+    const sem  = ctSemRubro(list);
+    const ac   = ctAcum(list);
+    const filas = list.length
+      ? list.map(c => ctFilaHtml(c)).join('')
+      : '<div class="ct-vacio">Sin trámites en este rubro</div>';
+    return `<div class="ct-r">
+      <div class="ct-rh">
+        <span class="ct-sem ${sem.k}" title="${esc(sem.det||'')}"></span>
+        <span class="ct-rn">${esc(r.rubro)}</span>
+        <label class="ct-rf" title="Fecha en que este rubro debe estar trabajando en obra. La heredan sus frentes.">
+          <span class="ct-rf-l">En obra</span>
+          <input type="date" value="${r.fecha_requerida||''}" onchange="ctRubroFecha('${r.id}', this.value)">
+        </label>
+        ${ac.suma ? `<span class="ct-acum${ac.frag?' frag':''}" title="${ac.frag
+            ? 'Varios trámites bajo $20k que juntos superan el umbral. Revisa que la división sea por alcances realmente distintos.'
+            : 'Acumulado del rubro'}">${ctMonto(ac.suma)}${ac.frag?' ⚠':''}</span>` : ''}
+        <span class="ct-rc">${list.length}</span>
+        <div class="ct-acts">
+          <button class="ct-a" title="Agregar un trámite a este rubro" onclick="ctNew('${escJs(r.rubro)}')">＋</button>
+          <button class="ct-a" title="Renombrar el rubro" onclick="ctRubroRename('${r.id}')">Aa</button>
+          <button class="ct-a" title="Escalonar fechas por frente" onclick="ctEscalonar('${r.id}')">⇵</button>
+          <button class="ct-a del" title="Quitar rubro" onclick="ctRubroDel('${r.id}')">✕</button>
+        </div>
+      </div>
+      <div class="ct-rb">${filas}</div>
+    </div>`;
+  }).join('');
+}
+
+/* Una fila = un trámite. */
+function ctFilaHtml(c){
+  const e   = ctEst(c.estado);
+  const sem = ctSemaforo(c);
+  const f   = ctFechaReq(c);
+  const her = ctHereda(c) && f;
+  const nums = [
+    c.solped_num ? `SOLPED ${esc(c.solped_num)}` : '',
+    c.oc_num     ? `OC ${esc(c.oc_num)}`         : '',
+  ].filter(Boolean).join(' · ');
+  const titulo = [c.frente, c.contratista].filter(Boolean).join(' — ') ||
+                 (c.descripcion ? esc(c.descripcion) : 'Sin frente asignado');
+  const flujo = ctFlujo(c);
+  const idx   = flujo.indexOf(c.estado);
+  const sig   = (idx >= 0 && idx < flujo.length-1) ? flujo[idx+1] : null;
+  return `<div class="ct-i">
+    <span class="ct-dot" style="background:${e.dot}"></span>
+    <div class="ct-main">
+      <div class="ct-tx">${esc(titulo)}${c.descripcion && (c.frente||c.contratista)
+        ? ` <span class="ct-desc">${esc(c.descripcion)}</span>` : ''}</div>
+      <div class="ct-meta">
+        <span class="ct-pill" style="background:${e.bg};color:${e.fg}">${esc(c.estado)}</span>
+        ${c.monto_estimado != null ? `<span>${ctMonto(c.monto_estimado)}</span>` : ''}
+        ${nums ? `<span class="ct-num">${nums}</span>` : ''}
+        ${f ? `<span class="${her?'ct-her':''}" title="${her?'Heredada del rubro':'Fecha propia de este frente'}">🏗 ${fmtDate(f)}${her?' (hereda)':''}</span>` : ''}
+        ${sem.txt ? `<span class="ct-sx ${sem.k}" title="${esc(sem.det||'')}">${sem.txt}</span>` : ''}
+      </div>
+    </div>
+    <div class="ct-acts">
+      ${sig ? `<button class="ct-a av" title="Avanzar a: ${sig}" onclick="ctAvanzar('${c.id}')">▶</button>` : ''}
+      <button class="ct-a" title="Editar" onclick="ctEdit('${c.id}')">✏️</button>
+      <button class="ct-a del" title="Eliminar" onclick="ctDel('${c.id}')">✕</button>
+    </div>
+  </div>`;
+}
+
+/* Vista matriz: rubro × frente. Es la vista del Excel, con el eje cambiado.
+   La columna "Todo" recoge los trámites sin frente asignado. */
+function ctMatrizHtml(p, rubros){
+  const frentes = ctFrentes(p);
+  if(!frentes.length){
+    return `<div class="ct-empty">Este proyecto no tiene frentes definidos.
+      La matriz compara rubros contra pisos, torres o etapas.
+      <button class="btn btn-sm" style="margin-left:8px" onclick="ctFrentesEdit()">Definir frentes</button></div>`;
+  }
+  const cols = ['—', ...frentes];
+  const head = cols.map(f => `<th title="${esc(f)}">${esc(f === '—' ? 'Todo' : f)}</th>`).join('');
+  const rows = rubros.map(r => {
+    const list = ctDe(p.nombre, r.rubro);
+    const celdas = cols.map(f => {
+      const enCelda = list.filter(c => (c.frente || '—') === f);
+      if(!enCelda.length)
+        return `<td class="ct-m0"><button class="ct-madd" title="Agregar trámite aquí"
+          onclick="ctNew('${escJs(r.rubro)}','${escJs(f === '—' ? '' : f)}')">＋</button></td>`;
+      return `<td>${enCelda.map(c => {
+        const e = ctEst(c.estado), s = ctSemaforo(c);
+        const nums = [c.solped_num ? 'SOLPED ' + esc(c.solped_num) : '',
+                      c.oc_num     ? 'OC ' + esc(c.oc_num)         : ''].filter(Boolean).join(' · ');
+        return `<button class="ct-mc" style="background:${e.bg};border-left-color:${e.dot}"
+          onclick="ctEdit('${c.id}')">
+          <span class="ct-mc-n">${esc(c.contratista || '(sin contratista)')}</span>
+          <span class="ct-mc-e" style="color:${e.fg}">${esc(c.estado)}</span>
+          ${nums ? `<span class="ct-mc-x">${nums}</span>` : ''}
+          ${c.monto_estimado != null ? `<span class="ct-mc-x">${ctMonto(c.monto_estimado)}</span>` : ''}
+          ${c.f_contrato_solicitado ? `<span class="ct-mc-x">Contrato sol. ${fmtDate(c.f_contrato_solicitado)}</span>` : ''}
+          ${c.f_contrato_firmado ? `<span class="ct-mc-x">Firmado ${fmtDate(c.f_contrato_firmado)}</span>` : ''}
+          ${c.descripcion ? `<span class="ct-mc-d">${esc(c.descripcion)}</span>` : ''}
+          ${s.txt ? `<span class="ct-mc-s ${s.k}">${s.txt}</span>` : ''}
+        </button>`;
+      }).join('')}</td>`;
+    }).join('');
+    // Cobertura: frentes del proyecto sin ningún trámite en este rubro.
+    const usados = new Set(list.map(c => c.frente).filter(Boolean));
+    const global = list.some(c => !c.frente);
+    const faltan = global ? [] : frentes.filter(f => !usados.has(f));
+    const av = (usados.size && faltan.length)
+      ? `<span class="ct-falta" title="Frentes sin contratar: ${esc(faltan.join(', '))}">falta ${faltan.length}</span>` : '';
+    return `<tr><th class="ct-mr">${esc(r.rubro)}${av}</th>${celdas}</tr>`;
+  }).join('');
+  return `<div class="ct-mwrap"><table class="ct-m">
+    <thead><tr><th class="ct-mr"></th>${head}</tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
+
+/* ── Persistencia común ── */
+async function ctRun(fn, msg){
+  sync('busy');
+  try{
+    const {error} = await fn();
+    if(error) throw error;
+    sync('ok'); if(msg) toast(msg);
+    await loadContrat();
+    renderProjDetail();
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
+}
+
+/* ── Rubros del proyecto ── */
+/** Se guarda al elegir la fecha, sin botón. El aviso es la confirmación:
+    sin él no hay forma de saber que quedó grabada. */
+async function ctRubroFecha(id, val){
+  const r = S.prubros.find(x => x.id === id);
+  const n = r ? r.rubro : 'Rubro';
+  await ctRun(
+    () => db.from('proyecto_rubros').update({fecha_requerida: val || null}).eq('id', id),
+    val ? `${n}: entra a obra el ${fmtDate(val)} ✓` : `${n}: fecha quitada`);
+}
+function ctRubroAdd(){
+  const p = pdProject(); if(!p) return;
+  const usados = new Set(ctRubrosDe(p.nombre).map(r => r.rubro));
+  const libres = S.rubros.filter(r => r.activo !== false && !usados.has(r.nombre)).map(r => r.nombre);
+  const sug = libres.length ? `\n\nDel catálogo: ${libres.slice(0,12).join(' · ')}${libres.length>12?' …':''}` : '';
+  const nom = prompt('Nombre del rubro (puedes escribir uno que no esté en el catálogo)' + sug, '');
+  if(!nom || !nom.trim()) return;
+  const name = nom.trim();
+  if(usados.has(name)){ toast('Ese rubro ya está en el proyecto', 'err'); return; }
+  const max = ctRubrosDe(p.nombre).reduce((a,r) => Math.max(a, r.orden||0), 0);
+  ctRun(() => db.from('proyecto_rubros').insert({proyecto:p.nombre, rubro:name, orden:max+10}),
+        'Rubro agregado ✓').then(() => {
+    // El catálogo global solo crece cuando se decide explícitamente,
+    // para no llenarlo de variantes del mismo rubro.
+    if(!S.rubros.some(r => r.nombre === name) &&
+       confirm(`¿Guardar "${name}" también en el catálogo, para reusarlo en otros proyectos?`)){
+      db.from('rubros').insert({nombre:name, orden:999}).then(() => loadContrat());
+    }
+  });
+}
+async function ctRubroRename(id){
+  const r = S.prubros.find(x => x.id === id); if(!r) return;
+  const nom = prompt('Nuevo nombre del rubro:', r.rubro);
+  if(!nom || !nom.trim() || nom.trim() === r.rubro) return;
+  const name = nom.trim();
+  sync('busy');
+  try{
+    const {error} = await db.from('proyecto_rubros').update({rubro:name}).eq('id', id);
+    if(error) throw error;
+    // Propagar a las contrataciones: guardan el nombre, no el id.
+    await db.from('contrataciones').update({rubro:name})
+            .eq('proyecto', r.proyecto).eq('rubro', r.rubro);
+    sync('ok'); toast('Rubro renombrado ✓');
+    await loadContrat(); renderProjDetail();
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
+}
+async function ctRubroDel(id){
+  const r = S.prubros.find(x => x.id === id); if(!r) return;
+  const list = ctDe(r.proyecto, r.rubro);
+  if(list.length){
+    toast(`"${r.rubro}" tiene ${list.length} trámite(s). Elimínalos primero.`, 'err');
+    return;
+  }
+  if(!confirm(`¿Quitar el rubro "${r.rubro}" de este proyecto?`)) return;
+  await ctRun(() => db.from('proyecto_rubros').delete().eq('id', id), 'Rubro quitado');
+}
+
+/* ── Frentes del proyecto (pisos, torres, etapas) ── */
+function ctFrentesEdit(){
+  const p = pdProject(); if(!p) return;
+  g('fr-text').value = ctFrentes(p).join('\n');
+  const enUso = [...new Set(S.contrat.filter(c => c.proyecto === p.nombre && c.frente)
+                                     .map(c => c.frente))];
+  g('fr-uso').innerHTML = enUso.length
+    ? `<strong>Con trámites cargados:</strong> ${esc(enUso.join(' · '))}. Si quitás alguno de estos, te aviso antes de guardar.`
+    : '';
+  openOv('ov-frentes');
+}
+async function ctFrentesSave(){
+  const p = pdProject(); if(!p) return;
+  const arr = [...new Set(g('fr-text').value.split('\n').map(s => s.trim()).filter(Boolean))];
+  const quitados = ctFrentes(p).filter(f => !arr.includes(f));
+  const enUso = quitados.filter(f => S.contrat.some(c => c.proyecto === p.nombre && c.frente === f));
+  if(enUso.length && !confirm(
+     `Estos frentes tienen trámites asociados y dejarán de aparecer en la matriz:\n\n${enUso.join('\n')}\n\nLos trámites no se borran, pero quedan fuera de la vista. ¿Continuar?`)) return;
+  sync('busy');
+  try{
+    const {error} = await db.from('proyectos').update({frentes:arr}).eq('id', p.id);
+    if(error) throw error;
+    p.frentes = arr;
+    sync('ok'); toast(`${arr.length} frente(s) guardado(s) ✓`);
+    closeOv('ov-frentes');
+    renderProjDetail();
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
+}
+
+/** Escalonado: da la fecha del primer frente y una cadencia, y rellena
+    el resto. Evita cargar diez fechas a mano cuando la obra va por pisos. */
+async function ctEscalonar(rubroId){
+  const r = S.prubros.find(x => x.id === rubroId); if(!r) return;
+  const list = ctDe(r.proyecto, r.rubro).filter(c => c.frente);
+  if(list.length < 2){ toast('Este rubro no está dividido en frentes', 'err'); return; }
+  const base = prompt(`Fecha de ingreso a obra del PRIMER frente (${list[0].frente}), formato AAAA-MM-DD:`,
+                      ctFechaReq(list[0]) || '');
+  if(!base || !/^\d{4}-\d{2}-\d{2}$/.test(base)){ if(base) toast('Formato de fecha inválido', 'err'); return; }
+  const cad = parseInt(prompt('¿Cada cuántos días entra el siguiente frente?', '15'), 10);
+  if(!cad || cad < 1) return;
+  if(!confirm(`Se asignará fecha propia a ${list.length} frente(s), desde ${base} cada ${cad} días. ¿Continuar?`)) return;
+  sync('busy');
+  try{
+    for(let i = 0; i < list.length; i++){
+      const d = parseDate(base); d.setDate(d.getDate() + cad*i);
+      const iso = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      const {error} = await db.from('contrataciones').update({fecha_requerida:iso}).eq('id', list[i].id);
+      if(error) throw error;
+    }
+    sync('ok'); toast(`${list.length} fecha(s) escalonada(s) ✓`);
+    await loadContrat(); renderProjDetail();
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
+}
+
+/* ── Activación del módulo en un proyecto ── */
+function ctSetup(){
+  const p = pdProject(); if(!p) return;
+  g('cs-proj').textContent = p.nombre;
+  g('cs-frentes').value = ctFrentes(p).join('\n');
+  g('cs-extra').value = '';
+  g('cs-list').innerHTML = S.rubros.length
+    ? S.rubros.filter(r => r.activo !== false).map(r =>
+        `<label class="cs-i"><input type="checkbox" value="${escT(r.nombre)}" checked> ${esc(r.nombre)}</label>`).join('')
+    : '<div class="ct-vacio">El catálogo está vacío. Escribe los rubros abajo.</div>';
+  openOv('ov-ctsetup');
+}
+function ctSetupAll(on){
+  document.querySelectorAll('#cs-list input[type=checkbox]').forEach(c => c.checked = on);
+}
+async function ctSetupSave(){
+  const p = pdProject(); if(!p) return;
+  const marcados = [...document.querySelectorAll('#cs-list input[type=checkbox]:checked')].map(c => c.value);
+  const extra = g('cs-extra').value.split('\n').map(s => s.trim()).filter(Boolean);
+  const rubros = [...new Set([...marcados, ...extra])];
+  if(!rubros.length){ toast('Elige o escribe al menos un rubro', 'err'); return; }
+  const frentes = g('cs-frentes').value.split('\n').map(s => s.trim()).filter(Boolean);
+  sync('busy');
+  try{
+    if(frentes.length || ctFrentes(p).length){
+      const {error:fe} = await db.from('proyectos').update({frentes}).eq('id', p.id);
+      if(fe) throw fe;
+      p.frentes = frentes;
+    }
+    const rows = rubros.map((nombre, i) => ({proyecto:p.nombre, rubro:nombre, orden:(i+1)*10}));
+    const {error} = await db.from('proyecto_rubros').insert(rows);
+    if(error) throw error;
+    sync('ok');
+    toast(`Control activado con ${rubros.length} rubro(s) ✓`);
+    closeOv('ov-ctsetup');
+    await loadContrat();
+    renderProjDetail();
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
+}
+
+/** Desactiva el módulo en el proyecto. Pensado para cuando se activó por
+    error; si ya hay trámites cargados avisa dos veces antes de borrarlos. */
+async function ctDesactivar(){
+  const p = pdProject(); if(!p) return;
+  const rubros  = ctRubrosDe(p.nombre);
+  const tram    = ctDe(p.nombre);
+  const frentes = ctFrentes(p);
+
+  let msg = `¿Desactivar el control de contrataciones en "${p.nombre}"?\n\n` +
+            `Se quitarán ${rubros.length} rubro(s)` +
+            (frentes.length ? ` y ${frentes.length} frente(s)` : '') + '.';
+  if(tram.length)
+    msg += `\n\n⚠️ También se eliminarán ${tram.length} trámite(s), con sus números ` +
+           `de SOLPED, contrato y OC. Esto no se puede deshacer.`;
+  if(!confirm(msg)) return;
+  if(tram.length &&
+     !confirm(`Última confirmación: se borran ${tram.length} trámite(s) de forma definitiva.\n\n¿Seguro?`)) return;
+
+  sync('busy');
+  try{
+    if(tram.length){
+      const {error} = await db.from('contrataciones').delete().eq('proyecto', p.nombre);
+      if(error) throw error;
+    }
+    const {error:er} = await db.from('proyecto_rubros').delete().eq('proyecto', p.nombre);
+    if(er) throw er;
+    if(frentes.length){
+      await db.from('proyectos').update({frentes:[]}).eq('id', p.id);
+      p.frentes = [];
+    }
+    sync('ok'); toast('Control de contrataciones desactivado');
+    await loadContrat();
+    renderProjDetail();
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
+}
+
+/* ── Modal de trámite ── */
+const CT_CAMPOS = ['cf-desc','cf-monto','cf-solped','cf-fcsol','cf-cfirm',
+                   'cf-oc','cf-contratista','cf-fecha','cf-notas'];
+function ctFillSelects(p, c){
+  const rubros = ctRubrosDe(p.nombre);
+  g('cf-rubro').innerHTML = rubros.map(r =>
+    `<option value="${escT(r.rubro)}"${c && c.rubro===r.rubro?' selected':''}>${esc(r.rubro)}</option>`).join('');
+  const frentes = ctFrentes(p);
+  g('cf-frente').innerHTML = `<option value="">Todo el proyecto</option>` + frentes.map(f =>
+    `<option value="${escT(f)}"${c && c.frente===f?' selected':''}>${esc(f)}</option>`).join('');
+  g('cf-estado').innerHTML = Object.keys(CT_EST).map(e =>
+    `<option${c && c.estado===e?' selected':''}>${e}</option>`).join('');
+  // Autocompletado de contratistas: se arma con los ya escritos, sin catálogo fijo.
+  const vistos = [...new Set(S.contrat.map(x => x.contratista).filter(Boolean))].sort();
+  g('cf-clist').innerHTML = vistos.map(n => `<option value="${escT(n)}">`).join('');
+}
+/** El rubro viene dado por la fila desde la que se abre el modal:
+    se muestra pero no se cambia, igual que el responsable en el modal de tarea. */
+function ctLockRubro(){
+  const s = g('cf-rubro');
+  s.disabled = true;
+  s.style.opacity = '.6';
+  s.style.cursor = 'default';
+}
+function ctNew(rubro, frente){
+  const p = pdProject(); if(!p) return;
+  S.ctEdit = null;
+  g('ct-title').textContent = 'Nuevo trámite';
+  g('ct-del').style.display = 'none';
+  ctFillSelects(p, null);
+  if(rubro) g('cf-rubro').value = rubro;
+  ctLockRubro();
+  CT_CAMPOS.forEach(id => g(id).value = '');
+  g('cf-frente').value = frente || '';
+  g('cf-ruta').value = 'auto';
+  g('cf-estado').value = 'Sin iniciar';
+  ctHint();
+  openOv('ov-ct');
+}
+function ctEdit(id){
+  const c = S.contrat.find(x => x.id === id); if(!c) return;
+  const p = pdProject(); if(!p) return;
+  S.ctEdit = id;
+  g('ct-title').textContent = 'Editar trámite';
+  g('ct-del').style.display = '';
+  ctFillSelects(p, c);
+  ctLockRubro();
+  g('cf-ruta').value        = c.ruta || 'auto';
+  g('cf-desc').value        = c.descripcion || '';
+  g('cf-monto').value       = c.monto_estimado ?? '';
+  g('cf-solped').value      = c.solped_num || '';
+  g('cf-fcsol').value       = c.f_contrato_solicitado || '';
+  g('cf-cfirm').value       = c.f_contrato_firmado || '';
+  g('cf-oc').value          = c.oc_num || '';
+  g('cf-contratista').value = c.contratista || '';
+  g('cf-fecha').value       = c.fecha_requerida || '';
+  g('cf-notas').value       = c.notas || '';
+  ctHint();
+  openOv('ov-ct');
+}
+/** Muestra la ruta resuelta y la fecha heredada mientras se edita. */
+function ctHint(){
+  const p = pdProject(); if(!p) return;
+  const fake = {
+    proyecto: p.nombre, rubro: g('cf-rubro').value,
+    ruta: g('cf-ruta').value,
+    monto_estimado: g('cf-monto').value === '' ? null : Number(g('cf-monto').value),
+    fecha_requerida: g('cf-fecha').value || null,
+  };
+  const r = ctRuta(fake);
+  const lbl = {directa:'Ruta directa · ~10 días', contrato:'Con contrato · ~37 días',
+               marco:'Contrato marco · sin trámite', na:'No aplica'}[r] || '';
+  const f = ctFechaReq(fake);
+  const her = !fake.fecha_requerida && f ? ` · hereda ${fmtDate(f)} del rubro` : '';
+  g('ct-hint').textContent = lbl + her;
+}
+
+async function ctSaveForm(){
+  const p = pdProject(); if(!p) return;
+  const rubro = g('cf-rubro').value;
+  if(!rubro){ toast('Elige el rubro', 'err'); return; }
+  const monto = g('cf-monto').value;
+  const row = {
+    proyecto: p.nombre, rubro,
+    frente: g('cf-frente').value || null,
+    descripcion: g('cf-desc').value.trim() || null,
+    monto_estimado: monto === '' ? null : Number(monto),
+    ruta: g('cf-ruta').value,
+    estado: g('cf-estado').value,
+    fecha_requerida: g('cf-fecha').value || null,
+    solped_num: g('cf-solped').value.trim() || null,
+    f_contrato_solicitado: g('cf-fcsol').value || null,
+    f_contrato_firmado: g('cf-cfirm').value || null,
+    oc_num: g('cf-oc').value.trim() || null,
+    contratista: g('cf-contratista').value.trim() || null,
+    notas: g('cf-notas').value.trim() || null,
+  };
+  const prev = S.ctEdit ? S.contrat.find(x => x.id === S.ctEdit) : null;
+  // Las fechas de hito no se piden en el formulario: se estampan solas al
+  // cambiar de estado, para que la app sepa hace cuántos días está parado
+  // un trámite sin que haya que cargar nada a mano.
+  if(!prev || prev.estado !== row.estado)
+    Object.assign(row, ctSello(row.estado, {...(prev||{}), ...row}));
+  sync('busy');
+  try{
+    if(S.ctEdit){
+      const {error} = await db.from('contrataciones').update(row).eq('id', S.ctEdit);
+      if(error) throw error;
+      if(prev && prev.estado !== row.estado) await ctLog(S.ctEdit, prev.estado, row.estado);
+      toast('Trámite actualizado ✓');
+    }else{
+      const max = ctDe(p.nombre, rubro).reduce((a,c) => Math.max(a, c.orden||0), 0);
+      row.orden = max + 10;
+      const {data, error} = await db.from('contrataciones').insert(row).select();
+      if(error) throw error;
+      if(data && data[0]) await ctLog(data[0].id, null, row.estado);
+      toast('Trámite creado ✓');
+    }
+    closeOv('ov-ct');
+    await loadContrat();
+    renderProjDetail();
+    sync('ok');
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
+}
+/** Bitácora firmada. Es lo que permitirá medir los plazos reales. */
+async function ctLog(id, ant, nue){
+  try{
+    await db.from('contrataciones_log').insert({
+      contratacion_id:id, estado_anterior:ant, estado_nuevo:nue,
+      autor: S.user?.nombre || '?'
+    });
+  }catch(_){}
+}
+/** Se llama con id desde la fila, y sin id desde el pie del modal. */
+async function ctDel(id){
+  const target = S.contrat.find(x => x.id === (id || S.ctEdit));
+  if(!target) return;
+  const et = [target.rubro, target.frente, target.contratista].filter(Boolean).join(' · ');
+  if(!confirm(`¿Eliminar este trámite?\n\n${et}`)) return;
+  closeOv('ov-ct');
+  await ctRun(() => db.from('contrataciones').delete().eq('id', target.id), 'Trámite eliminado');
+}
+/** Fecha del hito que corresponde al estado, solo si aún está vacía.
+    Se guarda aunque no se pida en el formulario: es lo que permite detectar
+    un trámite estancado y, más adelante, medir los plazos reales. */
+function ctSello(estado, base){
+  const hoy = new Date().toISOString().slice(0,10);
+  const b = base || {};
+  const campo = {
+    'SOLPED solicitada':   'f_solped_solicitada',
+    'SOLPED aprobada':     'f_solped_aprobada',
+    'Contrato en trámite': 'f_contrato_solicitado',
+    'Contrato firmado':    'f_contrato_firmado',
+    'OC emitida':          'f_oc_emitida',
+    'En obra':             'f_ingreso_obra',
+  }[estado];
+  return (campo && !b[campo]) ? {[campo]: hoy} : {};
+}
+/** Avanza al siguiente estado del flujo y estampa la fecha que corresponda. */
+async function ctAvanzar(id){
+  const c = S.contrat.find(x => x.id === id); if(!c) return;
+  const flujo = ctFlujo(c);
+  const i = flujo.indexOf(c.estado);
+  if(i < 0 || i >= flujo.length-1) return;
+  const nue = flujo[i+1];
+  const upd = {estado:nue, ...ctSello(nue, c)};
+  sync('busy');
+  try{
+    const {error} = await db.from('contrataciones').update(upd).eq('id', id);
+    if(error) throw error;
+    await ctLog(id, c.estado, nue);
+    sync('ok'); toast(nue);
+    await loadContrat(); renderProjDetail();
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
 }
 
 /* ═══════════════════════════════════════════════════
