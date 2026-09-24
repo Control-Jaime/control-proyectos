@@ -517,7 +517,9 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .ct-m{border-collapse:collapse;font-size:11px}
 .ct-m th,.ct-m td{border:1px solid var(--b1);padding:3px;vertical-align:top;text-align:left}
 .ct-m thead th{background:var(--surf);font-size:10px;font-weight:700;color:var(--mu);white-space:nowrap;text-align:center;padding:6px 8px;min-width:150px;position:sticky;top:0;z-index:2}
-.ct-mr{font-weight:700;font-size:11px;background:var(--surf);position:sticky;left:0;z-index:1;min-width:190px;max-width:190px;padding:6px 10px!important;vertical-align:middle!important}
+.ct-mr{font-weight:700;font-size:11px;background:var(--surf);position:sticky;left:0;z-index:1;min-width:230px;max-width:230px;padding:7px 10px!important;vertical-align:middle!important}
+.ct-mr-t{display:flex;align-items:center;gap:7px;font-size:12px;line-height:1.3}
+.ct-mr-b{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:5px;padding-left:16px}
 .ct-m0{background:#fbfcfe}
 .ct-madd{width:100%;min-height:26px;border:none;background:transparent;color:transparent;font-size:14px;border-radius:4px}
 .ct-m0:hover .ct-madd{color:var(--di);background:var(--surf)}
@@ -1054,7 +1056,7 @@ const S = {
   pdProj: null, pdAdd: false, pdEdit: null,
   // contrataciones
   rubros: [], prubros: [], contrat: [],
-  ctEdit: null, ctVista: 'rubro',   // 'rubro' | 'matriz'
+  ctEdit: null,
 };
 
 /* ═══════════════════════════════════════════════════
@@ -2398,7 +2400,7 @@ function contratHtml(p){
   const rojas  = abiertas.filter(c => ctSemaforo(c).k === 'rojo').length;
   const ambar  = abiertas.filter(c => ctSemaforo(c).k === 'ambar').length;
 
-  const body = S.ctVista === 'matriz' ? ctMatrizHtml(p, rubros) : ctListaHtml(p, rubros);
+  const body = ctMatrizHtml(p, rubros);
 
   return `<div class="ct">
     <div class="ct-h">
@@ -2407,10 +2409,6 @@ function contratHtml(p){
         <span class="ct-kpi">${todas.length} trámite(s)</span>
         ${rojas ? `<span class="ct-kpi rojo">${rojas} tarde</span>` : ''}
         ${ambar ? `<span class="ct-kpi ambar">${ambar} en riesgo</span>` : ''}
-        <div class="ct-tabs">
-          <button class="ct-tab${S.ctVista==='rubro'?' on':''}"  onclick="ctVista('rubro')">Rubros</button>
-          <button class="ct-tab${S.ctVista==='matriz'?' on':''}" onclick="ctVista('matriz')">Matriz</button>
-        </div>
         ${isObra() ? '' : `<button class="btn btn-sm" onclick="ctFrentesEdit()">⛶ Frentes</button>
         <button class="btn btn-sm" onclick="ctRubroAdd()">＋ Rubro</button>
         <button class="ct-apagar" title="Desactivar el control de contrataciones en este proyecto" onclick="ctDesactivar()">Desactivar</button>`}
@@ -2419,89 +2417,12 @@ function contratHtml(p){
     <div class="ct-b">${body}</div>
   </div>`;
 }
-function ctVista(v){ S.ctVista = v; renderProjDetail(); }
-
-/* Vista por rubro: cada rubro con su fecha de obra y sus trámites debajo. */
-function ctListaHtml(p, rubros){
-  if(!rubros.length) return '<div class="ct-empty">Sin rubros. Agrega el primero con ＋ Rubro.</div>';
-  return rubros.map(r => {
-    const list = ctDe(p.nombre, r.rubro);
-    const sem  = ctSemRubro(list);
-    const ac   = ctAcum(list);
-    const filas = list.length
-      ? list.map(c => ctFilaHtml(c)).join('')
-      : '<div class="ct-vacio">Sin trámites en este rubro</div>';
-    return `<div class="ct-r">
-      <div class="ct-rh">
-        <span class="ct-sem ${sem.k}" title="${esc(sem.det||'')}"></span>
-        <span class="ct-rn">${esc(r.rubro)}</span>
-        <label class="ct-rf" title="Fecha en que este rubro debe estar trabajando en obra. La heredan sus frentes.">
-          <span class="ct-rf-l">En obra</span>
-          <input type="date" value="${r.fecha_requerida||''}"${isObra()?' disabled style="opacity:.65"':''}
-            onchange="ctRubroFecha('${r.id}', this.value)">
-        </label>
-        ${ac.suma ? `<span class="ct-acum${ac.frag?' frag':''}" title="${ac.frag
-            ? 'Varios trámites bajo $20k que juntos superan el umbral. Revisa que la división sea por alcances realmente distintos.'
-            : 'Acumulado del rubro'}">${ctMonto(ac.suma)}${ac.frag?' ⚠':''}</span>` : ''}
-        <span class="ct-rc">${list.length}</span>
-        <div class="ct-acts siempre">
-          <button class="ct-a" title="Agregar un trámite a este rubro" onclick="ctNew('${escJs(r.rubro)}')">＋</button>
-          ${isObra() ? '' : `<button class="ct-a" title="Renombrar este rubro" onclick="ctRubroRename('${r.id}')">✎</button>
-          <button class="ct-a" title="Escalonar fechas por frente" onclick="ctEscalonar('${r.id}')">⇵</button>
-          <button class="ct-a del" title="Eliminar este rubro del proyecto" onclick="ctRubroDel('${r.id}')">🗑</button>`}
-        </div>
-      </div>
-      <div class="ct-rb">${filas}</div>
-    </div>`;
-  }).join('');
-}
-
-/* Una fila = un trámite. */
-function ctFilaHtml(c){
-  const e   = ctEst(c.estado);
-  const sem = ctSemaforo(c);
-  const f   = ctFechaReq(c);
-  const her = ctHereda(c) && f;
-  const nums = [
-    c.solped_num ? `SOLPED ${esc(c.solped_num)}` : '',
-    c.oc_num     ? `OC ${esc(c.oc_num)}`         : '',
-  ].filter(Boolean).join(' · ');
-  const titulo = [c.frente, c.contratista].filter(Boolean).join(' — ') ||
-                 (c.descripcion ? esc(c.descripcion) : 'Sin frente asignado');
-  const flujo = ctFlujo(c);
-  const idx   = flujo.indexOf(c.estado);
-  const sig   = (idx >= 0 && idx < flujo.length-1) ? flujo[idx+1] : null;
-  return `<div class="ct-i">
-    <span class="ct-dot" style="background:${e.dot}"></span>
-    <div class="ct-main">
-      <div class="ct-tx">${esc(titulo)}${c.descripcion && (c.frente||c.contratista)
-        ? ` <span class="ct-desc">${esc(c.descripcion)}</span>` : ''}</div>
-      <div class="ct-meta">
-        <span class="ct-pill" style="background:${e.bg};color:${e.fg}">${esc(c.estado)}</span>
-        ${c.monto_estimado != null ? `<span>${ctMonto(c.monto_estimado)}</span>` : ''}
-        ${nums ? `<span class="ct-num">${nums}</span>` : ''}
-        ${f ? `<span class="${her?'ct-her':''}" title="${her?'Heredada del rubro':'Fecha propia de este frente'}">🏗 ${fmtDate(f)}${her?' (hereda)':''}</span>` : ''}
-        ${sem.txt ? `<span class="ct-sx ${sem.k}" title="${esc(sem.det||'')}">${sem.txt}</span>` : ''}
-        ${ctActaChip(c)}
-      </div>
-    </div>
-    <div class="ct-acts">
-      ${sig ? `<button class="ct-a av" title="Avanzar a: ${sig}" onclick="ctAvanzar('${c.id}')">▶</button>` : ''}
-      <button class="ct-a" title="Editar" onclick="ctEdit('${c.id}')">✏️</button>
-      <button class="ct-a del" title="Eliminar" onclick="ctDel('${c.id}')">✕</button>
-    </div>
-  </div>`;
-}
-
 /* Vista matriz: rubro × frente. Es la vista del Excel, con el eje cambiado.
-   La columna "Todo" recoge los trámites sin frente asignado. */
+   La columna "Todo" recoge los trámites sin frente asignado, y es la única
+   que aparece cuando el proyecto no está dividido en frentes. */
 function ctMatrizHtml(p, rubros){
+  if(!rubros.length) return '<div class="ct-empty">Sin rubros. Agrega el primero con ＋ Rubro.</div>';
   const frentes = ctFrentes(p);
-  if(!frentes.length){
-    return `<div class="ct-empty">Este proyecto no tiene frentes definidos.
-      La matriz compara rubros contra pisos, torres o etapas.
-      <button class="btn btn-sm" style="margin-left:8px" onclick="ctFrentesEdit()">Definir frentes</button></div>`;
-  }
   const cols = ['—', ...frentes];
   const head = cols.map(f => `<th title="${esc(f)}">${esc(f === '—' ? 'Todo' : f)}</th>`).join('');
   const rows = rubros.map(r => {
@@ -2535,7 +2456,27 @@ function ctMatrizHtml(p, rubros){
     const faltan = global ? [] : frentes.filter(f => !usados.has(f));
     const av = (usados.size && faltan.length)
       ? `<span class="ct-falta" title="Frentes sin contratar: ${esc(faltan.join(', '))}">falta ${faltan.length}</span>` : '';
-    return `<tr><th class="ct-mr">${esc(r.rubro)}${av}</th>${celdas}</tr>`;
+    const sem = ctSemRubro(list);
+    const ac  = ctAcum(list);
+    return `<tr><th class="ct-mr">
+      <div class="ct-mr-t"><span class="ct-sem ${sem.k}" title="${esc(sem.det||'')}"></span>
+        <span>${esc(r.rubro)}</span>${av}</div>
+      <div class="ct-mr-b">
+        <label class="ct-rf" title="Fecha en que este rubro debe estar en obra. La heredan sus frentes sin fecha propia.">
+          <span class="ct-rf-l">En obra</span>
+          <input type="date" value="${r.fecha_requerida||''}"${isObra()?' disabled style="opacity:.65"':''}
+            onchange="ctRubroFecha('${r.id}', this.value)">
+        </label>
+        ${ac.suma ? `<span class="ct-acum${ac.frag?' frag':''}" title="${ac.frag
+            ? 'Varios trámites bajo $20k que juntos superan el umbral. Revisa que la división sea por alcances realmente distintos.'
+            : 'Acumulado del rubro'}">${ctMonto(ac.suma)}${ac.frag?' ⚠':''}</span>` : ''}
+        ${isObra() ? '' : `<span class="ct-acts siempre">
+          <button class="ct-a" title="Renombrar este rubro" onclick="ctRubroRename('${r.id}')">✎</button>
+          <button class="ct-a" title="Escalonar fechas por frente" onclick="ctEscalonar('${r.id}')">⇵</button>
+          <button class="ct-a del" title="Eliminar este rubro del proyecto" onclick="ctRubroDel('${r.id}')">🗑</button>
+        </span>`}
+      </div>
+    </th>${celdas}</tr>`;
   }).join('');
   return `<div class="ct-mwrap"><table class="ct-m">
     <thead><tr><th class="ct-mr"></th>${head}</tr></thead>
