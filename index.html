@@ -503,6 +503,12 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .ct-sx.rojo{color:var(--re)}.ct-sx.ambar{color:var(--am)}
 .ct-sx.verde{color:var(--gr)}.ct-sx.gris{color:var(--di)}
 .ct-acts{display:flex;gap:4px;flex-shrink:0;opacity:.35;transition:opacity .15s}
+.ct-acts.siempre{opacity:1}
+.ct-acta{border:1px solid var(--b1);background:var(--card);color:var(--mu);font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:11px;cursor:pointer;white-space:nowrap;line-height:1.5}
+.ct-acta:hover{border-color:var(--gr);color:var(--gr)}
+.ct-acta.on{background:var(--gr2);border-color:var(--gr2);color:var(--gr)}
+.ct-mc-a{display:block;margin-top:4px}
 .ct-a{background:transparent;border:none;font-size:13px;padding:2px 6px;border-radius:4px;cursor:pointer;line-height:1;color:var(--mu)}
 .ct-a:hover{background:var(--b1);color:var(--tx)}
 .ct-a.av:hover{background:var(--gr2);color:var(--gr)}
@@ -2228,9 +2234,11 @@ async function chkImport(){
    frentes salvo que tengan una propia.
    ═══════════════════════════════════════════════════ */
 /* ── Consultas base ── */
+/** Orden alfabético siempre: un rubro nuevo entra en su lugar solo,
+    sin que haya que reordenar nada a mano. */
 function ctRubrosDe(nombre){
   return S.prubros.filter(r => r.proyecto === nombre)
-                  .sort((a,b) => (a.orden||0)-(b.orden||0) || a.rubro.localeCompare(b.rubro));
+                  .sort((a,b) => a.rubro.localeCompare(b.rubro, 'es', {sensitivity:'base'}));
 }
 function ctDe(nombre, rubro){
   let l = S.contrat.filter(c => c.proyecto === nombre);
@@ -2328,6 +2336,33 @@ function ctSemRubro(list){
   return peor || {k:'gris', txt:''};
 }
 
+/* ── Acta de conformidad ──
+   Se firma al terminar el trabajo de una OC. Como en los puntos de
+   verificación, al marcarla se registra quién y cuándo; al desmarcarla
+   ese registro se borra. */
+/** El acta solo tiene sentido cuando ya hay OC de por medio. */
+function ctActaAplica(c){
+  return !!(c.acta_firmada || c.oc_num || ['OC emitida','En obra','Contrato marco'].includes(c.estado));
+}
+function ctActaChip(c){
+  if(!ctActaAplica(c)) return '';
+  const on = !!c.acta_firmada;
+  const tip = on
+    ? `Acta firmada${c.acta_por ? ' por ' + c.acta_por : ''}${c.acta_at ? ' el ' + fmtDate(c.acta_at.slice(0,10)) : ''}. Clic para desmarcar.`
+    : 'Marcar cuando el acta de conformidad esté firmada';
+  return `<button class="ct-acta${on?' on':''}" title="${esc(tip)}"
+    onclick="event.stopPropagation();ctActa('${c.id}')">${on?'☑':'☐'} Acta</button>`;
+}
+async function ctActa(id){
+  const c = S.contrat.find(x => x.id === id); if(!c) return;
+  const on = !c.acta_firmada;
+  const upd = on
+    ? {acta_firmada:true,  acta_por:(S.user?.nombre || '?'), acta_at:new Date().toISOString()}
+    : {acta_firmada:false, acta_por:null, acta_at:null};
+  await ctRun(() => db.from('contrataciones').update(upd).eq('id', id),
+              on ? 'Acta firmada ✓' : 'Acta desmarcada');
+}
+
 /* ── Formato ── */
 function ctMonto(v){
   if(v == null || v === '') return '';
@@ -2409,11 +2444,11 @@ function ctListaHtml(p, rubros){
             ? 'Varios trámites bajo $20k que juntos superan el umbral. Revisa que la división sea por alcances realmente distintos.'
             : 'Acumulado del rubro'}">${ctMonto(ac.suma)}${ac.frag?' ⚠':''}</span>` : ''}
         <span class="ct-rc">${list.length}</span>
-        <div class="ct-acts">
+        <div class="ct-acts siempre">
           <button class="ct-a" title="Agregar un trámite a este rubro" onclick="ctNew('${escJs(r.rubro)}')">＋</button>
-          ${isObra() ? '' : `<button class="ct-a" title="Renombrar el rubro" onclick="ctRubroRename('${r.id}')">Aa</button>
+          ${isObra() ? '' : `<button class="ct-a" title="Renombrar este rubro" onclick="ctRubroRename('${r.id}')">✎</button>
           <button class="ct-a" title="Escalonar fechas por frente" onclick="ctEscalonar('${r.id}')">⇵</button>
-          <button class="ct-a del" title="Quitar rubro" onclick="ctRubroDel('${r.id}')">✕</button>`}
+          <button class="ct-a del" title="Eliminar este rubro del proyecto" onclick="ctRubroDel('${r.id}')">🗑</button>`}
         </div>
       </div>
       <div class="ct-rb">${filas}</div>
@@ -2447,6 +2482,7 @@ function ctFilaHtml(c){
         ${nums ? `<span class="ct-num">${nums}</span>` : ''}
         ${f ? `<span class="${her?'ct-her':''}" title="${her?'Heredada del rubro':'Fecha propia de este frente'}">🏗 ${fmtDate(f)}${her?' (hereda)':''}</span>` : ''}
         ${sem.txt ? `<span class="ct-sx ${sem.k}" title="${esc(sem.det||'')}">${sem.txt}</span>` : ''}
+        ${ctActaChip(c)}
       </div>
     </div>
     <div class="ct-acts">
@@ -2479,7 +2515,7 @@ function ctMatrizHtml(p, rubros){
         const e = ctEst(c.estado), s = ctSemaforo(c);
         const nums = [c.solped_num ? 'SOLPED ' + esc(c.solped_num) : '',
                       c.oc_num     ? 'OC ' + esc(c.oc_num)         : ''].filter(Boolean).join(' · ');
-        return `<button class="ct-mc" style="background:${e.bg};border-left-color:${e.dot}"
+        return `<div class="ct-mc" style="background:${e.bg};border-left-color:${e.dot}"
           onclick="ctEdit('${c.id}')">
           <span class="ct-mc-n">${esc(c.contratista || '(sin contratista)')}</span>
           <span class="ct-mc-e" style="color:${e.fg}">${esc(c.estado)}</span>
@@ -2489,7 +2525,8 @@ function ctMatrizHtml(p, rubros){
           ${c.f_contrato_firmado ? `<span class="ct-mc-x">Firmado ${fmtDate(c.f_contrato_firmado)}</span>` : ''}
           ${c.descripcion ? `<span class="ct-mc-d">${esc(c.descripcion)}</span>` : ''}
           ${s.txt ? `<span class="ct-mc-s ${s.k}">${s.txt}</span>` : ''}
-        </button>`;
+          ${ctActaAplica(c) ? `<span class="ct-mc-a">${ctActaChip(c)}</span>` : ''}
+        </div>`;
       }).join('')}</td>`;
     }).join('');
     // Cobertura: frentes del proyecto sin ningún trámite en este rubro.
@@ -2566,12 +2603,24 @@ async function ctRubroRename(id){
 async function ctRubroDel(id){
   const r = S.prubros.find(x => x.id === id); if(!r) return;
   const list = ctDe(r.proyecto, r.rubro);
+  let msg = `¿Eliminar el rubro "${r.rubro}" de este proyecto?`;
   if(list.length){
-    toast(`"${r.rubro}" tiene ${list.length} trámite(s). Elimínalos primero.`, 'err');
-    return;
+    const det = list.map(c => '· ' + [c.frente, c.contratista, c.estado].filter(Boolean).join(' — ')).join('\n');
+    msg += `\n\n⚠️ Se eliminarán también sus ${list.length} trámite(s):\n\n${det}\n\nNo se puede deshacer.`;
   }
-  if(!confirm(`¿Quitar el rubro "${r.rubro}" de este proyecto?`)) return;
-  await ctRun(() => db.from('proyecto_rubros').delete().eq('id', id), 'Rubro quitado');
+  if(!confirm(msg)) return;
+  sync('busy');
+  try{
+    if(list.length){
+      const {error} = await db.from('contrataciones').delete()
+                              .eq('proyecto', r.proyecto).eq('rubro', r.rubro);
+      if(error) throw error;
+    }
+    const {error:er} = await db.from('proyecto_rubros').delete().eq('id', id);
+    if(er) throw er;
+    sync('ok'); toast(`Rubro "${r.rubro}" eliminado`);
+    await loadContrat(); renderProjDetail();
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
 }
 
 /* ── Frentes del proyecto (pisos, torres, etapas) ── */
