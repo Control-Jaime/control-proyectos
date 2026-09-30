@@ -549,6 +549,137 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .fr-uso{font-size:12px;color:var(--mu);background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);padding:10px 12px;line-height:1.5}
 .fr-uso:empty{display:none}
 
+/* ══════════ CRONOGRAMA ══════════ */
+.cr-card{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
+.cr-card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px;border-bottom:1px solid var(--b1);background:var(--surf);flex-wrap:wrap}
+.cr-card-e{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--mu)}
+.cr-card-e strong{color:var(--tx)}
+.cr-card-btns{display:flex;gap:8px;flex-wrap:wrap}
+.cr-card-b{padding:14px 18px 16px;display:grid;gap:14px}
+.cr-kp{display:flex;flex-wrap:wrap;gap:10px 32px}
+.cr-kp div{display:grid;gap:1px}
+.cr-kp small{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu)}
+.cr-kp b{font-size:15px;font-weight:700}
+.cr-prog{display:block;width:110px;height:5px;background:var(--surf);border-radius:3px;overflow:hidden;margin-top:3px}
+.cr-prog i{display:block;height:100%;background:var(--ac)}
+.crl-wrap{display:grid;gap:4px}
+.crl{display:grid;grid-template-columns:220px 1fr;gap:12px;align-items:center;cursor:pointer;border-radius:4px}
+.crl:not(.crl-ax):hover .crl-n{color:var(--ac)}
+.crl-n{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crl-t{position:relative;height:16px;background:var(--surf);border-radius:3px}
+.crl-ax{cursor:default}.crl-ax .crl-t{background:none;height:14px}
+.crl-ax span{position:absolute;top:0;font-size:10px;color:var(--mu);border-left:1px solid var(--b1);padding-left:4px;line-height:14px}
+.crl-b{position:absolute;top:3px;height:10px;border-radius:3px;overflow:hidden;opacity:.85}
+.crl-b i{display:block;height:100%;background:rgba(0,0,0,.28)}
+.crl-hoy{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--re);border-radius:1px}
+.cr-lsts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cr-lst-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);margin-bottom:4px}
+.cr-lst-h span{font-family:'JetBrains Mono',monospace;color:var(--tx)}
+.cr-li{display:flex;gap:10px;align-items:baseline;padding:4px 0;font-size:12px;cursor:pointer;border-bottom:1px solid var(--b1)}
+.cr-li:last-child{border-bottom:none}
+.cr-li:hover .cr-li-n{color:var(--ac)}
+.cr-li-d{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu);flex:none;width:70px}
+.cr-li-d.late{color:var(--re);font-weight:600}
+.cr-li-n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cr-li-v{font-size:12px;color:var(--di);padding:4px 0}
+.cr-li-more{font-size:12px;color:var(--ac);cursor:pointer;padding-top:4px;font-weight:600}
+.st-done{--st:var(--gr)} .st-active{--st:var(--ac)} .st-late{--st:var(--re)} .st-pending{--st:#8aa0b2}
+.crl-b,.crb{background:var(--st,#8aa0b2)}
+
+/* vista completa */
+.cr-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.cr-top-s{font-size:14px;font-weight:500;color:var(--mu)}
+.cr-top-m{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12px;color:var(--mu);margin-top:4px}
+.cr-top-m b{color:var(--tx)}
+.cr-rojo,.cr-rojo b{color:var(--re)!important}
+.cr-top-m .cr-rojo{cursor:pointer}
+.cr-verde{color:var(--gr)}
+.cr-mu{color:var(--mu);font-size:12px}
+.cr-bar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;background:var(--card);border:1px solid var(--b1);border-bottom:none;border-radius:var(--r) var(--r) 0 0;padding:10px 12px}
+.cr-grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.cr-bar .btn[disabled]{opacity:.4;pointer-events:none}
+.cr-del:hover{border-color:var(--re);color:var(--re)}
+.cr-lbl{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em}
+.cr-sel,.cr-q{padding:5px 8px;border:1px solid var(--b2);border-radius:var(--rs);background:var(--surf);font-size:12px;color:var(--tx)}
+.cr-q{width:150px}
+.cr-chk{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mu);cursor:pointer;white-space:nowrap}
+.cr-scroll{--cw:716px;overflow:auto;max-height:calc(100vh - 250px);min-height:320px;background:var(--card);border:1px solid var(--b1);border-radius:0 0 var(--r) var(--r);position:relative;overscroll-behavior:contain}
+.cr-scroll.compact{--cw:386px}
+.cr-scroll.compact .c-dur,.cr-scroll.compact .c-ini,.cr-scroll.compact .c-fin,.cr-scroll.compact .c-pred{display:none}
+.cr-grid{position:relative;width:calc(var(--cw) + var(--tlw));min-width:100%}
+.cr-head{position:sticky;top:0;z-index:6;display:flex;height:44px;background:var(--surf);border-bottom:1px solid var(--b2)}
+.cr-head .cr-cells{background:var(--surf);z-index:7;align-items:flex-end;padding-bottom:6px}
+.cr-head .cc{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);height:auto;cursor:default}
+.cr-th{position:relative;height:44px}
+.cr-ht,.cr-hb{position:relative;height:22px}
+.cr-ht span,.cr-hb span{position:absolute;top:0;height:22px;line-height:22px;font-size:11px;color:var(--mu);padding-left:5px;border-left:1px solid var(--b1);white-space:nowrap;overflow:hidden}
+.cr-ht span{font-weight:700;color:var(--tx)}
+.cr-bodyw{position:relative}
+.cr-lines{position:absolute;top:0;bottom:0;left:var(--cw);pointer-events:none;z-index:0}
+.cr-lines i{position:absolute;top:0;bottom:0;border-left:1px solid #edf2f7}
+.cr-lines i.y{border-left-color:var(--b1)}
+.cr-hoy{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--re);opacity:.75}
+.cr-arrows{position:absolute;top:0;left:var(--cw);pointer-events:none;z-index:2;overflow:visible}
+.cr-arrows path{fill:none;stroke:var(--tx);stroke-width:1.3;opacity:.7}
+.cr-arrows path.h{fill:var(--tx);stroke:none}
+.cr-row{display:flex;height:28px;border-bottom:1px solid #eef2f6;position:relative;z-index:1}
+.cr-row:hover{background:rgba(37,99,235,.04)}
+.cr-row.sel{background:rgba(37,99,235,.10)}
+.cr-cells{position:sticky;left:0;z-index:3;display:flex;flex:none;width:var(--cw);background:var(--card);border-right:1px solid var(--b1)}
+.cr-row:hover .cr-cells{background:#f6f9fd}
+.cr-row.sel .cr-cells{background:#e6eefc}
+.cc{height:27px;display:flex;align-items:center;padding:0 6px;font-size:12px;white-space:nowrap;overflow:hidden;border-right:1px solid #eef2f6;cursor:text;flex:none}
+.cc.ro{cursor:default;color:var(--mu)}
+.c-num{width:40px;justify-content:flex-end;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--di);cursor:default;border-left:3px solid var(--st,transparent)}
+.c-name{width:300px;gap:4px;cursor:default}
+.c-dur{width:54px;justify-content:flex-end;font-family:'JetBrains Mono',monospace;font-size:11px}
+.c-ini,.c-fin{width:84px;font-family:'JetBrains Mono',monospace;font-size:11px;gap:2px}
+.c-pred{width:108px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu)}
+.c-pct{width:46px;justify-content:flex-end;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--st)}
+.c-wbs{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--di);flex:none}
+.c-nm{overflow:hidden;text-overflow:ellipsis;cursor:text;min-width:0;flex:1}
+.cr-row.sum .c-nm{font-weight:700}
+.cr-row.d1 .c-nm{font-size:13px}
+.cr-car{border:none;background:none;width:16px;flex:none;font-size:11px;color:var(--mu);padding:0}
+.cr-car:hover{color:var(--ac)}
+.cr-car0{width:16px;flex:none;text-align:center;font-size:9px;color:var(--mu)}
+.cr-pin{font-size:9px;margin-left:2px}
+.cc.editing{padding:0;overflow:visible}
+.cr-in{width:100%;height:100%;border:2px solid var(--ac);padding:0 5px;font-size:12px;outline:none;background:#fff;font-family:inherit}
+.cr-tl{position:relative;flex:none;height:27px}
+.crb{position:absolute;top:7px;height:14px;border-radius:3px;overflow:hidden;cursor:grab;touch-action:none;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.crb i{position:absolute;left:0;top:0;bottom:0;background:rgba(0,0,0,.28);pointer-events:none}
+.crb b{position:absolute;right:0;top:0;bottom:0;width:6px;cursor:ew-resize}
+.crb.sum{top:9px;height:8px;background:#33475b;border-radius:1px;cursor:default;overflow:visible}
+.crb.sum::before,.crb.sum::after{content:"";position:absolute;bottom:-5px;border:4px solid transparent;border-top-color:#33475b}
+.crb.sum::before{left:-1px}.crb.sum::after{right:-1px}
+.crb.sum i{background:rgba(255,255,255,.35)}
+.crb.hito{width:12px;height:12px;top:8px;transform:rotate(45deg);border-radius:2px;overflow:visible}
+.crb-base{position:absolute;top:21px;height:4px;background:#b8c4cf;border-radius:2px}
+.crb-lbl{position:absolute;top:0;line-height:27px;font-size:11px;color:var(--mu);white-space:nowrap;pointer-events:none}
+.cr-dtip{position:fixed;z-index:500;background:var(--tx);color:#fff;font-size:11px;padding:4px 8px;border-radius:4px;pointer-events:none;display:none}
+.cr-foot{font-size:11px;color:var(--di);margin-top:8px}
+.cra-pr{display:grid;grid-template-columns:1fr 150px 64px auto;gap:6px;margin-bottom:6px}
+.cra-pr select,.cra-pr input{padding:6px 8px;background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);font-size:12px;min-width:0}
+.cr-tag{display:inline-block;font-size:11px;background:var(--surf);border:1px solid var(--b1);border-radius:10px;padding:2px 8px;margin:0 4px 4px 0;cursor:pointer}
+.cr-tag:hover{border-color:var(--ac);color:var(--ac)}
+.cra-calc{font-size:12px;color:var(--mu);background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);padding:10px 12px;margin-bottom:14px;line-height:1.6}
+.cra-calc b{color:var(--tx)}
+.cri-k{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.cri-k div{background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);padding:10px;display:grid}
+.cri-k b{font-size:15px}.cri-k small{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--mu)}
+.cri-p{font-size:13px;margin-bottom:10px;line-height:1.5}
+.cri-l{max-height:200px;overflow:auto;border:1px solid var(--b1);border-radius:var(--rs);background:var(--surf);padding:6px 10px;margin-bottom:12px;font-size:12px}
+.cri-l div{padding:2px 0}.cri-l span{display:inline-block;width:56px;font-family:'JetBrains Mono',monospace;color:var(--am);font-weight:600}
+@media(max-width:768px){
+  .cr-scroll{--cw:250px;max-height:calc(100vh - 200px)}
+  .cr-scroll .c-dur,.cr-scroll .c-ini,.cr-scroll .c-fin,.cr-scroll .c-pred{display:none}
+  .cr-scroll .c-name{width:164px}
+  .crl{grid-template-columns:110px 1fr}
+  .cr-lsts,.cri-k{grid-template-columns:1fr 1fr}
+  .cra-pr{grid-template-columns:1fr 1fr;}
+}
+
 /* ══════════ RESPONSIVE ══════════ */
 @media(max-width:768px){
   .kpi-grid,.rep-kpis{grid-template-columns:1fr 1fr}
@@ -687,6 +818,12 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <div class="sec" id="sec-projdet">
       <button class="pd-back" onclick="go('proyectos')">← Volver a proyectos</button>
       <div id="pd-body"></div>
+    </div>
+
+    <!-- ══════════ CRONOGRAMA (vista completa) ══════════ -->
+    <div class="sec" id="sec-crono">
+      <button class="pd-back" onclick="crBack()">← Volver al proyecto</button>
+      <div id="cr-body"></div>
     </div>
 
     <!-- ══════════ PERSONAS ══════════ -->
@@ -969,6 +1106,53 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     </div>
   </div>
 </div>
+
+<!-- ══════════ MODAL: ACTIVIDAD DEL CRONOGRAMA ══════════ -->
+<div class="ov" id="ov-cra">
+  <div class="modal wide">
+    <div class="mo-h"><span class="mo-t" id="cra-title" style="flex:1;margin-right:12px;font-size:14px"></span><button class="mo-x" onclick="closeOv('ov-cra')">✕</button></div>
+    <div class="mo-b">
+      <div class="cra-calc" id="cra-calc"></div>
+      <div class="frow one"><div class="fld"><label>Nombre *</label><input id="cra-nombre" type="text"></div></div>
+      <div class="frow three">
+        <div class="fld"><label>Duración (días)</label><input id="cra-dur" type="text" placeholder="ej. 5 · 2s · 0 = hito"></div>
+        <div class="fld"><label>No comenzar antes de</label><input id="cra-ini" type="date">
+          <span class="fld-help">Vacío = lo antes posible según sus predecesoras</span></div>
+        <div class="fld"><label>% completado</label><input id="cra-av" type="number" min="0" max="100" step="5"></div>
+      </div>
+      <div class="fld-help" id="cra-sumnote" style="margin:-6px 0 12px">Es un resumen: duración, fechas y avance se calculan de sus subactividades.</div>
+      <div class="frow one"><div class="fld"><label>Predecesoras</label>
+        <div id="cra-preds"></div>
+        <div><button class="btn btn-sm" id="cra-addpred" onclick="crPredAdd()">＋ Agregar predecesora</button></div>
+        <span class="fld-help">FC fin→comienzo · CC comienzo→comienzo · FF fin→fin · CF comienzo→fin. Desfase en días: + espera, − adelanto.</span>
+      </div></div>
+      <div class="frow one"><div class="fld"><label>Sucesoras</label><div id="cra-sucs"></div></div></div>
+      <div class="frow">
+        <div class="fld"><label>Responsable</label><select id="cra-resp"></select></div>
+        <div class="fld"><label>&nbsp;</label><button class="btn" onclick="crToTask()" title="Crear una tarea de CP.ARQ con esta actividad y su fecha de fin">✅ Crear tarea con esta actividad</button></div>
+      </div>
+      <div class="frow one"><div class="fld"><label>Notas</label><textarea id="cra-notas"></textarea></div></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn btn-del" id="cra-del" onclick="crDeleteModal()">Eliminar</button>
+      <button class="btn" onclick="closeOv('ov-cra')">Cancelar</button>
+      <button class="btn btn-pri" id="cra-save" onclick="crSaveModal()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: IMPORTAR DESDE PLANNER ══════════ -->
+<div class="ov" id="ov-cri">
+  <div class="modal wide">
+    <div class="mo-h"><span class="mo-t">Importar cronograma desde Planner</span><button class="mo-x" onclick="closeOv('ov-cri')">✕</button></div>
+    <div class="mo-b" id="cri-body"></div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-cri')">Cancelar</button>
+      <button class="btn btn-pri" id="cri-ok" onclick="crImportConfirm()">Importar</button>
+    </div>
+  </div>
+</div>
+<input type="file" id="cr-file" accept=".xlsx,.xls,.csv" style="display:none" onchange="crImportFile(this.files[0])">
 
 <div class="qe" id="qe"><div id="qe-items"></div></div>
 <div class="toast" id="toast"></div>
@@ -1341,6 +1525,7 @@ function subscribeRealtime(){
     .on('postgres_changes', {event:'*', schema:'public', table:'apuntes'},   () => loadAll())
     .on('postgres_changes', {event:'*', schema:'public', table:'contrataciones'},  () => loadAll())
     .on('postgres_changes', {event:'*', schema:'public', table:'proyecto_rubros'}, () => loadAll())
+    .on('postgres_changes', {event:'*', schema:'public', table:'cronograma'},      () => crRemote())
     .subscribe();
 }
 
@@ -1384,6 +1569,7 @@ function render(){
     case 'eliminadas': renderEliminadas();break;
     case 'apuntes':    renderApuntes();   break;
     case 'reportes':   repInit(); renderReporte(); break;
+    case 'crono':      renderCrono();     break;
   }
   applyPermissions();
 }
@@ -2083,6 +2269,7 @@ function renderProjDetail(){
       </div>
       ${isAdmin()?`<div style="margin-top:16px"><button class="btn btn-sm" onclick="projEdit(${p.id})">✏️ Editar proyecto</button></div>`:''}
     </div>
+    ${crCardHtml(p)}
     ${checklistHtml(p)}
     ${contratHtml(p)}
     <div class="pd-cols">
@@ -3405,6 +3592,1206 @@ document.querySelectorAll('.ov').forEach(ov =>
   ov.addEventListener('click', e => { if(e.target === ov) ov.classList.remove('on'); }));
 
 restoreSession();
+/* ═══════════════════════════════════════════════════
+   CRONOGRAMA (tipo Planner / MS Project)
+   ═══════════════════════════════════════════════════
+   Tabla: cronograma (una fila por actividad, jerarquía por parent_id).
+
+   Se guardan REGLAS, no fechas: duración, predecesoras y la restricción
+   "no comenzar antes de" (inicio_min). Las fechas se calculan siempre con
+   el motor crSchedule(); las columnas inicio/fin de la tabla son solo
+   una copia para reportes o consultas externas.
+
+   Convenciones del motor (iguales a Planner/Project):
+   · Días calendario (el cronograma de Vía Terra viene así de Planner).
+   · Una actividad de N días que arranca el día S termina el día S+N-1.
+   · Un hito (0 días) queda al final de su día: su sucesora FC arranca
+     al día siguiente.
+   · Vínculos: FC fin→comienzo, CC comienzo→comienzo, FF fin→fin,
+     CF comienzo→fin, cada uno con desfase en días (+/-).
+   · Los vínculos puestos en un resumen se aplican a todas sus hijas.
+   · Una actividad con predecesoras arranca lo antes posible, salvo que
+     tenga inicio_min, que actúa como "no comenzar antes de".
+   · Mover o redimensionar una barra en el Gantt fija inicio_min o duración.
+   ═══════════════════════════════════════════════════ */
+const CR_MS = 864e5;
+const CR_TIPOS = ['FC','CC','FF','CF'];
+const CR_TIPO_LBL = {FC:'Fin → Comienzo', CC:'Comienzo → Comienzo', FF:'Fin → Fin', CF:'Comienzo → Fin'};
+const CR_MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const CR_ESCALAS = {sem:{px:18, lbl:'Semanas'}, mes:{px:4, lbl:'Meses'}, tri:{px:1.4, lbl:'Trimestres'}};
+const CR_ROW_H = 28;
+const CR_COLS = ['id','proyecto_id','parent_id','orden','nombre','duracion','inicio_min','predecesoras',
+                 'avance','responsable','notas','inicio','fin','inicio_base','fin_base'];
+const CR_ST_LBL = {done:'Completada', active:'En curso', late:'Atrasada', pending:'Pendiente'};
+
+const CR = {
+  data: {},          // proyecto_id → filas de la tabla
+  cache: {},         // proyecto_id → árbol + fechas calculadas
+  loading: {},
+  missing: false,    // la tabla aún no existe en Supabase
+  pid: null,         // proyecto abierto en la vista completa
+  sel: null,         // actividad seleccionada
+  collapsed: {},     // proyecto_id → Set de ids contraídos
+  escala: 'mes', filtro: 'todo', q: '', compact: false, showBase: false,
+  undo: [],          // pila de estados previos {pid, rows}
+  editing: false, pendingRender: false, saving: false, lastWrite: 0,
+  scrolledPid: null, drag: null, imp: null, edit: null,
+};
+
+/* ── Fechas: número de día UTC. Nunca new Date('aaaa-mm-dd') ── */
+function crD2N(s){
+  if(!s) return null;
+  const [y,m,d] = String(s).slice(0,10).split('-').map(Number);
+  return (y && m && d) ? Date.UTC(y, m-1, d)/CR_MS : null;
+}
+function crN2S(n){
+  if(n == null) return null;
+  const d = new Date(n*CR_MS);
+  return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0');
+}
+function crToday(){ const t = new Date(); return Date.UTC(t.getFullYear(), t.getMonth(), t.getDate())/CR_MS; }
+function crFmt(n){
+  if(n == null) return '—';
+  const d = new Date(n*CR_MS);
+  return String(d.getUTCDate()).padStart(2,'0')+' '+CR_MESES[d.getUTCMonth()]+' '+String(d.getUTCFullYear()).slice(2);
+}
+function crFmtL(n){
+  if(n == null) return '—';
+  const d = new Date(n*CR_MS);
+  return d.getUTCDate()+' '+CR_MESES[d.getUTCMonth()]+' '+d.getUTCFullYear();
+}
+function crDur(n){ return n === 1 ? '1 día' : `${n} días`; }
+
+/* ═══════ MOTOR ═══════
+   rows: filas de la tabla. defStart: día (número) para actividades sin
+   predecesoras ni inicio_min. Devuelve Map id → {ini, fin, S, F, dep, resumen}
+   (ini/fin son los días mostrados), más la lista de ids en ciclo. */
+function crSchedule(rows, defStart){
+  const by = new Map(rows.map(t => [t.id, {t, kids:[], S:null, F:null, dep:null}]));
+  for(const n of by.values()){
+    const p = n.t.parent_id && by.get(n.t.parent_id);
+    if(p && p !== n) p.kids.push(n);
+  }
+  const ancestors = n => {
+    const a = []; let p = n.t.parent_id && by.get(n.t.parent_id);
+    while(p && a.length < 60){ a.push(p); p = p.t.parent_id && by.get(p.t.parent_id); }
+    return a;
+  };
+  const succ = new Map(), indeg = new Map(), eff = new Map();
+  for(const n of by.values()){ succ.set(n, []); indeg.set(n, 0); }
+  const edge = (a, b) => { succ.get(a).push(b); indeg.set(b, indeg.get(b)+1); };
+  for(const n of by.values()){
+    if(n.kids.length){ n.kids.forEach(k => edge(k, n)); continue; }
+    const anc = ancestors(n), list = [];
+    for(const h of [n, ...anc]){
+      for(const d of (h.t.predecesoras || [])){
+        const pn = by.get(d.id);
+        if(!pn || pn === n || anc.includes(pn)) continue;   // inexistente o su propio resumen
+        list.push({n:pn, tipo: CR_TIPOS.includes(d.tipo) ? d.tipo : 'FC', lag: Math.round(+d.desfase || 0)});
+        edge(pn, n);
+      }
+    }
+    eff.set(n, list);
+  }
+  const q = [...by.values()].filter(n => indeg.get(n) === 0);
+  for(let i = 0; i < q.length; i++){
+    const n = q[i];
+    if(n.kids.length){
+      n.S = Math.min(...n.kids.map(k => k.S));
+      n.F = Math.max(...n.kids.map(k => k.F));
+    }else{
+      const d = Math.max(0, Math.round(+n.t.duracion || 0));
+      let dep = null;
+      for(const {n:p, tipo, lag} of eff.get(n)){
+        const c = tipo === 'FC' ? p.F + lag
+                : tipo === 'CC' ? p.S + lag
+                : tipo === 'FF' ? p.F + lag - d
+                :                 p.S + lag - d;          // CF
+        dep = dep == null ? c : Math.max(dep, c);
+      }
+      const im = crD2N(n.t.inicio_min);
+      const smin = im == null ? null : im + (d === 0 ? 1 : 0);
+      let S = dep == null ? smin : (smin == null ? dep : Math.max(dep, smin));
+      if(S == null) S = defStart + (d === 0 ? 1 : 0);
+      n.dep = dep; n.S = S; n.F = S + d;
+    }
+    for(const s of succ.get(n)){
+      indeg.set(s, indeg.get(s)-1);
+      if(indeg.get(s) === 0) q.push(s);
+    }
+  }
+  const fechas = new Map(), ciclo = [];
+  for(const n of by.values()){
+    if(n.S == null){ ciclo.push(n.t.id); continue; }
+    const hito = !n.kids.length && Math.round(+n.t.duracion || 0) <= 0;
+    fechas.set(n.t.id, {S:n.S, F:n.F, dep:n.dep, ini: hito ? n.F-1 : n.S, fin: n.F-1, resumen: !!n.kids.length});
+  }
+  return {fechas, ciclo};
+}
+
+/* ═══════ ÁRBOL + CÁLCULO (con caché por proyecto) ═══════ */
+function crInvalidate(pid){ delete CR.cache[pid]; }
+function crDefStart(rows){
+  const mins = rows.map(r => crD2N(r.inicio_min)).filter(n => n != null);
+  return mins.length ? Math.min(...mins) : crToday();
+}
+function crTree(rows){
+  const byId = new Map(rows.map(r => [r.id, r]));
+  const kids = new Map(); const roots = [];
+  const byOrd = (a,b) => (a.orden||0) - (b.orden||0);
+  for(const r of rows){
+    const p = r.parent_id && byId.get(r.parent_id);
+    if(p && p !== r){ if(!kids.has(p.id)) kids.set(p.id, []); kids.get(p.id).push(r); }
+    else roots.push(r);
+  }
+  roots.sort(byOrd); kids.forEach(l => l.sort(byOrd));
+  const list = [], depth = new Map(), wbs = new Map(), num = new Map(), seen = new Set();
+  const walk = (arr, d, pre) => arr.forEach((r, i) => {
+    if(seen.has(r.id)) return; seen.add(r.id);
+    const w = pre ? `${pre}.${i+1}` : String(i+1);
+    list.push(r); depth.set(r.id, d); wbs.set(r.id, w); num.set(r.id, list.length);
+    walk(kids.get(r.id) || [], d+1, w);
+  });
+  walk(roots, 1, '');
+  rows.forEach(r => { if(!seen.has(r.id)){ list.push(r); depth.set(r.id,1); wbs.set(r.id,'?'); num.set(r.id,list.length); } });
+  return {list, byId, kids, depth, wbs, num, roots};
+}
+function crCompute(pid){
+  if(CR.cache[pid]) return CR.cache[pid];
+  const rows = CR.data[pid] || [];
+  const tr = crTree(rows);
+  const sc = crSchedule(rows, crDefStart(rows));
+  const hoy = crToday();
+  const pct = new Map(), st = new Map(), w = new Map();
+  // post-orden: avance ponderado por duración y estado agregado
+  for(let i = tr.list.length-1; i >= 0; i--){
+    const r = tr.list[i], ks = tr.kids.get(r.id), f = sc.fechas.get(r.id);
+    if(!ks){
+      const a = Math.max(0, Math.min(100, +r.avance || 0));
+      pct.set(r.id, a); w.set(r.id, Math.max(1, +r.duracion || 0));
+      st.set(r.id, a >= 100 ? 'done' : (f && f.fin < hoy) ? 'late' : (a > 0 || (f && f.ini <= hoy)) ? 'active' : 'pending');
+    }else{
+      let sw = 0, sa = 0; const ss = [];
+      ks.forEach(k => { sw += w.get(k.id); sa += w.get(k.id)*pct.get(k.id); ss.push(st.get(k.id)); });
+      w.set(r.id, sw); pct.set(r.id, sw ? sa/sw : 0);
+      st.set(r.id, ss.every(s => s === 'done') ? 'done' : ss.includes('late') ? 'late'
+                 : ss.some(s => s === 'active' || s === 'done') ? 'active' : 'pending');
+    }
+  }
+  const all = [...sc.fechas.values()];
+  const ini = all.length ? Math.min(...all.map(f => f.ini)) : null;
+  const fin = all.length ? Math.max(...all.map(f => f.fin)) : null;
+  let tw = 0, ta = 0;
+  tr.roots.forEach(r => { tw += w.get(r.id) || 0; ta += (w.get(r.id)||0)*(pct.get(r.id)||0); });
+  const c = {...tr, sched:sc, fechas:sc.fechas, pct, st, ini, fin, avance: tw ? ta/tw : 0};
+  CR.cache[pid] = c;
+  return c;
+}
+const crIsSum = (c, id) => c.kids.has(id);
+function crPredText(c, r){
+  return (r.predecesoras || []).map(p => {
+    const n = c.num.get(p.id); if(!n) return null;
+    const l = Math.round(+p.desfase || 0);
+    return `${n}${p.tipo||'FC'}${l ? (l > 0 ? '+' : '') + l + 'd' : ''}`;
+  }).filter(Boolean).join(', ');
+}
+
+/* ═══════ CARGA Y GUARDADO ═══════ */
+async function crLoad(pid, force){
+  if(CR.data[pid] && !force) return CR.data[pid];
+  if(CR.loading[pid]) return CR.loading[pid];
+  CR.loading[pid] = (async () => {
+    try{
+      const {data, error} = await db.from('cronograma').select('*')
+        .eq('proyecto_id', pid).order('orden').range(0, 9999);
+      if(error) throw error;
+      CR.data[pid] = data || []; CR.missing = false;
+    }catch(e){
+      if(/cronograma|relation|schema cache|does not exist/i.test(e.message || '')) CR.missing = true;
+      CR.data[pid] = CR.data[pid] || [];
+    }finally{ delete CR.loading[pid]; }
+    crInvalidate(pid);
+    return CR.data[pid];
+  })();
+  return CR.loading[pid];
+}
+function crClone(rows){ return rows.map(r => ({...r, predecesoras: (r.predecesoras || []).map(p => ({...p}))})); }
+function crClean(r){
+  const o = {};
+  CR_COLS.forEach(k => o[k] = r[k] === undefined ? null : r[k]);
+  o.predecesoras = o.predecesoras || [];
+  o.avance = Math.round(+o.avance || 0);
+  o.duracion = Math.max(0, Math.round(+o.duracion || 0));
+  return o;
+}
+const crSame = (a, b) => CR_COLS.every(k => JSON.stringify(a[k] ?? null) === JSON.stringify(b[k] ?? null));
+
+/** Copia en inicio/fin las fechas calculadas. Devuelve los ids en ciclo. */
+function crStamp(rows){
+  const sc = crSchedule(rows, crDefStart(rows));
+  rows.forEach(r => {
+    const f = sc.fechas.get(r.id);
+    r.inicio = f ? crN2S(f.ini) : null;
+    r.fin    = f ? crN2S(f.fin) : null;
+  });
+  return sc.ciclo;
+}
+
+/** Guarda la diferencia entre el estado actual y `next`. Todas las
+    ediciones pasan por aquí: así el deshacer es solo volver a un estado. */
+async function crCommit(pid, next, msg, opt = {}){
+  const prev = CR.data[pid] || [];
+  const ciclo = crStamp(next);
+  if(ciclo.length && !opt.allowCycle){
+    toast('Ese vínculo crea un ciclo: una actividad terminaría dependiendo de sí misma', 'err');
+    return false;
+  }
+  const pm = new Map(prev.map(r => [r.id, r])), nm = new Map(next.map(r => [r.id, r]));
+  const ups  = next.filter(r => !pm.has(r.id) || !crSame(pm.get(r.id), r)).map(crClean);
+  const dels = prev.filter(r => !nm.has(r.id)).map(r => r.id);
+  if(!ups.length && !dels.length) return true;
+  if(opt.undo !== false){ CR.undo.push({pid, rows: prev}); if(CR.undo.length > 40) CR.undo.shift(); }
+  CR.data[pid] = next; crInvalidate(pid); crRerender();
+  CR.saving = true; CR.lastWrite = Date.now(); sync('busy');
+  try{
+    for(let i = 0; i < dels.length; i += 100){
+      const {error} = await db.from('cronograma').delete().in('id', dels.slice(i, i+100));
+      if(error) throw error;
+    }
+    // Padres antes que hijas, por la llave foránea parent_id
+    const tr = crTree(next);
+    ups.sort((a,b) => (tr.depth.get(a.id)||1) - (tr.depth.get(b.id)||1));
+    for(let i = 0; i < ups.length; i += 400){
+      const {error} = await db.from('cronograma').upsert(ups.slice(i, i+400));
+      if(error) throw error;
+    }
+    sync('ok'); if(msg) toast(msg);
+    return true;
+  }catch(e){
+    sync('err'); toast('No se pudo guardar: ' + (e.message || e), 'err');
+    if(opt.undo !== false) CR.undo.pop();
+    await crLoad(pid, true); crRerender();
+    return false;
+  }finally{ CR.saving = false; CR.lastWrite = Date.now(); }
+}
+async function crUndo(){
+  let i = CR.undo.length - 1;
+  while(i >= 0 && CR.undo[i].pid !== CR.pid) i--;
+  if(i < 0){ toast('Nada que deshacer'); return; }
+  const [e] = CR.undo.splice(i, 1);
+  await crCommit(e.pid, crClone(e.rows), 'Cambio deshecho', {undo:false, allowCycle:true});
+}
+/* Cambios hechos por otra persona: recargar (con pausa, y nunca a mitad
+   de una edición). Los eventos propios se ignoran por tiempo. */
+function crRemote(){
+  if(CR.saving || Date.now() - CR.lastWrite < 4000) return;
+  clearTimeout(CR._rt);
+  CR._rt = setTimeout(async () => {
+    const pids = Object.keys(CR.data).map(Number);
+    await Promise.all(pids.map(p => crLoad(p, true)));
+    CR.undo = [];
+    crRerender();
+  }, 900);
+}
+function crRerender(){
+  if(S.tab === 'crono') renderCrono();
+  else if(S.tab === 'projdet') renderProjDetail();
+}
+
+/* ═══════ TARJETA EN EL DETALLE DEL PROYECTO ═══════ */
+function crCardHtml(p){
+  if(isObra()) return '';
+  const rows = CR.data[p.id];
+  const head = extra => `<div class="cr-card-h"><span class="ct-t">📅 Cronograma</span><div class="ct-hr">${extra||''}</div></div>`;
+  if(!rows){
+    crLoad(p.id).then(() => { if(S.tab === 'projdet' && S.pdProj === p.id) renderProjDetail(); });
+    return `<div class="cr-card">${head()}<div class="cr-card-e">Cargando cronograma…</div></div>`;
+  }
+  if(CR.missing) return `<div class="cr-card">${head()}<div class="cr-card-e">
+    Falta crear la tabla <code>cronograma</code> en Supabase (archivo <code>cronograma.sql</code>).</div></div>`;
+  if(!rows.length){
+    return `<div class="cr-card cr-off">${head()}<div class="cr-card-e">
+      <div><strong>Sin cronograma</strong><div class="ct-off-s">Actividades con duración y dependencias; las fechas se recalculan solas, como en Planner.</div></div>
+      ${isAdmin() ? `<div class="cr-card-btns">
+        <button class="btn btn-sm" onclick="crNewBlank(${p.id})">Crear en blanco</button>
+        <button class="btn btn-pri btn-sm" onclick="crImportPick(${p.id})">⤓ Importar desde Planner</button></div>` : ''}
+    </div></div>`;
+  }
+  const c = crCompute(p.id), hoy = crToday();
+  const leaves = c.list.filter(r => !crIsSum(c, r.id));
+  const late = leaves.filter(r => c.st.get(r.id) === 'late');
+  const act  = leaves.filter(r => c.st.get(r.id) === 'active');
+  const prox = leaves.filter(r => { const f = c.fechas.get(r.id); return f && f.ini > hoy && f.ini <= hoy + 30 && c.st.get(r.id) !== 'done'; })
+                     .sort((a,b) => c.fechas.get(a.id).ini - c.fechas.get(b.id).ini);
+  // Carriles: las fases (hijas de la raíz si hay una sola raíz)
+  const lanes = (c.roots.length === 1 && c.kids.get(c.roots[0].id)) ? c.kids.get(c.roots[0].id) : c.roots;
+  const T0 = c.ini, T1 = Math.max(c.fin, T0 + 1), span = T1 - T0 + 1;
+  const X = n => ((n - T0) / span * 100).toFixed(3);
+  const lane = r => {
+    const f = c.fechas.get(r.id); if(!f) return '';
+    const s = c.st.get(r.id), pc = Math.round(c.pct.get(r.id) || 0);
+    return `<div class="crl" onclick="crOpenView(${p.id}, '${r.id}')" title="${esc(r.nombre)} · ${crFmtL(f.ini)} – ${crFmtL(f.fin)} · ${pc}%">
+      <div class="crl-n">${esc(r.nombre)}</div>
+      <div class="crl-t"><div class="crl-b st-${s}" style="left:${X(f.ini)}%;width:max(4px,${(( f.fin - f.ini + 1) / span * 100).toFixed(3)}%)"><i style="width:${pc}%"></i></div>
+      ${hoy >= T0 && hoy <= T1 ? `<div class="crl-hoy" style="left:${X(hoy)}%"></div>` : ''}</div></div>`;
+  };
+  const yrs = []; for(let y = new Date(T0*CR_MS).getUTCFullYear() + 1; Date.UTC(y,0,1)/CR_MS <= T1; y++) yrs.push(y);
+  const item = (r, kind) => { const f = c.fechas.get(r.id);
+    return `<div class="cr-li" onclick="crOpenView(${p.id}, '${r.id}')"><span class="cr-li-d ${kind}">${crFmt(kind === 'late' ? f.fin : f.ini)}</span><span class="cr-li-n">${esc(r.nombre)}</span></div>`; };
+  const lst = (t, arr, kind, vacio) => `<div class="cr-lst"><div class="cr-lst-h">${t} <span>${arr.length}</span></div>
+      ${arr.length ? arr.slice(0,5).map(r => item(r, kind)).join('') + (arr.length > 5 ? `<div class="cr-li-more" onclick="crOpenView(${p.id}, null, '${kind === 'late' ? 'late' : 'prox'}')">Ver las ${arr.length} →</div>` : '') : `<div class="cr-li-v">${vacio}</div>`}</div>`;
+  return `<div class="cr-card">
+    ${head(`<span class="ct-kpi">${c.list.length} actividades</span>
+      ${late.length ? `<span class="ct-kpi rojo">${late.length} atrasada(s)</span>` : ''}
+      <button class="btn btn-pri btn-sm" onclick="crOpenView(${p.id})">Abrir cronograma →</button>`)}
+    <div class="cr-card-b">
+      <div class="cr-kp">
+        <div><small>Inicio</small><b>${crFmtL(c.ini)}</b></div>
+        <div><small>Fin proyectado</small><b>${crFmtL(c.fin)}</b></div>
+        <div><small>Avance ponderado</small><b>${Math.round(c.avance)}%</b><span class="cr-prog"><i style="width:${Math.round(c.avance)}%"></i></span></div>
+        <div><small>En curso hoy</small><b>${act.length}</b></div>
+      </div>
+      <div class="crl-wrap">
+        <div class="crl crl-ax"><div class="crl-n"></div><div class="crl-t">${yrs.map(y => `<span style="left:${X(Date.UTC(y,0,1)/CR_MS)}%">${y}</span>`).join('')}</div></div>
+        ${lanes.map(lane).join('')}
+      </div>
+      <div class="cr-lsts">
+        ${lst('Atrasadas', late.sort((a,b) => c.fechas.get(a.id).fin - c.fechas.get(b.id).fin), 'late', 'Nada atrasado')}
+        ${lst('Arrancan en 30 días', prox, 'prox', 'Nada en los próximos 30 días')}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ═══════ VISTA COMPLETA ═══════ */
+async function crOpenView(pid, selId, filtro){
+  if(isObra()) return;
+  if(CR.pid !== pid){ CR.q = ''; CR.filtro = 'todo'; CR.sel = null; CR.scrolledPid = null; }
+  CR.pid = pid;
+  if(selId) CR.sel = selId;
+  if(filtro) CR.filtro = filtro;
+  S.tab = 'crono';
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nav-b').forEach(b => b.classList.remove('on'));
+  g('sec-crono').classList.add('on');
+  document.querySelector('.nav-b[data-tab="proyectos"]')?.classList.add('on');
+  g('cr-body').innerHTML = '<div class="spin-wrap"><div class="spin"></div><span>Cargando cronograma…</span></div>';
+  await crLoad(pid);
+  if(selId) crRevealSel(pid, selId);
+  renderCrono();
+  applyPermissions();
+  window.scrollTo(0, 0);
+}
+function crBack(){ openProjDetail(CR.pid); }
+function crCollapsed(pid){
+  if(!CR.collapsed[pid]){
+    let saved = null;
+    try{ saved = JSON.parse(localStorage.getItem('cparq_cr_col_' + pid) || 'null'); }catch(_){}
+    if(Array.isArray(saved)) CR.collapsed[pid] = new Set(saved);
+    else{   // por defecto: se ven 3 niveles
+      const c = crCompute(pid);
+      CR.collapsed[pid] = new Set(c.list.filter(r => crIsSum(c, r.id) && c.depth.get(r.id) >= 3).map(r => r.id));
+    }
+  }
+  return CR.collapsed[pid];
+}
+function crSaveCollapsed(pid){ try{ localStorage.setItem('cparq_cr_col_' + pid, JSON.stringify([...crCollapsed(pid)])); }catch(_){} }
+function crToggle(ev, id){
+  ev.stopPropagation();
+  const s = crCollapsed(CR.pid);
+  s.has(id) ? s.delete(id) : s.add(id);
+  crSaveCollapsed(CR.pid); renderCrono();
+}
+function crLevel(n){
+  const c = crCompute(CR.pid), s = crCollapsed(CR.pid);
+  s.clear();
+  if(n) c.list.forEach(r => { if(crIsSum(c, r.id) && c.depth.get(r.id) >= n) s.add(r.id); });
+  crSaveCollapsed(CR.pid); renderCrono();
+}
+/** Abre los resúmenes que esconden a una actividad. */
+function crRevealSel(pid, id){
+  const c = crCompute(pid), s = crCollapsed(pid);
+  let r = c.byId.get(id);
+  while(r && r.parent_id){ s.delete(r.parent_id); r = c.byId.get(r.parent_id); }
+  crSaveCollapsed(pid);
+}
+function crSetView(k, v){ CR[k] = v; renderCrono(); if(k === 'escala') setTimeout(crScrollToday, 0); }
+
+/** Filas visibles según contraídos y filtro. */
+function crVisible(c){
+  const hoy = crToday(), q = (CR.q || '').trim().toLowerCase();
+  const f = CR.filtro;
+  if(f === 'todo' && !q){
+    const col = crCollapsed(CR.pid), out = [];
+    const hidden = new Set();
+    for(const r of c.list){
+      if(r.parent_id && (hidden.has(r.parent_id) || col.has(r.parent_id))){ hidden.add(r.id); continue; }
+      out.push(r);
+    }
+    return out;
+  }
+  const match = r => {
+    if(crIsSum(c, r.id)) return false;
+    const st = c.st.get(r.id), fe = c.fechas.get(r.id);
+    if(q && !(r.nombre || '').toLowerCase().includes(q) && !(r.responsable || '').toLowerCase().includes(q)) return false;
+    if(f === 'late') return st === 'late';
+    if(f === 'open') return st !== 'done';
+    if(f === 'act')  return st === 'active' || st === 'late';
+    if(f === 'prox') return fe && fe.ini > hoy && fe.ini <= hoy + 30 && st !== 'done';
+    if(f === 'hitos') return (+r.duracion || 0) === 0;
+    return true;
+  };
+  const keep = new Set();
+  c.list.forEach(r => { if(match(r)){ let x = r; while(x && !keep.has(x.id)){ keep.add(x.id); x = x.parent_id && c.byId.get(x.parent_id); } } });
+  return c.list.filter(r => keep.has(r.id));
+}
+
+function crRange(c){
+  const hoy = crToday();
+  let a = Math.min(c.ini ?? hoy, hoy), b = Math.max(c.fin ?? hoy, hoy);
+  if(CR.showBase) c.list.forEach(r => { const i = crD2N(r.inicio_base), f = crD2N(r.fin_base); if(i != null) a = Math.min(a, i); if(f != null) b = Math.max(b, f); });
+  const da = new Date(a*CR_MS), db_ = new Date(b*CR_MS);
+  let T0 = Date.UTC(da.getUTCFullYear(), da.getUTCMonth() - (CR.escala === 'tri' ? da.getUTCMonth() % 3 : 0), 1)/CR_MS;
+  let T1 = Date.UTC(db_.getUTCFullYear(), db_.getUTCMonth() + 2, 0)/CR_MS;
+  if(CR.escala === 'sem'){ T0 -= (new Date(T0*CR_MS).getUTCDay() + 6) % 7; }
+  return {T0, T1, px: CR_ESCALAS[CR.escala].px, W: Math.ceil((T1 - T0 + 1) * CR_ESCALAS[CR.escala].px)};
+}
+function crHeadHtml(R){
+  const {T0, T1, px} = R, top = [], bot = [], lines = [];
+  const X = n => ((n - T0) * px).toFixed(1);
+  const d0 = new Date(T0*CR_MS);
+  if(CR.escala === 'sem'){
+    for(let y = d0.getUTCFullYear(), m = d0.getUTCMonth(); ; m++){
+      const s = Date.UTC(y, m, 1)/CR_MS, e = Date.UTC(y, m+1, 0)/CR_MS; if(s > T1) break;
+      const a = Math.max(s, T0);
+      top.push(`<span style="left:${X(a)}px;width:${((e - a + 1)*px).toFixed(1)}px">${CR_MESES[new Date(s*CR_MS).getUTCMonth()]} ${new Date(s*CR_MS).getUTCFullYear()}</span>`);
+    }
+    for(let n = T0; n <= T1; n += 7){
+      bot.push(`<span style="left:${X(n)}px;width:${7*px}px">${new Date(n*CR_MS).getUTCDate()}</span>`);
+      lines.push(`<i style="left:${X(n)}px"></i>`);
+    }
+  }else{
+    for(let y = d0.getUTCFullYear(); Date.UTC(y,0,1)/CR_MS <= T1; y++){
+      const s = Math.max(Date.UTC(y,0,1)/CR_MS, T0), e = Math.min(Date.UTC(y,11,31)/CR_MS, T1);
+      top.push(`<span style="left:${X(s)}px;width:${((e - s + 1)*px).toFixed(1)}px">${y}</span>`);
+    }
+    const step = CR.escala === 'tri' ? 3 : 1;
+    for(let y = d0.getUTCFullYear(), m = d0.getUTCMonth(); ; m += step){
+      const s = Date.UTC(y, m, 1)/CR_MS; if(s > T1) break;
+      const dd = new Date(s*CR_MS), e = Date.UTC(dd.getUTCFullYear(), dd.getUTCMonth() + step, 0)/CR_MS;
+      const lbl = step === 3 ? 'T' + (Math.floor(dd.getUTCMonth()/3) + 1) : CR_MESES[dd.getUTCMonth()];
+      bot.push(`<span style="left:${X(s)}px;width:${((e - s + 1)*px).toFixed(1)}px">${lbl}</span>`);
+      lines.push(`<i class="${dd.getUTCMonth() === 0 ? 'y' : ''}" style="left:${X(s)}px"></i>`);
+    }
+  }
+  return {head: `<div class="cr-ht">${top.join('')}</div><div class="cr-hb">${bot.join('')}</div>`, lines: lines.join('')};
+}
+
+function renderCrono(){
+  if(CR.editing || CR.drag){ CR.pendingRender = true; return; }
+  CR.pendingRender = false;
+  const p = S.projects.find(x => x.id === CR.pid);
+  const body = g('cr-body');
+  if(!p){ body.innerHTML = '<div class="pd-empty">Proyecto no encontrado</div>'; return; }
+  const rows = CR.data[p.id] || [];
+  if(CR.missing || !rows.length){
+    body.innerHTML = `<div class="pd-hero"><div class="pd-name">${esc(p.nombre)}</div><div class="pd-meta"><span>Cronograma</span></div></div>
+      ${crCardHtml(p)}`;
+    return;
+  }
+  const c = crCompute(p.id), adm = isAdmin(), hoy = crToday();
+  const vis = crVisible(c), R = crRange(c), H = crHeadHtml(R);
+  const X = n => (n - R.T0) * R.px;
+  const col = crCollapsed(p.id);
+  const lateN = c.list.filter(r => !crIsSum(c, r.id) && c.st.get(r.id) === 'late').length;
+  const selR = CR.sel && c.byId.get(CR.sel);
+
+  // Guarda el scroll para no saltar al redibujar
+  const sc = g('cr-scroll'); const keep = sc ? [sc.scrollLeft, sc.scrollTop] : null;
+
+  const rowsHtml = vis.map((r, i) => {
+    const f = c.fechas.get(r.id), sum = crIsSum(c, r.id), d = c.depth.get(r.id);
+    const s = c.st.get(r.id), pc = Math.round(c.pct.get(r.id) || 0);
+    const dur = sum ? (f ? f.F - f.S : 0) : Math.round(+r.duracion || 0);
+    const hito = !sum && dur === 0;
+    const pinned = !sum && r.inicio_min && (r.predecesoras || []).length;
+    const ed = (fld, extra='') => adm ? ` onclick="crCell(event,'${r.id}','${fld}')"${extra}` : '';
+    let bar = '';
+    if(f){
+      const x = X(f.ini), w = Math.max((f.fin - f.ini + 1) * R.px, 3);
+      const tip = `${esc(r.nombre)}\n${crFmtL(f.ini)} – ${crFmtL(f.fin)} · ${crDur(dur)} · ${pc}%`;
+      if(sum)       bar = `<div class="crb sum" style="left:${x}px;width:${w}px" title="${tip}"><i style="width:${pc}%"></i></div>`;
+      else if(hito) bar = `<div class="crb hito st-${s}" style="left:${X(f.fin) + R.px - 7}px" title="${tip}" data-id="${r.id}"${adm ? ` onpointerdown="crDragStart(event,'${r.id}','move')"` : ''}></div>`;
+      else          bar = `<div class="crb st-${s}" style="left:${x}px;width:${w}px" title="${tip}" data-id="${r.id}"${adm ? ` onpointerdown="crDragStart(event,'${r.id}','move')"` : ''}><i style="width:${pc}%"></i>${adm ? `<b onpointerdown="event.stopPropagation();crDragStart(event,'${r.id}','size')"></b>` : ''}</div>`;
+      if(R.px >= 3 && !sum) bar += `<span class="crb-lbl" style="left:${(hito ? X(f.fin) + R.px + 8 : x + w + 6)}px">${esc(r.nombre)}</span>`;
+    }
+    if(CR.showBase && r.inicio_base && r.fin_base){
+      const bi = crD2N(r.inicio_base), bf = crD2N(r.fin_base);
+      bar = `<div class="crb-base" style="left:${X(bi)}px;width:${Math.max((bf - bi + 1)*R.px, 2)}px"></div>` + bar;
+    }
+    return `<div class="cr-row${sum ? ' sum' : ''}${r.id === CR.sel ? ' sel' : ''} d${Math.min(d,6)}" data-id="${r.id}" onclick="crSelect('${r.id}')" ondblclick="crOpen('${r.id}')">
+      <div class="cr-cells">
+        <div class="cc c-num st-${s}">${c.num.get(r.id)}</div>
+        <div class="cc c-name" style="padding-left:${6 + (d-1)*14}px">${sum
+          ? `<button class="cr-car" onclick="crToggle(event,'${r.id}')">${col.has(r.id) && CR.filtro === 'todo' && !CR.q ? '▸' : '▾'}</button>`
+          : `<span class="cr-car0">${hito ? '◆' : ''}</span>`}<span class="c-wbs">${c.wbs.get(r.id)}</span><span class="c-nm"${ed('nombre')} title="${esc(r.nombre)}">${esc(r.nombre)}</span></div>
+        <div class="cc c-dur${sum ? ' ro' : ''}"${sum ? '' : ed('duracion')}>${dur}d</div>
+        <div class="cc c-ini${sum ? ' ro' : ''}"${sum ? '' : ed('inicio')}>${f ? crFmt(f.ini) : '—'}${pinned ? '<span class="cr-pin" title="Tiene restricción: no comenzar antes de ' + crFmtL(crD2N(r.inicio_min)) + '">📌</span>' : ''}</div>
+        <div class="cc c-fin${sum ? ' ro' : ''}"${sum ? '' : ed('fin')}>${f ? crFmt(f.fin) : '—'}</div>
+        <div class="cc c-pred"${ed('pred')} title="${esc(crPredText(c, r))}">${esc(crPredText(c, r))}</div>
+        <div class="cc c-pct${sum ? ' ro' : ''} st-${s}"${sum ? '' : ed('avance')}>${pc}%</div>
+      </div>
+      <div class="cr-tl" style="width:${R.W}px">${bar}</div>
+    </div>`;
+  }).join('');
+
+  const fb = (v, l) => `<button class="ct-tab${CR.escala === v ? ' on' : ''}" onclick="crSetView('escala','${v}')">${l}</button>`;
+  const lv = n => `<button class="ct-tab" onclick="crLevel(${n})">${n || 'Todo'}</button>`;
+  const hasUndo = CR.undo.some(u => u.pid === p.id);
+  body.innerHTML = `
+    <div class="cr-top">
+      <div>
+        <div class="pd-name">${esc(p.nombre)} <span class="cr-top-s">· Cronograma</span></div>
+        <div class="cr-top-m">
+          <span><b>${c.list.length}</b> actividades</span>
+          <span>Inicio <b>${crFmtL(c.ini)}</b></span>
+          <span>Fin proyectado <b>${crFmtL(c.fin)}</b></span>
+          <span>Avance <b>${Math.round(c.avance)}%</b></span>
+          ${lateN ? `<span class="cr-rojo" onclick="crSetView('filtro','late')"><b>${lateN}</b> atrasada(s)</span>` : ''}
+          ${c.sched.ciclo.length ? `<span class="cr-rojo"><b>${c.sched.ciclo.length}</b> en ciclo de vínculos</span>` : ''}
+        </div>
+      </div>
+    </div>
+    <div class="cr-bar">
+      ${adm ? `<div class="cr-grp">
+        <button class="btn btn-pri btn-sm" onclick="crInsert(false)" title="Nueva actividad debajo de la seleccionada (Insert)">＋ Actividad</button>
+        <button class="btn btn-sm" onclick="crInsert(true)" title="Nuevo hito (0 días)">◆ Hito</button>
+        <button class="btn btn-sm" onclick="crIndent(1)" title="Aplicar sangría: pasa a ser subtarea de la anterior (Alt+Shift+→)"${selR ? '' : ' disabled'}>⇥</button>
+        <button class="btn btn-sm" onclick="crIndent(-1)" title="Quitar sangría (Alt+Shift+←)"${selR ? '' : ' disabled'}>⇤</button>
+        <button class="btn btn-sm" onclick="crMove(-1)" title="Subir (Alt+Shift+↑)"${selR ? '' : ' disabled'}>↑</button>
+        <button class="btn btn-sm" onclick="crMove(1)" title="Bajar (Alt+Shift+↓)"${selR ? '' : ' disabled'}>↓</button>
+        <button class="btn btn-sm" onclick="crOpen(CR.sel)" title="Editar la seleccionada (Enter)"${selR ? '' : ' disabled'}>✏️</button>
+        <button class="btn btn-sm cr-del" onclick="crDelete()" title="Eliminar la seleccionada y sus subtareas"${selR ? '' : ' disabled'}>🗑</button>
+        <button class="btn btn-sm" onclick="crUndo()" title="Deshacer (Ctrl+Z)"${hasUndo ? '' : ' disabled'}>↶ Deshacer</button>
+      </div>` : ''}
+      <div class="cr-grp">
+        <span class="cr-lbl">Nivel</span><div class="ct-tabs">${lv(1)}${lv(2)}${lv(3)}${lv(4)}${lv(0)}</div>
+        <div class="ct-tabs">${fb('sem','Sem')}${fb('mes','Mes')}${fb('tri','Trim')}</div>
+        <button class="btn btn-sm" onclick="crScrollToday()">Hoy</button>
+      </div>
+      <div class="cr-grp">
+        <select class="cr-sel" onchange="crSetView('filtro', this.value)">
+          ${[['todo','Todas'],['open','Sin terminar'],['act','En curso y atrasadas'],['late','Atrasadas'],['prox','Arrancan en 30 días'],['hitos','Hitos']]
+            .map(([v,l]) => `<option value="${v}"${CR.filtro === v ? ' selected' : ''}>${l}</option>`).join('')}
+        </select>
+        <input class="cr-q" id="cr-q" type="search" placeholder="Buscar…" value="${escT(CR.q)}" oninput="CR.q=this.value;clearTimeout(CR._q);CR._q=setTimeout(()=>{renderCrono();const e=g('cr-q');if(e){e.focus();e.setSelectionRange(e.value.length,e.value.length)}},250)">
+        <label class="cr-chk"><input type="checkbox" ${CR.showBase ? 'checked' : ''} onchange="crSetView('showBase', this.checked)"> Línea base</label>
+        <button class="btn btn-sm" onclick="crSetView('compact', !CR.compact)" title="Mostrar u ocultar columnas">▤</button>
+        ${adm ? `<button class="btn btn-sm" onclick="crMenu(event)">⋯</button>` : ''}
+      </div>
+    </div>
+    <div class="cr-scroll${CR.compact ? ' compact' : ''}" id="cr-scroll">
+      <div class="cr-grid" style="--tlw:${R.W}px">
+        <div class="cr-head">
+          <div class="cr-cells"><div class="cc c-num">#</div><div class="cc c-name">Actividad</div><div class="cc c-dur">Dur.</div><div class="cc c-ini">Inicio</div><div class="cc c-fin">Fin</div><div class="cc c-pred">Predec.</div><div class="cc c-pct">%</div></div>
+          <div class="cr-tl cr-th" style="width:${R.W}px">${H.head}</div>
+        </div>
+        <div class="cr-bodyw">
+          <div class="cr-lines" style="width:${R.W}px">${H.lines}${hoy >= R.T0 && hoy <= R.T1 ? `<div class="cr-hoy" style="left:${X(hoy) + R.px/2}px"></div>` : ''}</div>
+          ${rowsHtml || '<div class="pd-empty">Nada coincide con el filtro</div>'}
+          <svg class="cr-arrows" id="cr-arrows" style="width:${R.W}px"></svg>
+        </div>
+      </div>
+    </div>
+    <div class="cr-foot">Clic en una celda para editarla · doble clic en la fila para el detalle · arrastra una barra para moverla o su borde derecho para cambiar la duración. ${adm ? 'Ctrl+Z deshace.' : ''}</div>`;
+  CR._R = R; CR._vis = vis;
+  const s2 = g('cr-scroll');
+  if(keep){ s2.scrollLeft = keep[0]; s2.scrollTop = keep[1]; }
+  if(CR.scrolledPid !== p.id){ CR.scrolledPid = p.id; crScrollToday(); if(CR.sel) crScrollToSel(); }
+  crDrawArrows();
+}
+function crScrollToday(){
+  const sc = g('cr-scroll'), R = CR._R; if(!sc || !R) return;
+  const lw = sc.querySelector('.cr-head .cr-cells').offsetWidth;
+  sc.scrollLeft = Math.max(0, (crToday() - R.T0) * R.px - (sc.clientWidth - lw) * 0.25);
+}
+function crScrollToSel(){
+  const sc = g('cr-scroll'); const el = sc && sc.querySelector(`.cr-row[data-id="${CR.sel}"]`);
+  if(!el) return;
+  const top = el.offsetTop - sc.clientHeight/3;
+  sc.scrollTop = Math.max(0, top);
+  const c = crCompute(CR.pid), f = c.fechas.get(CR.sel), R = CR._R;
+  if(f && R){ const lw = sc.querySelector('.cr-head .cr-cells').offsetWidth; sc.scrollLeft = Math.max(0, (f.ini - R.T0)*R.px - 80); }
+}
+function crSelect(id){
+  if(CR.sel === id) return;
+  CR.sel = id;
+  document.querySelectorAll('#cr-scroll .cr-row.sel').forEach(e => e.classList.remove('sel'));
+  document.querySelector(`#cr-scroll .cr-row[data-id="${id}"]`)?.classList.add('sel');
+  document.querySelectorAll('.cr-bar button[disabled]').forEach(b => { if(!/Deshacer/.test(b.textContent)) b.disabled = false; });
+  crDrawArrows();
+}
+/** Flechas de vínculo: solo las de la actividad seleccionada (entradas y salidas). */
+function crDrawArrows(){
+  const svg = g('cr-arrows'); if(!svg) return;
+  const c = crCompute(CR.pid), R = CR._R, vis = CR._vis || [];
+  const idx = new Map(vis.map((r, i) => [r.id, i]));
+  if(!CR.sel || !idx.has(CR.sel)){ svg.innerHTML = ''; return; }
+  const X = n => (n - R.T0) * R.px;
+  const pairs = [];
+  const me = c.byId.get(CR.sel);
+  (me.predecesoras || []).forEach(p => pairs.push([p.id, CR.sel, p.tipo || 'FC']));
+  c.list.forEach(r => (r.predecesoras || []).forEach(p => { if(p.id === CR.sel) pairs.push([CR.sel, r.id, p.tipo || 'FC']); }));
+  const pts = pairs.filter(([a,b]) => idx.has(a) && idx.has(b)).map(([a, b, t]) => {
+    const fa = c.fechas.get(a), fb = c.fechas.get(b); if(!fa || !fb) return '';
+    const ya = idx.get(a)*CR_ROW_H + CR_ROW_H/2, yb = idx.get(b)*CR_ROW_H + CR_ROW_H/2;
+    const xa = (t === 'FC' || t === 'FF') ? X(fa.fin + 1) : X(fa.ini);
+    const xb = (t === 'FC' || t === 'CC') ? X(fb.ini) : X(fb.fin + 1);
+    const into = (t === 'FC' || t === 'CC') ? -1 : 1;     // entra por la izquierda o por la derecha
+    const xe = xb + (into < 0 ? -2 : 2);
+    let d;
+    if(into < 0 && xb - xa >= 14) d = `M${xa},${ya} H${xa + 6} V${yb} H${xe}`;
+    else if(into > 0) d = `M${xa},${ya} H${Math.max(xa, xb) + 10} V${yb} H${xe}`;
+    else{   // la sucesora arranca antes o junto: rodea por el espacio entre filas
+      const ym = ya + (yb > ya ? 1 : -1) * CR_ROW_H/2;
+      d = `M${xa},${ya} H${xa + 6} V${ym} H${xb - 8} V${yb} H${xe}`;
+    }
+    return `<path d="${d}" /><path class="h" d="M${xe},${yb} l${into < 0 ? -5 : 5},-4 v8 z"/>`;
+  });
+  svg.style.height = (vis.length * CR_ROW_H) + 'px';
+  svg.innerHTML = pts.join('');
+}
+
+/* ═══════ EDICIÓN EN CELDA ═══════ */
+function crParseDur(v){
+  const m = String(v).trim().toLowerCase().replace(',', '.').match(/^(-?\d+(?:\.\d+)?)\s*(d|día|dia|días|dias|s|sem|semana|semanas|m|mes|meses)?$/);
+  if(!m) return null;
+  const n = +m[1], u = m[2] || 'd';
+  return Math.round(n * (/^s/.test(u) ? 7 : /^m/.test(u) ? 30 : 1));
+}
+/** "12FC+5d, 14CC, 20" → [{id,tipo,desfase}]. Acepta también FS/SS/SF de Project. */
+function crParsePred(txt, c, selfId){
+  const out = [], errs = [];
+  String(txt || '').split(/[,;]/).map(s => s.trim()).filter(Boolean).forEach(tok => {
+    const m = tok.toUpperCase().replace(/\s+/g,'').match(/^(\d+)(FC|CC|FF|CF|FS|SS|SF)?(?:([+-]\d+(?:[.,]\d+)?)(D|DÍAS|DIAS|S|SEM)?)?$/);
+    if(!m){ errs.push(`"${tok}" no se entiende`); return; }
+    const r = c.list[+m[1] - 1];
+    if(!r){ errs.push(`No existe la fila ${m[1]}`); return; }
+    if(r.id === selfId){ errs.push('Una actividad no puede depender de sí misma'); return; }
+    const tipo = {FS:'FC', SS:'CC', SF:'CF'}[m[2]] || m[2] || 'FC';
+    let lag = m[3] ? +m[3].replace(',', '.') : 0;
+    if(m[4] && /^S/.test(m[4])) lag *= 7;
+    out.push({id: r.id, tipo, desfase: Math.round(lag)});
+  });
+  return {list: out, errs};
+}
+function crCell(ev, id, fld){
+  ev.stopPropagation();
+  if(CR.sel !== id) crSelect(id);
+  const cell = ev.currentTarget.closest('.cc') || ev.currentTarget;
+  const c = crCompute(CR.pid), r = c.byId.get(id), f = c.fechas.get(id);
+  if(!r) return;
+  let val = '', type = 'text';
+  if(fld === 'nombre') val = r.nombre;
+  else if(fld === 'duracion') val = Math.round(+r.duracion || 0);
+  else if(fld === 'inicio'){ type = 'date'; val = crN2S(f ? f.ini : crD2N(r.inicio_min)) || ''; }
+  else if(fld === 'fin'){ type = 'date'; val = crN2S(f ? f.fin : null) || ''; }
+  else if(fld === 'pred') val = crPredText(c, r);
+  else if(fld === 'avance') val = Math.round(+r.avance || 0);
+  CR.editing = true;
+  cell.classList.add('editing');
+  cell.innerHTML = `<input class="cr-in" type="${type}" value="${escT(String(val))}"${fld === 'pred' ? ' placeholder="ej. 12FC+5d, 14CC"' : ''}>`;
+  const inp = cell.querySelector('input');
+  inp.focus(); if(type === 'text') inp.select();
+  let done = false;
+  const finish = async save => {
+    if(done) return; done = true;
+    CR.editing = false;
+    if(save && inp.value !== String(val)) await crApplyField(id, fld, inp.value);
+    else renderCrono();
+    if(CR.pendingRender) renderCrono();
+  };
+  inp.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ e.preventDefault(); finish(true); }
+    else if(e.key === 'Escape'){ e.preventDefault(); finish(false); }
+    else if(e.key === 'Tab'){ e.preventDefault(); finish(true); }
+  });
+  inp.addEventListener('blur', () => finish(true));
+  inp.addEventListener('click', e => e.stopPropagation());
+  inp.addEventListener('dblclick', e => e.stopPropagation());
+}
+async function crApplyField(id, fld, v){
+  const pid = CR.pid, c = crCompute(pid);
+  const next = crClone(CR.data[pid]);
+  const r = next.find(x => x.id === id); if(!r) return;
+  const f = c.fechas.get(id);
+  if(fld === 'nombre'){
+    if(!v.trim()){ toast('El nombre no puede quedar vacío', 'err'); renderCrono(); return; }
+    r.nombre = v.trim();
+  }else if(fld === 'duracion'){
+    const d = crParseDur(v);
+    if(d == null || d < 0){ toast('Duración no válida. Ej.: 5, 5d, 2s', 'err'); renderCrono(); return; }
+    r.duracion = d;
+  }else if(fld === 'inicio'){
+    // Escribir un inicio es fijar "no comenzar antes de" (como en Project)
+    r.inicio_min = v || null;
+    if(!v && !(r.predecesoras || []).length) r.inicio_min = f ? crN2S(f.ini) : crN2S(crToday());
+  }else if(fld === 'fin'){
+    const n = crD2N(v); if(n == null || !f){ renderCrono(); return; }
+    if(n < f.ini){ toast('El fin no puede ser anterior al inicio', 'err'); renderCrono(); return; }
+    r.duracion = n - f.ini + 1;
+  }else if(fld === 'pred'){
+    const {list, errs} = crParsePred(v, c, id);
+    if(errs.length){ toast(errs[0], 'err'); renderCrono(); return; }
+    // Al quitar todas las predecesoras, la actividad se queda donde está
+    if(!list.length && (r.predecesoras || []).length && !r.inicio_min && f) r.inicio_min = crN2S(f.ini);
+    r.predecesoras = list;
+  }else if(fld === 'avance'){
+    const a = Math.round(+String(v).replace('%','').replace(',','.'));
+    if(isNaN(a) || a < 0 || a > 100){ toast('Avance entre 0 y 100', 'err'); renderCrono(); return; }
+    r.avance = a;
+  }
+  r.updated_at = new Date().toISOString();
+  const ok = await crCommit(pid, next);
+  if(!ok) renderCrono();
+}
+
+/* ═══════ OPERACIONES DE ESTRUCTURA ═══════
+   Se trabaja sobre la lista plana en orden de árbol; un "bloque" es una
+   actividad con todas sus descendientes. Al final se renumera `orden`. */
+function crFlat(pid){
+  const c = crCompute(pid);
+  const rows = crClone(c.list);
+  const depth = rows.map(r => c.depth.get(r.id));
+  const blockEnd = i => { let j = i; while(j + 1 < rows.length && depth[j+1] > depth[i]) j++; return j; };
+  return {c, rows, depth, blockEnd};
+}
+const crRenumber = rows => rows.forEach((r, i) => r.orden = i + 1);
+
+async function crNewBlank(pid){
+  if(!isAdmin()) return;
+  const r = {id: uid(), proyecto_id: pid, parent_id: null, orden: 1, nombre: 'Nueva actividad', duracion: 1,
+             inicio_min: crN2S(crToday()), predecesoras: [], avance: 0};
+  CR.sel = r.id;
+  await crCommit(pid, [r], 'Cronograma creado');
+  crOpenView(pid, r.id);
+}
+async function crInsert(hito){
+  const pid = CR.pid, {c, rows, blockEnd} = crFlat(pid);
+  let at = rows.length, parent = null, ref = null;
+  const i = rows.findIndex(r => r.id === CR.sel);
+  if(i >= 0){ ref = rows[i]; at = blockEnd(i) + 1; parent = ref.parent_id || null; }
+  const f = ref && c.fechas.get(ref.id);
+  const r = {id: uid(), proyecto_id: pid, parent_id: parent, orden: 0, nombre: hito ? 'Nuevo hito' : 'Nueva actividad',
+             duracion: hito ? 0 : 1, inicio_min: crN2S(f ? f.ini : crToday()), predecesoras: [], avance: 0};
+  rows.splice(at, 0, r); crRenumber(rows);
+  CR.sel = r.id;
+  if(await crCommit(pid, rows)){
+    setTimeout(() => {
+      const el = document.querySelector(`#cr-scroll .cr-row[data-id="${r.id}"] .c-nm`);
+      if(el){ el.scrollIntoView({block:'nearest'}); el.click(); }
+    }, 30);
+  }
+}
+async function crIndent(dir){
+  const pid = CR.pid, {c, rows, depth, blockEnd} = crFlat(pid);
+  const i = rows.findIndex(r => r.id === CR.sel); if(i < 0) return;
+  const r = rows[i];
+  if(dir > 0){
+    // Pasa a ser la última hija de su hermana anterior
+    let j = i - 1; while(j >= 0 && depth[j] > depth[i]) j--;
+    if(j < 0 || depth[j] !== depth[i] || (rows[j].parent_id || null) !== (r.parent_id || null)){ toast('No hay una actividad anterior del mismo nivel', 'err'); return; }
+    r.parent_id = rows[j].id;
+  }else{
+    if(!r.parent_id){ toast('Ya está en el primer nivel', 'err'); return; }
+    const pi = rows.findIndex(x => x.id === r.parent_id);
+    const pend = blockEnd(pi), e = blockEnd(i);
+    const block = rows.splice(i, e - i + 1);
+    const insAt = pend - block.length + 1;          // justo después del bloque del resumen
+    rows.splice(insAt, 0, ...block);
+    r.parent_id = c.byId.get(r.parent_id).parent_id || null;
+  }
+  crRenumber(rows);
+  CR.collapsed[pid] && CR.collapsed[pid].delete(r.parent_id);
+  await crCommit(pid, rows);
+}
+async function crMove(dir){
+  const pid = CR.pid, {rows, depth, blockEnd} = crFlat(pid);
+  const i = rows.findIndex(r => r.id === CR.sel); if(i < 0) return;
+  const e = blockEnd(i), par = rows[i].parent_id || null;
+  if(dir < 0){
+    let j = i - 1; while(j >= 0 && depth[j] > depth[i]) j--;
+    if(j < 0 || depth[j] !== depth[i] || (rows[j].parent_id || null) !== par) return;
+    const block = rows.splice(i, e - i + 1); rows.splice(j, 0, ...block);
+  }else{
+    const j = e + 1;
+    if(j >= rows.length || depth[j] !== depth[i] || (rows[j].parent_id || null) !== par) return;
+    const je = blockEnd(j);
+    const nb = rows.splice(j, je - j + 1); rows.splice(i, 0, ...nb);
+  }
+  crRenumber(rows);
+  await crCommit(pid, rows);
+}
+async function crDelete(){
+  const pid = CR.pid, {rows, blockEnd} = crFlat(pid);
+  const i = rows.findIndex(r => r.id === CR.sel); if(i < 0) return;
+  const e = blockEnd(i), n = e - i + 1;
+  if(!confirm(n > 1 ? `¿Eliminar "${rows[i].nombre}" y sus ${n-1} subactividad(es)?` : `¿Eliminar "${rows[i].nombre}"?`)) return;
+  const gone = new Set(rows.splice(i, n).map(r => r.id));
+  rows.forEach(r => {
+    if((r.predecesoras || []).some(p => gone.has(p.id))){
+      const f = crCompute(pid).fechas.get(r.id);
+      r.predecesoras = r.predecesoras.filter(p => !gone.has(p.id));
+      // sin predecesoras, se queda en su fecha actual
+      if(!r.predecesoras.length && !r.inicio_min && f) r.inicio_min = crN2S(f.ini);
+    }
+  });
+  crRenumber(rows);
+  CR.sel = rows[Math.min(i, rows.length - 1)]?.id || null;
+  await crCommit(pid, rows, `${n} actividad(es) eliminada(s) · Ctrl+Z para deshacer`);
+}
+
+/* ═══════ ARRASTRE EN EL GANTT ═══════ */
+function crDragStart(ev, id, mode){
+  if(ev.button !== 0) return;
+  ev.preventDefault();
+  const el = ev.currentTarget.closest('.crb');
+  crSelect(id);
+  CR.drag = {id, mode, x0: ev.clientX, el, left: parseFloat(el.style.left), width: parseFloat(el.style.width) || 0, moved: false, dd: 0};
+  el.setPointerCapture?.(ev.pointerId);
+  const tip = document.createElement('div'); tip.className = 'cr-dtip'; document.body.appendChild(tip); CR.drag.tip = tip;
+  const move = e => {
+    const D = CR.drag; if(!D) return;
+    const dx = e.clientX - D.x0; if(Math.abs(dx) > 3) D.moved = true;
+    const px = CR._R.px, dd = Math.round(dx / px); D.dd = dd;
+    const c = crCompute(CR.pid), f = c.fechas.get(id), r = c.byId.get(id);
+    if(D.mode === 'move'){ D.el.style.left = (D.left + dd*px) + 'px'; D.tip.textContent = `Inicio: ${crFmtL(f.ini + dd)}`; }
+    else{ const nd = Math.max(1, Math.round(+r.duracion || 0) + dd); D.el.style.width = Math.max(3, nd*px) + 'px'; D.tip.textContent = `${crDur(nd)} · fin ${crFmtL(f.ini + nd - 1)}`; }
+    D.tip.style.left = (e.clientX + 12) + 'px'; D.tip.style.top = (e.clientY + 14) + 'px';
+    D.tip.style.display = D.moved ? 'block' : 'none';
+  };
+  const up = async () => {
+    window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up);
+    const D = CR.drag; CR.drag = null; D.tip.remove();
+    if(!D.moved || !D.dd){ if(CR.pendingRender) renderCrono(); return; }
+    const c = crCompute(CR.pid), f = c.fechas.get(id), r = c.byId.get(id);
+    if(D.mode === 'move'){
+      const nuevo = f.ini + D.dd;
+      if(f.dep != null && nuevo + (Math.round(+r.duracion||0) === 0 ? 1 : 0) < f.dep) toast('Sus predecesoras no la dejan comenzar antes; vuelve a su fecha mínima');
+      await crApplyField(id, 'inicio', crN2S(nuevo));
+    }else{
+      await crApplyField(id, 'duracion', String(Math.max(1, Math.round(+r.duracion || 0) + D.dd)));
+    }
+  };
+  window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+}
+
+/* ═══════ DETALLE / EDICIÓN COMPLETA ═══════ */
+function crOpen(id){
+  if(!id) return;
+  const c = crCompute(CR.pid), r = c.byId.get(id); if(!r) return;
+  const f = c.fechas.get(id), sum = crIsSum(c, id), adm = isAdmin();
+  CR.edit = {id, preds: (r.predecesoras || []).map(p => ({...p}))};
+  g('cra-title').textContent = `${c.wbs.get(id)} · ${r.nombre}`;
+  g('cra-nombre').value = r.nombre || '';
+  g('cra-dur').value = sum ? (f ? f.F - f.S : 0) : Math.round(+r.duracion || 0);
+  g('cra-ini').value = r.inicio_min || '';
+  g('cra-av').value = Math.round(sum ? c.pct.get(id) : +r.avance || 0);
+  g('cra-notas').value = r.notas || '';
+  const ps = g('cra-resp');
+  ps.innerHTML = '<option value="">—</option>' + S.personas.map(x => `<option${x.nombre === r.responsable ? ' selected' : ''}>${esc(x.nombre)}</option>`).join('')
+    + (r.responsable && !S.personas.some(x => x.nombre === r.responsable) ? `<option selected>${esc(r.responsable)}</option>` : '');
+  ['cra-dur','cra-ini','cra-av'].forEach(k => { g(k).disabled = sum || !adm; });
+  ['cra-nombre','cra-notas','cra-resp'].forEach(k => { g(k).disabled = !adm; });
+  g('cra-sumnote').style.display = sum ? '' : 'none';
+  g('cra-calc').innerHTML = f
+    ? `Calculado: <b>${crFmtL(f.ini)}</b> → <b>${crFmtL(f.fin)}</b> · ${crDur(f.F - f.S)} · estado <b>${CR_ST_LBL[c.st.get(id)]}</b>`
+      + (r.inicio_base ? `<br>Línea base: ${crFmtL(crD2N(r.inicio_base))} → ${crFmtL(crD2N(r.fin_base))}${crD2N(r.fin_base) !== f.fin ? ` <span class="${f.fin > crD2N(r.fin_base) ? 'cr-rojo' : 'cr-verde'}">(${f.fin > crD2N(r.fin_base) ? '+' : ''}${f.fin - crD2N(r.fin_base)} días)</span>` : ''}` : '')
+    : 'Sin fechas: está en un ciclo de vínculos';
+  const sucs = c.list.filter(x => (x.predecesoras || []).some(p => p.id === id));
+  g('cra-sucs').innerHTML = sucs.length
+    ? sucs.map(x => `<span class="cr-tag" onclick="crOpen('${x.id}')">${c.num.get(x.id)} · ${esc(x.nombre)}</span>`).join('')
+    : '<span class="cr-mu">Ninguna</span>';
+  g('cra-del').style.display = adm ? '' : 'none';
+  g('cra-save').style.display = adm ? '' : 'none';
+  crPredsDraw();
+  openOv('ov-cra');
+}
+function crPredsDraw(){
+  const c = crCompute(CR.pid), E = CR.edit, adm = isAdmin();
+  const opts = sel => c.list.map(x => x.id === E.id ? '' :
+    `<option value="${x.id}"${x.id === sel ? ' selected' : ''}>${c.num.get(x.id)} · ${esc(c.wbs.get(x.id))} ${esc((x.nombre || '').slice(0, 60))}</option>`).join('');
+  g('cra-preds').innerHTML = E.preds.length ? E.preds.map((p, i) => `
+    <div class="cra-pr">
+      <select onchange="CR.edit.preds[${i}].id=this.value"${adm ? '' : ' disabled'}>${opts(p.id)}</select>
+      <select onchange="CR.edit.preds[${i}].tipo=this.value"${adm ? '' : ' disabled'}>${CR_TIPOS.map(t => `<option value="${t}"${t === (p.tipo||'FC') ? ' selected' : ''}>${t} · ${CR_TIPO_LBL[t]}</option>`).join('')}</select>
+      <input type="number" step="1" value="${Math.round(+p.desfase || 0)}" title="Desfase en días (+ espera, − adelanto)" onchange="CR.edit.preds[${i}].desfase=Math.round(+this.value||0)"${adm ? '' : ' disabled'}>
+      ${adm ? `<button class="btn btn-sm" onclick="CR.edit.preds.splice(${i},1);crPredsDraw()">✕</button>` : ''}
+    </div>`).join('') : '<div class="cr-mu" style="padding:4px 0">Sin predecesoras</div>';
+  g('cra-addpred').style.display = adm ? '' : 'none';
+}
+function crPredAdd(){
+  const c = crCompute(CR.pid), E = CR.edit;
+  const i = c.num.get(E.id) - 2;       // por defecto, la fila anterior
+  const cand = c.list[i] && c.list[i].id !== E.id ? c.list[i] : c.list.find(x => x.id !== E.id);
+  if(!cand) return;
+  E.preds.push({id: cand.id, tipo: 'FC', desfase: 0});
+  crPredsDraw();
+}
+async function crSaveModal(){
+  const pid = CR.pid, E = CR.edit, c = crCompute(pid);
+  const next = crClone(CR.data[pid]);
+  const r = next.find(x => x.id === E.id); if(!r) return;
+  const sum = crIsSum(c, E.id), f = c.fechas.get(E.id);
+  const nombre = g('cra-nombre').value.trim();
+  if(!nombre){ toast('El nombre no puede quedar vacío', 'err'); return; }
+  r.nombre = nombre;
+  r.notas = g('cra-notas').value.trim() || null;
+  r.responsable = g('cra-resp').value || null;
+  if(!sum){
+    const d = crParseDur(g('cra-dur').value);
+    if(d == null || d < 0){ toast('Duración no válida', 'err'); return; }
+    r.duracion = d;
+    const a = Math.round(+g('cra-av').value);
+    if(isNaN(a) || a < 0 || a > 100){ toast('Avance entre 0 y 100', 'err'); return; }
+    r.avance = a;
+    r.inicio_min = g('cra-ini').value || null;
+  }
+  // predecesoras: sin repetidas, sin sí misma ni sus resúmenes o subtareas
+  const anc = new Set(); let x = c.byId.get(E.id);
+  while(x && x.parent_id){ anc.add(x.parent_id); x = c.byId.get(x.parent_id); }
+  const seen = new Set();
+  r.predecesoras = E.preds.filter(p => p.id && p.id !== E.id && !anc.has(p.id) && !seen.has(p.id + p.tipo) && seen.add(p.id + p.tipo))
+                          .map(p => ({id: p.id, tipo: p.tipo || 'FC', desfase: Math.round(+p.desfase || 0)}));
+  if(!sum && !r.predecesoras.length && !r.inicio_min) r.inicio_min = crN2S(f ? f.ini : crToday());
+  r.updated_at = new Date().toISOString();
+  if(await crCommit(pid, next, 'Actividad guardada')) closeOv('ov-cra');
+}
+function crDeleteModal(){ closeOv('ov-cra'); CR.sel = CR.edit.id; crDelete(); }
+function crToTask(){
+  const c = crCompute(CR.pid), r = c.byId.get(CR.edit.id), f = c.fechas.get(CR.edit.id);
+  const p = S.projects.find(x => x.id === CR.pid);
+  closeOv('ov-cra');
+  taskNew(p ? p.nombre : undefined);
+  g('tf-desc').value = r.nombre;
+  if(f) g('tf-fecha').value = crN2S(f.fin);
+  g('tf-cat').value = 'Cronograma';
+}
+
+/* ═══════ MENÚ ⋯ ═══════ */
+function crMenu(ev){
+  ev.stopPropagation();
+  const items = [
+    ['📏 Guardar línea base (fechas actuales)', 'crSaveBase()'],
+    ['⤓ Reemplazar desde Excel de Planner', `crImportPick(${CR.pid})`],
+    ['⬇ Descargar como CSV', 'crExportCsv()'],
+  ];
+  const qe = g('qe');
+  g('qe-items').innerHTML = items.map(([l, fn]) => `<div class="qe-i" onmousedown="g('qe').classList.remove('on');${fn}">${l}</div>`).join('');
+  const b = ev.currentTarget.getBoundingClientRect();
+  qe.style.left = Math.max(8, b.right - 280) + 'px'; qe.style.top = (b.bottom + 4) + 'px'; qe.style.minWidth = '270px';
+  qe.classList.add('on');
+  setTimeout(() => document.addEventListener('mousedown', function h(e){ if(!qe.contains(e.target)){ qe.classList.remove('on'); qe.style.minWidth = ''; } document.removeEventListener('mousedown', h); }), 0);
+}
+async function crSaveBase(){
+  const pid = CR.pid, c = crCompute(pid);
+  if(!confirm('¿Guardar las fechas actuales como línea base?\n\nLa línea base anterior se reemplaza. Sirve para medir cuánto se ha desviado el cronograma desde hoy.')) return;
+  const next = crClone(CR.data[pid]);
+  next.forEach(r => { const f = c.fechas.get(r.id); if(f){ r.inicio_base = crN2S(f.ini); r.fin_base = crN2S(f.fin); } });
+  CR.showBase = true;
+  await crCommit(pid, next, 'Línea base guardada');
+}
+function crExportCsv(){
+  const c = crCompute(CR.pid), p = S.projects.find(x => x.id === CR.pid);
+  const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const lines = [['#','EDT','Nombre','Duración (días)','Inicio','Fin','Predecesoras','% completado','Responsable','Inicio base','Fin base','Notas'].map(q).join(';')];
+  c.list.forEach(r => { const f = c.fechas.get(r.id);
+    lines.push([c.num.get(r.id), c.wbs.get(r.id), r.nombre, f ? f.F - f.S : '', f ? crN2S(f.ini) : '', f ? crN2S(f.fin) : '',
+      crPredText(c, r), Math.round(c.pct.get(r.id) || 0), r.responsable, r.inicio_base, r.fin_base, r.notas].map(q).join(';')); });
+  const blob = new Blob(['﻿' + lines.join('\r\n')], {type: 'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = `Cronograma ${p ? p.nombre : ''}.csv`;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+/* ═══════ IMPORTAR DESDE PLANNER (Excel exportado) ═══════
+   Columnas que se leen: Número de tarea · Número de esquema · Nombre ·
+   Inicio · Finalización · Duración · Estado · % completado · Depende de.
+   Las predecesoras de Planner usan el número de tarea (27FC, 84SS+20d);
+   aquí se convierten a ids fijos para que insertar filas no las rompa. */
+function crLoadXlsx(){
+  if(window.XLSX) return Promise.resolve();
+  return new Promise((ok, ko) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+    s.onload = ok; s.onerror = () => ko(new Error('No se pudo cargar el lector de Excel'));
+    document.head.appendChild(s);
+  });
+}
+function crImportPick(pid){
+  if(!isAdmin()) return;
+  const n = (CR.data[pid] || []).length;
+  if(n && !confirm(`Este proyecto ya tiene un cronograma de ${n} actividades.\n\nImportar lo REEMPLAZA por completo (lo editado aquí se pierde). ¿Continuar?`)) return;
+  CR.impPid = pid;
+  const inp = g('cr-file'); inp.value = ''; inp.click();
+}
+const crNorm = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+function crCellDay(v){
+  if(v == null || v === '') return null;
+  if(typeof v === 'number') return Math.floor(v) - 25569;           // número de serie de Excel
+  if(v instanceof Date) return Date.UTC(v.getFullYear(), v.getMonth(), v.getDate())/CR_MS;
+  const s = String(v).trim();
+  let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); if(m) return Date.UTC(+m[1], +m[2]-1, +m[3])/CR_MS;
+  m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/); if(m) return Date.UTC(+m[3] < 100 ? 2000 + +m[3] : +m[3], +m[2]-1, +m[1])/CR_MS;
+  return null;
+}
+async function crImportFile(file){
+  if(!file) return;
+  const pid = CR.impPid;
+  try{
+    sync('busy');
+    await crLoadXlsx();
+    const wb = XLSX.read(await file.arrayBuffer(), {type: 'array'});
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const aoa = XLSX.utils.sheet_to_json(ws, {header: 1, raw: true, defval: ''});
+    const hi = aoa.findIndex(r => r.some(x => ['numero de esquema','outline number','edt','wbs'].includes(crNorm(x))));
+    if(hi < 0) throw new Error('No encuentro la fila de títulos (falta la columna "Número de esquema")');
+    const H = aoa[hi].map(crNorm);
+    const col = (...ks) => H.findIndex(h => ks.includes(h));
+    const C = {num: col('numero de tarea','task number','id','#'), wbs: col('numero de esquema','outline number','edt','wbs'),
+               nom: col('nombre','name','nombre de tarea','task name'), ini: col('inicio','start'), fin: col('finalizacion','fin','finish'),
+               dur: col('duracion','duration'), est: col('estado','status'), pct: col('% completado','% complete','porcentaje completado'),
+               dep: col('depende de','depends on','predecesoras','predecessors')};
+    if(C.wbs < 0 || C.nom < 0 || C.ini < 0) throw new Error('Faltan columnas: se necesitan al menos Número de esquema, Nombre e Inicio');
+    const src = aoa.slice(hi + 1).filter(r => String(r[C.wbs] ?? '').trim() && String(r[C.nom] ?? '').trim());
+    if(!src.length) throw new Error('El archivo no tiene actividades');
+
+    const rows = [], byWbs = new Map(), byNum = new Map(), planner = new Map(), sinFecha = [];
+    src.forEach((x, i) => {
+      const wbs = String(x[C.wbs]).trim();
+      const ini = crCellDay(x[C.ini]), fin = C.fin >= 0 ? crCellDay(x[C.fin]) : null;
+      let dur = C.dur >= 0 ? parseInt(String(x[C.dur]).replace(',', '.'), 10) : NaN;
+      if(isNaN(dur)) dur = (ini != null && fin != null) ? Math.max(0, fin - ini + 1) : 1;
+      let pct = C.pct >= 0 ? +String(x[C.pct]).replace('%','').replace(',', '.') || 0 : 0;
+      if(pct > 0 && pct <= 1 && !/%/.test(String(x[C.pct]))) pct *= 100;
+      if(C.est >= 0 && /^(listo|completad|complete|done)/.test(crNorm(x[C.est]))) pct = 100;
+      const r = {id: uid(), proyecto_id: pid, parent_id: null, orden: i + 1, nombre: String(x[C.nom]).trim(),
+                 duracion: dur, inicio_min: ini != null ? crN2S(ini) : null, predecesoras: [], avance: Math.round(Math.min(100, pct)),
+                 _dep: C.dep >= 0 ? String(x[C.dep] || '') : '', _wbs: wbs};
+      if(ini == null) sinFecha.push(r.nombre);
+      rows.push(r); byWbs.set(wbs, r);
+      byNum.set(C.num >= 0 && String(x[C.num]).trim() ? String(x[C.num]).trim() : String(i + 1), r);
+      planner.set(r.id, {ini, fin});
+    });
+    rows.forEach(r => { const w = r._wbs; if(w.includes('.')){ const p = byWbs.get(w.slice(0, w.lastIndexOf('.'))); if(p) r.parent_id = p.id; } });
+    const isSum = new Set(rows.map(r => r.parent_id).filter(Boolean));
+    const malas = [];
+    rows.forEach(r => {
+      r.predecesoras = r._dep.split(/[,;]/).map(s => s.trim()).filter(Boolean).map(tok => {
+        const m = tok.toUpperCase().replace(/\s+/g, '').match(/^(\d+)(FC|CC|FF|CF|FS|SS|SF)?(?:([+-]\d+(?:[.,]\d+)?)(D|DIAS|DÍAS|DÍA|DIA|S|SEM)?)?$/);
+        const p = m && byNum.get(m[1]);
+        if(!p){ malas.push(`${r.nombre}: "${tok}"`); return null; }
+        let lag = m[3] ? +m[3].replace(',', '.') : 0; if(m[4] && /^S/.test(m[4])) lag *= 7;
+        return {id: p.id, tipo: {FS:'FC', SS:'CC', SF:'CF'}[m[2]] || m[2] || 'FC', desfase: Math.round(lag)};
+      }).filter(Boolean);
+      if(isSum.has(r.id)) r.inicio_min = null;     // los resúmenes se calculan de sus hijas
+      delete r._dep; delete r._wbs;
+    });
+    // Planner guarda como fijo el inicio que tú le pusiste. Se conserva solo
+    // donde de verdad retrasa la actividad respecto a sus predecesoras.
+    let sc = crSchedule(rows, crDefStart(rows));
+    rows.forEach(r => {
+      if(isSum.has(r.id) || !r.predecesoras.length || !r.inicio_min) return;
+      const f = sc.fechas.get(r.id), im = crD2N(r.inicio_min) + ((+r.duracion || 0) === 0 ? 1 : 0);
+      if(f && f.dep != null && im <= f.dep) r.inicio_min = null;
+    });
+    const ciclo = crStamp(rows);
+    sc = crSchedule(rows, crDefStart(rows));
+    rows.forEach(r => { r.inicio_base = r.inicio; r.fin_base = r.fin; });
+    // Diferencias con las fechas de Planner (inicio más tarde = Planner no respetaba un vínculo)
+    const movidas = rows.filter(r => !isSum.has(r.id)).map(r => {
+      const f = sc.fechas.get(r.id), pl = planner.get(r.id);
+      return (f && pl.ini != null && f.ini - pl.ini >= 1) ? {r, d: f.ini - pl.ini} : null;
+    }).filter(Boolean).sort((a,b) => b.d - a.d);
+    const hoy = crToday();
+    const pasadas = rows.filter(r => !isSum.has(r.id) && r.avance < 100 && sc.fechas.get(r.id) && sc.fechas.get(r.id).fin < hoy);
+    const finPl = Math.max(...[...planner.values()].map(x => x.fin ?? x.ini ?? -Infinity));
+    const finCr = Math.max(...[...sc.fechas.values()].map(f => f.fin));
+    CR.imp = {pid, rows};
+    sync('ok');
+    g('cri-body').innerHTML = `
+      <div class="cri-k"><div><b>${rows.length}</b><small>actividades</small></div><div><b>${rows.reduce((a,r) => a + r.predecesoras.length, 0)}</b><small>vínculos</small></div>
+        <div><b>${crFmtL(Math.min(...[...sc.fechas.values()].map(f => f.ini)))}</b><small>inicio</small></div><div><b>${crFmtL(finCr)}</b><small>fin calculado</small></div></div>
+      ${isFinite(finPl) ? `<p class="cri-p">${finCr === finPl ? '✓ El fin del proyecto coincide con Planner.' : `⚠ Fin en Planner: <b>${crFmtL(finPl)}</b>; calculado aquí: <b>${crFmtL(finCr)}</b>.`}</p>` : ''}
+      ${movidas.length ? `<p class="cri-p">⚠ <b>${movidas.length}</b> actividad(es) arrancan más tarde que en Planner, porque en Planner sus fechas no respetaban un vínculo. Aquí se aplica el vínculo:</p>
+        <div class="cri-l">${movidas.slice(0, 40).map(x => `<div><span>+${x.d} d</span>${esc(x.r.nombre)}</div>`).join('')}${movidas.length > 40 ? `<div class="cr-mu">… y ${movidas.length - 40} más</div>` : ''}</div>` : '<p class="cri-p">✓ Todas las fechas respetan sus vínculos.</p>'}
+      ${pasadas.length ? `<p class="cri-p">ℹ <b>${pasadas.length}</b> actividad(es) sin terminar con fin ya pasado: aparecerán como atrasadas. Revisa su avance o sus fechas.</p>` : ''}
+      ${malas.length ? `<p class="cri-p">⚠ ${malas.length} predecesora(s) no se reconocieron y se omitieron: ${malas.slice(0,5).map(esc).join(' · ')}</p>` : ''}
+      ${ciclo.length ? `<p class="cri-p cr-rojo">⚠ ${ciclo.length} actividad(es) forman un ciclo de vínculos y quedarán sin fechas.</p>` : ''}
+      ${sinFecha.length ? `<p class="cri-p">ℹ ${sinFecha.length} actividad(es) sin fecha de inicio: arrancarán al inicio del proyecto.</p>` : ''}
+      <p class="cri-p cr-mu">Las fechas calculadas quedan guardadas como línea base. A partir de ahora el cronograma se edita en CP.ARQ.</p>`;
+    openOv('ov-cri');
+  }catch(e){
+    sync('ok'); toast(e.message || String(e), 'err');
+  }
+}
+async function crImportConfirm(){
+  const I = CR.imp; if(!I) return;
+  const btn = g('cri-ok'); btn.disabled = true; btn.textContent = 'Importando…';
+  sync('busy'); CR.saving = true;
+  try{
+    const {error: e1} = await db.from('cronograma').delete().eq('proyecto_id', I.pid);
+    if(e1) throw e1;
+    const tr = crTree(I.rows);
+    const ups = I.rows.map(crClean).sort((a,b) => tr.depth.get(a.id) - tr.depth.get(b.id));
+    for(let i = 0; i < ups.length; i += 400){
+      const {error} = await db.from('cronograma').insert(ups.slice(i, i+400));
+      if(error) throw error;
+    }
+    CR.undo = CR.undo.filter(u => u.pid !== I.pid);
+    delete CR.collapsed[I.pid]; try{ localStorage.removeItem('cparq_cr_col_' + I.pid); }catch(_){}
+    await crLoad(I.pid, true);
+    closeOv('ov-cri'); sync('ok');
+    toast(`${ups.length} actividades importadas`);
+    CR.imp = null; CR.scrolledPid = null;
+    crOpenView(I.pid);
+  }catch(e){
+    sync('err'); toast('Error al importar: ' + (e.message || e), 'err');
+    await crLoad(I.pid, true); crRerender();
+  }finally{
+    CR.saving = false; CR.lastWrite = Date.now();
+    btn.disabled = false; btn.textContent = 'Importar';
+  }
+}
+
+/* ═══════ TECLADO (solo en la vista del cronograma) ═══════ */
+document.addEventListener('keydown', e => {
+  if(S.tab !== 'crono' || CR.editing) return;
+  if(document.querySelector('.ov.on')) return;
+  const t = e.target, typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT');
+  if(typing) return;
+  const adm = isAdmin();
+  if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z'){ if(adm){ e.preventDefault(); crUndo(); } return; }
+  if(e.altKey && e.shiftKey && adm && CR.sel){
+    if(e.key === 'ArrowRight'){ e.preventDefault(); crIndent(1); return; }
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); crIndent(-1); return; }
+    if(e.key === 'ArrowUp'){ e.preventDefault(); crMove(-1); return; }
+    if(e.key === 'ArrowDown'){ e.preventDefault(); crMove(1); return; }
+  }
+  if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+    const vis = CR._vis || []; if(!vis.length) return;
+    let i = vis.findIndex(r => r.id === CR.sel);
+    i = e.key === 'ArrowDown' ? Math.min(vis.length - 1, i + 1) : Math.max(0, i - 1);
+    e.preventDefault(); crSelect(vis[i].id);
+    document.querySelector(`#cr-scroll .cr-row[data-id="${vis[i].id}"]`)?.scrollIntoView({block: 'nearest'});
+    return;
+  }
+  if(e.key === 'Enter' && CR.sel){ e.preventDefault(); crOpen(CR.sel); return; }
+  if(e.key === 'F2' && CR.sel && adm){ e.preventDefault(); document.querySelector(`#cr-scroll .cr-row[data-id="${CR.sel}"] .c-nm`)?.click(); return; }
+  if(e.key === 'Insert' && adm){ e.preventDefault(); crInsert(false); return; }
+  if(e.key === 'Delete' && CR.sel && adm){ e.preventDefault(); crDelete(); return; }
+});
+
 </script>
 </body>
 </html>
