@@ -6,7 +6,7 @@
 <title>CP.ARQ — Control de Proyectos</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 /* ══════════ TOKENS ══════════ */
 :root{
@@ -563,15 +563,20 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .cr-prog{display:block;width:110px;height:5px;background:var(--surf);border-radius:3px;overflow:hidden;margin-top:3px}
 .cr-prog i{display:block;height:100%;background:var(--ac)}
 .crl-wrap{display:grid;gap:4px}
-.crl{display:grid;grid-template-columns:220px 1fr;gap:12px;align-items:center;cursor:pointer;border-radius:4px}
+.crl{display:grid;grid-template-columns:240px 1fr;gap:14px;align-items:center;cursor:pointer;border-radius:4px}
 .crl:not(.crl-ax):hover .crl-n{color:var(--ac)}
-.crl-n{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.crl-t{position:relative;height:16px;background:var(--surf);border-radius:3px}
+.crl-n{font-size:12.5px;font-weight:600;display:flex;gap:8px;align-items:center;min-width:0}
+.crl-n span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crl-n .dot,.cr-legend .dot{width:10px;height:10px;border-radius:3px;flex:none;background:var(--ph)}
+.crl-t{position:relative;height:22px;border-bottom:1px dashed #edf1f4}
 .crl-ax{cursor:default}.crl-ax .crl-t{background:none;height:14px}
 .crl-ax span{position:absolute;top:0;font-size:10px;color:var(--mu);border-left:1px solid var(--b1);padding-left:4px;line-height:14px}
-.crl-b{position:absolute;top:3px;height:10px;border-radius:3px;overflow:hidden;opacity:.85}
-.crl-b i{display:block;height:100%;background:rgba(0,0,0,.28)}
-.crl-hoy{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--re);border-radius:1px}
+.crl-b{position:absolute;top:2px;height:18px;border-radius:4px;overflow:hidden;background:var(--ph);display:flex;align-items:center;padding-inline:7px}
+.crl-b.st-pending{background:color-mix(in srgb,var(--ph) 55%,#fff)}
+.crl-b.st-late{box-shadow:inset 0 0 0 2px var(--re)}
+.crl-b.st-pending em{color:#1B2420}
+.crl-b em{font-style:normal;font-size:10.5px;color:#fff;font-family:'IBM Plex Mono','JetBrains Mono',monospace;white-space:nowrap}
+.crl-hoy{position:absolute;top:-3px;bottom:-3px;width:2px;background:#D2452B;border-radius:1px;z-index:2}
 .cr-lsts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .cr-lst-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);margin-bottom:4px}
 .cr-lst-h span{font-family:'JetBrains Mono',monospace;color:var(--tx)}
@@ -583,82 +588,142 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .cr-li-n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cr-li-v{font-size:12px;color:var(--di);padding:4px 0}
 .cr-li-more{font-size:12px;color:var(--ac);cursor:pointer;padding-top:4px;font-weight:600}
-.st-done{--st:var(--gr)} .st-active{--st:var(--ac)} .st-late{--st:var(--re)} .st-pending{--st:#8aa0b2}
-.crl-b,.crb{background:var(--st,#8aa0b2)}
 
-/* vista completa */
-.cr-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-.cr-top-s{font-size:14px;font-weight:500;color:var(--mu)}
-.cr-top-m{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12px;color:var(--mu);margin-top:4px}
-.cr-top-m b{color:var(--tx)}
-.cr-rojo,.cr-rojo b{color:var(--re)!important}
-.cr-top-m .cr-rojo{cursor:pointer}
-.cr-verde{color:var(--gr)}
+
+/* vista completa: mismo lenguaje visual que el cronograma de referencia */
+#sec-crono{--cr-ink:#1B2420;--cr-mu:#5E6B66;--cr-line:#DDE2DF;--cr-soft:#ECEFED;--cr-today:#D2452B;--cr-done:#2E8B57;--cr-act:#2F6FB0;--cr-warn:#B7791F;
+  --f-disp:"Archivo","Arial Narrow",system-ui,sans-serif;--f-mono:"IBM Plex Mono","JetBrains Mono",ui-monospace,monospace;--f-body:"Public Sans","Inter",system-ui,sans-serif;
+  font-family:var(--f-body);color:var(--cr-ink)}
+.cr-hd{display:grid;gap:12px;margin-bottom:18px}
+.cr-eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cr-mu);font-weight:600}
+.cr-h1{font-family:var(--f-disp);font-size:clamp(30px,4.4vw,46px);font-weight:800;letter-spacing:-.01em;line-height:1;font-stretch:88%}
+.cr-meta{display:flex;flex-wrap:wrap;gap:10px 28px;border-top:1px solid var(--cr-line);padding-top:12px}
+.cr-meta div{display:grid;gap:2px}
+.cr-meta b{font-family:var(--f-disp);font-size:20px;font-weight:700;font-stretch:90%}
+.cr-meta small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cr-mu)}
+.cr-meta .cr-prog{width:120px;height:6px;margin-top:4px;background:var(--cr-line)}
+.cr-meta .cr-prog i{background:#1F6F5C}
+.cr-late{cursor:pointer}.cr-late b,.cr-late small{color:var(--cr-today)}
+.cr-tools{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:10px}
+.cr-edit{padding:8px 10px;background:#fff;border:1px solid var(--cr-line);border-radius:10px;gap:8px 10px}
+.tg{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.tlabel{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cr-mu);font-weight:600;margin-right:6px}
+.cr-seg{display:inline-flex;border:1px solid var(--cr-line);border-radius:8px;overflow:hidden;overflow-x:auto;max-width:100%;background:#fff;scrollbar-width:none}
+.cr-seg button{font:inherit;font-size:12.5px;font-weight:500;border:0;background:none;color:var(--cr-ink);padding:7px 12px;cursor:pointer;white-space:nowrap}
+.cr-seg button+button{border-left:1px solid var(--cr-line)}
+.cr-seg button:hover:not([disabled]){background:#f3f5f4}
+.cr-seg button[aria-pressed="true"]{background:var(--cr-ink);color:#fff}
+.cr-seg button[disabled]{opacity:.35;cursor:default}
+.cr-seg button.del:hover:not([disabled]){color:var(--cr-today)}
+.cr-select,.cr-q{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--cr-line);border-radius:8px;background:#fff;color:var(--cr-ink)}
+.cr-q{width:230px;max-width:100%}
+.cr-today{font:inherit;font-size:12.5px;font-weight:600;border:1px solid var(--cr-today);color:var(--cr-today);background:none;padding:6px 12px;border-radius:8px;cursor:pointer}
+.cr-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;background:#fff;border:1px solid var(--cr-line);border-radius:999px;padding:4px 6px 4px 10px}
+.cr-chip button{border:0;background:#eef1ef;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer}
+.cr-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--cr-mu);align-items:center;margin:4px 0 12px}
+.cr-legend span{display:inline-flex;align-items:center;gap:6px}
+.cr-legend-sep{width:1px;height:14px;background:var(--cr-line)}
+.lg{width:22px;height:10px;border-radius:3px;border:1px solid var(--ph,var(--cr-mu))}
+.lg-done{background:var(--ph)}
+.lg-active{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--ph) 45%,#fff) 0 5px,color-mix(in srgb,var(--ph) 28%,#fff) 5px 10px)}
+.lg-pending{background:color-mix(in srgb,var(--ph) 30%,#fff)}
+.lg-late{border:2px solid var(--cr-today)}
+.lg-sum{height:6px;background:var(--ph);border:0}
+.lg-hito{width:10px;height:10px;transform:rotate(45deg);background:var(--ph);border:0;border-radius:2px;margin:0 6px}
 .cr-mu{color:var(--mu);font-size:12px}
-.cr-bar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;background:var(--card);border:1px solid var(--b1);border-bottom:none;border-radius:var(--r) var(--r) 0 0;padding:10px 12px}
-.cr-grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.cr-bar .btn[disabled]{opacity:.4;pointer-events:none}
-.cr-del:hover{border-color:var(--re);color:var(--re)}
-.cr-lbl{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em}
-.cr-sel,.cr-q{padding:5px 8px;border:1px solid var(--b2);border-radius:var(--rs);background:var(--surf);font-size:12px;color:var(--tx)}
-.cr-q{width:150px}
-.cr-chk{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mu);cursor:pointer;white-space:nowrap}
-.cr-scroll{--cw:716px;overflow:auto;max-height:calc(100vh - 250px);min-height:320px;background:var(--card);border:1px solid var(--b1);border-radius:0 0 var(--r) var(--r);position:relative;overscroll-behavior:contain}
-.cr-scroll.compact{--cw:386px}
-.cr-scroll.compact .c-dur,.cr-scroll.compact .c-ini,.cr-scroll.compact .c-fin,.cr-scroll.compact .c-pred{display:none}
+.cr-rojo,.cr-rojo b{color:var(--re)!important}
+.cr-verde{color:var(--gr)}
+
+.cr-scroll{--cw:766px;overflow:auto;max-height:78vh;min-height:320px;background:#fff;border:1px solid var(--cr-line);border-radius:10px;position:relative;overscroll-behavior:contain}
+.cr-scroll.compact{--cw:380px}
+.cr-scroll.compact .c-dur,.cr-scroll.compact .c-ini,.cr-scroll.compact .c-fin,.cr-scroll.compact .c-pred,.cr-scroll.compact .c-pct{display:none}
+.cr-scroll.compact .c-name{width:var(--cw)}
 .cr-grid{position:relative;width:calc(var(--cw) + var(--tlw));min-width:100%}
-.cr-head{position:sticky;top:0;z-index:6;display:flex;height:44px;background:var(--surf);border-bottom:1px solid var(--b2)}
-.cr-head .cr-cells{background:var(--surf);z-index:7;align-items:flex-end;padding-bottom:6px}
-.cr-head .cc{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);height:auto;cursor:default}
-.cr-th{position:relative;height:44px}
-.cr-ht,.cr-hb{position:relative;height:22px}
-.cr-ht span,.cr-hb span{position:absolute;top:0;height:22px;line-height:22px;font-size:11px;color:var(--mu);padding-left:5px;border-left:1px solid var(--b1);white-space:nowrap;overflow:hidden}
-.cr-ht span{font-weight:700;color:var(--tx)}
+.cr-head{position:sticky;top:0;z-index:6;display:flex;height:46px;background:#fff;border-bottom:1px solid var(--cr-line)}
+.cr-head .cr-cells{z-index:7;align-items:flex-end;padding-bottom:7px;background:#fff}
+.cr-head .cc{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cr-mu);font-weight:600;height:auto;cursor:default;border:0}
+.cr-head .c-name{padding-left:14px}
+.cr-th{position:relative;height:46px}
+.cr-ht,.cr-hb{position:relative}
+.cr-ht{height:22px}.cr-hb{height:24px}
+.cr-ht span,.cr-hb span{position:absolute;top:0;white-space:nowrap;overflow:hidden;padding-left:6px;border-left:1px solid var(--cr-line)}
+.cr-ht span{height:22px;line-height:22px;font-family:var(--f-disp);font-weight:700;font-size:13px}
+.cr-hb span{height:24px;line-height:24px;font-size:11px;color:var(--cr-mu)}
 .cr-bodyw{position:relative}
 .cr-lines{position:absolute;top:0;bottom:0;left:var(--cw);pointer-events:none;z-index:0}
-.cr-lines i{position:absolute;top:0;bottom:0;border-left:1px solid #edf2f7}
-.cr-lines i.y{border-left-color:var(--b1)}
-.cr-hoy{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--re);opacity:.75}
+.cr-lines i{position:absolute;top:0;bottom:0;border-left:1px solid var(--cr-soft)}
+.cr-lines i.y{border-left-color:var(--cr-line)}
+.cr-hoy{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--cr-today);opacity:.85}
+.cr-hoytag{position:absolute;bottom:-9px;z-index:8;transform:translateX(-50%);z-index:5;background:var(--cr-today);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;letter-spacing:.05em}
 .cr-arrows{position:absolute;top:0;left:var(--cw);pointer-events:none;z-index:2;overflow:visible}
-.cr-arrows path{fill:none;stroke:var(--tx);stroke-width:1.3;opacity:.7}
-.cr-arrows path.h{fill:var(--tx);stroke:none}
-.cr-row{display:flex;height:28px;border-bottom:1px solid #eef2f6;position:relative;z-index:1}
-.cr-row:hover{background:rgba(37,99,235,.04)}
-.cr-row.sel{background:rgba(37,99,235,.10)}
-.cr-cells{position:sticky;left:0;z-index:3;display:flex;flex:none;width:var(--cw);background:var(--card);border-right:1px solid var(--b1)}
-.cr-row:hover .cr-cells{background:#f6f9fd}
-.cr-row.sel .cr-cells{background:#e6eefc}
-.cc{height:27px;display:flex;align-items:center;padding:0 6px;font-size:12px;white-space:nowrap;overflow:hidden;border-right:1px solid #eef2f6;cursor:text;flex:none}
-.cc.ro{cursor:default;color:var(--mu)}
-.c-num{width:40px;justify-content:flex-end;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--di);cursor:default;border-left:3px solid var(--st,transparent)}
-.c-name{width:300px;gap:4px;cursor:default}
-.c-dur{width:54px;justify-content:flex-end;font-family:'JetBrains Mono',monospace;font-size:11px}
-.c-ini,.c-fin{width:84px;font-family:'JetBrains Mono',monospace;font-size:11px;gap:2px}
-.c-pred{width:108px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu)}
-.c-pct{width:46px;justify-content:flex-end;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--st)}
-.c-wbs{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--di);flex:none}
-.c-nm{overflow:hidden;text-overflow:ellipsis;cursor:text;min-width:0;flex:1}
-.cr-row.sum .c-nm{font-weight:700}
-.cr-row.d1 .c-nm{font-size:13px}
-.cr-car{border:none;background:none;width:16px;flex:none;font-size:11px;color:var(--mu);padding:0}
-.cr-car:hover{color:var(--ac)}
-.cr-car0{width:16px;flex:none;text-align:center;font-size:9px;color:var(--mu)}
+.cr-arrows path{fill:none;stroke:var(--cr-ink);stroke-width:1.3;opacity:.75}
+.cr-arrows path.h{fill:var(--cr-ink);stroke:none}
+
+.cr-row{display:flex;position:relative}
+.cr-row .cr-cells,.cr-row .cr-tl{border-bottom:1px solid var(--cr-soft)}
+.cr-row.d2 .cr-cells{background:color-mix(in srgb,var(--ph) 7%,#fff)}
+.cr-row.d2 .cr-tl{background:color-mix(in srgb,var(--ph) 7%,transparent)}
+.cr-row.d1 .cr-cells{background:color-mix(in srgb,var(--ph) 5%,#fff)}
+.cr-row.d1 .cr-tl{background:color-mix(in srgb,var(--ph) 5%,transparent)}
+.cr-row:hover .cr-cells{background:color-mix(in srgb,#1F6F5C 6%,#fff)}
+.cr-row:hover .cr-tl{background:color-mix(in srgb,#1F6F5C 6%,transparent)}
+.cr-row.sel .cr-cells{background:color-mix(in srgb,#2563eb 11%,#fff)}
+.cr-row.sel .cr-tl{background:color-mix(in srgb,#2563eb 11%,transparent)}
+.cr-cells{position:sticky;left:0;z-index:3;display:flex;flex:none;width:var(--cw);background:#fff;border-right:1px solid var(--cr-line)}
+.cr-tl{position:relative;flex:none;background:transparent}
+.cc{display:flex;align-items:center;padding:0 6px;font-size:12px;white-space:nowrap;overflow:hidden;border-right:1px solid var(--cr-soft);cursor:text;flex:none}
+.cc.ro{cursor:default;color:var(--cr-mu)}
+.c-name{width:380px;gap:6px;cursor:default;padding-right:10px;border-right:0}
+.c-dur{width:56px;justify-content:flex-end;font-family:var(--f-mono);font-size:11px}
+.c-ini,.c-fin{width:86px;font-family:var(--f-mono);font-size:11px;gap:2px}
+.c-pred{width:110px;font-family:var(--f-mono);font-size:11px;color:var(--cr-mu)}
+.c-pct{width:48px;justify-content:flex-end;font-family:var(--f-mono);font-size:11px;font-weight:600;border-right:0}
+.c-name .stripe{width:3px;align-self:stretch;background:var(--ph);flex:none;margin-right:2px}
+.c-name .code{font-family:var(--f-mono);font-size:10.5px;color:var(--cr-mu);flex:none}
+.c-name .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;cursor:text;font-size:13px}
+.cr-row.parent .nm{font-weight:600}
+.cr-row.d2 .nm{font-family:var(--f-disp);font-weight:700;font-size:14.5px;font-stretch:90%}
+.cr-row.d1 .nm{font-family:var(--f-disp);font-weight:800;font-size:15px}
+.caret{width:20px;height:20px;flex:none;border:0;background:none;color:var(--cr-mu);cursor:pointer;border-radius:4px;display:grid;place-items:center;padding:0;font-size:9px}
+.caret svg{width:10px;height:10px;transition:transform .15s}
+.caret[aria-expanded="true"] svg{transform:rotate(90deg)}
+.caret:hover:not([disabled]){background:#eef1ef;color:var(--cr-ink)}
+.caret.ph{cursor:default;color:var(--ph)}
 .cr-pin{font-size:9px;margin-left:2px}
 .cc.editing{padding:0;overflow:visible}
-.cr-in{width:100%;height:100%;border:2px solid var(--ac);padding:0 5px;font-size:12px;outline:none;background:#fff;font-family:inherit}
-.cr-tl{position:relative;flex:none;height:27px}
-.crb{position:absolute;top:7px;height:14px;border-radius:3px;overflow:hidden;cursor:grab;touch-action:none;box-shadow:0 1px 1px rgba(0,0,0,.12)}
-.crb i{position:absolute;left:0;top:0;bottom:0;background:rgba(0,0,0,.28);pointer-events:none}
-.crb b{position:absolute;right:0;top:0;bottom:0;width:6px;cursor:ew-resize}
-.crb.sum{top:9px;height:8px;background:#33475b;border-radius:1px;cursor:default;overflow:visible}
-.crb.sum::before,.crb.sum::after{content:"";position:absolute;bottom:-5px;border:4px solid transparent;border-top-color:#33475b}
-.crb.sum::before{left:-1px}.crb.sum::after{right:-1px}
-.crb.sum i{background:rgba(255,255,255,.35)}
-.crb.hito{width:12px;height:12px;top:8px;transform:rotate(45deg);border-radius:2px;overflow:visible}
-.crb-base{position:absolute;top:21px;height:4px;background:#b8c4cf;border-radius:2px}
-.crb-lbl{position:absolute;top:0;line-height:27px;font-size:11px;color:var(--mu);white-space:nowrap;pointer-events:none}
-.cr-dtip{position:fixed;z-index:500;background:var(--tx);color:#fff;font-size:11px;padding:4px 8px;border-radius:4px;pointer-events:none;display:none}
-.cr-foot{font-size:11px;color:var(--di);margin-top:8px}
+.cr-in{width:100%;height:100%;border:2px solid #2563eb;padding:0 5px;font-size:12px;outline:none;background:#fff;font-family:inherit}
+
+.crb{position:absolute;top:calc(50% - 7px);height:14px;border-radius:4px;background:color-mix(in srgb,var(--ph) 30%,#fff);border:1px solid color-mix(in srgb,var(--ph) 70%,transparent);min-width:5px;cursor:grab;overflow:hidden;touch-action:none;z-index:1}
+.crb .fill{position:absolute;inset:0 auto 0 0;background:var(--ph);pointer-events:none}
+.crb.st-done{background:var(--ph)}
+.crb.st-active{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--ph) 45%,#fff) 0 5px,color-mix(in srgb,var(--ph) 28%,#fff) 5px 10px)}
+.crb.st-late{border-color:var(--cr-today);border-width:2px}
+.crb b{position:absolute;right:0;top:0;bottom:0;width:7px;cursor:ew-resize}
+.crs{position:absolute;top:calc(50% - 4px);height:8px;background:var(--ph);border-radius:2px;min-width:4px;z-index:1}
+.crs::before,.crs::after{content:"";position:absolute;bottom:-5px;border:5px solid transparent;border-top-color:var(--ph);border-bottom:0}
+.crs::before{left:0;border-left-color:var(--ph)}
+.crs::after{right:0;border-right-color:var(--ph)}
+.cr-row.d1 .crs,.cr-row.d2 .crs{top:calc(50% - 6px);height:12px}
+.cr-row.d1 .crs{--ph:#33403B}
+.crm{position:absolute;top:calc(50% - 6px);width:12px;height:12px;transform:rotate(45deg);border-radius:2px;background:var(--ph);cursor:grab;touch-action:none;z-index:1}
+.crm.st-pending{background:color-mix(in srgb,var(--ph) 45%,#fff);border:1px solid var(--ph)}
+.crm.st-late{box-shadow:0 0 0 2px var(--cr-today)}
+.crb-base{position:absolute;bottom:3px;height:3px;background:#b8c4cf;border-radius:2px;z-index:1}
+.crb-lbl{position:absolute;top:0;bottom:0;display:flex;align-items:center;font-size:11px;color:var(--cr-mu);white-space:nowrap;pointer-events:none;font-family:var(--f-mono);z-index:1}
+.cr-dtip{position:fixed;z-index:500;background:#1B2420;color:#fff;font-size:11px;padding:4px 8px;border-radius:4px;pointer-events:none;display:none}
+.cr-tip{position:fixed;z-index:450;max-width:320px;background:#1B2420;color:#F5F6F4;border-radius:8px;padding:10px 12px;font-size:12.5px;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.18);font-family:"Public Sans","Inter",sans-serif}
+.cr-tip[hidden]{display:none}
+.cr-tip b{display:block;font-size:13px;margin-bottom:4px}
+.cr-tip dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:6px 0 0}
+.cr-tip dt{opacity:.65}
+.cr-tip dd{margin:0;font-family:"IBM Plex Mono",monospace;font-size:12px}
+.cr-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px}
+.cr-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.cr-pill.st-done{color:#5CC08A;background:rgba(92,192,138,.15)}
+.cr-pill.st-active{color:#6FA8E6;background:rgba(111,168,230,.15)}
+.cr-pill.st-pending{color:#B9C3BF;background:rgba(185,195,191,.15)}
+.cr-pill.st-late{color:#FF7458;background:rgba(255,116,88,.15)}
+.cr-foot{font-size:12px;color:var(--cr-mu);margin-top:10px}
 .cra-pr{display:grid;grid-template-columns:1fr 150px 64px auto;gap:6px;margin-bottom:6px}
 .cra-pr select,.cra-pr input{padding:6px 8px;background:var(--surf);border:1px solid var(--b1);border-radius:var(--rs);font-size:12px;min-width:0}
 .cr-tag{display:inline-block;font-size:11px;background:var(--surf);border:1px solid var(--b1);border-radius:10px;padding:2px 8px;margin:0 4px 4px 0;cursor:pointer}
@@ -672,12 +737,14 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .cri-l{max-height:200px;overflow:auto;border:1px solid var(--b1);border-radius:var(--rs);background:var(--surf);padding:6px 10px;margin-bottom:12px;font-size:12px}
 .cri-l div{padding:2px 0}.cri-l span{display:inline-block;width:56px;font-family:'JetBrains Mono',monospace;color:var(--am);font-weight:600}
 @media(max-width:768px){
-  .cr-scroll{--cw:250px;max-height:calc(100vh - 200px)}
-  .cr-scroll .c-dur,.cr-scroll .c-ini,.cr-scroll .c-fin,.cr-scroll .c-pred{display:none}
-  .cr-scroll .c-name{width:164px}
+  .cr-scroll,.cr-scroll.compact{--cw:200px;max-height:calc(100vh - 160px)}
+  .cr-scroll .c-dur,.cr-scroll .c-ini,.cr-scroll .c-fin,.cr-scroll .c-pred,.cr-scroll .c-pct{display:none}
+  .cr-scroll .c-name{width:200px}
+  .c-name .code{display:none}
   .crl{grid-template-columns:110px 1fr}
   .cr-lsts,.cri-k{grid-template-columns:1fr 1fr}
-  .cra-pr{grid-template-columns:1fr 1fr;}
+  .cra-pr{grid-template-columns:1fr 1fr}
+  .cr-q{width:100%}
 }
 
 /* ══════════ RESPONSIVE ══════════ */
@@ -1127,6 +1194,9 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
         <span class="fld-help">FC fin→comienzo · CC comienzo→comienzo · FF fin→fin · CF comienzo→fin. Desfase en días: + espera, − adelanto.</span>
       </div></div>
       <div class="frow one"><div class="fld"><label>Sucesoras</label><div id="cra-sucs"></div></div></div>
+      <div class="frow one" id="cra-frente-w"><div class="fld"><label>Frente</label>
+        <input id="cra-frente" type="text" list="cra-frentes" autocomplete="off"><datalist id="cra-frentes"></datalist>
+        <span class="fld-help">Agrupa fases bajo un mismo color y permite filtrarlas. Las subactividades lo heredan; déjalo vacío para heredar.</span></div></div>
       <div class="frow">
         <div class="fld"><label>Responsable</label><select id="cra-resp"></select></div>
         <div class="fld"><label>&nbsp;</label><button class="btn" onclick="crToTask()" title="Crear una tarea de CP.ARQ con esta actividad y su fecha de fin">✅ Crear tarea con esta actividad</button></div>
@@ -3618,10 +3688,12 @@ const CR_MS = 864e5;
 const CR_TIPOS = ['FC','CC','FF','CF'];
 const CR_TIPO_LBL = {FC:'Fin → Comienzo', CC:'Comienzo → Comienzo', FF:'Fin → Fin', CF:'Comienzo → Fin'};
 const CR_MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-const CR_ESCALAS = {sem:{px:18, lbl:'Semanas'}, mes:{px:4, lbl:'Meses'}, tri:{px:1.4, lbl:'Trimestres'}};
+const CR_ESCALAS = {sem:{px:9, lbl:'Semanas'}, mes:{px:2, lbl:'Meses'}, tri:{px:0.75, lbl:'Trimestres'}};
 const CR_ROW_H = 28;
 const CR_COLS = ['id','proyecto_id','parent_id','orden','nombre','duracion','inicio_min','predecesoras',
                  'avance','responsable','notas','inicio','fin','inicio_base','fin_base'];
+/* 'frente' es opcional: solo se guarda si la columna existe en Supabase */
+const crCols = () => CR.hasFrente ? [...CR_COLS, 'frente'] : CR_COLS;
 const CR_ST_LBL = {done:'Completada', active:'En curso', late:'Atrasada', pending:'Pendiente'};
 
 const CR = {
@@ -3632,7 +3704,8 @@ const CR = {
   pid: null,         // proyecto abierto en la vista completa
   sel: null,         // actividad seleccionada
   collapsed: {},     // proyecto_id → Set de ids contraídos
-  escala: 'mes', filtro: 'todo', q: '', compact: false, showBase: false,
+  escala: (() => { try{ return localStorage.getItem('cparq_cr_escala') || 'mes'; }catch(_){ return 'mes'; } })(),
+  filtro: 'todo', q: '', compact: true, showBase: false, level: '2', frenteF: '', hasFrente: undefined,
   undo: [],          // pila de estados previos {pid, rows}
   editing: false, pendingRender: false, saving: false, lastWrite: 0,
   scrolledPid: null, drag: null, imp: null, edit: null,
@@ -3806,6 +3879,11 @@ async function crLoad(pid, force){
         .eq('proyecto_id', pid).order('orden').range(0, 9999);
       if(error) throw error;
       CR.data[pid] = data || []; CR.missing = false;
+      if(data && data.length) CR.hasFrente = 'frente' in data[0];
+      else if(CR.hasFrente === undefined){
+        const pr = await db.from('cronograma').select('frente').limit(1);
+        CR.hasFrente = !pr.error;
+      }
     }catch(e){
       if(/cronograma|relation|schema cache|does not exist/i.test(e.message || '')) CR.missing = true;
       CR.data[pid] = CR.data[pid] || [];
@@ -3818,13 +3896,13 @@ async function crLoad(pid, force){
 function crClone(rows){ return rows.map(r => ({...r, predecesoras: (r.predecesoras || []).map(p => ({...p}))})); }
 function crClean(r){
   const o = {};
-  CR_COLS.forEach(k => o[k] = r[k] === undefined ? null : r[k]);
+  crCols().forEach(k => o[k] = r[k] === undefined ? null : r[k]);
   o.predecesoras = o.predecesoras || [];
   o.avance = Math.round(+o.avance || 0);
   o.duracion = Math.max(0, Math.round(+o.duracion || 0));
   return o;
 }
-const crSame = (a, b) => CR_COLS.every(k => JSON.stringify(a[k] ?? null) === JSON.stringify(b[k] ?? null));
+const crSame = (a, b) => crCols().every(k => JSON.stringify(a[k] ?? null) === JSON.stringify(b[k] ?? null));
 
 /** Copia en inicio/fin las fechas calculadas. Devuelve los ids en ciclo. */
 function crStamp(rows){
@@ -3924,15 +4002,16 @@ function crCardHtml(p){
   const prox = leaves.filter(r => { const f = c.fechas.get(r.id); return f && f.ini > hoy && f.ini <= hoy + 30 && c.st.get(r.id) !== 'done'; })
                      .sort((a,b) => c.fechas.get(a.id).ini - c.fechas.get(b.id).ini);
   // Carriles: las fases (hijas de la raíz si hay una sola raíz)
-  const lanes = (c.roots.length === 1 && c.kids.get(c.roots[0].id)) ? c.kids.get(c.roots[0].id) : c.roots;
+  const lanes = crPhases(c), COL = crColors(c);
   const T0 = c.ini, T1 = Math.max(c.fin, T0 + 1), span = T1 - T0 + 1;
   const X = n => ((n - T0) / span * 100).toFixed(3);
   const lane = r => {
     const f = c.fechas.get(r.id); if(!f) return '';
     const s = c.st.get(r.id), pc = Math.round(c.pct.get(r.id) || 0);
-    return `<div class="crl" onclick="crOpenView(${p.id}, '${r.id}')" title="${esc(r.nombre)} · ${crFmtL(f.ini)} – ${crFmtL(f.fin)} · ${pc}%">
-      <div class="crl-n">${esc(r.nombre)}</div>
-      <div class="crl-t"><div class="crl-b st-${s}" style="left:${X(f.ini)}%;width:max(4px,${(( f.fin - f.ini + 1) / span * 100).toFixed(3)}%)"><i style="width:${pc}%"></i></div>
+    const wp = (f.fin - f.ini + 1) / span * 100;
+    return `<div class="crl" style="--ph:${COL.get(r.id)}" onclick="crOpenView(${p.id}, '${r.id}')" title="${esc(r.nombre)} · ${crFmtL(f.ini)} – ${crFmtL(f.fin)} · ${pc}%">
+      <div class="crl-n"><i class="dot"></i><span>${esc(r.nombre)}</span></div>
+      <div class="crl-t"><div class="crl-b st-${s}" style="left:${X(f.ini)}%;width:max(6px,${wp.toFixed(3)}%)">${wp > 9 ? `<em>${crFmt(f.ini)} – ${crFmt(f.fin)}</em>` : ''}</div>
       ${hoy >= T0 && hoy <= T1 ? `<div class="crl-hoy" style="left:${X(hoy)}%"></div>` : ''}</div></div>`;
   };
   const yrs = []; for(let y = new Date(T0*CR_MS).getUTCFullYear() + 1; Date.UTC(y,0,1)/CR_MS <= T1; y++) yrs.push(y);
@@ -3986,20 +4065,22 @@ function crBack(){ openProjDetail(CR.pid); }
 function crCollapsed(pid){
   if(!CR.collapsed[pid]){
     let saved = null;
-    try{ saved = JSON.parse(localStorage.getItem('cparq_cr_col_' + pid) || 'null'); }catch(_){}
-    if(Array.isArray(saved)) CR.collapsed[pid] = new Set(saved);
-    else{   // por defecto: se ven 3 niveles
+    try{ saved = JSON.parse(localStorage.getItem('cparq_cr_col2_' + pid) || 'null'); }catch(_){}
+    if(Array.isArray(saved)){ CR.collapsed[pid] = new Set(saved); CR.level = null; }
+    else{   // por defecto: se ven las fases
       const c = crCompute(pid);
-      CR.collapsed[pid] = new Set(c.list.filter(r => crIsSum(c, r.id) && c.depth.get(r.id) >= 3).map(r => r.id));
+      CR.collapsed[pid] = new Set(c.list.filter(r => crIsSum(c, r.id) && c.depth.get(r.id) >= 2).map(r => r.id));
+      CR.level = '2';
     }
   }
   return CR.collapsed[pid];
 }
-function crSaveCollapsed(pid){ try{ localStorage.setItem('cparq_cr_col_' + pid, JSON.stringify([...crCollapsed(pid)])); }catch(_){} }
+function crSaveCollapsed(pid){ try{ localStorage.setItem('cparq_cr_col2_' + pid, JSON.stringify([...crCollapsed(pid)])); }catch(_){} }
 function crToggle(ev, id){
   ev.stopPropagation();
   const s = crCollapsed(CR.pid);
   s.has(id) ? s.delete(id) : s.add(id);
+  CR.level = null;
   crSaveCollapsed(CR.pid); renderCrono();
 }
 function crLevel(n){
@@ -4021,7 +4102,10 @@ function crSetView(k, v){ CR[k] = v; renderCrono(); if(k === 'escala') setTimeou
 function crVisible(c){
   const hoy = crToday(), q = (CR.q || '').trim().toLowerCase();
   const f = CR.filtro;
-  if(f === 'todo' && !q){
+  const fr = CR.frenteF || '';
+  if(fr) crColors(c);
+  const enFrente = r => !fr || crFrenteDe(c, r) === fr;
+  if(f === 'todo' && !q && !fr){
     const col = crCollapsed(CR.pid), out = [];
     const hidden = new Set();
     for(const r of c.list){
@@ -4031,11 +4115,13 @@ function crVisible(c){
     return out;
   }
   const match = r => {
-    if(crIsSum(c, r.id)) return false;
+    if(crIsSum(c, r.id) || !enFrente(r)) return false;
     const st = c.st.get(r.id), fe = c.fechas.get(r.id);
     if(q && !(r.nombre || '').toLowerCase().includes(q) && !(r.responsable || '').toLowerCase().includes(q)) return false;
     if(f === 'late') return st === 'late';
     if(f === 'open') return st !== 'done';
+    if(f === 'pend') return st === 'pending';
+    if(f === 'done') return st === 'done';
     if(f === 'act')  return st === 'active' || st === 'late';
     if(f === 'prox') return fe && fe.ini > hoy && fe.ini <= hoy + 30 && st !== 'done';
     if(f === 'hitos') return (+r.duracion || 0) === 0;
@@ -4087,6 +4173,43 @@ function crHeadHtml(R){
   return {head: `<div class="cr-ht">${top.join('')}</div><div class="cr-hb">${bot.join('')}</div>`, lines: lines.join('')};
 }
 
+/* ── Colores por fase (o por frente, si las fases tienen uno asignado) ──
+   Las fases son las hijas de la raíz (o las raíces, si hay varias). Cada
+   actividad toma el color de su fase; un "frente" agrupa varias fases bajo
+   un mismo color. */
+const CR_PAL = ['#2F6FB0','#7A4FB0','#8A5A2B','#C0417A','#1F8A7A','#B7791F','#C0643A','#6B7A2A','#4F5DB8','#2E8B57','#A8455A','#3D7F9E'];
+const CR_ROOT_COL = '#33403B';
+function crPhases(c){
+  return (c.roots.length === 1 && c.kids.get(c.roots[0].id)) ? c.kids.get(c.roots[0].id) : c.roots;
+}
+function crFrenteDe(c, r){
+  let x = r;
+  while(x){ if(x.frente) return x.frente; x = x.parent_id && c.byId.get(x.parent_id); }
+  return null;
+}
+function crColors(c){
+  if(c._col) return c._col;
+  const col = new Map(), key = new Map(), order = [];
+  const phases = crPhases(c), phSet = new Set(phases.map(p => p.id));
+  phases.forEach(p => { const k = crFrenteDe(c, p) || ('#' + p.id); if(!key.has(k)){ key.set(k, CR_PAL[order.length % CR_PAL.length]); order.push(k); } });
+  const phaseOf = new Map();
+  c.list.forEach(r => {
+    const par = r.parent_id && c.byId.get(r.parent_id);
+    phaseOf.set(r.id, phSet.has(r.id) ? r.id : (par ? phaseOf.get(par.id) : null));
+  });
+  c.list.forEach(r => {
+    const ph = phaseOf.get(r.id);
+    if(!ph){ col.set(r.id, CR_ROOT_COL); return; }
+    const own = r.frente && key.get(r.frente);
+    col.set(r.id, own || key.get(crFrenteDe(c, c.byId.get(ph)) || ('#' + ph)));
+  });
+  c._col = col; c._phaseOf = phaseOf;
+  c._frentes = order.filter(k => k[0] !== '#').map(k => ({nombre: k, color: key.get(k)}));
+  return col;
+}
+const CR_CARET = '<svg viewBox="0 0 10 10"><path d="M3 1.5 7 5 3 8.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const crRowH = d => d <= 2 ? 38 : 32;
+
 function renderCrono(){
   if(CR.editing || CR.drag){ CR.pendingRender = true; return; }
   CR.pendingRender = false;
@@ -4095,120 +4218,175 @@ function renderCrono(){
   if(!p){ body.innerHTML = '<div class="pd-empty">Proyecto no encontrado</div>'; return; }
   const rows = CR.data[p.id] || [];
   if(CR.missing || !rows.length){
-    body.innerHTML = `<div class="pd-hero"><div class="pd-name">${esc(p.nombre)}</div><div class="pd-meta"><span>Cronograma</span></div></div>
-      ${crCardHtml(p)}`;
+    body.innerHTML = `<div class="pd-hero"><div class="pd-name">${esc(p.nombre)}</div><div class="pd-meta"><span>Cronograma</span></div></div>${crCardHtml(p)}`;
     return;
   }
   const c = crCompute(p.id), adm = isAdmin(), hoy = crToday();
+  const COL = crColors(c);
   const vis = crVisible(c), R = crRange(c), H = crHeadHtml(R);
   const X = n => (n - R.T0) * R.px;
   const col = crCollapsed(p.id);
+  const filtering = CR.filtro !== 'todo' || !!(CR.q || '').trim() || !!CR.frenteF;
   const lateN = c.list.filter(r => !crIsSum(c, r.id) && c.st.get(r.id) === 'late').length;
+  const leaves = c.list.filter(r => !crIsSum(c, r.id));
+  const doneN = leaves.filter(r => c.st.get(r.id) === 'done').length;
   const selR = CR.sel && c.byId.get(CR.sel);
-
-  // Guarda el scroll para no saltar al redibujar
   const sc = g('cr-scroll'); const keep = sc ? [sc.scrollLeft, sc.scrollTop] : null;
 
-  const rowsHtml = vis.map((r, i) => {
+  const rowsHtml = vis.map(r => {
     const f = c.fechas.get(r.id), sum = crIsSum(c, r.id), d = c.depth.get(r.id);
     const s = c.st.get(r.id), pc = Math.round(c.pct.get(r.id) || 0);
     const dur = sum ? (f ? f.F - f.S : 0) : Math.round(+r.duracion || 0);
     const hito = !sum && dur === 0;
     const pinned = !sum && r.inicio_min && (r.predecesoras || []).length;
-    const ed = (fld, extra='') => adm ? ` onclick="crCell(event,'${r.id}','${fld}')"${extra}` : '';
-    let bar = '';
+    const open = filtering || !col.has(r.id);
+    const ed = fld => adm ? ` onclick="crCell(event,'${r.id}','${fld}')"` : '';
+    let mark = '', lbl = '';
     if(f){
-      const x = X(f.ini), w = Math.max((f.fin - f.ini + 1) * R.px, 3);
-      const tip = `${esc(r.nombre)}\n${crFmtL(f.ini)} – ${crFmtL(f.fin)} · ${crDur(dur)} · ${pc}%`;
-      if(sum)       bar = `<div class="crb sum" style="left:${x}px;width:${w}px" title="${tip}"><i style="width:${pc}%"></i></div>`;
-      else if(hito) bar = `<div class="crb hito st-${s}" style="left:${X(f.fin) + R.px - 7}px" title="${tip}" data-id="${r.id}"${adm ? ` onpointerdown="crDragStart(event,'${r.id}','move')"` : ''}></div>`;
-      else          bar = `<div class="crb st-${s}" style="left:${x}px;width:${w}px" title="${tip}" data-id="${r.id}"${adm ? ` onpointerdown="crDragStart(event,'${r.id}','move')"` : ''}><i style="width:${pc}%"></i>${adm ? `<b onpointerdown="event.stopPropagation();crDragStart(event,'${r.id}','size')"></b>` : ''}</div>`;
-      if(R.px >= 3 && !sum) bar += `<span class="crb-lbl" style="left:${(hito ? X(f.fin) + R.px + 8 : x + w + 6)}px">${esc(r.nombre)}</span>`;
+      const x = X(f.ini), w = Math.max((f.fin - f.ini + 1) * R.px, 4);
+      if(sum) mark = `<div class="crs" data-id="${r.id}" style="left:${x}px;width:${w}px"></div>`;
+      else if(hito) mark = `<div class="crm st-${s}" data-id="${r.id}" style="left:${X(f.fin) + R.px/2 - 6}px"${adm ? ` onpointerdown="crDragStart(event,'${r.id}','move')"` : ''}></div>`;
+      else mark = `<div class="crb st-${s}" data-id="${r.id}" style="left:${x}px;width:${w}px"${adm ? ` onpointerdown="crDragStart(event,'${r.id}','move')"` : ''}>${pc > 0 && pc < 100 ? `<span class="fill" style="width:${pc}%"></span>` : ''}${adm && w >= 16 ? `<b onpointerdown="event.stopPropagation();crDragStart(event,'${r.id}','size')"></b>` : ''}</div>`;
+      const endX = hito ? X(f.fin) + R.px/2 + 10 : x + w + 6;
+      lbl = `<span class="crb-lbl" style="left:${endX}px">${hito ? crFmt(f.fin) : dur + 'd'}${!sum && s !== 'pending' ? ' · ' + CR_ST_LBL[s].toLowerCase() : ''}${R.px >= 6 && !sum ? ' · ' + esc(r.nombre) : ''}</span>`;
     }
+    let base = '';
     if(CR.showBase && r.inicio_base && r.fin_base){
       const bi = crD2N(r.inicio_base), bf = crD2N(r.fin_base);
-      bar = `<div class="crb-base" style="left:${X(bi)}px;width:${Math.max((bf - bi + 1)*R.px, 2)}px"></div>` + bar;
+      base = `<div class="crb-base" style="left:${X(bi)}px;width:${Math.max((bf - bi + 1)*R.px, 2)}px"></div>`;
     }
-    return `<div class="cr-row${sum ? ' sum' : ''}${r.id === CR.sel ? ' sel' : ''} d${Math.min(d,6)}" data-id="${r.id}" onclick="crSelect('${r.id}')" ondblclick="crOpen('${r.id}')">
+    return `<div class="cr-row d${Math.min(d,3)}${sum ? ' parent' : ''}${r.id === CR.sel ? ' sel' : ''}" style="--ph:${COL.get(r.id)};height:${crRowH(d)}px" data-id="${r.id}" onclick="crSelect('${r.id}')" ondblclick="crOpen('${r.id}')">
       <div class="cr-cells">
-        <div class="cc c-num st-${s}">${c.num.get(r.id)}</div>
-        <div class="cc c-name" style="padding-left:${6 + (d-1)*14}px">${sum
-          ? `<button class="cr-car" onclick="crToggle(event,'${r.id}')">${col.has(r.id) && CR.filtro === 'todo' && !CR.q ? '▸' : '▾'}</button>`
-          : `<span class="cr-car0">${hito ? '◆' : ''}</span>`}<span class="c-wbs">${c.wbs.get(r.id)}</span><span class="c-nm"${ed('nombre')} title="${esc(r.nombre)}">${esc(r.nombre)}</span></div>
+        <div class="cc c-name" style="padding-left:${(d-1)*14}px"><i class="stripe"></i>${sum
+          ? `<button class="caret" aria-expanded="${open}" onclick="crToggle(event,'${r.id}')"${filtering ? ' disabled' : ''}>${CR_CARET}</button>`
+          : `<span class="caret ph">${hito ? '◆' : ''}</span>`}<span class="code">${c.wbs.get(r.id)}</span><span class="nm"${ed('nombre')} title="${esc(r.nombre)}">${esc(r.nombre)}</span></div>
         <div class="cc c-dur${sum ? ' ro' : ''}"${sum ? '' : ed('duracion')}>${dur}d</div>
-        <div class="cc c-ini${sum ? ' ro' : ''}"${sum ? '' : ed('inicio')}>${f ? crFmt(f.ini) : '—'}${pinned ? '<span class="cr-pin" title="Tiene restricción: no comenzar antes de ' + crFmtL(crD2N(r.inicio_min)) + '">📌</span>' : ''}</div>
+        <div class="cc c-ini${sum ? ' ro' : ''}"${sum ? '' : ed('inicio')}>${f ? crFmt(f.ini) : '—'}${pinned ? '<span class="cr-pin" title="Restricción: no comenzar antes de ' + crFmtL(crD2N(r.inicio_min)) + '">📌</span>' : ''}</div>
         <div class="cc c-fin${sum ? ' ro' : ''}"${sum ? '' : ed('fin')}>${f ? crFmt(f.fin) : '—'}</div>
-        <div class="cc c-pred"${ed('pred')} title="${esc(crPredText(c, r))}">${esc(crPredText(c, r))}</div>
-        <div class="cc c-pct${sum ? ' ro' : ''} st-${s}"${sum ? '' : ed('avance')}>${pc}%</div>
+        <div class="cc c-pred"${ed('pred')}>${esc(crPredText(c, r))}</div>
+        <div class="cc c-pct${sum ? ' ro' : ''}"${sum ? '' : ed('avance')}>${pc}%</div>
       </div>
-      <div class="cr-tl" style="width:${R.W}px">${bar}</div>
+      <div class="cr-tl" style="width:${R.W}px">${base}${mark}${lbl}</div>
     </div>`;
   }).join('');
 
-  const fb = (v, l) => `<button class="ct-tab${CR.escala === v ? ' on' : ''}" onclick="crSetView('escala','${v}')">${l}</button>`;
-  const lv = n => `<button class="ct-tab" onclick="crLevel(${n})">${n || 'Todo'}</button>`;
+  const seg = (items, cur, fn) => `<div class="cr-seg">${items.map(([v, l]) => `<button aria-pressed="${cur === v}" onclick="${fn}('${v}')">${l}</button>`).join('')}</div>`;
   const hasUndo = CR.undo.some(u => u.pid === p.id);
+  const dis = selR ? '' : ' disabled';
+  const frentes = c._frentes || [];
+  const legendBar = (st, l) => `<span><i class="lg lg-${st}" style="--ph:${CR_PAL[0]}"></i>${l}</span>`;
   body.innerHTML = `
-    <div class="cr-top">
-      <div>
-        <div class="pd-name">${esc(p.nombre)} <span class="cr-top-s">· Cronograma</span></div>
-        <div class="cr-top-m">
-          <span><b>${c.list.length}</b> actividades</span>
-          <span>Inicio <b>${crFmtL(c.ini)}</b></span>
-          <span>Fin proyectado <b>${crFmtL(c.fin)}</b></span>
-          <span>Avance <b>${Math.round(c.avance)}%</b></span>
-          ${lateN ? `<span class="cr-rojo" onclick="crSetView('filtro','late')"><b>${lateN}</b> atrasada(s)</span>` : ''}
-          ${c.sched.ciclo.length ? `<span class="cr-rojo"><b>${c.sched.ciclo.length}</b> en ciclo de vínculos</span>` : ''}
-        </div>
+    <header class="cr-hd">
+      <div class="cr-eyebrow">Cronograma del proyecto</div>
+      <h1 class="cr-h1">${esc(p.nombre)}</h1>
+      <div class="cr-meta">
+        <div><b>${crFmtL(c.ini)}</b><small>Inicio</small></div>
+        <div><b>${crFmtL(c.fin)}</b><small>Fin proyectado</small></div>
+        <div><b>${Math.round(c.avance)}%</b><small>Avance ponderado</small><span class="cr-prog"><i style="width:${Math.round(c.avance)}%"></i></span></div>
+        <div><b>${doneN} / ${leaves.length}</b><small>Actividades listas</small></div>
+        ${lateN ? `<div class="cr-late" onclick="crSetFiltro('late')"><b>${lateN}</b><small>Atrasadas</small></div>` : ''}
+        ${c.sched.ciclo.length ? `<div class="cr-late"><b>${c.sched.ciclo.length}</b><small>En ciclo de vínculos</small></div>` : ''}
       </div>
+    </header>
+    <div class="cr-tools">
+      <div class="tg"><span class="tlabel">Nivel</span>${seg([['2','Fases'],['3','Paquetes'],['4','Entregables'],['0','Todo']], String(CR.level ?? ''), 'crLevelBtn')}</div>
+      <div class="tg"><span class="tlabel">Escala</span>${seg([['sem','Semanas'],['mes','Meses'],['tri','Trimestres']], CR.escala, 'crEscala')}</div>
+      <div class="tg"><span class="tlabel">Estado</span>${seg([['todo','Todas'],['act','En proceso'],['pend','Pendientes'],['late','Atrasadas'],['done','Listas'],['hitos','Hitos']], CR.filtro, 'crSetFiltro')}</div>
+      ${CR.filtro === 'prox' ? `<span class="cr-chip">Arrancan en 30 días <button onclick="crSetFiltro('todo')">✕</button></span>` : ''}
+      ${frentes.length ? `<select class="cr-select" onchange="CR.frenteF=this.value;renderCrono()"><option value="">Todos los frentes</option>${frentes.map(f => `<option${CR.frenteF === f.nombre ? ' selected' : ''}>${esc(f.nombre)}</option>`).join('')}</select>` : ''}
+      <input class="cr-q" id="cr-q" type="search" placeholder="Buscar tarea (ej. Bomberos)" value="${escT(CR.q)}" oninput="CR.q=this.value;clearTimeout(CR._q);CR._q=setTimeout(()=>{renderCrono();const e=g('cr-q');if(e){e.focus();e.setSelectionRange(e.value.length,e.value.length)}},250)">
+      <button class="cr-today" onclick="crScrollToday()">Ir a hoy</button>
     </div>
-    <div class="cr-bar">
-      ${adm ? `<div class="cr-grp">
-        <button class="btn btn-pri btn-sm" onclick="crInsert(false)" title="Nueva actividad debajo de la seleccionada (Insert)">＋ Actividad</button>
-        <button class="btn btn-sm" onclick="crInsert(true)" title="Nuevo hito (0 días)">◆ Hito</button>
-        <button class="btn btn-sm" onclick="crIndent(1)" title="Aplicar sangría: pasa a ser subtarea de la anterior (Alt+Shift+→)"${selR ? '' : ' disabled'}>⇥</button>
-        <button class="btn btn-sm" onclick="crIndent(-1)" title="Quitar sangría (Alt+Shift+←)"${selR ? '' : ' disabled'}>⇤</button>
-        <button class="btn btn-sm" onclick="crMove(-1)" title="Subir (Alt+Shift+↑)"${selR ? '' : ' disabled'}>↑</button>
-        <button class="btn btn-sm" onclick="crMove(1)" title="Bajar (Alt+Shift+↓)"${selR ? '' : ' disabled'}>↓</button>
-        <button class="btn btn-sm" onclick="crOpen(CR.sel)" title="Editar la seleccionada (Enter)"${selR ? '' : ' disabled'}>✏️</button>
-        <button class="btn btn-sm cr-del" onclick="crDelete()" title="Eliminar la seleccionada y sus subtareas"${selR ? '' : ' disabled'}>🗑</button>
-        <button class="btn btn-sm" onclick="crUndo()" title="Deshacer (Ctrl+Z)"${hasUndo ? '' : ' disabled'}>↶ Deshacer</button>
-      </div>` : ''}
-      <div class="cr-grp">
-        <span class="cr-lbl">Nivel</span><div class="ct-tabs">${lv(1)}${lv(2)}${lv(3)}${lv(4)}${lv(0)}</div>
-        <div class="ct-tabs">${fb('sem','Sem')}${fb('mes','Mes')}${fb('tri','Trim')}</div>
-        <button class="btn btn-sm" onclick="crScrollToday()">Hoy</button>
+    ${adm ? `<div class="cr-tools cr-edit">
+      <span class="tlabel">Editar</span>
+      <div class="cr-seg">
+        <button onclick="crInsert(false)" title="Nueva actividad debajo de la seleccionada (Insert)">＋ Actividad</button>
+        <button onclick="crInsert(true)" title="Nuevo hito (0 días)">◆ Hito</button>
       </div>
-      <div class="cr-grp">
-        <select class="cr-sel" onchange="crSetView('filtro', this.value)">
-          ${[['todo','Todas'],['open','Sin terminar'],['act','En curso y atrasadas'],['late','Atrasadas'],['prox','Arrancan en 30 días'],['hitos','Hitos']]
-            .map(([v,l]) => `<option value="${v}"${CR.filtro === v ? ' selected' : ''}>${l}</option>`).join('')}
-        </select>
-        <input class="cr-q" id="cr-q" type="search" placeholder="Buscar…" value="${escT(CR.q)}" oninput="CR.q=this.value;clearTimeout(CR._q);CR._q=setTimeout(()=>{renderCrono();const e=g('cr-q');if(e){e.focus();e.setSelectionRange(e.value.length,e.value.length)}},250)">
-        <label class="cr-chk"><input type="checkbox" ${CR.showBase ? 'checked' : ''} onchange="crSetView('showBase', this.checked)"> Línea base</label>
-        <button class="btn btn-sm" onclick="crSetView('compact', !CR.compact)" title="Mostrar u ocultar columnas">▤</button>
-        ${adm ? `<button class="btn btn-sm" onclick="crMenu(event)">⋯</button>` : ''}
+      <div class="cr-seg">
+        <button onclick="crIndent(-1)" title="Quitar sangría (Alt+Shift+←)"${dis}>⇤</button>
+        <button onclick="crIndent(1)" title="Aplicar sangría: subtarea de la anterior (Alt+Shift+→)"${dis}>⇥</button>
+        <button onclick="crMove(-1)" title="Subir (Alt+Shift+↑)"${dis}>↑</button>
+        <button onclick="crMove(1)" title="Bajar (Alt+Shift+↓)"${dis}>↓</button>
       </div>
+      <div class="cr-seg">
+        <button onclick="crOpen(CR.sel)" title="Editar la seleccionada (Enter)"${dis}>Detalle</button>
+        <button class="del" onclick="crDelete()" title="Eliminar la seleccionada y sus subtareas"${dis}>Eliminar</button>
+        <button onclick="crUndo()" title="Deshacer (Ctrl+Z)"${hasUndo ? '' : ' disabled'}>↶ Deshacer</button>
+      </div>
+      <div class="cr-seg">
+        <button aria-pressed="${!CR.compact}" onclick="crSetView('compact', ${!CR.compact})" title="Mostrar columnas de duración, fechas, predecesoras y avance">Columnas</button>
+        <button aria-pressed="${CR.showBase}" onclick="crSetView('showBase', ${!CR.showBase})" title="Comparar con la línea base">Línea base</button>
+        <button onclick="crMenu(event)">⋯</button>
+      </div>
+    </div>` : ''}
+    <div class="cr-legend">
+      ${legendBar('done','Lista')}${legendBar('active','En proceso')}${legendBar('pending','Pendiente')}
+      <span><i class="lg lg-late"></i>Atrasada</span>
+      <span><i class="lg lg-sum" style="--ph:${CR_PAL[0]}"></i>Grupo de tareas</span>
+      <span><i class="lg lg-hito" style="--ph:${CR_PAL[0]}"></i>Hito</span>
+      ${frentes.length ? `<span class="cr-legend-sep"></span>${frentes.map(f => `<span><i class="dot" style="background:${f.color}"></i>${esc(f.nombre)}</span>`).join('')}` : ''}
     </div>
     <div class="cr-scroll${CR.compact ? ' compact' : ''}" id="cr-scroll">
       <div class="cr-grid" style="--tlw:${R.W}px">
         <div class="cr-head">
-          <div class="cr-cells"><div class="cc c-num">#</div><div class="cc c-name">Actividad</div><div class="cc c-dur">Dur.</div><div class="cc c-ini">Inicio</div><div class="cc c-fin">Fin</div><div class="cc c-pred">Predec.</div><div class="cc c-pct">%</div></div>
-          <div class="cr-tl cr-th" style="width:${R.W}px">${H.head}</div>
+          <div class="cr-cells"><div class="cc c-name">Tarea</div><div class="cc c-dur">Dur.</div><div class="cc c-ini">Inicio</div><div class="cc c-fin">Fin</div><div class="cc c-pred">Predec.</div><div class="cc c-pct">%</div></div>
+          <div class="cr-tl cr-th" style="width:${R.W}px">${H.head}${hoy >= R.T0 && hoy <= R.T1 ? `<div class="cr-hoytag" style="left:${X(hoy) + R.px/2}px">HOY</div>` : ''}</div>
         </div>
         <div class="cr-bodyw">
           <div class="cr-lines" style="width:${R.W}px">${H.lines}${hoy >= R.T0 && hoy <= R.T1 ? `<div class="cr-hoy" style="left:${X(hoy) + R.px/2}px"></div>` : ''}</div>
-          ${rowsHtml || '<div class="pd-empty">Nada coincide con el filtro</div>'}
+          ${rowsHtml || '<div class="pd-empty">Ninguna tarea coincide con el filtro.</div>'}
           <svg class="cr-arrows" id="cr-arrows" style="width:${R.W}px"></svg>
         </div>
       </div>
     </div>
-    <div class="cr-foot">Clic en una celda para editarla · doble clic en la fila para el detalle · arrastra una barra para moverla o su borde derecho para cambiar la duración. ${adm ? 'Ctrl+Z deshace.' : ''}</div>`;
+    <div class="cr-foot">${adm ? 'Clic en el nombre o en una celda para editarla · doble clic en la fila para el detalle · arrastra una barra para moverla, o su borde derecho para cambiar la duración · Ctrl+Z deshace.' : 'Doble clic en una fila para ver el detalle.'}</div>`;
   CR._R = R; CR._vis = vis;
   const s2 = g('cr-scroll');
   if(keep){ s2.scrollLeft = keep[0]; s2.scrollTop = keep[1]; }
   if(CR.scrolledPid !== p.id){ CR.scrolledPid = p.id; crScrollToday(); if(CR.sel) crScrollToSel(); }
+  crBindTip(s2);
   crDrawArrows();
+}
+function crLevelBtn(v){ CR.level = v; crLevel(+v); }
+function crEscala(v){
+  const sc = g('cr-scroll'), R = CR._R;
+  let center = null;
+  if(sc && R){ const lw = sc.querySelector('.cr-head .cr-cells').offsetWidth; center = R.T0 + (sc.scrollLeft + (sc.clientWidth - lw)/2) / R.px; }
+  CR.escala = v;
+  try{ localStorage.setItem('cparq_cr_escala', v); }catch(_){}
+  renderCrono();
+  const s2 = g('cr-scroll'), R2 = CR._R;
+  if(center != null && s2){ const lw = s2.querySelector('.cr-head .cr-cells').offsetWidth; s2.scrollLeft = Math.max(0, (center - R2.T0) * R2.px - (s2.clientWidth - lw)/2); }
+}
+function crSetFiltro(v){ CR.filtro = v; renderCrono(); }
+
+/* Ficha flotante al pasar sobre una barra */
+function crBindTip(sc){
+  let tip = g('cr-tip');
+  if(!tip){ tip = document.createElement('div'); tip.id = 'cr-tip'; tip.className = 'cr-tip'; tip.hidden = true; document.body.appendChild(tip); }
+  sc.addEventListener('pointermove', e => {
+    if(CR.drag){ tip.hidden = true; return; }
+    const m = e.target.closest('.crb,.crs,.crm');
+    if(!m){ tip.hidden = true; return; }
+    const c = crCompute(CR.pid), id = m.dataset.id, r = c.byId.get(id), f = c.fechas.get(id);
+    if(!r || !f) return;
+    const sum = crIsSum(c, id), s = c.st.get(id), fr = crFrenteDe(c, r);
+    const nLeaves = sum ? (function n(x){ const k = c.kids.get(x); return k ? k.reduce((a, y) => a + n(y.id), 0) : 1; })(id) : 0;
+    tip.innerHTML = `<b>${esc(r.nombre)}</b><span class="cr-pill st-${s}">${CR_ST_LBL[s]}</span>
+      <dl><dt>Código</dt><dd>${c.wbs.get(id)}</dd><dt>Inicio</dt><dd>${crFmtL(f.ini)}</dd><dt>Fin</dt><dd>${crFmtL(f.fin)}</dd>
+      <dt>Duración</dt><dd>${crDur(f.F - f.S)}</dd><dt>Avance</dt><dd>${Math.round(c.pct.get(id) || 0)}%</dd>
+      ${sum ? `<dt>Subtareas</dt><dd>${nLeaves}</dd>` : ''}${crPredText(c, r) ? `<dt>Depende de</dt><dd>${esc(crPredText(c, r))}</dd>` : ''}
+      ${fr ? `<dt>Frente</dt><dd>${esc(fr)}</dd>` : ''}${r.responsable ? `<dt>Responsable</dt><dd>${esc(r.responsable)}</dd>` : ''}</dl>`;
+    tip.hidden = false;
+    const b = tip.getBoundingClientRect();
+    let lx = e.clientX + 14, ly = e.clientY + 14;
+    if(lx + b.width > innerWidth - 8) lx = e.clientX - b.width - 14;
+    if(ly + b.height > innerHeight - 8) ly = e.clientY - b.height - 14;
+    tip.style.left = Math.max(8, lx) + 'px'; tip.style.top = Math.max(8, ly) + 'px';
+  });
+  sc.addEventListener('pointerleave', () => tip.hidden = true);
+  sc.addEventListener('scroll', () => tip.hidden = true, {passive: true});
 }
 function crScrollToday(){
   const sc = g('cr-scroll'), R = CR._R; if(!sc || !R) return;
@@ -4218,48 +4396,44 @@ function crScrollToday(){
 function crScrollToSel(){
   const sc = g('cr-scroll'); const el = sc && sc.querySelector(`.cr-row[data-id="${CR.sel}"]`);
   if(!el) return;
-  const top = el.offsetTop - sc.clientHeight/3;
-  sc.scrollTop = Math.max(0, top);
+  sc.scrollTop = Math.max(0, el.offsetTop - sc.clientHeight/3);
   const c = crCompute(CR.pid), f = c.fechas.get(CR.sel), R = CR._R;
-  if(f && R){ const lw = sc.querySelector('.cr-head .cr-cells').offsetWidth; sc.scrollLeft = Math.max(0, (f.ini - R.T0)*R.px - 80); }
+  if(f && R) sc.scrollLeft = Math.max(0, (f.ini - R.T0)*R.px - 80);
 }
 function crSelect(id){
   if(CR.sel === id) return;
   CR.sel = id;
   document.querySelectorAll('#cr-scroll .cr-row.sel').forEach(e => e.classList.remove('sel'));
   document.querySelector(`#cr-scroll .cr-row[data-id="${id}"]`)?.classList.add('sel');
-  document.querySelectorAll('.cr-bar button[disabled]').forEach(b => { if(!/Deshacer/.test(b.textContent)) b.disabled = false; });
+  document.querySelectorAll('.cr-edit button[disabled]').forEach(b => { if(!/Deshacer/.test(b.textContent)) b.disabled = false; });
   crDrawArrows();
 }
 /** Flechas de vínculo: solo las de la actividad seleccionada (entradas y salidas). */
 function crDrawArrows(){
   const svg = g('cr-arrows'); if(!svg) return;
   const c = crCompute(CR.pid), R = CR._R, vis = CR._vis || [];
-  const idx = new Map(vis.map((r, i) => [r.id, i]));
-  if(!CR.sel || !idx.has(CR.sel)){ svg.innerHTML = ''; return; }
+  const ymid = new Map(); let y = 0;
+  vis.forEach(r => { const h = crRowH(c.depth.get(r.id)); ymid.set(r.id, y + h/2); y += h; });
+  svg.style.height = y + 'px';
+  if(!CR.sel || !ymid.has(CR.sel)){ svg.innerHTML = ''; return; }
   const X = n => (n - R.T0) * R.px;
   const pairs = [];
   const me = c.byId.get(CR.sel);
   (me.predecesoras || []).forEach(p => pairs.push([p.id, CR.sel, p.tipo || 'FC']));
   c.list.forEach(r => (r.predecesoras || []).forEach(p => { if(p.id === CR.sel) pairs.push([CR.sel, r.id, p.tipo || 'FC']); }));
-  const pts = pairs.filter(([a,b]) => idx.has(a) && idx.has(b)).map(([a, b, t]) => {
+  svg.innerHTML = pairs.filter(([a,b]) => ymid.has(a) && ymid.has(b)).map(([a, b, t]) => {
     const fa = c.fechas.get(a), fb = c.fechas.get(b); if(!fa || !fb) return '';
-    const ya = idx.get(a)*CR_ROW_H + CR_ROW_H/2, yb = idx.get(b)*CR_ROW_H + CR_ROW_H/2;
+    const ya = ymid.get(a), yb = ymid.get(b);
     const xa = (t === 'FC' || t === 'FF') ? X(fa.fin + 1) : X(fa.ini);
     const xb = (t === 'FC' || t === 'CC') ? X(fb.ini) : X(fb.fin + 1);
-    const into = (t === 'FC' || t === 'CC') ? -1 : 1;     // entra por la izquierda o por la derecha
+    const into = (t === 'FC' || t === 'CC') ? -1 : 1;
     const xe = xb + (into < 0 ? -2 : 2);
     let d;
     if(into < 0 && xb - xa >= 14) d = `M${xa},${ya} H${xa + 6} V${yb} H${xe}`;
     else if(into > 0) d = `M${xa},${ya} H${Math.max(xa, xb) + 10} V${yb} H${xe}`;
-    else{   // la sucesora arranca antes o junto: rodea por el espacio entre filas
-      const ym = ya + (yb > ya ? 1 : -1) * CR_ROW_H/2;
-      d = `M${xa},${ya} H${xa + 6} V${ym} H${xb - 8} V${yb} H${xe}`;
-    }
+    else{ const ym = ya + (yb > ya ? 1 : -1) * 15; d = `M${xa},${ya} H${xa + 6} V${ym} H${xb - 8} V${yb} H${xe}`; }
     return `<path d="${d}" /><path class="h" d="M${xe},${yb} l${into < 0 ? -5 : 5},-4 v8 z"/>`;
-  });
-  svg.style.height = (vis.length * CR_ROW_H) + 'px';
-  svg.innerHTML = pts.join('');
+  }).join('');
 }
 
 /* ═══════ EDICIÓN EN CELDA ═══════ */
@@ -4388,7 +4562,7 @@ async function crInsert(hito){
   CR.sel = r.id;
   if(await crCommit(pid, rows)){
     setTimeout(() => {
-      const el = document.querySelector(`#cr-scroll .cr-row[data-id="${r.id}"] .c-nm`);
+      const el = document.querySelector(`#cr-scroll .cr-row[data-id="${r.id}"] .nm`);
       if(el){ el.scrollIntoView({block:'nearest'}); el.click(); }
     }, 30);
   }
@@ -4498,6 +4672,14 @@ function crOpen(id){
   g('cra-ini').value = r.inicio_min || '';
   g('cra-av').value = Math.round(sum ? c.pct.get(id) : +r.avance || 0);
   g('cra-notas').value = r.notas || '';
+  // Frente: agrupa fases bajo un color; las subtareas lo heredan
+  g('cra-frente-w').style.display = CR.hasFrente ? '' : 'none';
+  const inh = (() => { const p = r.parent_id && c.byId.get(r.parent_id); return p ? crFrenteDe(c, p) : null; })();
+  g('cra-frente').value = r.frente || '';
+  g('cra-frente').placeholder = inh ? `Hereda: ${inh}` : 'ej. Diseño y aprobaciones';
+  g('cra-frente').disabled = !adm;
+  crColors(c);
+  g('cra-frentes').innerHTML = [...new Set(c.list.map(x => x.frente).filter(Boolean))].map(x => `<option value="${escT(x)}">`).join('');
   const ps = g('cra-resp');
   ps.innerHTML = '<option value="">—</option>' + S.personas.map(x => `<option${x.nombre === r.responsable ? ' selected' : ''}>${esc(x.nombre)}</option>`).join('')
     + (r.responsable && !S.personas.some(x => x.nombre === r.responsable) ? `<option selected>${esc(r.responsable)}</option>` : '');
@@ -4548,6 +4730,7 @@ async function crSaveModal(){
   r.nombre = nombre;
   r.notas = g('cra-notas').value.trim() || null;
   r.responsable = g('cra-resp').value || null;
+  if(CR.hasFrente) r.frente = g('cra-frente').value.trim() || null;
   if(!sum){
     const d = crParseDur(g('cra-dur').value);
     if(d == null || d < 0){ toast('Duración no válida', 'err'); return; }
@@ -4787,7 +4970,7 @@ document.addEventListener('keydown', e => {
     return;
   }
   if(e.key === 'Enter' && CR.sel){ e.preventDefault(); crOpen(CR.sel); return; }
-  if(e.key === 'F2' && CR.sel && adm){ e.preventDefault(); document.querySelector(`#cr-scroll .cr-row[data-id="${CR.sel}"] .c-nm`)?.click(); return; }
+  if(e.key === 'F2' && CR.sel && adm){ e.preventDefault(); document.querySelector(`#cr-scroll .cr-row[data-id="${CR.sel}"] .nm`)?.click(); return; }
   if(e.key === 'Insert' && adm){ e.preventDefault(); crInsert(false); return; }
   if(e.key === 'Delete' && CR.sel && adm){ e.preventDefault(); crDelete(); return; }
 });
