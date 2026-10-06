@@ -514,6 +514,12 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .ct-a.av:hover{background:var(--gr2);color:var(--gr)}
 .ct-a.del:hover{background:var(--re2);color:var(--re)}
 .ct-mwrap{overflow-x:auto;padding:4px 0}
+.ct-li-s{font-size:11px;font-weight:700;flex:none;width:96px;font-family:'JetBrains Mono',monospace}
+.ct-li-s.rojo{color:var(--re)}.ct-li-s.ambar{color:var(--am)}.ct-li-s.verde{color:var(--gr)}.ct-li-s.gris{color:var(--di)}
+.ct-li-r{color:var(--mu)}
+#sec-contrat .ct{margin-top:4px}
+.ctv-hero{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:4px 0 12px}
+.ctv-hero .pd-name{font-size:20px}
 .ct-m{border-collapse:collapse;font-size:11px}
 .ct-m th,.ct-m td{border:1px solid var(--b1);padding:3px;vertical-align:top;text-align:left}
 .ct-m thead th{background:var(--surf);font-size:10px;font-weight:700;color:var(--mu);white-space:nowrap;text-align:center;padding:6px 8px;min-width:150px;position:sticky;top:0;z-index:2}
@@ -887,6 +893,12 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
       <div id="pd-body"></div>
     </div>
 
+    <!-- ══════════ CONTRATACIONES (vista completa) ══════════ -->
+    <div class="sec" id="sec-contrat">
+      <button class="pd-back" onclick="ctBack()">← Volver al proyecto</button>
+      <div id="ctv-body"></div>
+    </div>
+
     <!-- ══════════ CRONOGRAMA (vista completa) ══════════ -->
     <div class="sec" id="sec-crono">
       <button class="pd-back" onclick="crBack()">← Volver al proyecto</button>
@@ -1119,6 +1131,23 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <div class="mo-f">
       <button class="btn" onclick="closeOv('ov-frentes')">Cancelar</button>
       <button class="btn btn-pri" onclick="ctFrentesSave()">Guardar frentes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: RUBRO DEL PROYECTO ══════════ -->
+<div class="ov" id="ov-rubro">
+  <div class="modal">
+    <div class="mo-h"><span class="mo-t">Editar rubro</span><button class="mo-x" onclick="closeOv('ov-rubro')">✕</button></div>
+    <div class="mo-b">
+      <div class="frow one"><div class="fld"><label>Nombre</label><input id="rb-nombre" type="text"></div></div>
+      <div class="frow one"><div class="fld"><label>Fecha de ingreso a obra</label>
+        <input id="rb-fecha" type="date">
+        <span class="fld-help">La heredan los trámites del rubro que no tengan fecha propia. Con ella se calcula el margen (semáforo).</span></div></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-rubro')">Cancelar</button>
+      <button class="btn btn-pri" onclick="ctRubroSave()">Guardar</button>
     </div>
   </div>
 </div>
@@ -1635,6 +1664,7 @@ function render(){
     case 'tareas':     renderTareas();    break;
     case 'proyectos':  renderProyectos(); break;
     case 'projdet':    renderProjDetail();break;
+    case 'contrat':    renderContrat();   break;
     case 'personas':   renderPersonas();  break;
     case 'eliminadas': renderEliminadas();break;
     case 'apuntes':    renderApuntes();   break;
@@ -2262,6 +2292,9 @@ async function openProjDetail(id){
 function pdProject(){ return S.projects.find(x => x.id === S.pdProj) || null; }
 
 function renderProjDetail(){
+  // Las acciones de contrataciones llaman a renderProjDetail(); si se está
+  // en la vista completa, se redibuja esa.
+  if(S.tab === 'contrat'){ renderContrat(); return; }
   // No redibujar si hay texto sin guardar en el formulario de puntos
   if(S.pdAdd || S.pdEdit){
     const ta = g('chk-input');
@@ -2341,7 +2374,7 @@ function renderProjDetail(){
     </div>
     ${crCardHtml(p)}
     ${checklistHtml(p)}
-    ${contratHtml(p)}
+    ${ctCardHtml(p)}
     <div class="pd-cols">
       <div class="pd-panel">
         <div class="pd-panel-h"><span class="pd-panel-t">✅ Tareas</span>
@@ -2674,6 +2707,73 @@ function contratHtml(p){
     <div class="ct-b">${body}</div>
   </div>`;
 }
+/* ── Tarjeta resumen en la ficha del proyecto ──
+   La matriz completa vive en su propia vista (sec-contrat) para no tapar
+   las tareas y apuntes de la ficha. */
+function ctCardHtml(p){
+  if(!ctActivo(p)) return contratHtml(p);          // invitación a activar
+  const todas    = ctDe(p.nombre);
+  const abiertas = todas.filter(c => !CT_CERRADO.includes(c.estado));
+  const conSem   = abiertas.map(c => ({c, s: ctSemaforo(c), h: ctHolgura(c)}));
+  const ord = (a,b) => (a.h ?? 1e9) - (b.h ?? 1e9);
+  const atn  = conSem.filter(x => x.s.k === 'rojo' || x.s.k === 'ambar').sort(ord);
+  const ini  = conSem.filter(x => x.c.estado === 'Sin iniciar' && x.s.k !== 'rojo' && x.s.k !== 'ambar').sort(ord);
+  const enObra = todas.filter(c => ['OC emitida','En obra','Contrato marco'].includes(c.estado)).length;
+  const monto  = todas.reduce((a,c) => a + (Number(c.monto_estimado) || 0), 0);
+  const rubros = ctRubrosDe(p.nombre);
+  const conTram = rubros.filter(r => todas.some(c => c.rubro === r.rubro)).length;
+  const item = x => `<div class="cr-li" onclick="ctOpenView(${p.id}, '${x.c.id}')">
+      <span class="ct-li-s ${x.s.k}">${esc(x.s.txt || x.c.estado)}</span>
+      <span class="cr-li-n"><span class="ct-li-r">${esc(x.c.rubro)}${x.c.frente ? ' · ' + esc(x.c.frente) : ''} —</span> ${esc(x.c.contratista || '(sin contratista)')}</span></div>`;
+  const lst = (t, arr, vacio) => `<div class="cr-lst"><div class="cr-lst-h">${t} <span>${arr.length}</span></div>
+      ${arr.length ? arr.slice(0,5).map(item).join('') + (arr.length > 5 ? `<div class="cr-li-more" onclick="ctOpenView(${p.id})">Ver las ${arr.length} →</div>` : '') : `<div class="cr-li-v">${vacio}</div>`}</div>`;
+  const rojas = atn.filter(x => x.s.k === 'rojo').length, ambar = atn.length - rojas;
+  return `<div class="cr-card">
+    <div class="cr-card-h"><span class="ct-t">📄 Contrataciones</span><div class="ct-hr">
+      <span class="ct-kpi">${todas.length} trámite(s)</span>
+      ${rojas ? `<span class="ct-kpi rojo">${rojas} tarde</span>` : ''}
+      ${ambar ? `<span class="ct-kpi ambar">${ambar} en riesgo</span>` : ''}
+      <button class="btn btn-pri btn-sm" onclick="ctOpenView(${p.id})">Abrir contrataciones →</button>
+    </div></div>
+    <div class="cr-card-b">
+      <div class="cr-kp">
+        <div><small>Rubros con trámite</small><b>${conTram} / ${rubros.length}</b></div>
+        <div><small>Abiertos</small><b>${abiertas.length}</b></div>
+        <div><small>Con OC / en obra</small><b>${enObra}</b></div>
+        <div><small>Monto estimado</small><b>${monto ? ctMonto(monto) : '—'}</b></div>
+      </div>
+      <div class="cr-lsts">
+        ${lst('Requieren atención', atn, 'Nada tarde ni en riesgo')}
+        ${lst('Por iniciar', ini, 'Ningún trámite sin iniciar')}
+      </div>
+    </div>
+  </div>`;
+}
+/* ── Vista completa ── */
+function ctOpenView(pid, editId){
+  if(isObra()) return;
+  S.pdProj = pid;
+  S.tab = 'contrat';
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nav-b').forEach(b => b.classList.remove('on'));
+  g('sec-contrat').classList.add('on');
+  document.querySelector('.nav-b[data-tab="proyectos"]')?.classList.add('on');
+  renderContrat();
+  applyPermissions();
+  window.scrollTo(0, 0);
+  if(editId) ctEdit(editId);
+}
+function ctBack(){ openProjDetail(S.pdProj); }
+function renderContrat(){
+  const p = pdProject();
+  if(!p){ g('ctv-body').innerHTML = '<div class="pd-empty">Proyecto no encontrado</div>'; return; }
+  // Si se desactivó el módulo desde esta vista, volver a la ficha.
+  if(!ctActivo(p)){ openProjDetail(p.id); return; }
+  g('ctv-body').innerHTML = `
+    <div class="ctv-hero"><span class="pd-name">${esc(p.nombre)}</span><span class="pd-code">${esc(p.codigo||'')}</span></div>
+    ${contratHtml(p)}`;
+}
+
 /* Vista matriz: rubro × frente. Es la vista del Excel, con el eje cambiado.
    La columna "Todo" recoge los trámites sin frente asignado, y es la única
    que aparece cuando el proyecto no está dividido en frentes. */
@@ -2719,16 +2819,11 @@ function ctMatrizHtml(p, rubros){
       <div class="ct-mr-t"><span class="ct-sem ${sem.k}" title="${esc(sem.det||'')}"></span>
         <span>${esc(r.rubro)}</span>${av}</div>
       <div class="ct-mr-b">
-        <label class="ct-rf" title="Fecha en que este rubro debe estar en obra. La heredan sus frentes sin fecha propia.">
-          <span class="ct-rf-l">En obra</span>
-          <input type="date" value="${r.fecha_requerida||''}"${isObra()?' disabled style="opacity:.65"':''}
-            onchange="ctRubroFecha('${r.id}', this.value)">
-        </label>
         ${ac.suma ? `<span class="ct-acum${ac.frag?' frag':''}" title="${ac.frag
             ? 'Varios trámites bajo $20k que juntos superan el umbral. Revisa que la división sea por alcances realmente distintos.'
             : 'Acumulado del rubro'}">${ctMonto(ac.suma)}${ac.frag?' ⚠':''}</span>` : ''}
         ${isObra() ? '' : `<span class="ct-acts siempre">
-          <button class="ct-a" title="Renombrar este rubro" onclick="ctRubroRename('${r.id}')">✎</button>
+          <button class="ct-a" title="Editar rubro${r.fecha_requerida ? ' · en obra el ' + fmtDate(r.fecha_requerida) : ' · sin fecha de obra'}" onclick="ctRubroEdit('${r.id}')">✎</button>
           <button class="ct-a" title="Escalonar fechas por frente" onclick="ctEscalonar('${r.id}')">⇵</button>
           <button class="ct-a del" title="Eliminar este rubro del proyecto" onclick="ctRubroDel('${r.id}')">🗑</button>
         </span>`}
@@ -2753,14 +2848,40 @@ async function ctRun(fn, msg){
 }
 
 /* ── Rubros del proyecto ── */
-/** Se guarda al elegir la fecha, sin botón. El aviso es la confirmación:
-    sin él no hay forma de saber que quedó grabada. */
-async function ctRubroFecha(id, val){
-  const r = S.prubros.find(x => x.id === id);
-  const n = r ? r.rubro : 'Rubro';
-  await ctRun(
-    () => db.from('proyecto_rubros').update({fecha_requerida: val || null}).eq('id', id),
-    val ? `${n}: entra a obra el ${fmtDate(val)} ✓` : `${n}: fecha quitada`);
+let CT_RUBRO = null;
+function ctRubroEdit(id){
+  const r = S.prubros.find(x => x.id === id); if(!r) return;
+  CT_RUBRO = id;
+  g('rb-nombre').value = r.rubro;
+  g('rb-fecha').value  = r.fecha_requerida || '';
+  openOv('ov-rubro');
+  setTimeout(() => g('rb-nombre').focus(), 0);
+}
+async function ctRubroSave(){
+  const r = S.prubros.find(x => x.id === CT_RUBRO); if(!r) return;
+  const name  = g('rb-nombre').value.trim();
+  const fecha = g('rb-fecha').value || null;
+  if(!name){ toast('El nombre no puede quedar vacío', 'err'); return; }
+  if(name !== r.rubro && ctRubrosDe(r.proyecto).some(x => x.rubro === name)){
+    toast('Ese rubro ya está en el proyecto', 'err'); return;
+  }
+  const upd = {};
+  if(name !== r.rubro) upd.rubro = name;
+  if(fecha !== (r.fecha_requerida || null)) upd.fecha_requerida = fecha;
+  if(!Object.keys(upd).length){ closeOv('ov-rubro'); return; }
+  sync('busy');
+  try{
+    const {error} = await db.from('proyecto_rubros').update(upd).eq('id', r.id);
+    if(error) throw error;
+    // Propagar a las contrataciones: guardan el nombre, no el id.
+    if(upd.rubro){
+      const {error:e2} = await db.from('contrataciones').update({rubro:name})
+              .eq('proyecto', r.proyecto).eq('rubro', r.rubro);
+      if(e2) throw e2;
+    }
+    sync('ok'); closeOv('ov-rubro'); toast('Rubro actualizado ✓');
+    await loadContrat(); renderProjDetail();
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
 }
 function ctRubroAdd(){
   const p = pdProject(); if(!p) return;
@@ -2781,22 +2902,6 @@ function ctRubroAdd(){
       db.from('rubros').insert({nombre:name, orden:999}).then(() => loadContrat());
     }
   });
-}
-async function ctRubroRename(id){
-  const r = S.prubros.find(x => x.id === id); if(!r) return;
-  const nom = prompt('Nuevo nombre del rubro:', r.rubro);
-  if(!nom || !nom.trim() || nom.trim() === r.rubro) return;
-  const name = nom.trim();
-  sync('busy');
-  try{
-    const {error} = await db.from('proyecto_rubros').update({rubro:name}).eq('id', id);
-    if(error) throw error;
-    // Propagar a las contrataciones: guardan el nombre, no el id.
-    await db.from('contrataciones').update({rubro:name})
-            .eq('proyecto', r.proyecto).eq('rubro', r.rubro);
-    sync('ok'); toast('Rubro renombrado ✓');
-    await loadContrat(); renderProjDetail();
-  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
 }
 async function ctRubroDel(id){
   const r = S.prubros.find(x => x.id === id); if(!r) return;
