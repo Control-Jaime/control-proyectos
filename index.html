@@ -1296,7 +1296,6 @@ const PLAZOS = { solped:3, contrato:30, oc:2, margen:5 };
 const CT_EST = {
   'Sin iniciar':         {bg:'#f3f4f6', fg:'#374151', dot:'#9ca3af', orden:0},
   'SOLPED solicitada':   {bg:'#e2eaf2', fg:'#2d5a7a', dot:'#4b6a82', orden:1},
-  'SOLPED aprobada':     {bg:'#dbeafe', fg:'#1d4ed8', dot:'#2563eb', orden:2},
   'Contrato en trámite': {bg:'#ede9fe', fg:'#5b21b6', dot:'#7c3aed', orden:3},
   'Contrato firmado':    {bg:'#e0e7ff', fg:'#3730a3', dot:'#4f46e5', orden:4},
   'OC emitida':          {bg:'#ccfbf1', fg:'#0f766e', dot:'#0d9488', orden:5},
@@ -1304,7 +1303,10 @@ const CT_EST = {
   'Contrato marco':      {bg:'#fef3c7', fg:'#8a6d1f', dot:'#d9b53c', orden:7},
   'No aplica':           {bg:'#f3f4f6', fg:'#6b7280', dot:'#d1d5db', orden:8},
 };
-const CT_FLUJO_DIR = ['Sin iniciar','SOLPED solicitada','SOLPED aprobada','OC emitida','En obra'];
+/* Sin 'SOLPED aprobada': la aprobación no es un paso que se gestione.
+   En la ruta directa, 'SOLPED solicitada' dura hasta que sale la OC; en la
+   ruta con contrato, el contrato arranca en paralelo con la SOLPED. */
+const CT_FLUJO_DIR = ['Sin iniciar','SOLPED solicitada','OC emitida','En obra'];
 const CT_FLUJO_CTR = ['Sin iniciar','SOLPED solicitada','Contrato en trámite','Contrato firmado','OC emitida','En obra'];
 const ctEst = e => CT_EST[e] || CT_EST['Sin iniciar'];
 /** Estados que ya no exigen trámite: no generan alerta ni cuentan como pendientes. */
@@ -1613,7 +1615,8 @@ async function loadContrat(){
     if(rr.error || rp.error || rc.error) throw (rr.error || rp.error || rc.error);
     S.rubros  = rr.data || [];
     S.prubros = rp.data || [];
-    S.contrat = rc.data || [];
+    S.contrat = (rc.data || []).map(c => c.estado !== 'SOLPED aprobada' ? c
+      : {...c, estado: ctRuta(c) === 'contrato' ? 'Contrato en trámite' : 'SOLPED solicitada'});
   }catch(_){ S.rubros = []; S.prubros = []; S.contrat = []; }
 }
 function subscribeRealtime(){
@@ -2581,10 +2584,6 @@ function ctRestante(c){
       return r === 'contrato'
         ? resta(PLAZOS.contrato, c.f_contrato_solicitado || c.f_solped_solicitada) + PLAZOS.oc
         : resta(PLAZOS.solped, c.f_solped_solicitada) + PLAZOS.oc;
-    case 'SOLPED aprobada':
-      return r === 'contrato'
-        ? resta(PLAZOS.contrato, c.f_contrato_solicitado) + PLAZOS.oc
-        : PLAZOS.oc;
     case 'Contrato en trámite': return resta(PLAZOS.contrato, c.f_contrato_solicitado) + PLAZOS.oc;
     case 'Contrato firmado':    return PLAZOS.oc;
     default: return 0;
@@ -2600,7 +2599,8 @@ function ctHolgura(c){
 function ctEstancado(c){
   if(c.estado === 'SOLPED solicitada'){
     const t = ctDiasDesde(c.f_solped_solicitada);
-    if(t != null && t > PLAZOS.solped) return t;
+    const lim = ctRuta(c) === 'contrato' ? PLAZOS.solped : PLAZOS.solped + PLAZOS.oc;
+    if(t != null && t > lim) return t;
   }
   if(c.estado === 'Contrato en trámite'){
     const t = ctDiasDesde(c.f_contrato_solicitado);
@@ -3206,13 +3206,14 @@ function ctSello(estado, base){
   const b = base || {};
   const campo = {
     'SOLPED solicitada':   'f_solped_solicitada',
-    'SOLPED aprobada':     'f_solped_aprobada',
     'Contrato en trámite': 'f_contrato_solicitado',
     'Contrato firmado':    'f_contrato_firmado',
     'OC emitida':          'f_oc_emitida',
     'En obra':             'f_ingreso_obra',
   }[estado];
-  return (campo && !b[campo]) ? {[campo]: hoy} : {};
+  const s = (campo && !b[campo]) ? {[campo]: hoy} : {};
+  if(estado === 'Contrato en trámite' && !b.f_solped_solicitada) s.f_solped_solicitada = hoy;
+  return s;
 }
 /** Avanza al siguiente estado del flujo y estampa la fecha que corresponda. */
 async function ctAvanzar(id){
