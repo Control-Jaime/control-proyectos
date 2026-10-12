@@ -611,6 +611,39 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .cr-meta .cr-prog{width:120px;height:6px;margin-top:4px;background:var(--cr-line)}
 .cr-meta .cr-prog i{background:#1F6F5C}
 .cr-late{cursor:pointer}.cr-late b,.cr-late small{color:var(--cr-today)}
+.cr-latebtn{border:1px solid #f3c1b6;background:#fdf1ee;color:#b5381f;font-weight:700;font-size:12px;padding:6px 12px;border-radius:999px}
+.cr-latebtn:hover{background:#fbe3dd}
+/* Panel de atrasadas y reprogramación (fuera de #sec-crono: usa variables de la app) */
+.modal.xwide{max-width:1040px}
+.crlt-w{overflow-x:auto}
+.crlt{width:100%;border-collapse:collapse;font-size:12px}
+.crlt th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);text-align:left;padding:6px 8px;border-bottom:1px solid var(--b1);white-space:nowrap;position:sticky;top:0;background:var(--card)}
+.crlt td{padding:7px 8px;border-bottom:1px solid var(--b1);vertical-align:middle}
+.crlt tr:hover td{background:var(--surf)}
+.crlt .cd{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu);white-space:nowrap}
+.crlt .nm{font-weight:600;cursor:pointer;color:var(--tx)}
+.crlt .nm:hover{color:var(--ac);text-decoration:underline}
+.crlt .fs{display:block;font-size:11px;color:var(--mu);font-weight:400;margin-top:1px}
+.crlt .dt{white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11px}
+.crlt .at{font-weight:700;color:var(--re);white-space:nowrap;font-family:'JetBrains Mono',monospace}
+.crlt input{width:58px;padding:4px 6px;border:1px solid var(--b1);border-radius:var(--rs);font-size:12px;text-align:right}
+.crlt .ac{white-space:nowrap;text-align:right}
+.crlt .ac .btn{margin-left:4px}
+.crlt-vacio{padding:28px;text-align:center;color:var(--gr);font-weight:600}
+.btn-ok{background:var(--gr2);border-color:var(--gr2);color:var(--gr);font-weight:700}
+.btn-ok:hover{background:#bbf7d0}
+.crr-cur{font-size:12px;color:var(--mu);background:var(--surf);border-radius:var(--rs);padding:8px 10px;margin-bottom:14px}
+.crr-imp{border:1px solid var(--b1);border-radius:var(--rs);padding:12px 14px;font-size:12px;display:grid;gap:10px}
+.crr-imp h4{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);margin-bottom:4px}
+.crr-big{font-size:15px;font-weight:700}
+.crr-big .up{color:var(--re)}.crr-big .dn{color:var(--gr)}
+.crr-ok{color:var(--gr);font-weight:600}
+.crr-l{display:grid;grid-template-columns:auto 1fr auto auto;gap:3px 10px;align-items:baseline}
+.crr-l .cd{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu)}
+.crr-l .dt{font-family:'JetBrains Mono',monospace;font-size:11px;white-space:nowrap}
+.crr-l .d{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-align:right}
+.crr-l .d.up{color:var(--re)}.crr-l .d.dn{color:var(--gr)}
+.crr-more{color:var(--mu);font-size:11px}
 .cr-tools{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:10px}
 .cr-edit{padding:8px 10px;background:#fff;border:1px solid var(--cr-line);border-radius:10px;gap:8px 10px}
 .tg{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
@@ -1215,7 +1248,8 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
         <div class="fld"><label>Duración (días)</label><input id="cra-dur" type="text" placeholder="ej. 5 · 2s · 0 = hito"></div>
         <div class="fld"><label>No comenzar antes de</label><input id="cra-ini" type="date">
           <span class="fld-help">Vacío = lo antes posible según sus predecesoras</span></div>
-        <div class="fld"><label>% completado</label><input id="cra-av" type="number" min="0" max="100" step="5"></div>
+        <div class="fld"><label>% completado</label><div style="display:flex;gap:6px"><input id="cra-av" type="number" min="0" max="100" step="5" style="flex:1;min-width:0">
+          <button class="btn btn-sm btn-ok" id="cra-done" type="button" onclick="g('cra-av').value=100;crSaveModal()" title="Poner el avance en 100% y guardar">✓ Lista</button></div></div>
       </div>
       <div class="fld-help" id="cra-sumnote" style="margin:-6px 0 12px">Es un resumen: duración, fechas y avance se calculan de sus subactividades.</div>
       <div class="frow one"><div class="fld"><label>Predecesoras</label>
@@ -1237,6 +1271,38 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
       <button class="btn btn-del" id="cra-del" onclick="crDeleteModal()">Eliminar</button>
       <button class="btn" onclick="closeOv('ov-cra')">Cancelar</button>
       <button class="btn btn-pri" id="cra-save" onclick="crSaveModal()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PANEL: ACTIVIDADES ATRASADAS ══════════ -->
+<div class="ov" id="ov-crlate">
+  <div class="modal xwide">
+    <div class="mo-h"><span class="mo-t" id="crl-title">Actividades atrasadas</span><button class="mo-x" onclick="closeOv('ov-crlate')">✕</button></div>
+    <div class="mo-b">
+      <div class="cs-lead">Actividades con fecha de fin ya pasada y sin terminar, de la más atrasada a la menos.
+        Clic en el nombre para verla en el Gantt.</div>
+      <div id="crl-body"></div>
+    </div>
+    <div class="mo-f"><button class="btn" onclick="closeOv('ov-crlate')">Cerrar</button></div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: REPROGRAMAR ACTIVIDAD ══════════ -->
+<div class="ov" id="ov-crrep">
+  <div class="modal wide">
+    <div class="mo-h"><span class="mo-t" id="crr-title" style="flex:1;margin-right:12px;font-size:14px">Reprogramar</span><button class="mo-x" onclick="closeOv('ov-crrep')">✕</button></div>
+    <div class="mo-b">
+      <div class="crr-cur" id="crr-cur"></div>
+      <div class="frow">
+        <div class="fld"><label id="crr-lbl">Nueva fecha de fin</label><input id="crr-fin" type="date" oninput="crRepPreview()"></div>
+        <div class="fld"><label>% completado hoy</label><input id="crr-av" type="number" min="0" max="100" step="5"></div>
+      </div>
+      <div class="crr-imp" id="crr-imp"></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-crrep')">Cancelar</button>
+      <button class="btn btn-pri" id="crr-ok" onclick="crRepApply()">Aplicar cambio</button>
     </div>
   </div>
 </div>
@@ -4079,6 +4145,7 @@ function crRemote(){
   }, 900);
 }
 function crRerender(){
+  if(g('ov-crlate')?.classList.contains('on')) crLateDraw();
   if(S.tab === 'crono') renderCrono();
   else if(S.tab === 'projdet') renderProjDetail();
 }
@@ -4155,7 +4222,8 @@ async function crOpenView(pid, selId, filtro){
   if(CR.pid !== pid){ CR.q = ''; CR.filtro = 'todo'; CR.sel = null; CR.scrolledPid = null; }
   CR.pid = pid;
   if(selId) CR.sel = selId;
-  if(filtro) CR.filtro = filtro;
+  const abrirAtrasadas = filtro === 'late';
+  if(filtro && !abrirAtrasadas) CR.filtro = filtro;
   S.tab = 'crono';
   document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
   document.querySelectorAll('.nav-b').forEach(b => b.classList.remove('on'));
@@ -4167,6 +4235,7 @@ async function crOpenView(pid, selId, filtro){
   renderCrono();
   applyPermissions();
   window.scrollTo(0, 0);
+  if(abrirAtrasadas) crLateOpen();
 }
 function crBack(){ openProjDetail(CR.pid); }
 function crCollapsed(pid){
@@ -4391,7 +4460,7 @@ function renderCrono(){
         <div><b>${crFmtL(c.fin)}</b><small>Fin proyectado</small></div>
         <div><b>${Math.round(c.avance)}%</b><small>Avance ponderado</small><span class="cr-prog"><i style="width:${Math.round(c.avance)}%"></i></span></div>
         <div><b>${doneN} / ${leaves.length}</b><small>Actividades listas</small></div>
-        ${lateN ? `<div class="cr-late" onclick="crSetFiltro('late')"><b>${lateN}</b><small>Atrasadas</small></div>` : ''}
+        ${lateN ? `<div class="cr-late" onclick="crLateOpen()" title="Revisar las atrasadas"><b>${lateN}</b><small>Atrasadas</small></div>` : ''}
         ${c.sched.ciclo.length ? `<div class="cr-late"><b>${c.sched.ciclo.length}</b><small>En ciclo de vínculos</small></div>` : ''}
       </div>
     </header>
@@ -4403,6 +4472,7 @@ function renderCrono(){
       ${frentes.length ? `<select class="cr-select" onchange="CR.frenteF=this.value;renderCrono()"><option value="">Todos los frentes</option>${frentes.map(f => `<option${CR.frenteF === f.nombre ? ' selected' : ''}>${esc(f.nombre)}</option>`).join('')}</select>` : ''}
       <input class="cr-q" id="cr-q" type="search" placeholder="Buscar tarea (ej. Bomberos)" value="${escT(CR.q)}" oninput="CR.q=this.value;clearTimeout(CR._q);CR._q=setTimeout(()=>{renderCrono();const e=g('cr-q');if(e){e.focus();e.setSelectionRange(e.value.length,e.value.length)}},250)">
       <button class="cr-today" onclick="crScrollToday()">Ir a hoy</button>
+      ${lateN ? `<button class="cr-latebtn" onclick="crLateOpen()">⚠ Revisar atrasadas (${lateN})</button>` : ''}
     </div>
     ${adm ? `<div class="cr-tools cr-edit">
       <span class="tlabel">Editar</span>
@@ -4418,6 +4488,7 @@ function renderCrono(){
       </div>
       <div class="cr-seg">
         <button onclick="crOpen(CR.sel)" title="Editar la seleccionada (Enter)"${dis}>Detalle</button>
+        <button onclick="crDone(CR.sel)" title="Marcar como completada (avance 100%). En un grupo, marca todas sus subactividades."${dis}>✓ Lista</button>
         <button class="del" onclick="crDelete()" title="Eliminar la seleccionada y sus subtareas"${dis}>Eliminar</button>
         <button onclick="crUndo()" title="Deshacer (Ctrl+Z)"${hasUndo ? '' : ' disabled'}>↶ Deshacer</button>
       </div>
@@ -4791,6 +4862,7 @@ function crOpen(id){
   ps.innerHTML = '<option value="">—</option>' + S.personas.map(x => `<option${x.nombre === r.responsable ? ' selected' : ''}>${esc(x.nombre)}</option>`).join('')
     + (r.responsable && !S.personas.some(x => x.nombre === r.responsable) ? `<option selected>${esc(r.responsable)}</option>` : '');
   ['cra-dur','cra-ini','cra-av'].forEach(k => { g(k).disabled = sum || !adm; });
+  g('cra-done').style.display = (!sum && adm && c.st.get(id) !== 'done') ? '' : 'none';
   ['cra-nombre','cra-notas','cra-resp'].forEach(k => { g(k).disabled = !adm; });
   g('cra-sumnote').style.display = sum ? '' : 'none';
   g('cra-calc').innerHTML = f
@@ -4857,6 +4929,128 @@ async function crSaveModal(){
   r.updated_at = new Date().toISOString();
   if(await crCommit(pid, next, 'Actividad guardada')) closeOv('ov-cra');
 }
+/* ═══════ COMPLETAR, ATRASADAS Y REPROGRAMACIÓN ═══════ */
+/** Marca lista (avance 100%). En un grupo, todas sus subactividades. */
+async function crDone(id){
+  if(!id || !isAdmin()) return;
+  const pid = CR.pid, c = crCompute(pid);
+  const ids = [];
+  const walk = x => { const ks = c.kids.get(x); ks ? ks.forEach(k => walk(k.id)) : ids.push(x); };
+  walk(id);
+  const pend = ids.filter(x => c.st.get(x) !== 'done');
+  if(!pend.length){ toast('Ya está completada'); return; }
+  if(crIsSum(c, id) && !confirm(`¿Marcar como listas las ${pend.length} subactividades pendientes de "${c.byId.get(id).nombre}"?`)) return;
+  const next = crClone(CR.data[pid]), set = new Set(pend), now = new Date().toISOString();
+  next.forEach(r => { if(set.has(r.id)){ r.avance = 100; r.updated_at = now; } });
+  await crCommit(pid, next, pend.length === 1 ? 'Actividad completada ✓' : `${pend.length} actividades completadas ✓`);
+}
+
+function crLateList(c){
+  const hoy = crToday(); crColors(c);
+  return c.list.filter(r => !crIsSum(c, r.id) && c.st.get(r.id) === 'late')
+    .map(r => ({r, f: c.fechas.get(r.id), atraso: hoy - c.fechas.get(r.id).fin}))
+    .sort((a, b) => b.atraso - a.atraso || a.f.fin - b.f.fin);
+}
+function crLateOpen(){ crLateDraw(); openOv('ov-crlate'); }
+function crLateDraw(){
+  const c = crCompute(CR.pid), adm = isAdmin(), L = crLateList(c);
+  g('crl-title').textContent = `Actividades atrasadas · ${L.length}`;
+  if(!L.length){ g('crl-body').innerHTML = '<div class="crlt-vacio">✓ No hay actividades atrasadas</div>'; return; }
+  const fase = r => { const ph = c._phaseOf && c._phaseOf.get(r.id); const p = ph && ph !== r.id && c.byId.get(ph); return p ? p.nombre : ''; };
+  g('crl-body').innerHTML = `<div class="crlt-w"><table class="crlt">
+    <thead><tr><th>Código</th><th>Actividad</th><th>Responsable</th><th>Fin previsto</th><th>Atraso</th><th>Avance</th>${adm ? '<th></th>' : ''}</tr></thead>
+    <tbody>${L.map(({r, f, atraso}) => `<tr>
+      <td class="cd">${c.wbs.get(r.id)}</td>
+      <td><span class="nm" onclick="crLateGo('${r.id}')">${esc(r.nombre)}</span>${fase(r) ? `<span class="fs">${esc(fase(r))}</span>` : ''}</td>
+      <td>${esc(r.responsable || '—')}</td>
+      <td class="dt">${crFmt(f.fin)}</td>
+      <td class="at">${atraso} d</td>
+      <td>${adm ? `<input type="number" min="0" max="100" step="5" value="${Math.round(+r.avance || 0)}" title="Avance real (Enter para guardar)"
+            onchange="crApplyField('${r.id}','avance',this.value)">%` : Math.round(+r.avance || 0) + '%'}</td>
+      ${adm ? `<td class="ac"><button class="btn btn-sm btn-ok" onclick="crDone('${r.id}')">✓ Lista</button><button class="btn btn-sm" onclick="crRepOpen('${r.id}')">Reprogramar…</button></td>` : ''}
+    </tr>`).join('')}</tbody></table></div>`;
+}
+/** Cierra el panel y lleva el Gantt a la actividad. */
+function crLateGo(id){
+  closeOv('ov-crlate');
+  if(CR.filtro !== 'todo' && CR.filtro !== 'late') CR.filtro = 'todo';
+  crRevealSel(CR.pid, id); CR.sel = id;
+  renderCrono(); crScrollToSel();
+}
+
+/* Reprogramar: se fija la nueva fecha de fin real y se muestra, antes de
+   guardar, cómo se recorre el resto del cronograma. En una actividad se
+   alarga la duración (igual que editar la celda Fin); en un hito se fija
+   su "no antes de". Las sucesoras se recalculan solas. */
+function crRepNext(){
+  const E = CR.rep, pid = CR.pid, c = crCompute(pid);
+  const r0 = c.byId.get(E.id), f = c.fechas.get(E.id);
+  const n = crD2N(g('crr-fin').value);
+  if(n == null) return {err: 'Elige la nueva fecha'};
+  const hito = Math.round(+r0.duracion || 0) === 0;
+  if(!hito && n < f.ini) return {err: `No puede terminar antes de su inicio (${crFmtL(f.ini)})`};
+  if(n === f.fin) return {err: 'Es la misma fecha de fin actual'};
+  const next = crClone(CR.data[pid]);
+  const r = next.find(x => x.id === E.id);
+  if(hito) r.inicio_min = crN2S(n); else r.duracion = n - f.ini + 1;
+  return {next, r, n};
+}
+function crRepOpen(id){
+  const c = crCompute(CR.pid), r = c.byId.get(id), f = c.fechas.get(id); if(!r || !f) return;
+  const hito = Math.round(+r.duracion || 0) === 0, hoy = crToday();
+  CR.rep = {id};
+  const av = Math.round(+r.avance || 0);
+  const resta = hito ? 0 : Math.max(1, Math.ceil((+r.duracion || 0) * (100 - av) / 100));
+  g('crr-title').textContent = `Reprogramar · ${c.wbs.get(id)} ${r.nombre}`;
+  g('crr-lbl').textContent = hito ? 'Nueva fecha del hito' : 'Nueva fecha de fin';
+  g('crr-cur').innerHTML = `Hoy: <b>${crFmtL(f.ini)}</b> → <b>${crFmtL(f.fin)}</b> · ${crDur(f.F - f.S)} · ${av}% · <b style="color:var(--re)">${hoy - f.fin} días de atraso</b>`
+    + (hito ? '' : `<br>Sugerencia: lo que falta (${100 - av}% de ${crDur(+r.duracion || 0)}) desde hoy.`);
+  g('crr-fin').value = crN2S(Math.max(hoy + resta - (hito ? 0 : 1), hoy));
+  g('crr-av').value = av;
+  crRepPreview();
+  openOv('ov-crrep');
+}
+function crRepPreview(){
+  const out = g('crr-imp'), res = crRepNext();
+  g('crr-ok').disabled = !!res.err;
+  if(res.err){ out.innerHTML = `<span class="cr-mu">${esc(res.err)}</span>`; return; }
+  const c = crCompute(CR.pid), sc = crSchedule(res.next, crDefStart(res.next));
+  const fin1 = Math.max(...[...sc.fechas.values()].map(f => f.fin));
+  const dFin = fin1 - c.fin;
+  const sg = d => (d > 0 ? '+' : '') + d + ' d';
+  const cls = d => d > 0 ? 'up' : 'dn';
+  const movs = [];
+  c.list.forEach(x => {
+    if(x.id === CR.rep.id || crIsSum(c, x.id)) return;
+    const a = c.fechas.get(x.id), b = sc.fechas.get(x.id);
+    if(a && b && a.fin !== b.fin) movs.push({x, a, b, d: b.fin - a.fin});
+  });
+  movs.sort((p, q) => Math.abs(q.d) - Math.abs(p.d) || p.a.fin - q.a.fin);
+  const hitos = movs.filter(m => Math.round(+m.x.duracion || 0) === 0);
+  const acts  = movs.filter(m => Math.round(+m.x.duracion || 0) !== 0);
+  const fases = crPhases(c).map(p => ({p, a: c.fechas.get(p.id), b: sc.fechas.get(p.id)}))
+                .filter(o => o.a && o.b && o.a.fin !== o.b.fin);
+  const row = (cd, nm, a, b, d) => `<span class="cd">${cd}</span><span>${esc(nm)}</span><span class="dt">${crFmt(a)} → ${crFmt(b)}</span><span class="d ${cls(d)}">${sg(d)}</span>`;
+  const TOP = 8;
+  out.innerHTML = `
+    <div><h4>Fin del proyecto</h4>${dFin
+      ? `<div class="crr-big">${crFmtL(c.fin)} → ${crFmtL(fin1)} <span class="${cls(dFin)}">(${sg(dFin)})</span></div>`
+      : `<div class="crr-ok">No cambia (${crFmtL(c.fin)}): el cambio se absorbe en la holgura.</div>`}</div>
+    ${fases.length ? `<div><h4>Fases cuyo fin cambia · ${fases.length}</h4><div class="crr-l">${fases.map(o => row(c.wbs.get(o.p.id), o.p.nombre, o.a.fin, o.b.fin, o.b.fin - o.a.fin)).join('')}</div></div>` : ''}
+    ${hitos.length ? `<div><h4>Hitos que se mueven · ${hitos.length}</h4><div class="crr-l">${hitos.slice(0, TOP).map(m => row(c.wbs.get(m.x.id), m.x.nombre, m.a.fin, m.b.fin, m.d)).join('')}</div>${hitos.length > TOP ? `<div class="crr-more">y ${hitos.length - TOP} más</div>` : ''}</div>` : ''}
+    <div><h4>Actividades que se recorren · ${acts.length}</h4>${acts.length
+      ? `<div class="crr-l">${acts.slice(0, TOP).map(m => row(c.wbs.get(m.x.id), m.x.nombre, m.a.fin, m.b.fin, m.d)).join('')}</div>${acts.length > TOP ? `<div class="crr-more">y ${acts.length - TOP} más</div>` : ''}`
+      : `<div class="crr-ok">${hitos.length ? 'Ninguna más.' : 'Ninguna: no tiene sucesoras afectadas.'}</div>`}</div>`;
+}
+async function crRepApply(){
+  const res = crRepNext(); if(res.err){ toast(res.err, 'err'); return; }
+  const a = Math.round(+g('crr-av').value);
+  if(isNaN(a) || a < 0 || a > 100){ toast('Avance entre 0 y 100', 'err'); return; }
+  res.r.avance = a;
+  res.r.updated_at = new Date().toISOString();
+  if(await crCommit(CR.pid, res.next, `Reprogramada: termina el ${crFmtL(res.n)}`)) closeOv('ov-crrep');
+}
+
 function crDeleteModal(){ closeOv('ov-cra'); CR.sel = CR.edit.id; crDelete(); }
 function crToTask(){
   const c = crCompute(CR.pid), r = c.byId.get(CR.edit.id), f = c.fechas.get(CR.edit.id);
