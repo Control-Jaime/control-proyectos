@@ -398,6 +398,7 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .pd-k-v{font-size:24px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1}
 .pd-k-l{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
 .pd-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pd-cols + .cr-card{margin-top:16px}   /* cronograma al pie de la ficha */
 .pd-panel{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;display:flex;flex-direction:column}
 .pd-panel-h{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--b1);gap:8px}
 .pd-panel-t{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
@@ -2375,7 +2376,6 @@ function renderProjDetail(){
       </div>
       ${isAdmin()?`<div style="margin-top:16px"><button class="btn btn-sm" onclick="projEdit(${p.id})">✏️ Editar proyecto</button></div>`:''}
     </div>
-    ${crCardHtml(p)}
     ${checklistHtml(p)}
     ${ctCardHtml(p)}
     <div class="pd-cols">
@@ -2389,7 +2389,8 @@ function renderProjDetail(){
           <button class="btn btn-pri btn-sm" onclick="apuNewFor('${escJs(p.nombre)}')">＋ Apunte</button></div>
         <div class="pd-panel-b">${apuBody}</div>
       </div>
-    </div>`;
+    </div>
+    ${crCardHtml(p)}`;
 }
 
 /* ═══════════════════════════════════════════════════
