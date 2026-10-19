@@ -309,6 +309,9 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .apu-meta .venc{color:var(--re);font-weight:700}
 .apu-meta .pronto{color:var(--am);font-weight:700}
 .apu-meta .firma{color:var(--gr)}
+.apu-res{margin-top:6px;padding:6px 10px;border-left:3px solid var(--gr);background:var(--surf);border-radius:0 6px 6px 0;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-word;color:var(--tx)}
+.apu-res.desc{border-left-color:var(--mu)}
+.apu-res b{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-right:6px}
 .apu-quien{display:inline-flex;align-items:center;padding:1px 8px;border-radius:10px;background:var(--surf);border:1px solid var(--b1);font-size:10px;font-weight:700;color:var(--tx)}
 .apu-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;border:none;cursor:pointer;white-space:nowrap;transition:filter .15s}
 .apu-pill:hover{filter:brightness(.93)}
@@ -1106,18 +1109,37 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
       </div>
       <div class="frow">
         <div class="fld"><label>Fecha límite / recordatorio</label><input id="af-fecha" type="date"></div>
-        <div class="fld"><label>Estado</label><select id="af-estado">
+        <div class="fld"><label>Estado</label><select id="af-estado" onchange="apuResToggle()">
           <option value="pendiente" selected>Pendiente</option>
           <option value="espera">En espera de respuesta</option>
           <option value="resuelto">Resuelto</option>
           <option value="descartado">Descartado</option>
         </select></div>
       </div>
+      <div class="frow one" id="af-res-row" style="display:none"><div class="fld"><label id="af-res-lbl">Cómo se resolvió</label>
+        <textarea id="af-res" placeholder="Ej. Contecon aprobó el plano por correo el 18-oct; se comprometió a enviar el sello físico la próxima semana" style="min-height:70px"></textarea></div></div>
     </div>
     <div class="mo-f">
       <button class="btn btn-del" id="apu-del" onclick="apuDelete()" style="display:none">Eliminar</button>
       <button class="btn" onclick="closeOv('ov-apu')">Cancelar</button>
       <button class="btn btn-pri" onclick="apuSave()">Guardar apunte</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: CERRAR APUNTE (desde el menú rápido de estado) ══════════ -->
+<div class="ov" id="ov-apucierre">
+  <div class="modal" style="max-width:520px">
+    <div class="mo-h"><span class="mo-t" id="ac-title">Marcar como resuelto</span><button class="mo-x" onclick="closeOv('ov-apucierre')">✕</button></div>
+    <div class="mo-b">
+      <div id="ac-texto" style="font-size:12px;color:var(--mu);margin-bottom:10px;white-space:pre-wrap"></div>
+      <div class="frow one"><div class="fld"><label id="ac-lbl">Cómo se resolvió</label>
+        <textarea id="ac-res" placeholder="Qué se acordó, quién respondió, qué quedó comprometido…" style="min-height:90px"></textarea></div></div>
+      <div style="font-size:11px;color:var(--mu)">Opcional. Puedes dejarlo vacío y completarlo después desde ✏️.</div>
+    </div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-apucierre')">Cancelar</button>
+      <button class="btn btn-pri" onclick="apuCierreSave()">Guardar</button>
     </div>
   </div>
 </div>
@@ -3437,6 +3459,10 @@ async function renderEliminadas(){
    ═══════════════════════════════════════════════════ */
 function findApu(id){ return S.apuntes.find(a => a.id === id) || null; }
 function apuIsCerrado(a){ return apuEst(a.estado).cerrado; }
+/** Etiqueta de la nota de cierre según el estado.
+    La resolución se conserva aunque el apunte se reabra: sirve de historial
+    y vuelve a aparecer (editable) si se cierra otra vez. */
+function apuResLbl(estado){ return estado === 'descartado' ? 'Por qué se descartó' : 'Cómo se resolvió'; }
 
 /** Activos primero (fecha límite más próxima, sin fecha al final);
     cerrados al fondo, por fecha de cierre más reciente. */
@@ -3480,6 +3506,7 @@ function apuItemHtml(a, showProj){
     <div class="apu-d" style="background:${st.dot}"></div>
     <div class="apu-main">
       <div class="apu-tx${cer?' done':''}">${esc(a.texto)}</div>
+      ${(cer && a.resolucion) ? `<div class="apu-res${a.estado==='descartado'?' desc':''}"><b>${apuResLbl(a.estado)}</b>${esc(a.resolucion)}</div>` : ''}
       ${meta ? `<div class="apu-meta">${meta}</div>` : ''}
     </div>
     <div class="apu-acts">${pill}${acts}</div>
@@ -3494,7 +3521,8 @@ function apuFiltered(list){
   if(q) list = list.filter(a =>
     (a.texto||'').toLowerCase().includes(q)    ||
     (a.proyecto||'').toLowerCase().includes(q) ||
-    (a.a_quien||'').toLowerCase().includes(q));
+    (a.a_quien||'').toLowerCase().includes(q)  ||
+    (a.resolucion||'').toLowerCase().includes(q));
   if(es === 'activos') list = list.filter(a => !apuIsCerrado(a));
   else if(es)          list = list.filter(a => (a.estado||'pendiente') === es);
   if(pe) list = list.filter(a => a.creado_por === pe);
@@ -3590,12 +3618,23 @@ async function apuSetEstado(val, id){
   g('qe').classList.remove('on');
   const a = findApu(id);
   if(!a || !canEditApu(a) || a.estado === val) return;
+  // Cerrar (resuelto / descartado) pide primero la nota de resolución
+  if(apuEst(val).cerrado){ apuCierreOpen(val, id); return; }
+  await apuApplyEstado(a, val, {});
+}
+/** Guarda el cambio de estado. extra trae la resolución cuando se cierra.
+    Al reabrir NO se borra la resolución (queda como historial). */
+async function apuApplyEstado(a, val, extra){
+  const id = a.id;
   const cerrando = apuEst(val).cerrado;
+  const yaCerrado = apuIsCerrado(a);
   const upd = {
     estado: val,
-    cerrado_por: cerrando ? (S.user?.nombre || '?') : null,
-    cerrado_at:  cerrando ? new Date().toISOString() : null,
+    // Entre dos estados cerrados (resuelto ↔ descartado) se conserva la firma original
+    cerrado_por: cerrando ? (yaCerrado && a.cerrado_por ? a.cerrado_por : (S.user?.nombre || '?')) : null,
+    cerrado_at:  cerrando ? (yaCerrado && a.cerrado_at  ? a.cerrado_at  : new Date().toISOString()) : null,
     updated_at:  new Date().toISOString(),
+    ...extra,
   };
   sync('busy');
   try{
@@ -3604,7 +3643,27 @@ async function apuSetEstado(val, id){
     Object.assign(a, upd);
     sync('ok'); toast(`Apunte: ${apuEst(val).lbl.toLowerCase()} ✓`);
     render();
-  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); }
+    return true;
+  }catch(e){ sync('err'); toast('Error: '+e.message, 'err'); return false; }
+}
+/* ── Modal corto de cierre: pide cómo se resolvió (o por qué se descartó) ── */
+function apuCierreOpen(val, id){
+  const a = findApu(id);
+  if(!a) return;
+  S.apuCierre = {id, val};
+  g('ac-title').textContent = val === 'descartado' ? 'Descartar apunte' : 'Marcar como resuelto';
+  g('ac-lbl').textContent   = apuResLbl(val);
+  g('ac-texto').textContent = a.texto || '';
+  g('ac-res').value         = a.resolucion || '';   // si ya tenía una, se edita
+  openOv('ov-apucierre');
+  setTimeout(() => g('ac-res').focus(), 0);
+}
+async function apuCierreSave(){
+  const c = S.apuCierre;
+  const a = c ? findApu(c.id) : null;
+  if(!a) { closeOv('ov-apucierre'); return; }
+  const ok = await apuApplyEstado(a, c.val, {resolucion: g('ac-res').value.trim() || null});
+  if(ok){ S.apuCierre = null; closeOv('ov-apucierre'); }
 }
 /* ── Modal de apunte ── */
 function apuFillProjSelect(selected){
@@ -3623,8 +3682,9 @@ function apuNew(prefillProject){
   g('apu-del').style.display = 'none';
   apuFillProjSelect(prefillProject || '');
   apuFillQuienList();
-  ['af-texto','af-quien','af-fecha'].forEach(id => g(id).value = '');
+  ['af-texto','af-quien','af-fecha','af-res'].forEach(id => g(id).value = '');
   g('af-estado').value = 'pendiente';
+  apuResToggle();
   openOv('ov-apu');
   setTimeout(() => g('af-texto').focus(), 0);
 }
@@ -3642,7 +3702,16 @@ function apuEdit(id){
   g('af-quien').value  = a.a_quien || '';
   g('af-fecha').value  = a.fecha_limite || '';
   g('af-estado').value = a.estado || 'pendiente';
+  g('af-res').value    = a.resolucion || '';
+  apuResToggle();
   openOv('ov-apu');
+}
+/** Muestra el campo de resolución solo cuando el estado elegido es cerrado. */
+function apuResToggle(){
+  const est = g('af-estado').value;
+  const cer = apuEst(est).cerrado;
+  g('af-res-row').style.display = cer ? '' : 'none';
+  g('af-res-lbl').textContent   = apuResLbl(est);
 }
 async function apuSave(){
   const texto = g('af-texto').value.trim();
@@ -3660,6 +3729,8 @@ async function apuSave(){
     // Conserva la firma si ya estaba cerrado, firma al cerrar, la borra al reabrir
     cerrado_por: cerrando ? (yaCerrado ? prev.cerrado_por : (S.user?.nombre || '?')) : null,
     cerrado_at:  cerrando ? (yaCerrado ? prev.cerrado_at  : new Date().toISOString()) : null,
+    // Resolución: se guarda al cerrar; si el apunte está abierto, se conserva la anterior
+    resolucion:  cerrando ? (g('af-res').value.trim() || null) : (prev?.resolucion ?? null),
     updated_at:  new Date().toISOString(),
   };
   sync('busy');
