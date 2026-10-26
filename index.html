@@ -809,6 +809,112 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
   .modal{max-width:100%;border-radius:var(--r) var(--r) 0 0;max-height:95vh}
   .rep-bar{gap:8px}
 }
+/* ══════════ REVISIÓN DE PLANOS ══════════ */
+.rv-hero{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:4px 0 14px}
+.rv-hero-l{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.rv-hero .pd-name{font-size:20px}
+.rv-hero-r{display:flex;gap:8px;flex-wrap:wrap}
+.rv-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.rv-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:14px;border:1px solid var(--b1);background:var(--card);font-size:12px;font-weight:600;color:var(--mu);cursor:pointer}
+.rv-chip b{font-family:'JetBrains Mono',monospace;color:var(--tx)}
+.rv-chip:hover{border-color:var(--ac);color:var(--ac)}
+.rv-chip.on{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
+.rv-chip.rojo b{color:var(--re)}.rv-chip.ambar b{color:var(--am)}.rv-chip.morado b{color:#7c3aed}
+.rv-layout{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start}
+.rv-side{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;display:flex;flex-direction:column;max-height:calc(100vh - 200px);position:sticky;top:72px}
+.rv-tree{overflow-y:auto;flex:1;padding:4px 0}
+.rv-ti{display:flex;align-items:center;gap:6px;padding:6px 10px 6px 10px;cursor:pointer;border-left:3px solid transparent;font-size:13px;line-height:1.3}
+.rv-ti:hover{background:var(--surf)}
+.rv-ti.on{background:var(--ac2);border-left-color:var(--ac)}
+.rv-ti.root{font-weight:700;border-bottom:1px solid var(--b1);padding-top:9px;padding-bottom:9px}
+.rv-ti.d0{font-weight:700}
+.rv-car{width:14px;flex:none;color:var(--di);font-size:11px;text-align:center}
+.rv-car:hover{color:var(--ac)}
+.rv-ico{flex:none;font-size:12px}
+.rv-tn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-cod{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--mu)}
+.rv-rv{flex:none;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--mu);background:var(--surf);border:1px solid var(--b1);padding:0 5px;border-radius:8px}
+.rv-ti .apu-pc{flex:none}
+.rv-ti.on .apu-pc{background:#fff}
+.rv-pdot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--am)}
+.rv-panel{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;min-width:0}
+.rv-ph{padding:12px 16px;border-bottom:1px solid var(--b1);display:grid;gap:6px}
+.rv-ph-t{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rv-bc{font-size:15px;font-weight:700;margin-right:auto;display:flex;flex-wrap:wrap;gap:4px;align-items:baseline}
+.rv-bc a{color:var(--mu);font-weight:500;cursor:pointer;font-size:13px}
+.rv-bc a:hover{color:var(--ac)}
+.rv-bc i{color:var(--di);font-style:normal;font-size:12px}
+.rv-acts{display:flex;gap:4px;flex-wrap:wrap}
+.rv-info{font-size:12px;color:var(--mu);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.rv-info b{color:var(--tx)}
+.rv-hist{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--di)}
+.rv-flt{padding:9px 16px;border-bottom:1px solid var(--b1);display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--surf)}
+.rv-flt select{padding:6px 10px;background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);color:var(--tx);font-size:12px;outline:none}
+.rv-flt .apu-sch input{background:var(--card)}
+.rv-flt .count{margin-left:auto;font-size:12px;color:var(--mu)}
+.rv-cap{padding:12px 16px;border-bottom:1px solid var(--b1);background:#fbfcfe;display:grid;gap:8px}
+.rv-cap-r{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+.rv-cap textarea{flex:1;min-width:240px;min-height:40px;max-height:160px;resize:vertical;padding:9px 12px;background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);outline:none;line-height:1.45}
+.rv-cap textarea:focus,.rv-cap input:focus,.rv-cap select:focus{border-color:var(--ac)}
+.rv-cap input,.rv-cap select{padding:7px 10px;background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);outline:none;font-size:13px}
+.rv-cap input{width:170px}
+.rv-cap-h{font-size:11px;color:var(--di)}
+.rv-cap-h b{color:var(--mu)}
+.rv-list{padding:2px 0}
+.rv-grp{padding:9px 16px 5px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);background:var(--surf);border-bottom:1px solid var(--b1);cursor:pointer;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.rv-grp:hover{color:var(--ac)}
+.rv-grp .rv-cod{text-transform:none;letter-spacing:0}
+.rv-o{display:flex;gap:10px;align-items:flex-start;padding:10px 16px 10px 13px;border-bottom:1px solid var(--b1);border-left:3px solid var(--di)}
+.rv-o:last-child{border-bottom:none}
+.rv-o:hover{background:var(--surf)}
+.rv-o:hover .apu-acts{opacity:1}
+.rv-o.cer{opacity:.62}
+.rv-o.cer:hover{opacity:1}
+.rv-on{flex:none;width:34px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--di);padding-top:2px}
+.rv-om{flex:1;min-width:0}
+.rv-ot{font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.rv-ot.done{text-decoration:line-through;color:var(--mu)}
+.rv-sevt{font-weight:700}
+.rv-inv{display:inline-flex;padding:1px 7px;border-radius:9px;background:#e0f2fe;color:#0369a1;font-size:10px;font-weight:700}
+.rv-pers{color:var(--re);font-weight:700}
+.rv-porrev{display:inline-flex;padding:1px 8px;border-radius:9px;background:var(--am2);color:var(--am);font-size:10px;font-weight:800}
+.rv-o .apu-res.resp{border-left-color:#7c3aed}
+.rv-empty{padding:40px 20px;text-align:center;color:var(--mu);font-size:13px}
+.rv-start{background:var(--card);border:1px dashed var(--b2);border-radius:var(--r);padding:36px 24px;text-align:center;display:grid;gap:10px;justify-items:center}
+.rv-start p{color:var(--mu);font-size:13px;max-width:520px}
+.rv-nsel{display:flex;gap:6px}
+.rv-nsel label{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;border:1px solid var(--b1);border-radius:var(--rs);cursor:pointer;font-size:13px;font-weight:600;color:var(--mu);text-transform:none;letter-spacing:0}
+.rv-nsel label.on{border-color:var(--ac);background:var(--ac2);color:var(--ac)}
+.rv-nsel input{display:none}
+.rv-invsel{display:flex;flex-wrap:wrap;gap:6px}
+.rv-invsel label{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid var(--b1);border-radius:14px;font-size:12px;font-weight:500;color:var(--tx);cursor:pointer;text-transform:none;letter-spacing:0}
+.rv-invsel label:has(input:checked){background:#e0f2fe;border-color:#7dd3fc;color:#0369a1}
+.rv-invsel input{width:auto!important;padding:0!important}
+.rv-mo-info{font-size:11px;color:var(--mu);margin:-4px 0 12px}
+.rv-tpl{display:grid;gap:4px;max-height:300px;overflow-y:auto;border:1px solid var(--b1);border-radius:var(--rs);padding:6px;margin-bottom:14px}
+.rv-tpl label{display:flex;gap:8px;align-items:flex-start;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--tx)}
+.rv-tpl label:hover{background:var(--surf)}
+.rv-tpl small{display:block;font-weight:400;color:var(--mu);font-size:11px;margin-top:1px}
+.rv-tpl input{margin-top:3px;width:auto!important}
+.rv-tpl .ya{color:var(--di)}
+/* Tarjeta en la ficha */
+.rv-dt{display:grid;gap:0}
+.rv-dr{display:grid;grid-template-columns:minmax(150px,1.4fr) minmax(90px,1fr) 120px 64px 64px 90px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--b1);font-size:12px;cursor:pointer}
+.rv-dr:last-child{border-bottom:none}
+.rv-dr:hover .rv-dn{color:var(--ac)}
+.rv-dr.h{cursor:default;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu)}
+.rv-dn{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-dres{color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-dbar{height:6px;background:var(--surf);border-radius:3px;overflow:hidden}
+.rv-dbar i{display:block;height:100%;background:var(--gr);border-radius:3px}
+.rv-dk{font-family:'JetBrains Mono',monospace;text-align:right;font-weight:600}
+.rv-dk.rojo{color:var(--re)}.rv-dk.ambar{color:var(--am)}.rv-dk.cero{color:var(--di);font-weight:400}
+@media(max-width:900px){
+  .rv-layout{grid-template-columns:1fr}
+  .rv-side{position:static;max-height:260px}
+  .rv-dr{grid-template-columns:1fr 70px 50px 50px}
+  .rv-dr .rv-dres,.rv-dr .rv-dbar{display:none}
+}
 </style>
 </head>
 <body>
@@ -940,6 +1046,11 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <div class="sec" id="sec-crono">
       <button class="pd-back" onclick="crBack()">← Volver al proyecto</button>
       <div id="cr-body"></div>
+    </div>
+    <!-- ══════════ REVISIÓN DE PLANOS (vista completa) ══════════ -->
+    <div class="sec" id="sec-rev">
+      <button class="pd-back" onclick="revBack()">← Volver al proyecto</button>
+      <div id="rv-body"></div>
     </div>
 
     <!-- ══════════ PERSONAS ══════════ -->
@@ -1140,6 +1251,133 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <div class="mo-f">
       <button class="btn" onclick="closeOv('ov-apucierre')">Cancelar</button>
       <button class="btn btn-pri" onclick="apuCierreSave()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: CAPÍTULO / LÁMINA (revisión de planos) ══════════ -->
+<div class="ov" id="ov-revnodo">
+  <div class="modal">
+    <div class="mo-h"><span class="mo-t" id="rn-title">Nuevo capítulo</span><button class="mo-x" onclick="closeOv('ov-revnodo')">✕</button></div>
+    <div class="mo-b">
+      <div class="frow one"><div class="fld"><label>Tipo</label>
+        <div class="rv-nsel" id="rn-tipo">
+          <label data-v="capitulo" onclick="revNodoTipo('capitulo')"><input type="radio" name="rn-tipo">📁 Capítulo / subcapítulo</label>
+          <label data-v="lamina" onclick="revNodoTipo('lamina')"><input type="radio" name="rn-tipo">📄 Lámina</label>
+        </div></div></div>
+      <div class="frow one" id="rn-row-cod"><div class="fld"><label>Código de la lámina</label>
+        <input id="rn-codigo" type="text" placeholder="ej. HS-AP-01" autocomplete="off"></div></div>
+      <div class="frow one"><div class="fld"><label id="rn-nom-lbl">Nombre *</label>
+        <input id="rn-nombre" type="text" placeholder="ej. Agua potable" autocomplete="off"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();revNodoSave()}"></div></div>
+      <div class="frow" id="rn-row-lam">
+        <div class="fld"><label>Revisión vigente</label><input id="rn-rev" type="text" placeholder="R0" autocomplete="off"></div>
+        <div class="fld"><label>Recibida el</label><input id="rn-frec" type="date"></div>
+      </div>
+      <div class="frow one" id="rn-row-resp"><div class="fld"><label>Diseñador / consultor responsable</label>
+        <input id="rn-resp" type="text" list="rn-resp-list" placeholder="Opcional. Lo heredan los subcapítulos y láminas" autocomplete="off">
+        <datalist id="rn-resp-list"></datalist></div></div>
+      <div class="frow one"><div class="fld"><label>Ubicado en</label><select id="rn-parent"></select></div></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn btn-del" id="rn-del" onclick="revNodoDelete()" style="display:none">Eliminar</button>
+      <button class="btn" onclick="closeOv('ov-revnodo')">Cancelar</button>
+      <button class="btn btn-pri" onclick="revNodoSave()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: NUEVA REVISIÓN DE UNA LÁMINA ══════════ -->
+<div class="ov" id="ov-revrev">
+  <div class="modal" style="max-width:480px">
+    <div class="mo-h"><span class="mo-t">Nueva revisión recibida</span><button class="mo-x" onclick="closeOv('ov-revrev')">✕</button></div>
+    <div class="mo-b">
+      <div class="rv-mo-info" id="rr-lam"></div>
+      <div class="frow">
+        <div class="fld"><label>Revisión</label><input id="rr-rev" type="text" autocomplete="off"></div>
+        <div class="fld"><label>Recibida el</label><input id="rr-fecha" type="date"></div>
+      </div>
+      <div style="font-size:12px;color:var(--mu);line-height:1.5" id="rr-aviso"></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-revrev')">Cancelar</button>
+      <button class="btn btn-pri" onclick="revRevSave()">Registrar revisión</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: OBSERVACIÓN ══════════ -->
+<div class="ov" id="ov-revobs">
+  <div class="modal wide">
+    <div class="mo-h"><span class="mo-t" id="ro-title">Observación</span><button class="mo-x" onclick="closeOv('ov-revobs')">✕</button></div>
+    <div class="mo-b">
+      <div class="rv-mo-info" id="ro-info"></div>
+      <div class="frow one"><div class="fld"><label>Observación *</label><textarea id="ro-texto" style="min-height:80px"></textarea></div></div>
+      <div class="frow">
+        <div class="fld"><label>Ubicación en la lámina</label><input id="ro-ub" type="text" placeholder="ej. Eje B-3, baño 1, detalle 4" autocomplete="off"></div>
+        <div class="fld"><label>Lámina / capítulo</label><select id="ro-nodo"></select></div>
+      </div>
+      <div class="frow three">
+        <div class="fld"><label>Severidad</label><select id="ro-sev">
+          <option value="critica">Crítica</option><option value="mayor">Mayor</option><option value="menor">Menor</option></select></div>
+        <div class="fld"><label>Origen</label><select id="ro-org"></select></div>
+        <div class="fld"><label>Estado</label><select id="ro-est" onchange="revObsResToggle()"></select></div>
+      </div>
+      <div class="frow one"><div class="fld"><label>Involucra a otras disciplinas</label><div class="rv-invsel" id="ro-inv"></div></div></div>
+      <div class="frow one"><div class="fld"><label>Respuesta del consultor</label>
+        <textarea id="ro-resp" placeholder="Lo que contestó el diseñador…" style="min-height:60px"></textarea></div></div>
+      <div class="frow one" id="ro-res-row"><div class="fld"><label id="ro-res-lbl">Nota de verificación</label>
+        <textarea id="ro-res" style="min-height:60px"></textarea></div></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn btn-del" id="ro-del" onclick="revObsDelete()">Eliminar</button>
+      <button class="btn" onclick="closeOv('ov-revobs')">Cancelar</button>
+      <button class="btn btn-pri" onclick="revObsSave()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: RESPUESTA / DESCARTE (menú rápido de estado) ══════════ -->
+<div class="ov" id="ov-revnota">
+  <div class="modal" style="max-width:520px">
+    <div class="mo-h"><span class="mo-t" id="rt-title">Respuesta del consultor</span><button class="mo-x" onclick="closeOv('ov-revnota')">✕</button></div>
+    <div class="mo-b">
+      <div id="rt-texto" style="font-size:12px;color:var(--mu);margin-bottom:10px;white-space:pre-wrap"></div>
+      <div class="frow one"><div class="fld"><label id="rt-lbl">Qué respondió</label>
+        <textarea id="rt-nota" style="min-height:90px"></textarea></div></div>
+      <div style="font-size:11px;color:var(--mu)">Opcional. Puedes completarlo después desde ✏️.</div>
+    </div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-revnota')">Cancelar</button>
+      <button class="btn btn-pri" onclick="revNotaSave()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: ESTRUCTURA DE DISCIPLINAS ══════════ -->
+<div class="ov" id="ov-revsetup">
+  <div class="modal wide">
+    <div class="mo-h"><span class="mo-t">Estructura de disciplinas</span><button class="mo-x" onclick="closeOv('ov-revsetup')">✕</button></div>
+    <div class="mo-b">
+      <div class="cs-lead">Proyecto: <strong id="rs-proj"></strong>. Lo que ya existe no se duplica: solo se agregan los capítulos que falten.</div>
+      <div class="frow one"><div class="fld"><label>Partir de</label>
+        <select id="rs-src" onchange="revSetupSrc()"><option value="tpl">Plantilla estándar de disciplinas</option></select></div></div>
+      <div id="rs-tpl-box">
+        <div class="cs-head">
+          <span class="cs-lbl">Disciplinas</span>
+          <span class="cs-all"><button class="btn btn-sm" onclick="revSetupAll(true)">Todas</button>
+            <button class="btn btn-sm" onclick="revSetupAll(false)">Ninguna</button></span>
+        </div>
+        <div class="rv-tpl" id="rs-list"></div>
+      </div>
+      <div class="rv-tpl" id="rs-copy" style="display:none"></div>
+      <div class="frow one"><div class="fld"><label>Otros capítulos (uno por línea)</label>
+        <textarea id="rs-extra" placeholder="Paisajismo&#10;Hidrosanitarios > Riego&#10;Eléctricos > Generador de emergencia" style="min-height:80px;font-family:'JetBrains Mono',monospace;font-size:12px"></textarea>
+        <span class="fld-help">Usa “&gt;” para crear un subcapítulo dentro de otro.</span></div></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-revsetup')">Cancelar</button>
+      <button class="btn btn-pri" onclick="revSetupSave()">Crear capítulos</button>
     </div>
   </div>
 </div>
@@ -1717,6 +1955,8 @@ function subscribeRealtime(){
     .on('postgres_changes', {event:'*', schema:'public', table:'contrataciones'},  () => loadAll())
     .on('postgres_changes', {event:'*', schema:'public', table:'proyecto_rubros'}, () => loadAll())
     .on('postgres_changes', {event:'*', schema:'public', table:'cronograma'},      () => crRemote())
+    .on('postgres_changes', {event:'*', schema:'public', table:'rev_nodos'},       () => revRemote())
+    .on('postgres_changes', {event:'*', schema:'public', table:'rev_obs'},         () => revRemote())
     .subscribe();
 }
 
@@ -1762,6 +2002,7 @@ function render(){
     case 'apuntes':    renderApuntes();   break;
     case 'reportes':   repInit(); renderReporte(); break;
     case 'crono':      renderCrono();     break;
+    case 'rev':        renderRev();       break;
   }
   applyPermissions();
 }
@@ -2478,6 +2719,7 @@ function renderProjDetail(){
         <div class="pd-panel-b">${apuBody}</div>
       </div>
     </div>
+    ${revCardHtml(p)}
     ${crCardHtml(p)}`;
 }
 
@@ -5317,6 +5559,1076 @@ async function crImportConfirm(){
     CR.saving = false; CR.lastWrite = Date.now();
     btn.disabled = false; btn.textContent = 'Importar';
   }
+}
+
+/* ═══════════════════════════════════════════════════
+   REVISIÓN DE PLANOS
+   Árbol por proyecto: capítulos → subcapítulos → láminas, y en cada nodo
+   las observaciones. La lámina es un nodo especial con código y revisión
+   vigente (R0, R1…). Cada observación recuerda en qué revisión se hizo, en
+   cuáles volvió sin corregir (persiste_en) y en cuál se verificó.
+   Tablas: rev_nodos y rev_obs (archivo revisiones.sql). Se cargan aparte por
+   proyecto, igual que el cronograma, no en loadAll().
+   Estados: abierta · respondida · persiste (activos) | verificada · descartada
+   (cerrados: al entrar se firma quién y cuándo; al reabrir la firma se borra
+   y la nota se conserva oculta, como en los apuntes).
+   ═══════════════════════════════════════════════════ */
+const REV_SEV = {
+  critica: {lbl:'Crítica', c:'#dc2626'},
+  mayor:   {lbl:'Mayor',   c:'#d97706'},
+  menor:   {lbl:'Menor',   c:'#8aaabe'},
+};
+const REV_EST = {
+  abierta:    {lbl:'Abierta',    bg:'#e2eaf2', fg:'#2d5a7a', dot:'#4b6a82', cerrado:false},
+  respondida: {lbl:'Respondida', bg:'#ede9fe', fg:'#5b21b6', dot:'#7c3aed', cerrado:false},
+  persiste:   {lbl:'Persiste',   bg:'#fee2e2', fg:'#b91c1c', dot:'#dc2626', cerrado:false},
+  verificada: {lbl:'Verificada', bg:'#dcfce7', fg:'#15803d', dot:'#15803d', cerrado:true},
+  descartada: {lbl:'Descartada', bg:'#f3f4f6', fg:'#374151', dot:'#6b7280', cerrado:true},
+};
+const revEst = e => REV_EST[e] || REV_EST.abierta;
+const revSev = s => REV_SEV[s] || REV_SEV.mayor;
+const revCerrada = o => revEst(o.estado).cerrado;
+/** Plantilla estándar. Se puede ampliar aquí o, por proyecto, con "Otros capítulos". */
+const REV_PLANTILLA = [
+  ['Arquitectónicos',             ['Implantación','Plantas','Elevaciones y cortes','Detalles','Acabados']],
+  ['Estructurales',               ['Cimentación','Estructura de hormigón','Estructura metálica']],
+  ['Hidrosanitarios',             ['Agua potable','Aguas servidas','Aguas lluvias']],
+  ['Sistema contra incendios',    ['Detección y alarma','Red de extinción']],
+  ['Eléctricos',                  ['Iluminación','Tomacorrientes y fuerza','Tableros y diagramas unifilares','Media tensión y transformador','Puesta a tierra y pararrayos']],
+  ['Electrónicos',                ['Voz y datos','CCTV','Control de accesos']],
+  ['Climatización y ventilación', ['Equipos','Ductos','Extracción']],
+];
+const REV_FILTROS = [
+  ['activas','Activas'], ['abierta','Abiertas'], ['respondida','Respondidas (por verificar)'],
+  ['persiste','Persisten'], ['porrevisar','Por revisar en nueva revisión'],
+  ['verificada','Verificadas'], ['descartada','Descartadas'], ['todas','Todas'],
+];
+
+const REV = {
+  data: {}, loading: {}, missing: false, err: {},
+  pid: null, sel: '__todo',
+  q: '', fEst: 'activas', fSev: '', fInv: '',
+  collapsed: {},
+  sev: 'mayor', origen: '',          // valores que se mantienen al capturar en serie
+  focus: false, draft: null,
+  saving: false, lastWrite: 0,
+  editObs: null, editNodo: null, nodoTipo: 'capitulo', revLam: null, nota: null,
+};
+
+/* ═══════ CARGA ═══════ */
+async function revLoad(pid, force){
+  if(REV.data[pid] && !force) return REV.data[pid];
+  if(REV.loading[pid]) return REV.loading[pid];
+  REV.loading[pid] = (async () => {
+    try{
+      const [rn, ro] = await Promise.all([
+        db.from('rev_nodos').select('*').eq('proyecto_id', pid).order('orden').range(0, 9999),
+        db.from('rev_obs').select('*').eq('proyecto_id', pid).order('num').range(0, 19999),
+      ]);
+      if(rn.error || ro.error) throw (rn.error || ro.error);
+      REV.data[pid] = {nodos: rn.data || [], obs: ro.data || []};
+      REV.missing = false; delete REV.err[pid];
+    }catch(e){
+      if(/rev_nodos|rev_obs|relation|schema cache|does not exist/i.test(e.message || '')) REV.missing = true;
+      else REV.err[pid] = e.message || 'Error de conexión';
+      REV.data[pid] = REV.data[pid] || {nodos: [], obs: []};
+    }finally{ delete REV.loading[pid]; }
+    return REV.data[pid];
+  })();
+  return REV.loading[pid];
+}
+/* Cambios de otra persona: recargar con una pausa; los propios se ignoran por tiempo. */
+function revRemote(){
+  if(REV.saving || Date.now() - REV.lastWrite < 3000) return;
+  clearTimeout(REV._rt);
+  REV._rt = setTimeout(async () => {
+    const pids = Object.keys(REV.data).map(Number);
+    await Promise.all(pids.map(p => revLoad(p, true)));
+    revRerender();
+  }, 900);
+}
+/** Aviso de fallo de carga: evita que una caída de red se lea como "sin capítulos". */
+function revErrHtml(pid){
+  return `<div class="cr-card-e"><span style="color:var(--re)">⚠️ No se pudieron cargar las revisiones (${esc(REV.err[pid])}).</span>
+    <button class="btn btn-sm" onclick="revLoad(${pid}, true).then(revRerender)">Reintentar</button></div>`;
+}
+function revRerender(){
+  if(S.tab === 'rev') renderRev();
+  else if(S.tab === 'projdet') renderProjDetail();
+}
+/** Envuelve una escritura: estado de sincronización, error y redibujo. */
+async function revDb(op, msg){
+  REV.saving = true; sync('busy');
+  try{
+    await op();
+    sync('ok'); if(msg) toast(msg);
+    return true;
+  }catch(e){
+    sync('err'); toast('Error: ' + (e.message || e), 'err');
+    await revLoad(REV.pid, true);
+    return false;
+  }finally{
+    REV.saving = false; REV.lastWrite = Date.now();
+    revRerender();
+  }
+}
+
+/* ═══════ ÁRBOL ═══════ */
+/** Índices del árbol: hijos ordenados, profundidad, orden de lectura (DFS),
+    disciplina (ancestro de nivel 0) y ruta de nombres. */
+function revTree(pid){
+  const D = REV.data[pid] || {nodos: [], obs: []};
+  const byId = new Map(D.nodos.map(n => [n.id, n]));
+  const kids = new Map();
+  D.nodos.forEach(n => {
+    const k = (n.parent_id && byId.has(n.parent_id)) ? n.parent_id : '';
+    if(!kids.has(k)) kids.set(k, []);
+    kids.get(k).push(n);
+  });
+  kids.forEach(l => l.sort((a,b) => (a.orden - b.orden) || (a.created_at || '').localeCompare(b.created_at || '')));
+  const order = [], depth = new Map(), top = new Map(), idx = new Map();
+  const walk = (k, d, t) => (kids.get(k) || []).forEach(n => {
+    if(depth.has(n.id)) return;            // protección ante ciclos
+    depth.set(n.id, d); top.set(n.id, t || n); idx.set(n.id, order.length); order.push(n);
+    walk(n.id, d + 1, t || n);
+  });
+  walk('', 0, null);
+  const path = id => { const r = []; let n = byId.get(id), i = 0;
+    while(n && i++ < 50){ r.unshift(n); n = byId.get(n.parent_id); } return r; };
+  const sub = id => { const s = new Set([id]); let i = idx.get(id);
+    if(i == null) return s;
+    const d0 = depth.get(id);
+    for(let j = i + 1; j < order.length && depth.get(order[j].id) > d0; j++) s.add(order[j].id);
+    return s; };
+  /** Responsable heredado: el del nodo o el del ancestro más cercano. */
+  const resp = id => { const p = path(id); for(let i = p.length - 1; i >= 0; i--) if(p[i].responsable) return p[i].responsable; return ''; };
+  return {D, byId, kids, order, depth, top, idx, path, sub, resp};
+}
+const revNodoLbl = n => n.tipo === 'lamina' ? ((n.codigo ? n.codigo + ' · ' : '') + (n.nombre || '')) : (n.nombre || '');
+const revPathTxt = (t, id, desde) => t.path(id).slice(desde || 0).map(revNodoLbl).join(' › ');
+function revLam(o, t){ const n = t.byId.get(o.nodo_id); return (n && n.tipo === 'lamina') ? n : null; }
+/** Última revisión contra la que se contrastó la observación. */
+function revUltRev(o){ const p = o.persiste_en || []; return p.length ? p[p.length - 1] : o.rev_origen; }
+/** Activa, en una lámina que recibió una revisión posterior a la última contrastada. */
+function revPorRevisar(o, t){
+  if(revCerrada(o)) return false;
+  const l = revLam(o, t);
+  return !!(l && l.revision && revUltRev(o) && revUltRev(o) !== l.revision);
+}
+function revCanEdit(o){ return isAdmin() || (S.user && o && o.creado_por === S.user.nombre); }
+function revNextRev(r){
+  r = (r || '').trim();
+  if(!r) return 'R1';
+  let m = r.match(/^(.*?)(\d+)$/);
+  if(m) return m[1] + (Number(m[2]) + 1);
+  m = r.match(/^(.*?)([A-Ya-y])$/);
+  if(m) return m[1] + String.fromCharCode(m[2].charCodeAt(0) + 1);
+  return r + '1';
+}
+function revStats(list, t){
+  const act = list.filter(o => !revCerrada(o));
+  return {
+    total: list.length, act: act.length,
+    crit: act.filter(o => o.severidad === 'critica').length,
+    resp: act.filter(o => o.estado === 'respondida').length,
+    pers: act.filter(o => o.estado === 'persiste').length,
+    porr: act.filter(o => revPorRevisar(o, t)).length,
+    ver:  list.filter(o => o.estado === 'verificada').length,
+    desc: list.filter(o => o.estado === 'descartada').length,
+  };
+}
+
+/* ═══════ TARJETA EN LA FICHA DEL PROYECTO ═══════ */
+function revCardHtml(p){
+  if(isObra()) return '';
+  const D = REV.data[p.id];
+  const head = extra => `<div class="cr-card-h"><span class="ct-t">📐 Revisión de planos</span><div class="ct-hr">${extra || ''}</div></div>`;
+  if(!D){
+    revLoad(p.id).then(() => { if(S.tab === 'projdet' && S.pdProj === p.id) renderProjDetail(); });
+    return `<div class="cr-card">${head()}<div class="cr-card-e">Cargando revisiones…</div></div>`;
+  }
+  if(REV.missing) return `<div class="cr-card">${head()}<div class="cr-card-e">
+    Falta crear las tablas <code>rev_nodos</code> y <code>rev_obs</code> en Supabase (archivo <code>revisiones.sql</code>).</div></div>`;
+  if(REV.err[p.id]) return `<div class="cr-card">${head()}${revErrHtml(p.id)}</div>`;
+  if(!D.nodos.length) return `<div class="cr-card cr-off">${head()}<div class="cr-card-e">
+      <div><strong>Sin revisión de planos</strong><div class="ct-off-s">Observaciones a los planos por disciplina, lámina y revisión, con su seguimiento hasta verificarlas.</div></div>
+      <div class="cr-card-btns">
+        <button class="btn btn-sm" onclick="revOpenView(${p.id})">Empezar en blanco</button>
+        <button class="btn btn-pri btn-sm" onclick="revOpenView(${p.id}, null, 'setup')">Crear desde plantilla</button></div>
+    </div></div>`;
+  const t = revTree(p.id), s = revStats(D.obs, t);
+  // Solo las disciplinas que ya tienen observaciones; el resto se resume en una línea
+  const disc = (t.kids.get('') || []).map(n => ({n, ids: t.sub(n.id)}))
+    .filter(x => D.obs.some(o => x.ids.has(o.nodo_id)));
+  const sinObs = (t.kids.get('') || []).length - disc.length;
+  const fila = ({n}) => {
+    const ids = t.sub(n.id), l = D.obs.filter(o => ids.has(o.nodo_id)), st = revStats(l, t);
+    const cer = st.ver + st.desc, pc = st.total ? Math.round(cer / st.total * 100) : 0;
+    const k = (v, cls) => `<span class="rv-dk ${v ? cls : 'cero'}">${v}</span>`;
+    return `<div class="rv-dr" onclick="revOpenView(${p.id}, '${n.id}')" title="${st.total} observación(es) · ${cer} cerrada(s)">
+      <span class="rv-dn">${esc(n.nombre)}</span>
+      <span class="rv-dres">${esc(t.resp(n.id) || '—')}</span>
+      <span class="rv-dbar"><i style="width:${pc}%"></i></span>
+      ${k(st.act, '')}${k(st.crit, 'rojo')}${k(st.porr + st.resp, 'ambar')}
+    </div>`;
+  };
+  return `<div class="cr-card">
+    ${head(`<span class="ct-kpi">${s.act} activa(s)</span>
+      ${s.crit ? `<span class="ct-kpi rojo">${s.crit} crítica(s)</span>` : ''}
+      ${(s.porr + s.resp) ? `<span class="ct-kpi ambar">${s.porr + s.resp} por verificar</span>` : ''}
+      <button class="btn btn-pri btn-sm" onclick="revOpenView(${p.id})">Abrir revisiones →</button>`)}
+    <div class="cr-card-b">
+      <div class="cr-kp">
+        <div><small>Observaciones</small><b>${s.total}</b></div>
+        <div><small>Activas</small><b>${s.act}</b></div>
+        <div><small>Respondidas por verificar</small><b>${s.resp}</b></div>
+        <div><small>Por revisar en revisión nueva</small><b>${s.porr}</b></div>
+        <div><small>Verificadas</small><b>${s.ver}</b></div>
+      </div>
+      ${disc.length ? `<div class="rv-dt">
+        <div class="rv-dr h"><span>Disciplina</span><span class="rv-dres">Consultor</span><span class="rv-dres">Cerradas</span><span class="rv-dk">Activas</span><span class="rv-dk">Críticas</span><span class="rv-dk">Por verificar</span></div>
+        ${disc.map(fila).join('')}</div>` : '<div class="cr-li-v">Aún no hay observaciones. Abre las revisiones, elige una lámina y empieza a anotar.</div>'}
+      ${disc.length && sinObs ? `<div class="cr-li-v">${sinObs} disciplina(s) más sin observaciones.</div>` : ''}
+    </div>
+  </div>`;
+}
+
+/* ═══════ VISTA COMPLETA ═══════ */
+async function revOpenView(pid, selId, accion){
+  if(isObra()) return;
+  if(REV.pid !== pid){ REV.sel = '__todo'; REV.q = ''; REV.fEst = 'activas'; REV.fSev = ''; REV.fInv = ''; REV.draft = null; }
+  REV.pid = pid;
+  if(selId) REV.sel = selId;
+  S.pdProj = pid;
+  S.tab = 'rev';
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nav-b').forEach(b => b.classList.remove('on'));
+  g('sec-rev').classList.add('on');
+  document.querySelector('.nav-b[data-tab="proyectos"]')?.classList.add('on');
+  g('rv-body').innerHTML = '<div class="spin-wrap"><div class="spin"></div><span>Cargando revisiones…</span></div>';
+  await revLoad(pid);
+  if(selId) revReveal(selId);
+  renderRev();
+  applyPermissions();
+  window.scrollTo(0, 0);
+  if(accion === 'setup') revSetupOpen();
+}
+function revBack(){ openProjDetail(REV.pid); }
+function revCollapsed(pid){
+  if(!REV.collapsed[pid]){
+    let saved = null;
+    try{ saved = JSON.parse(localStorage.getItem('cparq_rv_col_' + pid) || 'null'); }catch(_){}
+    if(Array.isArray(saved)) REV.collapsed[pid] = new Set(saved);
+    else{   // por defecto se ven disciplinas y subcapítulos; las láminas, al abrir
+      const t = revTree(pid);
+      REV.collapsed[pid] = new Set(t.order.filter(n => t.depth.get(n.id) >= 1 && (t.kids.get(n.id) || []).length).map(n => n.id));
+    }
+  }
+  return REV.collapsed[pid];
+}
+function revSaveCollapsed(pid){ try{ localStorage.setItem('cparq_rv_col_' + pid, JSON.stringify([...revCollapsed(pid)])); }catch(_){} }
+function revToggle(ev, id){
+  ev.stopPropagation();
+  const s = revCollapsed(REV.pid);
+  s.has(id) ? s.delete(id) : s.add(id);
+  revSaveCollapsed(REV.pid);
+  renderRev();
+}
+/** Abre los ancestros para que el nodo se vea en el árbol. */
+function revReveal(id){
+  const t = revTree(REV.pid), s = revCollapsed(REV.pid);
+  t.path(id).slice(0, -1).forEach(n => s.delete(n.id));
+  revSaveCollapsed(REV.pid);
+}
+function revSelect(id){
+  REV.sel = id;
+  if(id !== '__todo') revReveal(id);
+  REV.focus = id !== '__todo';
+  renderRev();
+}
+function revSetFiltro(k, v){ REV[k] = v; renderRev(); }
+
+/** Observaciones del nodo elegido (con su subárbol) y con los filtros aplicados. */
+function revVisibles(t){
+  const D = t.D;
+  let list = D.obs;
+  if(REV.sel !== '__todo' && t.byId.has(REV.sel)){ const ids = t.sub(REV.sel); list = list.filter(o => ids.has(o.nodo_id)); }
+  const scope = list;
+  const q = (REV.q || '').toLowerCase().trim();
+  if(q){
+    const qn = q.replace(/^#/, '');
+    list = list.filter(o => {
+      const n = t.byId.get(o.nodo_id);
+      return String(o.num) === qn ||
+        [o.texto, o.ubicacion, o.respuesta, o.resolucion, n && n.codigo, n && n.nombre]
+          .some(x => (x || '').toLowerCase().includes(q));
+    });
+  }
+  const f = REV.fEst;
+  if(f === 'activas')         list = list.filter(o => !revCerrada(o));
+  else if(f === 'porrevisar') list = list.filter(o => revPorRevisar(o, t));
+  else if(f !== 'todas')      list = list.filter(o => o.estado === f);
+  if(REV.fSev) list = list.filter(o => o.severidad === REV.fSev);
+  if(REV.fInv){
+    const d = (t.kids.get('') || []).find(n => n.id === REV.fInv);
+    const ids = d ? t.sub(d.id) : new Set();
+    list = list.filter(o => ids.has(o.nodo_id) || (d && (o.involucra || []).includes(d.nombre)));
+  }
+  const ord = o => t.idx.get(o.nodo_id) ?? 1e9;
+  list = [...list].sort((a,b) => (ord(a) - ord(b)) || ((a.num || 0) - (b.num || 0)));
+  return {list, scope};
+}
+
+function renderRev(){
+  const p = pdProject();
+  const box = g('rv-body');
+  if(!p){ box.innerHTML = '<div class="pd-empty">Proyecto no encontrado</div>'; return; }
+  const D = REV.data[p.id];
+  if(!D){ revLoad(p.id).then(renderRev); return; }
+  if(REV.missing){
+    box.innerHTML = `<div class="rv-start"><strong>Falta crear las tablas de revisión</strong>
+      <p>Ejecuta el archivo <code>revisiones.sql</code> en el SQL Editor de Supabase y recarga la página.</p></div>`;
+    return;
+  }
+  if(REV.err[p.id]){ box.innerHTML = `<div class="cr-card">${revErrHtml(p.id)}</div>`; return; }
+  // Conservar lo que se esté escribiendo en la captura rápida
+  const inp = g('rv-in');
+  if(inp) REV.draft = {sel: REV.sel, txt: inp.value, ub: g('rv-ub')?.value || ''};
+
+  const t = revTree(p.id);
+  if(REV.sel !== '__todo' && !t.byId.has(REV.sel)) REV.sel = '__todo';
+  const hero = `<div class="rv-hero">
+      <div class="rv-hero-l"><span class="pd-name">${esc(p.nombre)}</span><span class="pd-code">${esc(p.codigo || '')}</span>
+        <span style="font-size:13px;color:var(--mu)">Revisión de planos</span></div>
+      <div class="rv-hero-r">
+        <button class="btn btn-sm" onclick="revSetupOpen()">🗂 Plantilla de disciplinas</button>
+        ${D.obs.length ? `<button class="btn btn-sm" onclick="revExportXlsx()">⤓ Excel</button>
+        <button class="btn btn-sm" onclick="revPrint()">🖨 Informe / PDF</button>` : ''}
+      </div></div>`;
+
+  if(!D.nodos.length){
+    box.innerHTML = hero + `<div class="rv-start">
+      <div style="font-size:30px">📐</div><strong>Aún no hay capítulos</strong>
+      <p>Arma la estructura con la plantilla de disciplinas (Arquitectónicos, Estructurales, Hidrosanitarios…) o crea tus propios capítulos. Las láminas van dentro de los capítulos y las observaciones, dentro de las láminas.</p>
+      <div class="cr-card-btns"><button class="btn" onclick="revNodoNew('', 'capitulo')">＋ Capítulo en blanco</button>
+        <button class="btn btn-pri" onclick="revSetupOpen()">Crear desde plantilla</button></div></div>`;
+    return;
+  }
+
+  const all = revStats(D.obs, t);
+  const chip = (k, lbl, n, cls) => `<button class="rv-chip ${cls || ''}${REV.fEst === k ? ' on' : ''}" onclick="revSetFiltro('fEst','${k}')">${lbl} <b>${n}</b></button>`;
+  const chips = `<div class="rv-chips">
+      ${chip('activas', 'Activas', all.act)}
+      ${chip('respondida', 'Respondidas por verificar', all.resp, 'morado')}
+      ${chip('porrevisar', 'Por revisar en revisión nueva', all.porr, 'ambar')}
+      ${chip('persiste', 'Persisten', all.pers, 'rojo')}
+      ${chip('verificada', 'Verificadas', all.ver)}
+      ${chip('todas', 'Todas', all.total)}
+    </div>`;
+
+  box.innerHTML = hero + chips + `<div class="rv-layout">
+      <div class="rv-side">
+        <div class="apu-side-h"><span>Capítulos y láminas</span>
+          <button class="btn btn-sm" style="padding:2px 8px;font-size:11px" onclick="revNodoNew('', 'capitulo')" title="Nuevo capítulo">＋ Capítulo</button></div>
+        <div class="rv-tree">${revTreeHtml(t)}</div>
+      </div>
+      <div class="rv-panel">${revPanelHtml(p, t)}</div>
+    </div>`;
+
+  const ta = g('rv-in');
+  if(ta && REV.draft && REV.draft.sel === REV.sel){ ta.value = REV.draft.txt; g('rv-ub').value = REV.draft.ub; }
+  REV.draft = null;
+  if(ta && REV.focus){ ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+  REV.focus = false;
+}
+
+function revTreeHtml(t){
+  const D = t.D, col = revCollapsed(REV.pid);
+  // Conteos por nodo (subárbol) en una sola pasada
+  const act = new Map(), crit = new Map(), porr = new Map(), tot = new Map();
+  D.obs.forEach(o => {
+    const a = !revCerrada(o), c = a && o.severidad === 'critica', pr = revPorRevisar(o, t);
+    t.path(o.nodo_id).forEach(n => {
+      tot.set(n.id, (tot.get(n.id) || 0) + 1);
+      if(a)  act.set(n.id, (act.get(n.id) || 0) + 1);
+      if(c)  crit.set(n.id, (crit.get(n.id) || 0) + 1);
+      if(pr) porr.set(n.id, (porr.get(n.id) || 0) + 1);
+    });
+  });
+  const allAct = D.obs.filter(o => !revCerrada(o)).length;
+  let h = `<div class="rv-ti root${REV.sel === '__todo' ? ' on' : ''}" onclick="revSelect('__todo')">
+      <span class="rv-tn">Todo el proyecto</span><span class="apu-pc">${allAct}</span></div>`;
+  const visible = n => !t.path(n.id).slice(0, -1).some(a => col.has(a.id));
+  t.order.filter(visible).forEach(n => {
+    const d = t.depth.get(n.id), hk = (t.kids.get(n.id) || []).length;
+    const lam = n.tipo === 'lamina';
+    const a = act.get(n.id) || 0, c = crit.get(n.id) || 0, to = tot.get(n.id) || 0, pr = porr.get(n.id) || 0;
+    const cnt = to ? `<span class="apu-pc${c ? ' over' : (a ? '' : ' zero')}" title="${a} activa(s)${c ? ' · ' + c + ' crítica(s)' : ''} · ${to} en total">${a || '✓'}</span>` : '';
+    h += `<div class="rv-ti d${Math.min(d, 2)}${REV.sel === n.id ? ' on' : ''}" style="padding-left:${8 + d * 15}px" onclick="revSelect('${n.id}')" title="${escT(revNodoLbl(n))}">
+      <span class="rv-car"${hk ? ` onclick="revToggle(event,'${n.id}')"` : ''}>${hk ? (col.has(n.id) ? '▸' : '▾') : ''}</span>
+      <span class="rv-ico">${lam ? '📄' : '📁'}</span>
+      <span class="rv-tn">${lam && n.codigo ? `<span class="rv-cod">${esc(n.codigo)}</span> ` : ''}${esc(n.nombre)}</span>
+      ${pr ? `<span class="rv-pdot" title="${pr} por revisar en la revisión nueva"></span>` : ''}
+      ${lam && n.revision ? `<span class="rv-rv">${esc(n.revision)}</span>` : ''}
+      ${cnt}</div>`;
+  });
+  return h;
+}
+
+function revPanelHtml(p, t){
+  const sel = REV.sel === '__todo' ? null : t.byId.get(REV.sel);
+  const {list, scope} = revVisibles(t);
+  const lam = sel && sel.tipo === 'lamina';
+  // Encabezado: ruta + acciones
+  let bc, info = '', acts = '';
+  if(!sel){
+    bc = '<span>Todo el proyecto</span>';
+    acts = `<button class="btn btn-sm" onclick="revNodoNew('', 'capitulo')">＋ Capítulo</button>`;
+  }else{
+    const pa = t.path(sel.id);
+    bc = pa.map((n, i) => i < pa.length - 1
+      ? `<a onclick="revSelect('${n.id}')">${esc(revNodoLbl(n))}</a><i>›</i>`
+      : `<span>${lam ? `<span class="rv-cod" style="font-size:13px">${esc(n.codigo || '')}</span> ` : ''}${esc(n.nombre)}</span>`).join('');
+    const sib = t.kids.get((sel.parent_id && t.byId.has(sel.parent_id)) ? sel.parent_id : '') || [];
+    const pos = sib.indexOf(sel);
+    acts = (lam ? `<button class="btn btn-sm btn-pri" onclick="revRevOpen('${sel.id}')" title="Registrar que llegó una revisión nueva de esta lámina">⟳ Nueva revisión</button>`
+                : `<button class="btn btn-sm" onclick="revNodoNew('${sel.id}', 'capitulo')">＋ Subcapítulo</button>
+                   <button class="btn btn-sm" onclick="revNodoNew('${sel.id}', 'lamina')">＋ Lámina</button>`) +
+      `<button class="btn btn-sm" onclick="revNodoEdit('${sel.id}')" title="Editar">✏️</button>
+       <button class="btn btn-sm" onclick="revMove('${sel.id}', -1)" title="Subir"${pos <= 0 ? ' disabled style="opacity:.4"' : ''}>↑</button>
+       <button class="btn btn-sm" onclick="revMove('${sel.id}', 1)" title="Bajar"${pos >= sib.length - 1 ? ' disabled style="opacity:.4"' : ''}>↓</button>`;
+    const resp = t.resp(sel.id);
+    if(lam){
+      const hist = (sel.historial || []).map(h => `${esc(h.rev)}${h.fecha ? ' ' + fmtDate(h.fecha).slice(0, 5) : ''}`).join(' → ');
+      info = `<span>Revisión vigente <b>${esc(sel.revision || '—')}</b>${sel.f_recibida ? ' · recibida ' + fmtDate(sel.f_recibida) : ''}</span>
+        ${resp ? `<span>Consultor: <b>${esc(resp)}</b></span>` : ''}
+        ${(sel.historial || []).length > 1 ? `<span class="rv-hist" title="Historial de revisiones">${hist}</span>` : ''}`;
+    }else if(resp) info = `<span>Consultor: <b>${esc(resp)}</b></span>`;
+  }
+  const st = revStats(scope, t);
+  if(scope.length) info += `<span>${st.act} activa(s) de ${st.total}${st.crit ? ` · <b style="color:var(--re)">${st.crit} crítica(s)</b>` : ''}</span>`;
+
+  // Filtros
+  const disc = t.kids.get('') || [];
+  const flt = `<div class="rv-flt">
+      <div class="apu-sch"><span class="apu-sch-i">🔍</span><input id="rv-q" type="text" placeholder="Buscar texto, lámina o N.º…" value="${escT(REV.q)}"
+        oninput="REV.q=this.value;clearTimeout(REV._qt);REV._qt=setTimeout(()=>{renderRev();const e=g('rv-q');e.focus();e.setSelectionRange(e.value.length,e.value.length)},250)"></div>
+      <select onchange="revSetFiltro('fEst',this.value)">${REV_FILTROS.map(([k,l]) => `<option value="${k}"${REV.fEst === k ? ' selected' : ''}>${l}</option>`).join('')}</select>
+      <select onchange="revSetFiltro('fSev',this.value)"><option value="">Toda severidad</option>
+        ${Object.entries(REV_SEV).map(([k,o]) => `<option value="${k}"${REV.fSev === k ? ' selected' : ''}>${o.lbl}</option>`).join('')}</select>
+      ${disc.length > 1 ? `<select onchange="revSetFiltro('fInv',this.value)" title="Observaciones de la disciplina o que la involucran"><option value="">Toca a: todas</option>
+        ${disc.map(n => `<option value="${n.id}"${REV.fInv === n.id ? ' selected' : ''}>Toca a: ${esc(n.nombre)}</option>`).join('')}</select>` : ''}
+      <span class="count">${list.length} de ${scope.length}</span>
+    </div>`;
+
+  // Captura rápida
+  const cap = sel ? `<div class="rv-cap">
+      <div class="rv-cap-r">
+        <textarea id="rv-in" rows="1" placeholder="${lam ? 'Escribe la observación y Enter…' : `Observación general de «${escT(sel.nombre)}» y Enter…`}"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();revQuickAdd()}else if(event.key==='Escape'){this.value=''}"></textarea>
+        <input id="rv-ub" type="text" placeholder="📍 Ubicación (eje, ambiente…)" autocomplete="off"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();revQuickAdd()}">
+        <select id="rv-sev" onchange="REV.sev=this.value" title="Severidad">${Object.entries(REV_SEV).map(([k,o]) => `<option value="${k}"${REV.sev === k ? ' selected' : ''}>${o.lbl}</option>`).join('')}</select>
+        <select id="rv-org" onchange="REV.origen=this.value" title="Origen del requerimiento">
+          ${['', ...ORIGENES].map(o => `<option value="${o}"${REV.origen === o ? ' selected' : ''}>${o || 'Origen…'}</option>`).join('')}</select>
+        <button class="btn btn-gold" onclick="revQuickAdd()">Agregar</button>
+      </div>
+      <div class="rv-cap-h"><b>Enter</b> guarda y deja el cursor listo para la siguiente · <b>Shift+Enter</b> salto de línea${lam && sel.revision ? ` · se registra como hecha en <b>${esc(sel.revision)}</b>` : ''}${!lam ? ' · para anotar sobre una lámina, elígela en el árbol' : ''}</div>
+    </div>` : '';
+
+  // Lista agrupada por nodo
+  let body;
+  if(!list.length){
+    body = `<div class="rv-empty">${scope.length ? 'Ninguna observación con estos filtros.' : (sel ? 'Sin observaciones todavía. Escribe la primera arriba.' : 'Sin observaciones todavía. Elige una lámina en el árbol para empezar a anotar.')}</div>`;
+  }else{
+    const desde = sel ? t.path(sel.id).length : 0;
+    let cur = null; body = '';
+    list.forEach(o => {
+      if(o.nodo_id !== cur){
+        cur = o.nodo_id;
+        if(!(sel && sel.id === cur)){
+          const n = t.byId.get(cur);
+          const rel = t.path(cur).slice(Math.max(0, desde - 0)).filter(x => !sel || x.id !== sel.id);
+          body += `<div class="rv-grp" onclick="revSelect('${cur}')">${rel.map(x => x.tipo === 'lamina'
+            ? `<span><span class="rv-cod">${esc(x.codigo || '')}</span> ${esc(x.nombre)}${x.revision ? ' · ' + esc(x.revision) : ''}</span>`
+            : `<span>${esc(x.nombre)}</span>`).join('<span>›</span>') || esc(n ? n.nombre : '')}</div>`;
+        }
+      }
+      body += revObsHtml(o, t);
+    });
+  }
+  return `<div class="rv-ph"><div class="rv-ph-t"><div class="rv-bc">${bc}</div><div class="rv-acts">${acts}</div></div>
+      ${info ? `<div class="rv-info">${info}</div>` : ''}</div>${flt}${cap}<div class="rv-list">${body}</div>`;
+}
+
+function revObsHtml(o, t){
+  const e = revEst(o.estado), sv = revSev(o.severidad), cer = e.cerrado;
+  const lam = revLam(o, t), porr = revPorRevisar(o, t);
+  const pers = o.persiste_en || [];
+  const firma = (cer && o.cerrado_por)
+    ? `<span class="firma"${o.cerrado_por === 'vía Claude' ? ' style="color:#7c3aed;font-weight:600"' : ''}>${e.lbl}${o.cerrado_por === 'vía Claude' ? ' vía Claude' : ' por ' + esc(o.cerrado_por)}${o.cerrado_at ? ' · ' + fmtISO(o.cerrado_at) : ''}${o.estado === 'verificada' && o.rev_cierre ? ' · en ' + esc(o.rev_cierre) : ''}</span>` : '';
+  const meta = [
+    `<span class="rv-sevt" style="color:${sv.c}">● ${sv.lbl}</span>`,
+    o.ubicacion ? `<span>📍 ${esc(o.ubicacion)}</span>` : '',
+    o.origen ? `<span class="org ${o.origen}">${o.origen}</span>` : '',
+    ...(o.involucra || []).map(n => `<span class="rv-inv">↔ ${esc(n)}</span>`),
+    o.rev_origen ? `<span>Hecha en ${esc(o.rev_origen)}</span>` : '',
+    pers.length ? `<span class="rv-pers">Persiste en ${pers.map(esc).join(', ')}</span>` : '',
+    porr ? `<span class="rv-porrev" title="La lámina tiene una revisión más nueva: verifica si se corrigió">⟳ Revisar en ${esc(lam.revision)}</span>` : '',
+    firma,
+    o.creado_por ? `<span>Anotó ${esc(o.creado_por)}</span>` : '',
+  ].filter(Boolean).join('');
+  const editable = revCanEdit(o);
+  return `<div class="rv-o${cer ? ' cer' : ''}" style="border-left-color:${sv.c}">
+    <div class="rv-on">#${o.num ?? '—'}</div>
+    <div class="rv-om">
+      <div class="rv-ot${o.estado === 'descartada' ? ' done' : ''}">${esc(o.texto)}</div>
+      ${o.respuesta ? `<div class="apu-res resp"><b>Respuesta del consultor</b>${esc(o.respuesta)}</div>` : ''}
+      ${(cer && o.resolucion) ? `<div class="apu-res${o.estado === 'descartada' ? ' desc' : ''}"><b>${o.estado === 'descartada' ? 'Por qué se descartó' : 'Nota de verificación'}</b>${esc(o.resolucion)}</div>` : ''}
+      <div class="apu-meta">${meta}</div>
+    </div>
+    <div class="apu-acts">
+      <button class="apu-pill" style="background:${e.bg};color:${e.fg}" onclick="revEstadoOpen(event,'${o.id}')">${e.lbl} ▾</button>
+      ${editable ? `<button class="apu-a" title="Editar" onclick="revObsEdit('${o.id}')">✏️</button>
+      <button class="apu-a del" title="Eliminar" onclick="revObsDeleteById('${o.id}')">✕</button>` : ''}
+    </div>
+  </div>`;
+}
+
+/* ═══════ OBSERVACIONES ═══════ */
+const revFindObs = id => (REV.data[REV.pid]?.obs || []).find(o => o.id === id);
+async function revQuickAdd(){
+  const pid = REV.pid, D = REV.data[pid];
+  const t = revTree(pid), nodo = t.byId.get(REV.sel);
+  const ta = g('rv-in');
+  if(!nodo || !ta) return;
+  const texto = ta.value.trim();
+  if(!texto){ ta.focus(); return; }
+  const lam = nodo.tipo === 'lamina' ? nodo : null;
+  const num = D.obs.reduce((m, o) => Math.max(m, o.num || 0), 0) + 1;
+  const row = {
+    id: uid(), proyecto_id: pid, nodo_id: nodo.id, num, orden: num,
+    texto, ubicacion: g('rv-ub').value.trim() || null,
+    severidad: g('rv-sev').value, origen: g('rv-org').value || null,
+    involucra: [], estado: 'abierta', rev_origen: lam ? (lam.revision || null) : null,
+    persiste_en: [], creado_por: S.user?.nombre || null,
+  };
+  REV.sev = row.severidad; REV.origen = row.origen || '';
+  ta.value = ''; g('rv-ub').value = '';
+  REV.focus = true;
+  await revDb(async () => {
+    const {data, error} = await db.from('rev_obs').insert(row).select().single();
+    if(error) throw error;
+    D.obs.push(data || row);
+  });
+}
+/** Cambios de campos que implica pasar a un estado (firma, revisión de cierre, persistencias). */
+function revEstadoPatch(o, val, t){
+  const cer = revEst(val).cerrado, ya = revCerrada(o);
+  const lam = revLam(o, t);
+  const p = {estado: val};
+  // Entre dos estados cerrados se conserva la firma original
+  p.cerrado_por = cer ? (ya && o.cerrado_por ? o.cerrado_por : (S.user?.nombre || '?')) : null;
+  p.cerrado_at  = cer ? (ya && o.cerrado_at  ? o.cerrado_at  : new Date().toISOString()) : null;
+  p.rev_cierre  = val === 'verificada' ? (o.estado === 'verificada' && o.rev_cierre ? o.rev_cierre : (lam?.revision || null)) : null;
+  if(val === 'persiste' && lam?.revision && lam.revision !== o.rev_origen){
+    const arr = [...(o.persiste_en || [])];
+    if(!arr.includes(lam.revision)) arr.push(lam.revision);
+    p.persiste_en = arr;
+  }
+  return p;
+}
+function revEstadoOpen(ev, id){
+  ev.stopPropagation();
+  const menu = g('qe');
+  if(menu.classList.contains('on')){ menu.classList.remove('on'); return; }
+  const o = revFindObs(id); if(!o) return;
+  const lam = revLam(o, revTree(REV.pid));
+  const ayuda = {
+    respondida: 'el consultor contestó',
+    persiste: lam?.revision && lam.revision !== o.rev_origen ? `sigue igual en ${lam.revision}` : 'sigue sin corregir',
+    verificada: lam?.revision ? `corregida en ${lam.revision}` : 'comprobada',
+  };
+  g('qe-items').innerHTML = Object.entries(REV_EST).map(([k, e]) =>
+    `<div class="qe-i" style="color:${e.dot}" onmousedown="event.preventDefault();revSetEstado('${k}','${id}')">
+      <div class="qe-d" style="background:${e.dot}"></div>${e.lbl}${ayuda[k] ? ` <span style="font-weight:400;color:var(--mu)">· ${ayuda[k]}</span>` : ''}${k === o.estado ? ' ✓' : ''}
+    </div>`).join('');
+  menu.style.left = Math.min(ev.clientX, window.innerWidth - 260) + 'px';
+  menu.style.top  = Math.min(ev.clientY + 6, window.innerHeight - 220) + 'px';
+  menu.classList.add('on');
+}
+async function revSetEstado(val, id){
+  g('qe').classList.remove('on');
+  const o = revFindObs(id);
+  if(!o || o.estado === val) return;
+  if(val === 'respondida' || val === 'descartada'){ revNotaOpen(val, id); return; }
+  await revApply(o, revEstadoPatch(o, val, revTree(REV.pid)), `Marcada como ${revEst(val).lbl.toLowerCase()}`);
+}
+async function revApply(o, patch, msg){
+  const upd = {...patch, updated_at: new Date().toISOString()};
+  await revDb(async () => {
+    const {error} = await db.from('rev_obs').update(upd).eq('id', o.id);
+    if(error) throw error;
+    Object.assign(o, upd);
+  }, msg);
+}
+/* Modal corto: respuesta del consultor (→ respondida) o motivo (→ descartada) */
+function revNotaOpen(val, id){
+  const o = revFindObs(id); if(!o) return;
+  REV.nota = {val, id};
+  const resp = val === 'respondida';
+  g('rt-title').textContent = resp ? 'Respuesta del consultor' : 'Descartar observación';
+  g('rt-lbl').textContent = resp ? 'Qué respondió' : 'Por qué se descarta o no aplica';
+  g('rt-texto').textContent = `#${o.num ?? ''} · ${o.texto}`;
+  const ta = g('rt-nota');
+  ta.value = resp ? (o.respuesta || '') : (o.resolucion || '');
+  ta.placeholder = resp ? 'Ej. Indica que se corrigió en R1: se agregó calentador y red de agua caliente al baño 1'
+                        : 'Ej. El cliente decidió no instalar agua caliente en baños de servicio';
+  openOv('ov-revnota');
+  setTimeout(() => ta.focus(), 50);
+}
+async function revNotaSave(){
+  const n = REV.nota; if(!n) return;
+  const o = revFindObs(n.id); if(!o){ closeOv('ov-revnota'); return; }
+  const txt = g('rt-nota').value.trim() || null;
+  const patch = revEstadoPatch(o, n.val, revTree(REV.pid));
+  if(n.val === 'respondida') patch.respuesta = txt; else patch.resolucion = txt;
+  closeOv('ov-revnota');
+  REV.nota = null;
+  await revApply(o, patch, `Marcada como ${revEst(n.val).lbl.toLowerCase()}`);
+}
+/* Modal completo de edición */
+function revNodoOptions(t, selId, filtro){
+  return t.order.filter(filtro || (() => true)).map(n =>
+    `<option value="${n.id}"${n.id === selId ? ' selected' : ''}>${'   '.repeat(t.depth.get(n.id))}${n.tipo === 'lamina' ? '📄 ' : ''}${esc(revNodoLbl(n))}</option>`).join('');
+}
+function revObsEdit(id){
+  const o = revFindObs(id); if(!o) return;
+  const t = revTree(REV.pid);
+  REV.editObs = id;
+  g('ro-title').textContent = `Observación #${o.num ?? ''}`;
+  g('ro-info').innerHTML = [
+    o.rev_origen ? `Hecha en ${esc(o.rev_origen)}` : '',
+    o.creado_por ? `por ${esc(o.creado_por)}` : '',
+    o.created_at ? `el ${fmtISO(o.created_at)}` : '',
+    (o.persiste_en || []).length ? `· persiste en ${(o.persiste_en || []).map(esc).join(', ')}` : '',
+  ].filter(Boolean).join(' ');
+  g('ro-texto').value = o.texto || '';
+  g('ro-ub').value = o.ubicacion || '';
+  g('ro-nodo').innerHTML = revNodoOptions(t, o.nodo_id);
+  g('ro-sev').value = o.severidad || 'mayor';
+  g('ro-org').innerHTML = ['', ...ORIGENES].map(x => `<option value="${x}"${(o.origen || '') === x ? ' selected' : ''}>${x || '—'}</option>`).join('');
+  g('ro-est').innerHTML = Object.entries(REV_EST).map(([k, e]) => `<option value="${k}"${o.estado === k ? ' selected' : ''}>${e.lbl}</option>`).join('');
+  const propia = t.top.get(o.nodo_id);
+  const inv = o.involucra || [];
+  g('ro-inv').innerHTML = (t.kids.get('') || []).filter(n => n !== propia).map(n =>
+    `<label><input type="checkbox" value="${escT(n.nombre)}"${inv.includes(n.nombre) ? ' checked' : ''}>${esc(n.nombre)}</label>`).join('')
+    || '<span style="font-size:12px;color:var(--di)">El proyecto tiene una sola disciplina</span>';
+  g('ro-resp').value = o.respuesta || '';
+  g('ro-res').value = o.resolucion || '';
+  g('ro-del').style.display = revCanEdit(o) ? '' : 'none';
+  revObsResToggle();
+  openOv('ov-revobs');
+}
+function revObsResToggle(){
+  const v = g('ro-est').value, cer = revEst(v).cerrado;
+  g('ro-res-row').style.display = cer ? '' : 'none';
+  g('ro-res-lbl').textContent = v === 'descartada' ? 'Por qué se descartó' : 'Nota de verificación';
+}
+async function revObsSave(){
+  const o = revFindObs(REV.editObs); if(!o) return;
+  const texto = g('ro-texto').value.trim();
+  if(!texto){ toast('Escribe la observación', 'err'); return; }
+  const t = revTree(REV.pid);
+  const nodo_id = g('ro-nodo').value;
+  const est = g('ro-est').value;
+  let patch = {
+    texto, ubicacion: g('ro-ub').value.trim() || null, nodo_id,
+    severidad: g('ro-sev').value, origen: g('ro-org').value || null,
+    involucra: [...g('ro-inv').querySelectorAll('input:checked')].map(i => i.value),
+    respuesta: g('ro-resp').value.trim() || null,
+  };
+  // La nota de cierre solo se toca si queda cerrada; al reabrir se conserva oculta.
+  if(revEst(est).cerrado) patch.resolucion = g('ro-res').value.trim() || null;
+  if(est !== o.estado) Object.assign(patch, revEstadoPatch({...o, nodo_id}, est, t));
+  // Si cambió de lámina y aún no tenía revisión de origen, toma la de la nueva
+  if(nodo_id !== o.nodo_id && !o.rev_origen){ const n = t.byId.get(nodo_id); if(n && n.tipo === 'lamina') patch.rev_origen = n.revision || null; }
+  closeOv('ov-revobs');
+  await revApply(o, patch, 'Observación actualizada');
+}
+async function revObsDeleteById(id){
+  const o = revFindObs(id); if(!o) return;
+  if(!confirm(`¿Eliminar la observación #${o.num ?? ''}?\n\n«${o.texto.slice(0, 160)}»\n\nNo queda en la papelera.`)) return;
+  const D = REV.data[REV.pid];
+  await revDb(async () => {
+    const {error} = await db.from('rev_obs').delete().eq('id', id);
+    if(error) throw error;
+    D.obs = D.obs.filter(x => x.id !== id);
+  }, 'Observación eliminada');
+}
+async function revObsDelete(){ const id = REV.editObs; closeOv('ov-revobs'); await revObsDeleteById(id); }
+
+/* ═══════ CAPÍTULOS Y LÁMINAS ═══════ */
+function revNodoTipo(v){
+  REV.nodoTipo = v;
+  g('rn-tipo').querySelectorAll('label').forEach(l => l.classList.toggle('on', l.dataset.v === v));
+  const lam = v === 'lamina';
+  g('rn-row-cod').style.display = lam ? '' : 'none';
+  g('rn-row-lam').style.display = lam ? '' : 'none';
+  g('rn-row-resp').style.display = lam ? 'none' : '';
+  g('rn-nombre').placeholder = lam ? 'ej. Planta baja – agua potable' : 'ej. Agua potable';
+  g('rn-nom-lbl').textContent = lam ? 'Título de la lámina *' : 'Nombre *';
+  // Una lámina no puede contener nada: el selector "Ubicado en" solo ofrece capítulos
+  revNodoParentOpts();
+}
+function revNodoParentOpts(){
+  const t = revTree(REV.pid);
+  const ed = REV.editNodo ? t.byId.get(REV.editNodo) : null;
+  const prohib = ed ? t.sub(ed.id) : new Set();
+  const cur = g('rn-parent').dataset.v || '';
+  g('rn-parent').innerHTML = (REV.nodoTipo === 'lamina' ? '' : `<option value="">(nivel principal: disciplina)</option>`) +
+    revNodoOptions(t, cur, n => n.tipo !== 'lamina' && !prohib.has(n.id));
+  if(REV.nodoTipo === 'lamina' && !g('rn-parent').value && g('rn-parent').options.length) g('rn-parent').selectedIndex = 0;
+}
+function revRespList(){
+  const t = revTree(REV.pid);
+  const set = new Set([...t.D.nodos.map(n => n.responsable).filter(Boolean)]);
+  Object.values(REV.data).forEach(d => d.nodos.forEach(n => n.responsable && set.add(n.responsable)));
+  g('rn-resp-list').innerHTML = [...set].sort().map(x => `<option value="${escT(x)}"/>`).join('');
+}
+function revNodoNew(parentId, tipo){
+  const t = revTree(REV.pid);
+  if(tipo === 'lamina' && !parentId){ toast('Elige primero el capítulo donde va la lámina', 'err'); return; }
+  REV.editNodo = null;
+  g('rn-title').textContent = tipo === 'lamina' ? 'Nueva lámina' : (parentId ? 'Nuevo subcapítulo' : 'Nuevo capítulo');
+  g('rn-del').style.display = 'none';
+  g('rn-parent').dataset.v = parentId || '';
+  ['rn-codigo','rn-nombre','rn-resp'].forEach(id => g(id).value = '');
+  // Código sugerido: el de la última lámina del capítulo + 1
+  if(tipo === 'lamina'){
+    const herm = (t.kids.get(parentId) || []).filter(n => n.tipo === 'lamina' && n.codigo);
+    const ult = herm[herm.length - 1];
+    if(ult){ const m = ult.codigo.match(/^(.*?)(\d+)$/); if(m) g('rn-codigo').value = m[1] + String(Number(m[2]) + 1).padStart(m[2].length, '0'); }
+  }
+  g('rn-rev').value = 'R0';
+  g('rn-frec').value = new Date().toLocaleDateString('en-CA');
+  revRespList();
+  revNodoTipo(tipo || 'capitulo');
+  g('rn-tipo').style.pointerEvents = '';
+  openOv('ov-revnodo');
+  setTimeout(() => g(tipo === 'lamina' ? 'rn-codigo' : 'rn-nombre').focus(), 50);
+}
+function revNodoEdit(id){
+  const t = revTree(REV.pid), n = t.byId.get(id); if(!n) return;
+  REV.editNodo = id;
+  g('rn-title').textContent = n.tipo === 'lamina' ? 'Editar lámina' : 'Editar capítulo';
+  g('rn-del').style.display = '';
+  g('rn-parent').dataset.v = n.parent_id || '';
+  g('rn-codigo').value = n.codigo || '';
+  g('rn-nombre').value = n.nombre || '';
+  g('rn-resp').value = n.responsable || '';
+  g('rn-rev').value = n.revision || '';
+  g('rn-frec').value = n.f_recibida || '';
+  revRespList();
+  revNodoTipo(n.tipo);
+  // Un capítulo con contenido no puede volverse lámina
+  g('rn-tipo').style.pointerEvents = (t.kids.get(id) || []).length ? 'none' : '';
+  openOv('ov-revnodo');
+}
+async function revNodoSave(){
+  const pid = REV.pid, D = REV.data[pid], t = revTree(pid);
+  const tipo = REV.nodoTipo;
+  const nombre = g('rn-nombre').value.trim();
+  const codigo = g('rn-codigo').value.trim();
+  if(!nombre && !(tipo === 'lamina' && codigo)){ toast('Falta el nombre', 'err'); return; }
+  const parent_id = g('rn-parent').value || null;
+  if(tipo === 'lamina' && !parent_id){ toast('Una lámina va dentro de un capítulo', 'err'); return; }
+  const base = {
+    tipo, nombre: nombre || codigo, parent_id,
+    codigo: tipo === 'lamina' ? (codigo || null) : null,
+    responsable: tipo === 'lamina' ? null : (g('rn-resp').value.trim() || null),
+  };
+  const ed = REV.editNodo ? t.byId.get(REV.editNodo) : null;
+  if(ed && tipo === 'capitulo' && ed.tipo === 'lamina' && D.obs.some(o => o.nodo_id === ed.id) &&
+     !confirm('Esta lámina tiene observaciones. Al volverla capítulo, sus observaciones quedan como generales del capítulo. ¿Continuar?')) return;
+  if(tipo === 'lamina'){
+    base.revision = g('rn-rev').value.trim() || null;
+    base.f_recibida = g('rn-frec').value || null;
+  }else{ base.revision = null; base.f_recibida = null; }
+  closeOv('ov-revnodo');
+  if(ed){
+    const upd = {...base, updated_at: new Date().toISOString()};
+    if(ed.parent_id !== parent_id) upd.orden = revNextOrden(t, parent_id);
+    // Corregir la revisión vigente a mano corrige también la última del historial
+    if(tipo === 'lamina'){
+      const h = [...(ed.historial || [])];
+      if(h.length){ h[h.length - 1] = {...h[h.length - 1], rev: base.revision, fecha: base.f_recibida}; upd.historial = h; }
+      else if(base.revision) upd.historial = [{rev: base.revision, fecha: base.f_recibida, por: S.user?.nombre || null, at: new Date().toISOString()}];
+    }
+    await revDb(async () => {
+      const {error} = await db.from('rev_nodos').update(upd).eq('id', ed.id);
+      if(error) throw error;
+      Object.assign(ed, upd);
+    }, 'Guardado');
+  }else{
+    const row = {...base, id: uid(), proyecto_id: pid, orden: revNextOrden(t, parent_id),
+      historial: (tipo === 'lamina' && base.revision) ? [{rev: base.revision, fecha: base.f_recibida, por: S.user?.nombre || null, at: new Date().toISOString()}] : []};
+    const ok = await revDb(async () => {
+      const {data, error} = await db.from('rev_nodos').insert(row).select().single();
+      if(error) throw error;
+      D.nodos.push(data || row);
+    }, tipo === 'lamina' ? 'Lámina creada' : 'Capítulo creado');
+    if(ok){ REV.sel = row.id; revReveal(row.id); REV.focus = tipo === 'lamina'; renderRev(); }
+  }
+}
+function revNextOrden(t, parentId){
+  const l = t.kids.get(parentId || '') || [];
+  return l.length ? Math.max(...l.map(n => +n.orden || 0)) + 1 : 1;
+}
+async function revNodoDelete(){
+  const t = revTree(REV.pid), n = t.byId.get(REV.editNodo); if(!n) return;
+  const ids = t.sub(n.id), D = t.D;
+  const nObs = D.obs.filter(o => ids.has(o.nodo_id)).length, nNod = ids.size - 1;
+  const det = [nNod ? `${nNod} capítulo(s)/lámina(s) dentro` : '', nObs ? `${nObs} observación(es)` : ''].filter(Boolean).join(' y ');
+  if(!confirm(`¿Eliminar «${revNodoLbl(n)}»${det ? ` con ${det}` : ''}?\n\nNo queda en la papelera.`)) return;
+  closeOv('ov-revnodo');
+  await revDb(async () => {
+    const {error} = await db.from('rev_nodos').delete().eq('id', n.id);   // cascada en la base
+    if(error) throw error;
+    D.nodos = D.nodos.filter(x => !ids.has(x.id));
+    D.obs = D.obs.filter(o => !ids.has(o.nodo_id));
+    if(ids.has(REV.sel)) REV.sel = (n.parent_id && t.byId.has(n.parent_id)) ? n.parent_id : '__todo';
+  }, 'Eliminado');
+}
+async function revMove(id, dir){
+  const t = revTree(REV.pid), n = t.byId.get(id); if(!n) return;
+  const sib = [...(t.kids.get((n.parent_id && t.byId.has(n.parent_id)) ? n.parent_id : '') || [])];
+  const i = sib.indexOf(n), j = i + dir;
+  if(j < 0 || j >= sib.length) return;
+  [sib[i], sib[j]] = [sib[j], sib[i]];
+  const cambios = sib.map((x, k) => ({x, orden: k + 1})).filter(c => c.x.orden !== c.orden);
+  await revDb(async () => {
+    const res = await Promise.all(cambios.map(c => db.from('rev_nodos').update({orden: c.orden}).eq('id', c.x.id)));
+    const err = res.find(r => r.error); if(err) throw err.error;
+    cambios.forEach(c => c.x.orden = c.orden);
+  });
+}
+
+/* ═══════ NUEVA REVISIÓN DE UNA LÁMINA ═══════ */
+function revRevOpen(id){
+  const t = revTree(REV.pid), n = t.byId.get(id); if(!n) return;
+  REV.revLam = id;
+  g('rr-lam').innerHTML = `${esc(revNodoLbl(n))} · vigente: <b>${esc(n.revision || '—')}</b>`;
+  g('rr-rev').value = revNextRev(n.revision);
+  g('rr-fecha').value = new Date().toLocaleDateString('en-CA');
+  const abiertas = t.D.obs.filter(o => o.nodo_id === id && !revCerrada(o));
+  g('rr-aviso').innerHTML = abiertas.length
+    ? `Esta lámina tiene <b>${abiertas.length}</b> observación(es) activa(s). Quedarán marcadas <b>⟳ Revisar en la revisión nueva</b> hasta que confirmes, una por una, si quedó <b>Verificada</b> o <b>Persiste</b>.`
+    : 'La lámina no tiene observaciones activas.';
+  openOv('ov-revrev');
+  setTimeout(() => g('rr-rev').select(), 50);
+}
+async function revRevSave(){
+  const t = revTree(REV.pid), n = t.byId.get(REV.revLam); if(!n) return;
+  const rev = g('rr-rev').value.trim();
+  if(!rev){ toast('Indica la revisión', 'err'); return; }
+  if(rev === n.revision){ toast(`La lámina ya está en ${rev}`, 'err'); return; }
+  const fecha = g('rr-fecha').value || null;
+  const hist = [...(n.historial || [])];
+  if(!hist.length && n.revision) hist.push({rev: n.revision, fecha: n.f_recibida || null});
+  hist.push({rev, fecha, por: S.user?.nombre || null, at: new Date().toISOString()});
+  const upd = {revision: rev, f_recibida: fecha, historial: hist, updated_at: new Date().toISOString()};
+  closeOv('ov-revrev');
+  const nAbiertas = t.D.obs.filter(o => o.nodo_id === n.id && !revCerrada(o)).length;
+  await revDb(async () => {
+    const {error} = await db.from('rev_nodos').update(upd).eq('id', n.id);
+    if(error) throw error;
+    Object.assign(n, upd);
+  }, `${rev} registrada${nAbiertas ? ` · ${nAbiertas} por revisar` : ''}`);
+}
+
+/* ═══════ PLANTILLA / COPIA DE ESTRUCTURA ═══════ */
+async function revSetupOpen(){
+  const p = pdProject(); if(!p) return;
+  const t = revTree(p.id);
+  const existe = new Set((t.kids.get('') || []).map(n => revNorm(n.nombre)));
+  g('rs-proj').textContent = p.nombre;
+  g('rs-extra').value = '';
+  g('rs-list').innerHTML = REV_PLANTILLA.map(([d, subs], i) => {
+    const ya = existe.has(revNorm(d));
+    return `<label><input type="checkbox" data-i="${i}"${ya ? '' : ' checked'}>
+      <span${ya ? ' class="ya"' : ''}>${esc(d)}${ya ? ' · ya existe (márcala solo si quieres agregar los subcapítulos que le falten)' : ''}<small>${subs.map(esc).join(' · ')}</small></span></label>`;
+  }).join('');
+  g('rs-src').innerHTML = '<option value="tpl">Plantilla estándar de disciplinas</option>';
+  g('rs-src').value = 'tpl';
+  revSetupSrc();
+  openOv('ov-revsetup');
+  // Otros proyectos que ya tienen estructura: se ofrece copiarla
+  try{
+    const {data} = await db.from('rev_nodos').select('proyecto_id').eq('tipo', 'capitulo').neq('proyecto_id', p.id).range(0, 9999);
+    const pids = [...new Set((data || []).map(r => r.proyecto_id))];
+    const opts = pids.map(id => S.projects.find(x => x.id === id)).filter(Boolean).sort((a,b) => a.nombre.localeCompare(b.nombre));
+    if(opts.length) g('rs-src').insertAdjacentHTML('beforeend',
+      opts.map(x => `<option value="${x.id}">Copiar capítulos de: ${esc(x.nombre)}</option>`).join(''));
+  }catch(_){}
+}
+const revNorm = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+async function revSetupSrc(){
+  const v = g('rs-src').value;
+  g('rs-tpl-box').style.display = v === 'tpl' ? '' : 'none';
+  const box = g('rs-copy');
+  box.style.display = v === 'tpl' ? 'none' : '';
+  if(v === 'tpl') return;
+  box.innerHTML = '<div style="padding:8px;color:var(--mu);font-size:12px">Cargando…</div>';
+  await revLoad(Number(v));
+  const t = revTree(Number(v));
+  const caps = t.order.filter(n => n.tipo === 'capitulo');
+  box.innerHTML = caps.length
+    ? `<div style="padding:4px 8px 8px;font-size:12px;color:var(--mu)">Se copian ${caps.length} capítulo(s) con sus responsables; las láminas y observaciones no.</div>` +
+      caps.map(n => `<div style="padding:2px 8px 2px ${8 + t.depth.get(n.id) * 16}px;font-size:12px">${t.depth.get(n.id) ? '' : '<b>'}${esc(n.nombre)}${t.depth.get(n.id) ? '' : '</b>'}${n.responsable ? ` <span style="color:var(--mu)">· ${esc(n.responsable)}</span>` : ''}</div>`).join('')
+    : '<div style="padding:8px;color:var(--mu);font-size:12px">Ese proyecto no tiene capítulos.</div>';
+}
+function revSetupAll(on){ g('rs-list').querySelectorAll('input').forEach(i => i.checked = on); }
+async function revSetupSave(){
+  const pid = REV.pid || S.pdProj; REV.pid = pid;
+  await revLoad(pid);
+  const D = REV.data[pid], t = revTree(pid);
+  // Rutas a crear: [['Hidrosanitarios','Agua potable'], …] (+ responsable cuando se copia)
+  const rutas = [];
+  const v = g('rs-src').value;
+  if(v === 'tpl'){
+    g('rs-list').querySelectorAll('input:checked').forEach(i => {
+      const [d, subs] = REV_PLANTILLA[+i.dataset.i];
+      rutas.push({r: [d]}); subs.forEach(s => rutas.push({r: [d, s]}));
+    });
+  }else{
+    const ts = revTree(Number(v));
+    ts.order.filter(n => n.tipo === 'capitulo').forEach(n => rutas.push({r: ts.path(n.id).map(x => x.nombre), resp: n.responsable || null}));
+  }
+  g('rs-extra').value.split('\n').map(l => l.split('>').map(s => s.trim()).filter(Boolean)).filter(r => r.length)
+    .forEach(r => rutas.push({r}));
+  if(!rutas.length){ toast('No hay nada que crear', 'err'); return; }
+  // Buscar o crear cada tramo de la ruta (sin duplicar por nombre, ignorando tildes y mayúsculas)
+  const nuevos = [];
+  const hijos = pidKey => [...(t.kids.get(pidKey) || []), ...nuevos.filter(n => (n.parent_id || '') === pidKey)];
+  rutas.forEach(({r, resp}) => {
+    let parent = '';
+    r.forEach((nombre, k) => {
+      let n = hijos(parent).find(x => x.tipo !== 'lamina' && revNorm(x.nombre) === revNorm(nombre));
+      if(!n){
+        const ords = hijos(parent).map(x => +x.orden || 0);
+        n = {id: uid(), proyecto_id: pid, parent_id: parent || null, tipo: 'capitulo', nombre,
+             orden: (ords.length ? Math.max(...ords) : 0) + 1, historial: [],
+             responsable: (k === r.length - 1 && resp) ? resp : null};
+        nuevos.push(n);
+      }
+      parent = n.id;
+    });
+  });
+  closeOv('ov-revsetup');
+  if(!nuevos.length){ toast('Todo eso ya existía'); return; }
+  const ok = await revDb(async () => {
+    const {data, error} = await db.from('rev_nodos').insert(nuevos).select();
+    if(error) throw error;
+    D.nodos.push(...(data || nuevos));
+  }, `${nuevos.length} capítulo(s) creado(s)`);
+  if(ok){ delete REV.collapsed[pid]; try{ localStorage.removeItem('cparq_rv_col_' + pid); }catch(_){} }
+  if(S.tab !== 'rev') revOpenView(pid); else renderRev();
+}
+
+/* ═══════ EXPORTAR ═══════ */
+/** Filas del informe: lo que se ve en pantalla (nodo elegido + filtros). */
+function revReportData(){
+  const p = pdProject(), t = revTree(p.id), {list} = revVisibles(t);
+  const sel = REV.sel === '__todo' ? null : t.byId.get(REV.sel);
+  const alcance = sel ? revPathTxt(t, sel.id) : 'Todo el proyecto';
+  const filtro = [REV_FILTROS.find(f => f[0] === REV.fEst)?.[1], REV.fSev ? revSev(REV.fSev).lbl : '',
+    REV.fInv ? 'Toca a ' + (t.byId.get(REV.fInv)?.nombre || '') : '', REV.q ? `“${REV.q}”` : ''].filter(Boolean).join(' · ');
+  return {p, t, list, sel, alcance, filtro};
+}
+async function revExportXlsx(){
+  const {p, t, list, alcance} = revReportData();
+  if(!list.length){ toast('No hay observaciones con estos filtros', 'err'); return; }
+  try{ await crLoadXlsx(); }catch(e){ toast(e.message, 'err'); return; }
+  const head = ['N.º','Disciplina','Capítulo','Lámina','Título de la lámina','Rev. lámina','Hecha en','Ubicación','Observación',
+    'Severidad','Origen','Involucra','Estado','Persiste en','Respuesta del consultor','Nota de cierre','Cerrada por','Fecha de cierre','Verificada en','Anotó','Fecha'];
+  const rows = list.map(o => {
+    const pa = t.path(o.nodo_id), lam = revLam(o, t);
+    const caps = pa.filter(n => n.tipo !== 'lamina');
+    return [o.num, caps[0]?.nombre || '', caps.slice(1).map(n => n.nombre).join(' › '), lam?.codigo || '', lam?.nombre || '',
+      lam?.revision || '', o.rev_origen || '', o.ubicacion || '', o.texto, revSev(o.severidad).lbl, o.origen || '',
+      (o.involucra || []).join(', '), revEst(o.estado).lbl, (o.persiste_en || []).join(', '), o.respuesta || '', o.resolucion || '',
+      o.cerrado_por || '', o.cerrado_at ? fmtISO(o.cerrado_at) : '', o.rev_cierre || '', o.creado_por || '', o.created_at ? fmtISO(o.created_at) : ''];
+  });
+  const ws = XLSX.utils.aoa_to_sheet([[`Revisión de planos · ${p.nombre}`], [`Alcance: ${alcance} · emitido ${fmtISO(new Date().toISOString())} por ${S.user?.nombre || ''}`], [], head, ...rows]);
+  ws['!cols'] = [6,18,22,12,26,8,8,20,60,9,10,16,11,10,40,30,12,11,9,10,11].map(w => ({wch: w}));
+  ws['!autofilter'] = {ref: XLSX.utils.encode_range({s: {r: 3, c: 0}, e: {r: 3 + rows.length, c: head.length - 1}})};
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Observaciones');
+  const nom = `Observaciones ${p.nombre}${REV.sel !== '__todo' ? ' - ' + (t.byId.get(REV.sel)?.nombre || '') : ''} ${new Date().toLocaleDateString('en-CA')}.xlsx`;
+  XLSX.writeFile(wb, nom.replace(/[\\/:*?"<>|]/g, '-'));
+}
+/** Informe imprimible para enviar al consultor (Imprimir → Guardar como PDF). */
+function revPrint(){
+  const {p, t, list, sel, alcance, filtro} = revReportData();
+  if(!list.length){ toast('No hay observaciones con estos filtros', 'err'); return; }
+  const w = window.open('', '_blank');
+  if(!w){ toast('El navegador bloqueó la ventana del informe', 'err'); return; }
+  const e = s => esc(s == null ? '' : String(s));
+  const resp = sel ? t.resp(sel.id) : '';
+  const desde = sel ? t.path(sel.id).length - 1 : 0;
+  let filas = '', cur = null;
+  list.forEach(o => {
+    if(o.nodo_id !== cur){
+      cur = o.nodo_id;
+      const pa = t.path(cur).slice(Math.max(0, desde));
+      filas += `<tr class="g"><td colspan="7">${pa.map(n => n.tipo === 'lamina'
+        ? `${e(n.codigo)} ${e(n.nombre)}${n.revision ? ` <span>(${e(n.revision)})</span>` : ''}` : e(n.nombre)).join(' › ')}</td></tr>`;
+    }
+    const lam = revLam(o, t), sv = revSev(o.severidad), es = revEst(o.estado);
+    const pers = (o.persiste_en || []).length ? `<div class="p">Persiste en ${e(o.persiste_en.join(', '))}</div>` : '';
+    filas += `<tr><td class="n">${e(o.num)}</td><td class="l">${e(lam?.codigo || '—')}${o.rev_origen ? `<br><span>${e(o.rev_origen)}</span>` : ''}</td>
+      <td>${e(o.ubicacion)}</td><td>${e(o.texto)}${pers}</td>
+      <td><b style="color:${sv.c}">${sv.lbl}</b></td><td>${es.lbl}${o.estado === 'verificada' && o.rev_cierre ? ` en ${e(o.rev_cierre)}` : ''}</td>
+      <td class="r">${e(o.respuesta)}</td></tr>`;
+  });
+  const s = revStats(list, t);
+  w.document.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Revisión de planos · ${e(p.nombre)}</title>
+  <style>
+    @page{size:A4 landscape;margin:12mm}
+    body{font-family:Arial,Helvetica,sans-serif;font-size:10pt;color:#1a2733;margin:0;padding:18px}
+    h1{font-size:15pt;margin:0 0 2px} .sub{color:#5a7a94;font-size:9pt;margin-bottom:10px}
+    .meta{display:grid;grid-template-columns:repeat(3,auto);gap:3px 28px;justify-content:start;font-size:9pt;margin:8px 0 12px;padding:8px 10px;border:1px solid #c8d8e8;border-radius:4px}
+    .meta b{color:#5a7a94;font-weight:600;margin-right:4px}
+    table{width:100%;border-collapse:collapse;font-size:9pt}
+    th{background:#e8f0f7;text-align:left;padding:5px 6px;border:1px solid #a8bdd0;font-size:8pt;text-transform:uppercase;letter-spacing:.03em}
+    td{padding:5px 6px;border:1px solid #c8d8e8;vertical-align:top;white-space:pre-wrap}
+    tr{page-break-inside:avoid} thead{display:table-header-group}
+    tr.g td{background:#f0f4f9;font-weight:700;font-size:9pt}
+    tr.g span,td span{color:#5a7a94;font-weight:400}
+    td.n{width:28px;text-align:center;font-family:monospace} td.l{width:70px;font-family:monospace;font-size:8pt}
+    td.r{width:24%} .p{color:#b91c1c;font-weight:700;font-size:8pt;margin-top:3px}
+    .ley{font-size:8pt;color:#5a7a94;margin-top:8px}
+    .bar{margin-bottom:14px} .bar button{font-size:11pt;padding:6px 14px;cursor:pointer}
+    @media print{.bar{display:none} body{padding:0}}
+  </style></head><body>
+  <div class="bar"><button onclick="print()">🖨 Imprimir / Guardar como PDF</button></div>
+  <h1>Informe de revisión de planos</h1>
+  <div class="sub">${e(p.nombre)}${p.codigo ? ' · ' + e(p.codigo) : ''}</div>
+  <div class="meta">
+    <div><b>Alcance:</b>${e(alcance)}</div>
+    <div><b>Consultor:</b>${e(resp || '—')}</div>
+    <div><b>Fecha:</b>${fmtISO(new Date().toISOString())}</div>
+    <div><b>Cliente:</b>${e(p.cliente || '—')}</div>
+    <div><b>Emitido por:</b>${e(S.user?.nombre || '')}</div>
+    <div><b>Incluye:</b>${e(filtro)} · ${s.total} observación(es)${s.crit ? `, ${s.crit} crítica(s)` : ''}</div>
+  </div>
+  <table><thead><tr><th>N.º</th><th>Lámina</th><th>Ubicación</th><th>Observación</th><th>Severidad</th><th>Estado</th><th>Respuesta del consultor</th></tr></thead>
+  <tbody>${filas}</tbody></table>
+  <div class="ley">Severidad: <b>Crítica</b> = afecta seguridad, normativa o costo · <b>Mayor</b> = requiere corrección antes de aprobar · <b>Menor</b> = forma o dibujo.
+    La columna “Lámina” indica en qué revisión se hizo la observación.</div>
+  </body></html>`);
+  w.document.close();
 }
 
 /* ═══════ TECLADO (solo en la vista del cronograma) ═══════ */
