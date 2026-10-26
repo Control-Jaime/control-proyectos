@@ -858,6 +858,7 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .rv-cap textarea:focus,.rv-cap input:focus,.rv-cap select:focus{border-color:var(--ac)}
 .rv-cap input,.rv-cap select{padding:7px 10px;background:var(--card);border:1px solid var(--b1);border-radius:var(--rs);outline:none;font-size:13px}
 .rv-cap input{width:170px}
+.rv-cap input#rv-comp{width:190px}
 .rv-cap-h{font-size:11px;color:var(--di)}
 .rv-cap-h b{color:var(--mu)}
 .rv-list{padding:2px 0}
@@ -1337,7 +1338,10 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
       <div class="frow three">
         <div class="fld"><label>Severidad</label><select id="ro-sev">
           <option value="critica">Crítica</option><option value="mayor">Mayor</option><option value="menor">Menor</option></select></div>
-        <div class="fld"><label>Origen</label><select id="ro-org"></select></div>
+        <div class="fld" id="ro-comp-fld"><label>Componente</label>
+          <input id="ro-comp" type="text" list="ro-comp-list" autocomplete="off">
+          <datalist id="ro-comp-list"></datalist>
+          <span class="fld-help" id="ro-comp-help"></span></div>
         <div class="fld"><label>Estado</label><select id="ro-est" onchange="revObsResToggle()"></select></div>
       </div>
       <div class="frow one"><div class="fld"><label>Involucra a otras disciplinas</label><div class="rv-invsel" id="ro-inv"></div></div></div>
@@ -5629,6 +5633,8 @@ const REV = {
   q: '', fEst: 'activas', fSev: '', fInv: '',
   fComp: '',                         // '' = todos · '__sin' = sin componente · nombre
   hasComp: undefined,                // existe la columna rev_nodos.componente
+  hasObsComp: undefined,             // existe la columna rev_obs.componente
+  capComp: '',                       // componente que se mantiene en la captura rápida
   collapsed: {},
   sev: 'mayor', origen: '',          // valores que se mantienen al capturar en serie
   focus: false, draft: null,
@@ -5654,6 +5660,11 @@ async function revLoad(pid, force){
       else if(REV.hasComp === undefined){
         const pr = await db.from('rev_nodos').select('componente').limit(1);
         REV.hasComp = !pr.error;
+      }
+      if(ro.data && ro.data.length) REV.hasObsComp = 'componente' in ro.data[0];
+      else if(REV.hasObsComp === undefined){
+        const pr = await db.from('rev_obs').select('componente').limit(1);
+        REV.hasObsComp = !pr.error;
       }
     }catch(e){
       if(/rev_nodos|rev_obs|relation|schema cache|does not exist/i.test(e.message || '')) REV.missing = true;
@@ -5723,6 +5734,7 @@ function revTree(pid){
     walk(n.id, d + 1, t || n, cc);
   });
   walk('', 0, null, '');
+  D.obs.forEach(o => { const c = (o.componente || '').trim(); if(c) cset.add(c); });
   const comps = [...cset].sort((a,b) => a.localeCompare(b, 'es'));
   const compColor = c => c ? REV_COMP_COLORS[Math.max(0, comps.indexOf(c)) % REV_COMP_COLORS.length] : '#8aaabe';
   const path = id => { const r = []; let n = byId.get(id), i = 0;
@@ -5738,7 +5750,24 @@ function revTree(pid){
 }
 /** ¿El componente c entra en el filtro de componente activo? */
 function revCompOk(c){ return !REV.fComp || (REV.fComp === '__sin' ? !c : c === REV.fComp); }
-const revObsComp = (o, t) => t.comp.get(o.nodo_id) || '';
+/** Componente de una observación: el suyo propio o, si no tiene, el heredado de su lámina/capítulo. */
+const revObsComp = (o, t) => (o.componente || '').trim() || t.comp.get(o.nodo_id) || '';
+/** Escribe el componente como ya existe (townhouses → Townhouses); vacío → null. */
+function revCompNorm(t, c){
+  c = (c || '').trim();
+  return c ? ([...t.comps, ...revCompAll()].find(x => revNorm(x) === revNorm(c)) || c) : null;
+}
+/** Componentes conocidos: los del proyecto primero, luego los de otros proyectos y los típicos. */
+function revCompAll(){
+  const set = new Set(revTree(REV.pid).comps);
+  Object.values(REV.data).forEach(d => {
+    d.nodos.forEach(n => (n.componente || '').trim() && set.add(n.componente.trim()));
+    d.obs.forEach(o => (o.componente || '').trim() && set.add(o.componente.trim()));
+  });
+  ['Casas','Condominios','Townhouses','Urbanismo'].forEach(c => set.add(c));
+  return [...set];
+}
+const revCompOptions = () => revCompAll().map(x => `<option value="${escT(x)}"/>`).join('');
 function revCompPill(t, c, extra){
   return c ? `<span class="rv-comp" style="background:${t.compColor(c)}"${extra ? ` title="${escT(extra)}"` : ''}>${esc(c)}</span>` : '';
 }
@@ -5840,7 +5869,7 @@ async function revOpenView(pid, selId, accion, comp){
   if(isObra()) return;
   if(REV.pid !== pid){ REV.sel = '__todo'; REV.q = ''; REV.fEst = 'activas'; REV.fSev = ''; REV.fInv = ''; REV.fComp = ''; REV.draft = null; }
   REV.pid = pid;
-  if(comp !== undefined && comp !== null){ REV.fComp = comp; REV.sel = '__todo'; }
+  if(comp !== undefined && comp !== null){ REV.fComp = comp; REV.sel = '__todo'; if(comp && comp !== '__sin') REV.capComp = comp; }
   if(selId) REV.sel = selId;
   S.pdProj = pid;
   S.tab = 'rev';
@@ -5893,9 +5922,12 @@ function revSetFiltro(k, v){ REV[k] = v; renderRev(); }
 /** Cambia el componente activo. Si el nodo elegido queda fuera, vuelve a "Todo el proyecto". */
 function revSetComp(v){
   REV.fComp = v;
+  if(v && v !== '__sin') REV.capComp = v;      // al trabajar en un componente, la captura lo toma
   if(REV.sel !== '__todo'){
     const t = revTree(REV.pid);
-    if(![...t.sub(REV.sel)].some(id => revCompOk(t.comp.get(id) || ''))) REV.sel = '__todo';
+    const ids = t.sub(REV.sel);
+    if(![...ids].some(id => revCompOk(t.comp.get(id) || '')) &&
+       !t.D.obs.some(o => ids.has(o.nodo_id) && revCompOk(revObsComp(o, t)))) REV.sel = '__todo';
   }
   renderRev();
 }
@@ -5913,7 +5945,7 @@ function revVisibles(t){
     list = list.filter(o => {
       const n = t.byId.get(o.nodo_id);
       return String(o.num) === qn ||
-        [o.texto, o.ubicacion, o.respuesta, o.resolucion, n && n.codigo, n && n.nombre]
+        [o.texto, o.ubicacion, o.respuesta, o.resolucion, o.componente, n && n.codigo, n && n.nombre]
           .some(x => (x || '').toLowerCase().includes(q));
     });
   }
@@ -6029,6 +6061,8 @@ function revTreeHtml(t){
   if(REV.fComp){
     keep = new Set();
     t.order.forEach(n => { if(revCompOk(t.comp.get(n.id) || '')) t.path(n.id).forEach(a => keep.add(a.id)); });
+    // y los capítulos que contienen observaciones de ese componente
+    D.obs.forEach(o => { if(revCompOk(revObsComp(o, t))) t.path(o.nodo_id).forEach(a => keep.add(a.id)); });
   }
   let h = `<div class="rv-ti root${REV.sel === '__todo' ? ' on' : ''}" onclick="revSelect('__todo')">
       <span class="rv-tn">Todo el proyecto</span><span class="apu-pc">${allAct}</span></div>`;
@@ -6111,8 +6145,12 @@ function revPanelHtml(p, t){
         <input id="rv-ub" type="text" placeholder="📍 Ubicación (eje, ambiente…)" autocomplete="off"
           onkeydown="if(event.key==='Enter'){event.preventDefault();revQuickAdd()}">
         <select id="rv-sev" onchange="REV.sev=this.value" title="Severidad">${Object.entries(REV_SEV).map(([k,o]) => `<option value="${k}"${REV.sev === k ? ' selected' : ''}>${o.lbl}</option>`).join('')}</select>
-        <select id="rv-org" onchange="REV.origen=this.value" title="Origen del requerimiento">
-          ${['', ...ORIGENES].map(o => `<option value="${o}"${REV.origen === o ? ' selected' : ''}>${o || 'Origen…'}</option>`).join('')}</select>
+        ${REV.hasObsComp !== false ? `<input id="rv-comp" type="text" list="rv-comp-list" autocomplete="off"
+          value="${escT(REV.capComp || ((REV.fComp && REV.fComp !== '__sin') ? REV.fComp : ''))}"
+          placeholder="${t.comp.get(sel.id) ? `Componente: ${escT(t.comp.get(sel.id))}` : 'Componente…'}"
+          title="Casas, Townhouses, Urbanismo… Se mantiene para las siguientes. Vacío = el de la lámina o capítulo"
+          oninput="REV.capComp=this.value" onkeydown="if(event.key==='Enter'){event.preventDefault();revQuickAdd()}">
+          <datalist id="rv-comp-list">${revCompOptions()}</datalist>` : ''}
         <button class="btn btn-gold" onclick="revQuickAdd()">Agregar</button>
       </div>
       <div class="rv-cap-h"><b>Enter</b> guarda y deja el cursor listo para la siguiente · <b>Shift+Enter</b> salto de línea${lam && sel.revision ? ` · se registra como hecha en <b>${esc(sel.revision)}</b>` : ''}${t.comp.get(sel.id) ? ` · componente <b>${esc(t.comp.get(sel.id))}</b>` : ''}${!lam ? ' · para anotar sobre una lámina, elígela en el árbol' : ''}</div>
@@ -6149,10 +6187,11 @@ function revObsHtml(o, t){
   const pers = o.persiste_en || [];
   const firma = (cer && o.cerrado_por)
     ? `<span class="firma"${o.cerrado_por === 'vía Claude' ? ' style="color:#7c3aed;font-weight:600"' : ''}>${e.lbl}${o.cerrado_por === 'vía Claude' ? ' vía Claude' : ' por ' + esc(o.cerrado_por)}${o.cerrado_at ? ' · ' + fmtISO(o.cerrado_at) : ''}${o.estado === 'verificada' && o.rev_cierre ? ' · en ' + esc(o.rev_cierre) : ''}</span>` : '';
+  const oc = revObsComp(o, t);
   const meta = [
+    (!REV.fComp && oc && oc !== (t.comp.get(o.nodo_id) || '')) ? revCompPill(t, oc) : '',
     `<span class="rv-sevt" style="color:${sv.c}">● ${sv.lbl}</span>`,
     o.ubicacion ? `<span>📍 ${esc(o.ubicacion)}</span>` : '',
-    o.origen ? `<span class="org ${o.origen}">${o.origen}</span>` : '',
     ...(o.involucra || []).map(n => `<span class="rv-inv">↔ ${esc(n)}</span>`),
     o.rev_origen ? `<span>Hecha en ${esc(o.rev_origen)}</span>` : '',
     pers.length ? `<span class="rv-pers">Persiste en ${pers.map(esc).join(', ')}</span>` : '',
@@ -6191,11 +6230,17 @@ async function revQuickAdd(){
   const row = {
     id: uid(), proyecto_id: pid, nodo_id: nodo.id, num, orden: num,
     texto, ubicacion: g('rv-ub').value.trim() || null,
-    severidad: g('rv-sev').value, origen: g('rv-org').value || null,
+    severidad: g('rv-sev').value,
     involucra: [], estado: 'abierta', rev_origen: lam ? (lam.revision || null) : null,
     persiste_en: [], creado_por: S.user?.nombre || null,
   };
-  REV.sev = row.severidad; REV.origen = row.origen || '';
+  if(REV.hasObsComp !== false && g('rv-comp')){
+    const c = revCompNorm(t, g('rv-comp').value);
+    // Si es el mismo que hereda de la lámina/capítulo no se repite: queda heredado
+    row.componente = (c && c !== (t.comp.get(nodo.id) || '')) ? c : null;
+    REV.capComp = c || '';
+  }
+  REV.sev = row.severidad;
   ta.value = ''; g('rv-ub').value = '';
   REV.focus = true;
   await revDb(async () => {
@@ -6299,7 +6344,12 @@ function revObsEdit(id){
   g('ro-ub').value = o.ubicacion || '';
   g('ro-nodo').innerHTML = revNodoOptions(t, o.nodo_id);
   g('ro-sev').value = o.severidad || 'mayor';
-  g('ro-org').innerHTML = ['', ...ORIGENES].map(x => `<option value="${x}"${(o.origen || '') === x ? ' selected' : ''}>${x || '—'}</option>`).join('');
+  g('ro-comp-fld').style.display = REV.hasObsComp === false ? 'none' : '';
+  g('ro-comp').value = o.componente || '';
+  g('ro-comp-list').innerHTML = revCompOptions();
+  const her = t.comp.get(o.nodo_id) || '';
+  g('ro-comp').placeholder = her ? her : 'ej. Townhouses';
+  g('ro-comp-help').textContent = her ? `Vacío = ${her} (de la lámina/capítulo)` : 'Vacío = sin componente';
   g('ro-est').innerHTML = Object.entries(REV_EST).map(([k, e]) => `<option value="${k}"${o.estado === k ? ' selected' : ''}>${e.lbl}</option>`).join('');
   const propia = t.top.get(o.nodo_id);
   const inv = o.involucra || [];
@@ -6326,10 +6376,14 @@ async function revObsSave(){
   const est = g('ro-est').value;
   let patch = {
     texto, ubicacion: g('ro-ub').value.trim() || null, nodo_id,
-    severidad: g('ro-sev').value, origen: g('ro-org').value || null,
+    severidad: g('ro-sev').value,
     involucra: [...g('ro-inv').querySelectorAll('input:checked')].map(i => i.value),
     respuesta: g('ro-resp').value.trim() || null,
   };
+  if(REV.hasObsComp !== false){
+    const c = revCompNorm(t, g('ro-comp').value);
+    patch.componente = (c && c !== (t.comp.get(nodo_id) || '')) ? c : null;
+  }
   // La nota de cierre solo se toca si queda cerrada; al reabrir se conserva oculta.
   if(revEst(est).cerrado) patch.resolucion = g('ro-res').value.trim() || null;
   if(est !== o.estado) Object.assign(patch, revEstadoPatch({...o, nodo_id}, est, t));
@@ -6374,12 +6428,7 @@ function revNodoParentOpts(){
   if(REV.nodoTipo === 'lamina' && !g('rn-parent').value && g('rn-parent').options.length) g('rn-parent').selectedIndex = 0;
 }
 /** Sugerencias de componentes: los de este proyecto primero, luego los de otros. */
-function revCompList(){
-  const set = new Set(revTree(REV.pid).comps);
-  Object.values(REV.data).forEach(d => d.nodos.forEach(n => (n.componente || '').trim() && set.add(n.componente.trim())));
-  ['Casas','Condominios','Urbanismo'].forEach(c => set.add(c));
-  g('rn-comp-list').innerHTML = [...set].map(x => `<option value="${escT(x)}"/>`).join('');
-}
+function revCompList(){ g('rn-comp-list').innerHTML = revCompOptions(); }
 /** Texto de ayuda: qué componente heredaría si se deja vacío. */
 function revNodoCompHelp(){
   const t = revTree(REV.pid), pid = g('rn-parent').value;
@@ -6455,7 +6504,7 @@ async function revNodoSave(){
   if(REV.hasComp !== false){
     // Respetar la escritura de un componente ya usado (casas → Casas)
     const c = g('rn-comp').value.trim();
-    base.componente = c ? (t.comps.find(x => revNorm(x) === revNorm(c)) || c) : null;
+    base.componente = revCompNorm(t, c);
   }
   const ed = REV.editNodo ? t.byId.get(REV.editNodo) : null;
   if(ed && tipo === 'capitulo' && ed.tipo === 'lamina' && D.obs.some(o => o.nodo_id === ed.id) &&
@@ -6662,17 +6711,17 @@ async function revExportXlsx(){
   if(!list.length){ toast('No hay observaciones con estos filtros', 'err'); return; }
   try{ await crLoadXlsx(); }catch(e){ toast(e.message, 'err'); return; }
   const head = ['N.º','Componente','Disciplina','Capítulo','Lámina','Título de la lámina','Rev. lámina','Hecha en','Ubicación','Observación',
-    'Severidad','Origen','Involucra','Estado','Persiste en','Respuesta del consultor','Nota de cierre','Cerrada por','Fecha de cierre','Verificada en','Anotó','Fecha'];
+    'Severidad','Involucra','Estado','Persiste en','Respuesta del consultor','Nota de cierre','Cerrada por','Fecha de cierre','Verificada en','Anotó','Fecha'];
   const rows = list.map(o => {
     const pa = t.path(o.nodo_id), lam = revLam(o, t);
     const caps = pa.filter(n => n.tipo !== 'lamina');
     return [o.num, revObsComp(o, t), caps[0]?.nombre || '', caps.slice(1).map(n => n.nombre).join(' › '), lam?.codigo || '', lam?.nombre || '',
-      lam?.revision || '', o.rev_origen || '', o.ubicacion || '', o.texto, revSev(o.severidad).lbl, o.origen || '',
+      lam?.revision || '', o.rev_origen || '', o.ubicacion || '', o.texto, revSev(o.severidad).lbl,
       (o.involucra || []).join(', '), revEst(o.estado).lbl, (o.persiste_en || []).join(', '), o.respuesta || '', o.resolucion || '',
       o.cerrado_por || '', o.cerrado_at ? fmtISO(o.cerrado_at) : '', o.rev_cierre || '', o.creado_por || '', o.created_at ? fmtISO(o.created_at) : ''];
   });
   const ws = XLSX.utils.aoa_to_sheet([[`Revisión de planos · ${p.nombre}`], [`Alcance: ${comp ? comp + ' · ' : ''}${alcance} · emitido ${fmtISO(new Date().toISOString())} por ${S.user?.nombre || ''}`], [], head, ...rows]);
-  ws['!cols'] = [6,14,18,22,12,26,8,8,20,60,9,10,16,11,10,40,30,12,11,9,10,11].map(w => ({wch: w}));
+  ws['!cols'] = [6,14,18,22,12,26,8,8,20,60,9,16,11,10,40,30,12,11,9,10,11].map(w => ({wch: w}));
   ws['!autofilter'] = {ref: XLSX.utils.encode_range({s: {r: 3, c: 0}, e: {r: 3 + rows.length, c: head.length - 1}})};
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Observaciones');
