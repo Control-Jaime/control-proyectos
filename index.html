@@ -875,7 +875,6 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .rv-om{flex:1;min-width:0}
 .rv-ot{font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
 .rv-ot.done{text-decoration:line-through;color:var(--mu)}
-.rv-sevt{font-weight:700}
 .rv-inv{display:inline-flex;padding:1px 7px;border-radius:9px;background:#e0f2fe;color:#0369a1;font-size:10px;font-weight:700}
 .rv-pers{color:var(--re);font-weight:700}
 .rv-porrev{display:inline-flex;padding:1px 8px;border-radius:9px;background:var(--am2);color:var(--am);font-size:10px;font-weight:800}
@@ -900,7 +899,7 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .rv-tpl .ya{color:var(--di)}
 /* Tarjeta en la ficha */
 .rv-dt{display:grid;gap:0}
-.rv-dr{display:grid;grid-template-columns:minmax(150px,1.4fr) minmax(90px,1fr) 120px 64px 64px 90px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--b1);font-size:12px;cursor:pointer}
+.rv-dr{display:grid;grid-template-columns:minmax(150px,1.4fr) minmax(90px,1fr) 120px 64px 90px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--b1);font-size:12px;cursor:pointer}
 .rv-dr:last-child{border-bottom:none}
 .rv-dr:hover .rv-dn{color:var(--ac)}
 .rv-dr.h{cursor:default;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu)}
@@ -1335,9 +1334,7 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
         <div class="fld"><label>Ubicación en la lámina</label><input id="ro-ub" type="text" placeholder="ej. Eje B-3, baño 1, detalle 4" autocomplete="off"></div>
         <div class="fld"><label>Lámina / capítulo</label><select id="ro-nodo"></select></div>
       </div>
-      <div class="frow three">
-        <div class="fld"><label>Severidad</label><select id="ro-sev">
-          <option value="critica">Crítica</option><option value="mayor">Mayor</option><option value="menor">Menor</option></select></div>
+      <div class="frow">
         <div class="fld" id="ro-comp-fld"><label>Componente</label>
           <input id="ro-comp" type="text" list="ro-comp-list" autocomplete="off">
           <datalist id="ro-comp-list"></datalist>
@@ -5594,11 +5591,6 @@ async function crImportConfirm(){
    (cerrados: al entrar se firma quién y cuándo; al reabrir la firma se borra
    y la nota se conserva oculta, como en los apuntes).
    ═══════════════════════════════════════════════════ */
-const REV_SEV = {
-  critica: {lbl:'Crítica', c:'#dc2626'},
-  mayor:   {lbl:'Mayor',   c:'#d97706'},
-  menor:   {lbl:'Menor',   c:'#8aaabe'},
-};
 const REV_EST = {
   abierta:    {lbl:'Abierta',    bg:'#e2eaf2', fg:'#2d5a7a', dot:'#4b6a82', cerrado:false},
   respondida: {lbl:'Respondida', bg:'#ede9fe', fg:'#5b21b6', dot:'#7c3aed', cerrado:false},
@@ -5607,7 +5599,6 @@ const REV_EST = {
   descartada: {lbl:'Descartada', bg:'#f3f4f6', fg:'#374151', dot:'#6b7280', cerrado:true},
 };
 const revEst = e => REV_EST[e] || REV_EST.abierta;
-const revSev = s => REV_SEV[s] || REV_SEV.mayor;
 const revCerrada = o => revEst(o.estado).cerrado;
 /** Plantilla estándar. Se puede ampliar aquí o, por proyecto, con "Otros capítulos". */
 const REV_PLANTILLA = [
@@ -5630,13 +5621,13 @@ const REV_FILTROS = [
 const REV = {
   data: {}, loading: {}, missing: false, err: {},
   pid: null, sel: '__todo',
-  q: '', fEst: 'activas', fSev: '', fInv: '',
+  q: '', fEst: 'activas', fInv: '',
   fComp: '',                         // '' = todos · '__sin' = sin componente · nombre
   hasComp: undefined,                // existe la columna rev_nodos.componente
   hasObsComp: undefined,             // existe la columna rev_obs.componente
   capComp: '',                       // componente que se mantiene en la captura rápida
   collapsed: {},
-  sev: 'mayor', origen: '',          // valores que se mantienen al capturar en serie
+  origen: '',                        // valor que se mantiene al capturar en serie
   focus: false, draft: null,
   saving: false, lastWrite: 0,
   editObs: null, editNodo: null, nodoTipo: 'capitulo', revLam: null, nota: null,
@@ -5796,7 +5787,6 @@ function revStats(list, t){
   const act = list.filter(o => !revCerrada(o));
   return {
     total: list.length, act: act.length,
-    crit: act.filter(o => o.severidad === 'critica').length,
     resp: act.filter(o => o.estado === 'respondida').length,
     pers: act.filter(o => o.estado === 'persiste').length,
     porr: act.filter(o => revPorRevisar(o, t)).length,
@@ -5836,12 +5826,11 @@ function revCardHtml(p){
       <span class="rv-dn">${esc(n.nombre)}</span>
       <span class="rv-dres">${esc(t.resp(n.id) || '—')}</span>
       <span class="rv-dbar"><i style="width:${pc}%"></i></span>
-      ${k(st.act, '')}${k(st.crit, 'rojo')}${k(st.porr + st.resp, 'ambar')}
+      ${k(st.act, '')}${k(st.porr + st.resp, 'ambar')}
     </div>`;
   };
   return `<div class="cr-card">
     ${head(`<span class="ct-kpi">${s.act} activa(s)</span>
-      ${s.crit ? `<span class="ct-kpi rojo">${s.crit} crítica(s)</span>` : ''}
       ${(s.porr + s.resp) ? `<span class="ct-kpi ambar">${s.porr + s.resp} por verificar</span>` : ''}
       <button class="btn btn-pri btn-sm" onclick="revOpenView(${p.id})">Abrir revisiones →</button>`)}
     <div class="cr-card-b">
@@ -5857,7 +5846,7 @@ function revCardHtml(p){
         return `<button class="rv-cb sm" style="--cc:${t.compColor(c)}" title="${n} observación(es) activa(s) · abrir solo ${escT(c)}" onclick="revOpenView(${p.id}, null, null, '${escT(escJs(c))}')"><i></i>${esc(c)} <b>${n}</b></button>`;
       }).join('')}</div>` : ''}
       ${disc.length ? `<div class="rv-dt">
-        <div class="rv-dr h"><span>Disciplina</span><span class="rv-dres">Consultor</span><span class="rv-dres">Cerradas</span><span class="rv-dk">Activas</span><span class="rv-dk">Críticas</span><span class="rv-dk">Por verificar</span></div>
+        <div class="rv-dr h"><span>Disciplina</span><span class="rv-dres">Consultor</span><span class="rv-dres">Cerradas</span><span class="rv-dk">Activas</span><span class="rv-dk">Por verificar</span></div>
         ${disc.map(fila).join('')}</div>` : '<div class="cr-li-v">Aún no hay observaciones. Abre las revisiones, elige una lámina y empieza a anotar.</div>'}
       ${disc.length && sinObs ? `<div class="cr-li-v">${sinObs} disciplina(s) más sin observaciones.</div>` : ''}
     </div>
@@ -5867,7 +5856,7 @@ function revCardHtml(p){
 /* ═══════ VISTA COMPLETA ═══════ */
 async function revOpenView(pid, selId, accion, comp){
   if(isObra()) return;
-  if(REV.pid !== pid){ REV.sel = '__todo'; REV.q = ''; REV.fEst = 'activas'; REV.fSev = ''; REV.fInv = ''; REV.fComp = ''; REV.draft = null; }
+  if(REV.pid !== pid){ REV.sel = '__todo'; REV.q = ''; REV.fEst = 'activas'; REV.fInv = ''; REV.fComp = ''; REV.draft = null; }
   REV.pid = pid;
   if(comp !== undefined && comp !== null){ REV.fComp = comp; REV.sel = '__todo'; if(comp && comp !== '__sin') REV.capComp = comp; }
   if(selId) REV.sel = selId;
@@ -5953,7 +5942,6 @@ function revVisibles(t){
   if(f === 'activas')         list = list.filter(o => !revCerrada(o));
   else if(f === 'porrevisar') list = list.filter(o => revPorRevisar(o, t));
   else if(f !== 'todas')      list = list.filter(o => o.estado === f);
-  if(REV.fSev) list = list.filter(o => o.severidad === REV.fSev);
   if(REV.fInv){
     const d = (t.kids.get('') || []).find(n => n.id === REV.fInv);
     const ids = d ? t.sub(d.id) : new Set();
@@ -6044,14 +6032,13 @@ function renderRev(){
 function revTreeHtml(t){
   const D = t.D, col = revCollapsed(REV.pid);
   // Conteos por nodo (subárbol) en una sola pasada
-  const act = new Map(), crit = new Map(), porr = new Map(), tot = new Map();
+  const act = new Map(), porr = new Map(), tot = new Map();
   const obs = REV.fComp ? D.obs.filter(o => revCompOk(revObsComp(o, t))) : D.obs;
   obs.forEach(o => {
-    const a = !revCerrada(o), c = a && o.severidad === 'critica', pr = revPorRevisar(o, t);
+    const a = !revCerrada(o), pr = revPorRevisar(o, t);
     t.path(o.nodo_id).forEach(n => {
       tot.set(n.id, (tot.get(n.id) || 0) + 1);
       if(a)  act.set(n.id, (act.get(n.id) || 0) + 1);
-      if(c)  crit.set(n.id, (crit.get(n.id) || 0) + 1);
       if(pr) porr.set(n.id, (porr.get(n.id) || 0) + 1);
     });
   });
@@ -6071,8 +6058,8 @@ function revTreeHtml(t){
   t.order.filter(visible).forEach(n => {
     const d = t.depth.get(n.id), hk = (t.kids.get(n.id) || []).length;
     const lam = n.tipo === 'lamina';
-    const a = act.get(n.id) || 0, c = crit.get(n.id) || 0, to = tot.get(n.id) || 0, pr = porr.get(n.id) || 0;
-    const cnt = to ? `<span class="apu-pc${c ? ' over' : (a ? '' : ' zero')}" title="${a} activa(s)${c ? ' · ' + c + ' crítica(s)' : ''} · ${to} en total">${a || '✓'}</span>` : '';
+    const a = act.get(n.id) || 0, to = tot.get(n.id) || 0, pr = porr.get(n.id) || 0;
+    const cnt = to ? `<span class="apu-pc${a ? '' : ' zero'}" title="${a} activa(s) · ${to} en total">${a || '✓'}</span>` : '';
     h += `<div class="rv-ti d${Math.min(d, 2)}${REV.sel === n.id ? ' on' : ''}" style="padding-left:${8 + d * 15}px" onclick="revSelect('${n.id}')" title="${escT(revNodoLbl(n))}">
       <span class="rv-car"${hk && !keep ? ` onclick="revToggle(event,'${n.id}')"` : ''}>${hk ? (!keep && col.has(n.id) ? '▸' : '▾') : ''}</span>
       <span class="rv-ico">${lam ? '📄' : '📁'}</span>
@@ -6122,7 +6109,7 @@ function revPanelHtml(p, t){
     }
   }
   const st = revStats(scope, t);
-  if(scope.length) info += `<span>${st.act} activa(s) de ${st.total}${st.crit ? ` · <b style="color:var(--re)">${st.crit} crítica(s)</b>` : ''}</span>`;
+  if(scope.length) info += `<span>${st.act} activa(s) de ${st.total}</span>`;
 
   // Filtros
   const disc = t.kids.get('') || [];
@@ -6130,8 +6117,6 @@ function revPanelHtml(p, t){
       <div class="apu-sch"><span class="apu-sch-i">🔍</span><input id="rv-q" type="text" placeholder="Buscar texto, lámina o N.º…" value="${escT(REV.q)}"
         oninput="REV.q=this.value;clearTimeout(REV._qt);REV._qt=setTimeout(()=>{renderRev();const e=g('rv-q');e.focus();e.setSelectionRange(e.value.length,e.value.length)},250)"></div>
       <select onchange="revSetFiltro('fEst',this.value)">${REV_FILTROS.map(([k,l]) => `<option value="${k}"${REV.fEst === k ? ' selected' : ''}>${l}</option>`).join('')}</select>
-      <select onchange="revSetFiltro('fSev',this.value)"><option value="">Toda severidad</option>
-        ${Object.entries(REV_SEV).map(([k,o]) => `<option value="${k}"${REV.fSev === k ? ' selected' : ''}>${o.lbl}</option>`).join('')}</select>
       ${disc.length > 1 ? `<select onchange="revSetFiltro('fInv',this.value)" title="Observaciones de la disciplina o que la involucran"><option value="">Toca a: todas</option>
         ${disc.map(n => `<option value="${n.id}"${REV.fInv === n.id ? ' selected' : ''}>Toca a: ${esc(n.nombre)}</option>`).join('')}</select>` : ''}
       <span class="count">${list.length} de ${scope.length}</span>
@@ -6144,7 +6129,6 @@ function revPanelHtml(p, t){
           onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();revQuickAdd()}else if(event.key==='Escape'){this.value=''}"></textarea>
         <input id="rv-ub" type="text" placeholder="📍 Ubicación (eje, ambiente…)" autocomplete="off"
           onkeydown="if(event.key==='Enter'){event.preventDefault();revQuickAdd()}">
-        <select id="rv-sev" onchange="REV.sev=this.value" title="Severidad">${Object.entries(REV_SEV).map(([k,o]) => `<option value="${k}"${REV.sev === k ? ' selected' : ''}>${o.lbl}</option>`).join('')}</select>
         ${REV.hasObsComp !== false ? `<input id="rv-comp" type="text" list="rv-comp-list" autocomplete="off"
           value="${escT(REV.capComp || ((REV.fComp && REV.fComp !== '__sin') ? REV.fComp : ''))}"
           placeholder="${t.comp.get(sel.id) ? `Componente: ${escT(t.comp.get(sel.id))}` : 'Componente…'}"
@@ -6182,7 +6166,7 @@ function revPanelHtml(p, t){
 }
 
 function revObsHtml(o, t){
-  const e = revEst(o.estado), sv = revSev(o.severidad), cer = e.cerrado;
+  const e = revEst(o.estado), cer = e.cerrado;
   const lam = revLam(o, t), porr = revPorRevisar(o, t);
   const pers = o.persiste_en || [];
   const firma = (cer && o.cerrado_por)
@@ -6190,7 +6174,6 @@ function revObsHtml(o, t){
   const oc = revObsComp(o, t);
   const meta = [
     (!REV.fComp && oc && oc !== (t.comp.get(o.nodo_id) || '')) ? revCompPill(t, oc) : '',
-    `<span class="rv-sevt" style="color:${sv.c}">● ${sv.lbl}</span>`,
     o.ubicacion ? `<span>📍 ${esc(o.ubicacion)}</span>` : '',
     ...(o.involucra || []).map(n => `<span class="rv-inv">↔ ${esc(n)}</span>`),
     o.rev_origen ? `<span>Hecha en ${esc(o.rev_origen)}</span>` : '',
@@ -6200,7 +6183,7 @@ function revObsHtml(o, t){
     o.creado_por ? `<span>Anotó ${esc(o.creado_por)}</span>` : '',
   ].filter(Boolean).join('');
   const editable = revCanEdit(o);
-  return `<div class="rv-o${cer ? ' cer' : ''}" style="border-left-color:${sv.c}">
+  return `<div class="rv-o${cer ? ' cer' : ''}" style="border-left-color:${e.dot}">
     <div class="rv-on">#${o.num ?? '—'}</div>
     <div class="rv-om">
       <div class="rv-ot${o.estado === 'descartada' ? ' done' : ''}">${esc(o.texto)}</div>
@@ -6230,7 +6213,6 @@ async function revQuickAdd(){
   const row = {
     id: uid(), proyecto_id: pid, nodo_id: nodo.id, num, orden: num,
     texto, ubicacion: g('rv-ub').value.trim() || null,
-    severidad: g('rv-sev').value,
     involucra: [], estado: 'abierta', rev_origen: lam ? (lam.revision || null) : null,
     persiste_en: [], creado_por: S.user?.nombre || null,
   };
@@ -6240,7 +6222,6 @@ async function revQuickAdd(){
     row.componente = (c && c !== (t.comp.get(nodo.id) || '')) ? c : null;
     REV.capComp = c || '';
   }
-  REV.sev = row.severidad;
   ta.value = ''; g('rv-ub').value = '';
   REV.focus = true;
   await revDb(async () => {
@@ -6343,7 +6324,6 @@ function revObsEdit(id){
   g('ro-texto').value = o.texto || '';
   g('ro-ub').value = o.ubicacion || '';
   g('ro-nodo').innerHTML = revNodoOptions(t, o.nodo_id);
-  g('ro-sev').value = o.severidad || 'mayor';
   g('ro-comp-fld').style.display = REV.hasObsComp === false ? 'none' : '';
   g('ro-comp').value = o.componente || '';
   g('ro-comp-list').innerHTML = revCompOptions();
@@ -6376,7 +6356,6 @@ async function revObsSave(){
   const est = g('ro-est').value;
   let patch = {
     texto, ubicacion: g('ro-ub').value.trim() || null, nodo_id,
-    severidad: g('ro-sev').value,
     involucra: [...g('ro-inv').querySelectorAll('input:checked')].map(i => i.value),
     respuesta: g('ro-resp').value.trim() || null,
   };
@@ -6701,7 +6680,7 @@ function revReportData(){
   const p = pdProject(), t = revTree(p.id), {list} = revVisibles(t);
   const sel = REV.sel === '__todo' ? null : t.byId.get(REV.sel);
   const alcance = sel ? revPathTxt(t, sel.id) : 'Todo el proyecto';
-  const filtro = [REV_FILTROS.find(f => f[0] === REV.fEst)?.[1], REV.fSev ? revSev(REV.fSev).lbl : '',
+  const filtro = [REV_FILTROS.find(f => f[0] === REV.fEst)?.[1],
     REV.fInv ? 'Toca a ' + (t.byId.get(REV.fInv)?.nombre || '') : '', REV.q ? `“${REV.q}”` : ''].filter(Boolean).join(' · ');
   const comp = REV.fComp === '__sin' ? 'Sin componente' : REV.fComp;
   return {p, t, list, sel, alcance, filtro, comp};
@@ -6711,17 +6690,17 @@ async function revExportXlsx(){
   if(!list.length){ toast('No hay observaciones con estos filtros', 'err'); return; }
   try{ await crLoadXlsx(); }catch(e){ toast(e.message, 'err'); return; }
   const head = ['N.º','Componente','Disciplina','Capítulo','Lámina','Título de la lámina','Rev. lámina','Hecha en','Ubicación','Observación',
-    'Severidad','Involucra','Estado','Persiste en','Respuesta del consultor','Nota de cierre','Cerrada por','Fecha de cierre','Verificada en','Anotó','Fecha'];
+    'Involucra','Estado','Persiste en','Respuesta del consultor','Nota de cierre','Cerrada por','Fecha de cierre','Verificada en','Anotó','Fecha'];
   const rows = list.map(o => {
     const pa = t.path(o.nodo_id), lam = revLam(o, t);
     const caps = pa.filter(n => n.tipo !== 'lamina');
     return [o.num, revObsComp(o, t), caps[0]?.nombre || '', caps.slice(1).map(n => n.nombre).join(' › '), lam?.codigo || '', lam?.nombre || '',
-      lam?.revision || '', o.rev_origen || '', o.ubicacion || '', o.texto, revSev(o.severidad).lbl,
+      lam?.revision || '', o.rev_origen || '', o.ubicacion || '', o.texto,
       (o.involucra || []).join(', '), revEst(o.estado).lbl, (o.persiste_en || []).join(', '), o.respuesta || '', o.resolucion || '',
       o.cerrado_por || '', o.cerrado_at ? fmtISO(o.cerrado_at) : '', o.rev_cierre || '', o.creado_por || '', o.created_at ? fmtISO(o.created_at) : ''];
   });
   const ws = XLSX.utils.aoa_to_sheet([[`Revisión de planos · ${p.nombre}`], [`Alcance: ${comp ? comp + ' · ' : ''}${alcance} · emitido ${fmtISO(new Date().toISOString())} por ${S.user?.nombre || ''}`], [], head, ...rows]);
-  ws['!cols'] = [6,14,18,22,12,26,8,8,20,60,9,16,11,10,40,30,12,11,9,10,11].map(w => ({wch: w}));
+  ws['!cols'] = [6,14,18,22,12,26,8,8,20,60,16,11,10,40,30,12,11,9,10,11].map(w => ({wch: w}));
   ws['!autofilter'] = {ref: XLSX.utils.encode_range({s: {r: 3, c: 0}, e: {r: 3 + rows.length, c: head.length - 1}})};
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Observaciones');
@@ -6743,14 +6722,14 @@ function revPrint(){
       cur = o.nodo_id;
       const pa = t.path(cur).slice(Math.max(0, desde));
       const cc = !comp ? t.comp.get(cur) : '';
-      filas += `<tr class="g"><td colspan="7">${cc ? `<b style="color:${t.compColor(cc)}">[${e(cc)}]</b> ` : ''}${pa.map(n => n.tipo === 'lamina'
+      filas += `<tr class="g"><td colspan="6">${cc ? `<b style="color:${t.compColor(cc)}">[${e(cc)}]</b> ` : ''}${pa.map(n => n.tipo === 'lamina'
         ? `${e(n.codigo)} ${e(n.nombre)}${n.revision ? ` <span>(${e(n.revision)})</span>` : ''}` : e(n.nombre)).join(' › ')}</td></tr>`;
     }
-    const lam = revLam(o, t), sv = revSev(o.severidad), es = revEst(o.estado);
+    const lam = revLam(o, t), es = revEst(o.estado);
     const pers = (o.persiste_en || []).length ? `<div class="p">Persiste en ${e(o.persiste_en.join(', '))}</div>` : '';
     filas += `<tr><td class="n">${e(o.num)}</td><td class="l">${e(lam?.codigo || '—')}${o.rev_origen ? `<br><span>${e(o.rev_origen)}</span>` : ''}</td>
       <td>${e(o.ubicacion)}</td><td>${e(o.texto)}${pers}</td>
-      <td><b style="color:${sv.c}">${sv.lbl}</b></td><td>${es.lbl}${o.estado === 'verificada' && o.rev_cierre ? ` en ${e(o.rev_cierre)}` : ''}</td>
+      <td>${es.lbl}${o.estado === 'verificada' && o.rev_cierre ? ` en ${e(o.rev_cierre)}` : ''}</td>
       <td class="r">${e(o.respuesta)}</td></tr>`;
   });
   const s = revStats(list, t);
@@ -6782,12 +6761,11 @@ function revPrint(){
     <div><b>Fecha:</b>${fmtISO(new Date().toISOString())}</div>
     <div><b>Cliente:</b>${e(p.cliente || '—')}</div>
     <div><b>Emitido por:</b>${e(S.user?.nombre || '')}</div>
-    <div><b>Incluye:</b>${e(filtro)} · ${s.total} observación(es)${s.crit ? `, ${s.crit} crítica(s)` : ''}</div>
+    <div><b>Incluye:</b>${e(filtro)} · ${s.total} observación(es)</div>
   </div>
-  <table><thead><tr><th>N.º</th><th>Lámina</th><th>Ubicación</th><th>Observación</th><th>Severidad</th><th>Estado</th><th>Respuesta del consultor</th></tr></thead>
+  <table><thead><tr><th>N.º</th><th>Lámina</th><th>Ubicación</th><th>Observación</th><th>Estado</th><th>Respuesta del consultor</th></tr></thead>
   <tbody>${filas}</tbody></table>
-  <div class="ley">Severidad: <b>Crítica</b> = afecta seguridad, normativa o costo · <b>Mayor</b> = requiere corrección antes de aprobar · <b>Menor</b> = forma o dibujo.
-    La columna “Lámina” indica en qué revisión se hizo la observación.</div>
+  <div class="ley">La columna “Lámina” indica en qué revisión se hizo la observación.</div>
   </body></html>`);
   w.document.close();
 }
