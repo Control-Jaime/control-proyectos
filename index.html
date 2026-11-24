@@ -966,6 +966,16 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .rp-pend{color:var(--am);font-weight:600}
 .rp-nota{font-size:12px;color:var(--tx);background:#fffbeb;border-left:3px solid var(--am);padding:3px 8px;margin-top:5px;border-radius:0 4px 4px 0;white-space:pre-wrap}
 .rp-i .rv-hist{margin-top:3px}
+.rp-gn{padding:9px 16px;border-bottom:1px solid var(--b1);background:#fffdf3;font-size:12.5px;line-height:1.5;cursor:pointer;display:flex;gap:8px}
+.rp-gn:hover{background:#fff8e1}
+.rp-gn-f{padding:10px 16px;border-bottom:1px solid var(--b1);background:#fffdf3;display:grid;gap:8px}
+.rp-gn-f textarea{width:100%;min-height:70px;padding:8px 11px;border:1px solid var(--gold-b);border-radius:var(--rs);background:#fff;font-size:13px;line-height:1.5;resize:vertical;outline:none}
+.rp-gn-f textarea:focus{border-color:var(--gold)}
+.rp-gn-b{display:flex;gap:6px;justify-content:flex-end;align-items:center}
+.rp-gn-b .fld-help{margin-right:auto}
+.rp-cnota{font-size:12px;color:var(--tx);background:#fffdf3;border-left:3px solid var(--gold);padding:5px 10px;border-radius:0 4px 4px 0;cursor:pointer;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rp-cn-n{font-size:11px;cursor:help}
 .rp-reg{display:grid;gap:2px;max-height:330px;overflow-y:auto;border:1px solid var(--b1);border-radius:var(--rs);padding:6px}
 .rp-rr{display:flex;align-items:center;gap:10px;padding:4px 8px;border-radius:4px}
 .rp-rr:hover{background:var(--surf)}
@@ -5734,6 +5744,10 @@ const REV_EST = {
   descartada: {lbl:'Descartada', bg:'#f3f4f6', fg:'#374151', dot:'#6b7280', cerrado:true},
 };
 const revEst = e => REV_EST[e] || REV_EST.abierta;
+/** Módulo oculto desde 24-nov-2026: Jaime prefiere llevarlo todo en Recepción de planos
+    (las 6 observaciones de Vía Terra pasaron a notas de la recepción). El código y las
+    tablas rev_nodos / rev_obs se conservan; para reactivarlo basta poner true. */
+const REV_ACTIVO = false;
 const revCerrada = o => revEst(o.estado).cerrado;
 /** Plantilla estándar. Se puede ampliar aquí o, por proyecto, con "Otros capítulos". */
 const REV_PLANTILLA = [
@@ -5932,7 +5946,7 @@ function revStats(list, t){
 
 /* ═══════ TARJETA EN LA FICHA DEL PROYECTO ═══════ */
 function revCardHtml(p){
-  if(isObra()) return '';
+  if(isObra() || !REV_ACTIVO) return '';
   const D = REV.data[p.id];
   const head = extra => `<div class="cr-card-h"><span class="ct-t">📐 Revisión de planos</span><div class="ct-hr">${extra || ''}</div></div>`;
   if(!D){
@@ -5991,6 +6005,7 @@ function revCardHtml(p){
 /* ═══════ VISTA COMPLETA ═══════ */
 async function revOpenView(pid, selId, accion, comp){
   if(isObra()) return;
+  if(!REV_ACTIVO){ openProjDetail(pid); return; }
   if(REV.pid !== pid){ REV.sel = '__todo'; REV.q = ''; REV.fEst = 'activas'; REV.fInv = ''; REV.fComp = ''; REV.draft = null; }
   REV.pid = pid;
   if(comp !== undefined && comp !== null){ REV.fComp = comp; REV.sel = '__todo'; if(comp && comp !== '__sin') REV.capComp = comp; }
@@ -6951,9 +6966,13 @@ const RP_TPL = [
   ['urb',  'Plantilla de urbanismo', ['Implantación urbanística','Topografía','Movimiento de tierras','Vías y pavimentos',
     'Agua potable','Alcantarillado sanitario','Alcantarillado pluvial','Eléctrico y alumbrado público','Telecomunicaciones','Paisajismo']],
 ];
+/** Fila reservada (tipo capitulo) que solo guarda la nota de la lista general;
+    no se muestra como capítulo. Así la nota general no necesita columna nueva. */
+const RP_GEN = '__general__';
 const RP = {
   data: {}, loading: {}, missing: false, err: {},
   pid: null, f: 'todas',
+  gnota: null, gnotaDraft: null,     // nota de grupo en edición ('gen' o id del capítulo)
   saving: false, lastWrite: 0,
   edit: null, editHist: null, cap: null,
 };
@@ -7012,14 +7031,16 @@ const rpByOrden = (a, b) => (a.orden - b.orden) || (a.created_at || '').localeCo
 /** Grupos a mostrar: la lista general (ingenierías sin capítulo) y cada capítulo. */
 function rpTree(pid){
   const rows = RP.data[pid] || [];
-  const caps = rows.filter(r => r.tipo === 'capitulo').sort(rpByOrden);
+  const caps = rows.filter(r => r.tipo === 'capitulo' && r.nombre !== RP_GEN).sort(rpByOrden);
+  const gen  = rows.find(r => r.tipo === 'capitulo' && r.nombre === RP_GEN) || null;
   const capIds = new Set(caps.map(c => c.id));
   const ings = rows.filter(r => r.tipo !== 'capitulo');
   const de = id => ings.filter(r => id ? r.parent_id === id : !capIds.has(r.parent_id)).sort(rpByOrden);
   const sueltas = de(null), groups = [];
-  if(sueltas.length || !caps.length) groups.push({cap: null, items: sueltas});
+  if(sueltas.length || !caps.length || (gen && gen.nota)) groups.push({cap: null, items: sueltas});
   caps.forEach(c => groups.push({cap: c, items: de(c.id)}));
-  return {rows, caps, ings, groups, porCap: caps.length > 0};
+  return {rows, caps, gen, ings, groups, porCap: caps.length > 0,
+          vacio: !ings.length && !caps.length && !(gen && gen.nota)};
 }
 function rpStats(items){
   const na  = items.filter(r => r.estado === 'na').length;
@@ -7029,6 +7050,8 @@ function rpStats(items){
 }
 const rpGrpName = (gr, t) => gr.cap ? gr.cap.nombre : (t.porCap ? 'General' : 'Ingenierías');
 const rpGrpKey  = gr => gr.cap ? gr.cap.id : '';
+/** Nota del grupo: la del capítulo, o la de la fila reservada si es la lista general. */
+const rpGrpNota = (gr, t) => ((gr.cap ? gr.cap.nota : (t.gen && t.gen.nota)) || '').trim();
 const rpUlt = r => { const h = (r && r.historial) || []; return h.length ? h[h.length - 1] : null; };
 const rpMaxOrden = l => l.reduce((m, r) => Math.max(m, Number(r.orden) || 0), 0);
 /** Diseñadores ya usados (aquí y en la revisión de planos), para sugerir. */
@@ -7043,8 +7066,8 @@ function rpRespAll(){
 function rpChip(r){
   const st = r.estado || 'pendiente', u = rpUlt(r);
   const ic = st === 'recibido' ? '✓' : st === 'na' ? '—' : '○';
-  const tip = st === 'recibido' ? `${r.revision || ''} recibida el ${fmtDate(r.f_recibida)}${u && u.por ? ' · registró ' + u.por : ''}`
-            : st === 'na' ? 'No aplica' : 'Pendiente';
+  const tip = (st === 'recibido' ? `${r.revision || ''} recibida el ${fmtDate(r.f_recibida)}${u && u.por ? ' · registró ' + u.por : ''}`
+            : st === 'na' ? 'No aplica' : 'Pendiente') + (r.nota ? '\nNota: ' + r.nota : '');
   return `<span class="rp-chip ${st}" title="${escT(tip)}">${ic} ${esc(r.nombre)}${st === 'recibido' && r.revision ? ` <b>${esc(r.revision)}</b>` : ''}</span>`;
 }
 function rpCardHtml(p){
@@ -7061,7 +7084,8 @@ function rpCardHtml(p){
   if(RP.err[p.id]) return dis ? `<div class="cr-card">${head()}<div class="cr-card-e">
     <span style="color:var(--re)">⚠️ No se pudo cargar la recepción de planos (${esc(RP.err[p.id])}).</span>
     <button class="btn btn-sm" onclick="rpLoad(${p.id}, true).then(rpRerender)">Reintentar</button></div></div>` : '';
-  if(!D.length){
+  const t = rpTree(p.id);
+  if(t.vacio){
     if(!dis) return '';
     return `<div class="cr-card cr-off">${head()}<div class="cr-card-e">
       <div><strong>Sin control de recepción</strong><div class="ct-off-s">Qué planos ha entregado el diseñador, ingeniería por ingeniería, con revisión y fecha. En urbanizaciones se separa por capítulos: urbanismo, casas por tipo, departamentos, amenities…</div></div>
@@ -7070,12 +7094,13 @@ function rpCardHtml(p){
         <button class="btn btn-pri btn-sm" onclick="rpOpenView(${p.id}, null, 'lista')">Lista única de ingenierías</button></div>
     </div></div>`;
   }
-  const t = rpTree(p.id), s = rpStats(t.ings);
+  const s = rpStats(t.ings);
   let body;
   if(!t.porCap){
-    const l = t.groups[0].items;
-    body = l.length ? `<div class="rp-chips" onclick="rpOpenView(${p.id})">${l.map(rpChip).join('')}</div>`
-                    : '<div class="cr-li-v">Aún no hay ingenierías en la lista.</div>';
+    const l = t.groups[0].items, nota = rpGrpNota(t.groups[0], t);
+    body = (l.length ? `<div class="rp-chips" onclick="rpOpenView(${p.id})">${l.map(rpChip).join('')}</div>`
+                     : '<div class="cr-li-v">Aún no hay ingenierías en la lista.</div>')
+         + (nota ? `<div class="rp-cnota" onclick="rpOpenView(${p.id})" title="${escT(nota)}">📝 ${esc(nota)}</div>` : '');
   }else{
     body = `<div class="rp-ct">${t.groups.map(gr => {
       const st = rpStats(gr.items);
@@ -7083,8 +7108,9 @@ function rpCardHtml(p){
       const txt = !st.apl ? 'Sin ingenierías'
         : falt.length ? 'Faltan: ' + esc(falt.slice(0, 5).join(' · ')) + (falt.length > 5 ? ` y ${falt.length - 5} más` : '')
         : '✓ Completo';
+      const nota = rpGrpNota(gr, t);
       return `<div class="rp-cr" onclick="rpOpenView(${p.id}, '${rpGrpKey(gr)}')">
-        <span class="rp-cn">${esc(rpGrpName(gr, t))}</span>
+        <span class="rp-cn">${esc(rpGrpName(gr, t))}${nota ? ` <span class="rp-cn-n" title="${escT(nota)}">📝</span>` : ''}</span>
         <span class="rv-dbar"><i style="width:${st.pct}%"></i></span>
         <span class="rp-cc${st.apl && !st.pend ? ' ok' : ''}">${st.rec}/${st.apl}</span>
         <span class="rp-cf${falt.length ? '' : ' ok'}">${txt}</span></div>`;
@@ -7101,7 +7127,7 @@ function rpCardHtml(p){
 /* ═══════ VISTA COMPLETA ═══════ */
 async function rpOpenView(pid, capKey, accion){
   if(isObra()) return;
-  if(RP.pid !== pid) RP.f = 'todas';
+  if(RP.pid !== pid){ RP.f = 'todas'; RP.gnota = null; RP.gnotaDraft = null; }
   RP.pid = pid;
   S.pdProj = pid;
   S.tab = 'rp';
@@ -7129,11 +7155,13 @@ function renderRp(){
   if(RP.missing){ g('rp-body').innerHTML = `<div class="pd-empty">Falta crear la tabla <code>planos_recepcion</code> en Supabase (archivo <code>recepcion_planos.sql</code>).</div>`; return; }
   if(RP.err[pid]){ g('rp-body').innerHTML = `<div class="pd-empty"><span style="color:var(--re)">⚠️ No se pudo cargar la recepción de planos (${esc(RP.err[pid])}).</span>
     <div style="margin-top:10px"><button class="btn btn-sm" onclick="rpLoad(${pid}, true).then(rpRerender)">Reintentar</button></div></div>`; return; }
+  // Si se está escribiendo una nota de grupo, conservar el texto al redibujar (p. ej. por realtime)
+  const ta = g('rp-gn-ta'); if(RP.gnota && ta) RP.gnotaDraft = ta.value;
   const t = rpTree(pid), s = rpStats(t.ings), f = RP.f;
   const pasa = r => f === 'todas' || (r.estado || 'pendiente') === f;
   const chip = (k, lbl, n, cls) => `<button class="rv-chip${f === k ? ' on' : ''}${cls ? ' ' + cls : ''}" onclick="rpFilt('${k}')">${lbl} <b>${n}</b></button>`;
   const grupos = t.groups.map(gr => rpGrpHtml(gr, t, pasa)).join('');
-  const vacio = !t.rows.length;
+  const vacio = t.vacio;
   g('rp-body').innerHTML = `
     <div class="rv-hero">
       <div class="rv-hero-l">
@@ -7157,7 +7185,16 @@ function renderRp(){
 function rpGrpHtml(gr, t, pasa){
   const st = rpStats(gr.items), items = gr.items.filter(pasa);
   if(RP.f !== 'todas' && !items.length) return '';
-  const k = rpGrpKey(gr);
+  const k = rpGrpKey(gr), nk = k || 'gen', nota = rpGrpNota(gr, t), editNota = RP.gnota === nk;
+  const notaHtml = editNota
+    ? `<div class="rp-gn-f">
+        <textarea id="rp-gn-ta" placeholder="Notas de ${gr.cap ? 'este capítulo' : 'la lista'}: lo que se acordó con el diseñador, lo que falta, observaciones generales…"
+          onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey)){event.preventDefault();rpGNotaSave()}else if(event.key==='Escape'){rpGNotaCancel()}">${escT(RP.gnotaDraft ?? nota)}</textarea>
+        <div class="rp-gn-b"><span class="fld-help">Ctrl+Enter guarda · Esc cancela</span>
+          <button class="btn btn-sm" onclick="rpGNotaCancel()">Cancelar</button>
+          <button class="btn btn-pri btn-sm" onclick="rpGNotaSave()">Guardar nota</button></div>
+      </div>`
+    : nota ? `<div class="rp-gn" onclick="rpGNotaEdit('${nk}')" title="Clic para editar la nota">📝 <span>${esc(nota)}</span></div>` : '';
   const i = gr.cap ? t.caps.indexOf(gr.cap) : -1;
   const mov = gr.cap && t.caps.length > 1
     ? `<button class="chk-a" title="Subir" ${i === 0 ? 'disabled' : ''} onclick="rpCapMove('${k}', -1)">↑</button><button class="chk-a" title="Bajar" ${i === t.caps.length - 1 ? 'disabled' : ''} onclick="rpCapMove('${k}', 1)">↓</button>` : '';
@@ -7167,10 +7204,12 @@ function rpGrpHtml(gr, t, pasa){
       ${st.apl ? `<span class="rv-dbar rp-gbar"><i style="width:${st.pct}%"></i></span><span class="rp-cc${st.pend ? '' : ' ok'}">${st.rec}/${st.apl}</span>` : ''}
       <span class="rp-gacts">${mov}
         ${st.apl ? `<button class="btn btn-sm" title="Marcar varias ingenierías recibidas en una misma entrega" onclick="rpRegOpen('${k}')">📥 Registrar entrega</button>` : ''}
+        ${nota || editNota ? '' : `<button class="btn btn-sm" title="Nota ${gr.cap ? 'del capítulo' : 'general'}" onclick="rpGNotaEdit('${nk}')">📝 Nota</button>`}
         <button class="btn btn-sm" onclick="rpAddOpen('${k}')">＋ Ingenierías</button>
         ${gr.cap ? `<button class="chk-a" title="Renombrar o eliminar el capítulo" onclick="rpCapEdit('${k}')">✏️</button>` : ''}
       </span>
     </div>
+    ${notaHtml}
     <div class="rp-gb">${items.length ? items.map(rpItemHtml).join('')
       : '<div class="chk-empty">Sin ingenierías en este capítulo. Usa “＋ Ingenierías”.</div>'}</div>
   </div>`;
@@ -7200,6 +7239,33 @@ function rpItemHtml(r){
       <button class="chk-a" title="Editar" onclick="rpEditOpen('${r.id}')">✏️</button>
     </div>
   </div>`;
+}
+
+/* ═══════ NOTA DEL CAPÍTULO / GENERAL ═══════ */
+function rpGNotaEdit(nk){
+  RP.gnota = nk; RP.gnotaDraft = null; renderRp();
+  setTimeout(() => { const ta = g('rp-gn-ta'); if(ta){ ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); } }, 0);
+}
+function rpGNotaCancel(){ RP.gnota = null; RP.gnotaDraft = null; renderRp(); }
+async function rpGNotaSave(){
+  const ta = g('rp-gn-ta'); if(!ta || !RP.gnota) return;
+  const nota = ta.value.trim() || null, nk = RP.gnota, pid = RP.pid, t = rpTree(pid), now = new Date().toISOString();
+  RP.gnota = null; RP.gnotaDraft = null;
+  const fila = nk === 'gen' ? t.gen : t.caps.find(c => c.id === nk);
+  if(!fila && !nota){ renderRp(); return; }
+  await rpDb(async () => {
+    if(fila){
+      const {error} = await db.from('planos_recepcion').update({nota, updated_at: now}).eq('id', fila.id);
+      if(error) throw error;
+      fila.nota = nota;
+    }else{
+      const r = {id: uid(), proyecto_id: pid, parent_id: null, tipo: 'capitulo', orden: -1, nombre: RP_GEN,
+                 estado: 'na', historial: [], nota, created_at: now, updated_at: now};
+      const {error} = await db.from('planos_recepcion').insert(r);
+      if(error) throw error;
+      (RP.data[pid] = RP.data[pid] || []).push(r);
+    }
+  }, nota ? 'Nota guardada ✓' : 'Nota borrada');
 }
 
 /* ═══════ REGISTRAR UNA ENTREGA ═══════ */
