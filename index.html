@@ -928,6 +928,56 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
   .rv-dr{grid-template-columns:1fr 70px 50px 50px}
   .rv-dr .rv-dres,.rv-dr .rv-dbar{display:none}
 }
+/* ══════════ RECEPCIÓN DE PLANOS ══════════ */
+.rp-chips{display:flex;flex-wrap:wrap;gap:6px;cursor:pointer}
+.rp-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;border:1px solid var(--am2);background:#fffbeb;color:#92400e}
+.rp-chip b{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;opacity:.8}
+.rp-chip.recibido{background:var(--gr2);border-color:#bbf7d0;color:var(--gr)}
+.rp-chip.na{background:var(--gy2);border-color:var(--gy2);color:var(--di);text-decoration:line-through}
+.rp-ct{display:grid}
+.rp-cr{display:grid;grid-template-columns:minmax(140px,1fr) 110px 52px minmax(160px,2.2fr);gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--b1);font-size:12.5px;cursor:pointer}
+.rp-cr:last-child{border-bottom:none}
+.rp-cr:hover .rp-cn{color:var(--ac)}
+.rp-cn{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rp-cc{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;color:var(--am)}
+.rp-cc.ok{color:var(--gr)}
+.rp-cf{font-size:12px;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rp-cf.ok{color:var(--gr);font-weight:600}
+.rp-sum{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--mu);margin-bottom:10px;flex-wrap:wrap}
+.rp-sum b{color:var(--tx)}
+.rp-sum-bar{width:200px;height:7px;background:var(--card);border:1px solid var(--b1);border-radius:4px;overflow:hidden}
+.rp-sum-bar i{display:block;height:100%;background:var(--gr)}
+.rp-g{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:14px;overflow:hidden;scroll-margin-top:80px}
+.rp-gh{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--b1);background:var(--surf);flex-wrap:wrap}
+.rp-gt{font-size:14px;font-weight:700}
+.rp-gbar{width:110px;background:var(--card);box-shadow:inset 0 0 0 1px var(--b1)}
+.rp-gacts{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.rp-gacts .chk-a:disabled{opacity:.25;cursor:default}
+.rp-gb{padding:2px 0}
+.rp-g .chk-i{border-bottom-color:var(--b1);padding:9px 16px}
+.rp-g .chk-i:hover{background:var(--surf)}
+.rp-g .chk-box{border-color:var(--b2)}
+.rp-g .chk-box.ok{border-color:var(--gr)}
+.rp-g .chk-box.na{border-color:var(--gy)}
+.rp-g .chk-meta{color:var(--mu)}
+.rp-g .chk-a:hover{background:var(--b1)}
+.rp-g .chk-empty{color:var(--di)}
+.rp-i .chk-tx{font-weight:600}
+.rp-pend{color:var(--am);font-weight:600}
+.rp-nota{font-size:12px;color:var(--tx);background:#fffbeb;border-left:3px solid var(--am);padding:3px 8px;margin-top:5px;border-radius:0 4px 4px 0;white-space:pre-wrap}
+.rp-i .rv-hist{margin-top:3px}
+.rp-reg{display:grid;gap:2px;max-height:330px;overflow-y:auto;border:1px solid var(--b1);border-radius:var(--rs);padding:6px}
+.rp-rr{display:flex;align-items:center;gap:10px;padding:4px 8px;border-radius:4px}
+.rp-rr:hover{background:var(--surf)}
+.rp-rr label{flex:1;display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:13px;font-weight:600;min-width:0}
+.rp-rr label input{margin-top:3px;accent-color:var(--ac)}
+.rp-rr small{display:block;font-weight:400;color:var(--mu);font-size:11px}
+.rp-rrev{width:80px;padding:6px 8px;border:1px solid var(--b1);border-radius:var(--rs);background:var(--surf);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none}
+.rp-rrev:focus{border-color:var(--ac)}
+.rp-hl{display:grid;gap:2px;border:1px solid var(--b1);border-radius:var(--rs);padding:4px 6px;background:var(--surf)}
+.rp-hr{display:flex;align-items:center;gap:10px;font-size:12px;padding:3px 2px}
+.rp-hr span:nth-child(2){flex:1;color:var(--mu)}
+@media (max-width:760px){.rp-cr{grid-template-columns:1fr 70px 44px}.rp-cf{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -1064,6 +1114,11 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <div class="sec" id="sec-rev">
       <button class="pd-back" onclick="revBack()">← Volver al proyecto</button>
       <div id="rv-body"></div>
+    </div>
+    <!-- ══════════ RECEPCIÓN DE PLANOS (vista completa) ══════════ -->
+    <div class="sec" id="sec-rp">
+      <button class="pd-back" onclick="rpBack()">← Volver al proyecto</button>
+      <div id="rp-body"></div>
     </div>
 
     <!-- ══════════ PERSONAS ══════════ -->
@@ -1396,6 +1451,83 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <div class="mo-f">
       <button class="btn" onclick="closeOv('ov-revsetup')">Cancelar</button>
       <button class="btn btn-pri" onclick="revSetupSave()">Crear capítulos</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: RECEPCIÓN DE PLANOS · REGISTRAR ENTREGA ══════════ -->
+<div class="ov" id="ov-rpreg">
+  <div class="modal wide">
+    <div class="mo-h"><span class="mo-t" id="rpr-title">Registrar recepción</span><button class="mo-x" onclick="closeOv('ov-rpreg')">✕</button></div>
+    <div class="mo-b">
+      <div class="rv-mo-info" id="rpr-info" style="font-size:12.5px"></div>
+      <div class="frow">
+        <div class="fld"><label>Recibido el</label><input id="rpr-fecha" type="date"></div>
+        <div class="fld"><label>Referencia</label><input id="rpr-ref" type="text" placeholder="Opcional: correo, transmittal, carpeta…" autocomplete="off"></div>
+      </div>
+      <div class="cs-head" id="rpr-head">
+        <span class="cs-lbl">Qué llegó · revisión</span>
+        <span class="cs-all"><button class="btn btn-sm" onclick="rpRegAll('pend')">Las pendientes</button>
+          <button class="btn btn-sm" onclick="rpRegAll('todas')">Todas</button>
+          <button class="btn btn-sm" onclick="rpRegAll('')">Ninguna</button></span>
+      </div>
+      <div class="rp-reg" id="rpr-list"></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-rpreg')">Cancelar</button>
+      <button class="btn btn-pri" onclick="rpRegSave()">Registrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: RECEPCIÓN DE PLANOS · INGENIERÍA ══════════ -->
+<div class="ov" id="ov-rping">
+  <div class="modal">
+    <div class="mo-h"><span class="mo-t">Ingeniería</span><button class="mo-x" onclick="closeOv('ov-rping')">✕</button></div>
+    <div class="mo-b">
+      <div class="frow one"><div class="fld"><label>Nombre *</label><input id="rpi-nombre" type="text" autocomplete="off"></div></div>
+      <div class="frow">
+        <div class="fld"><label>Diseñador / consultor</label>
+          <input id="rpi-resp" type="text" list="rpi-resp-list" placeholder="Opcional" autocomplete="off"><datalist id="rpi-resp-list"></datalist></div>
+        <div class="fld" id="rpi-cap-f"><label>Capítulo</label><select id="rpi-cap"></select></div>
+      </div>
+      <div class="frow one"><div class="fld"><label>Nota</label>
+        <textarea id="rpi-nota" placeholder="Ej. faltan detalles de escaleras; llegó solo en PDF" style="min-height:60px"></textarea></div></div>
+      <div class="fld" id="rpi-hist-f"><label>Entregas registradas</label>
+        <div class="rp-hl" id="rpi-hist"></div>
+        <span class="fld-help">Quitar una entrega es una corrección: si era la última, la ingeniería vuelve a la revisión anterior o a Pendiente. Se aplica al guardar.</span></div>
+    </div>
+    <div class="mo-f">
+      <button class="btn btn-del" style="margin-right:auto" onclick="rpEditDelete()">Eliminar</button>
+      <button class="btn" onclick="closeOv('ov-rping')">Cancelar</button>
+      <button class="btn btn-pri" onclick="rpEditSave()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: RECEPCIÓN DE PLANOS · CAPÍTULO / AGREGAR INGENIERÍAS ══════════ -->
+<div class="ov" id="ov-rpcap">
+  <div class="modal wide">
+    <div class="mo-h"><span class="mo-t" id="rpc-title">Nuevo capítulo</span><button class="mo-x" onclick="closeOv('ov-rpcap')">✕</button></div>
+    <div class="mo-b">
+      <div class="frow one" id="rpc-nom-f"><div class="fld"><label>Nombre del capítulo *</label>
+        <input id="rpc-nombre" type="text" placeholder="ej. Urbanismo, Casa tipo A, Departamentos, Amenities" autocomplete="off" oninput="rpCapNomInput()"></div></div>
+      <div id="rpc-ing">
+        <div class="frow one"><div class="fld"><label>Ingenierías: partir de</label><select id="rpc-src" onchange="rpCapSrc(event)"></select></div></div>
+        <div class="cs-head">
+          <span class="cs-lbl">Ingenierías</span>
+          <span class="cs-all"><button class="btn btn-sm" onclick="rpCapAll(true)">Todas</button>
+            <button class="btn btn-sm" onclick="rpCapAll(false)">Ninguna</button></span>
+        </div>
+        <div class="rv-tpl" id="rpc-list"></div>
+        <div class="frow one" style="margin-bottom:0"><div class="fld"><label>Otras (una por línea)</label>
+          <textarea id="rpc-extra" placeholder="Estudio de suelos&#10;Gas centralizado&#10;Señalética" style="min-height:70px"></textarea></div></div>
+      </div>
+    </div>
+    <div class="mo-f">
+      <button class="btn btn-del" id="rpc-del" style="margin-right:auto;display:none" onclick="rpCapDelete()">Eliminar capítulo</button>
+      <button class="btn" onclick="closeOv('ov-rpcap')">Cancelar</button>
+      <button class="btn btn-pri" id="rpc-ok" onclick="rpCapSave()">Crear capítulo</button>
     </div>
   </div>
 </div>
@@ -1975,6 +2107,7 @@ function subscribeRealtime(){
     .on('postgres_changes', {event:'*', schema:'public', table:'cronograma'},      () => crRemote())
     .on('postgres_changes', {event:'*', schema:'public', table:'rev_nodos'},       () => revRemote())
     .on('postgres_changes', {event:'*', schema:'public', table:'rev_obs'},         () => revRemote())
+    .on('postgres_changes', {event:'*', schema:'public', table:'planos_recepcion'}, () => rpRemote())
     .subscribe();
 }
 
@@ -2021,6 +2154,7 @@ function render(){
     case 'reportes':   repInit(); renderReporte(); break;
     case 'crono':      renderCrono();     break;
     case 'rev':        renderRev();       break;
+    case 'rp':         renderRp();        break;
   }
   applyPermissions();
 }
@@ -2737,6 +2871,7 @@ function renderProjDetail(){
         <div class="pd-panel-b">${apuBody}</div>
       </div>
     </div>
+    ${rpCardHtml(p)}
     ${revCardHtml(p)}
     ${crCardHtml(p)}`;
 }
@@ -6797,6 +6932,553 @@ document.addEventListener('keydown', e => {
   if(e.key === 'Insert' && adm){ e.preventDefault(); crInsert(false); return; }
   if(e.key === 'Delete' && CR.sel && adm){ e.preventDefault(); crDelete(); return; }
 });
+
+/* ═══════════════════════════════════════════════════
+   RECEPCIÓN DE PLANOS
+   Qué planos ha entregado el diseñador, ingeniería por ingeniería. Lista
+   única o por capítulos (Urbanismo, Casa tipo A, Departamentos, Amenities…),
+   cada capítulo con sus propias ingenierías.
+   Estados: pendiente · recibido · na (no aplica: no cuenta en el avance).
+   Cada entrega queda en historial [{rev, fecha, ref, por, at}]; revision y
+   f_recibida son copia de la última entrada. Quitar una entrega es una
+   corrección: la ingeniería vuelve a la anterior o a Pendiente.
+   Tabla planos_recepcion (archivo recepcion_planos.sql). Se carga aparte por
+   proyecto, como la revisión de planos. La tarjeta de la ficha sale en los
+   proyectos en etapa Diseños, o en cualquiera que ya tenga datos (histórico).
+   ═══════════════════════════════════════════════════ */
+const RP_TPL = [
+  ['edif', 'Plantilla de edificación', REV_PLANTILLA.map(x => x[0])],
+  ['urb',  'Plantilla de urbanismo', ['Implantación urbanística','Topografía','Movimiento de tierras','Vías y pavimentos',
+    'Agua potable','Alcantarillado sanitario','Alcantarillado pluvial','Eléctrico y alumbrado público','Telecomunicaciones','Paisajismo']],
+];
+const RP = {
+  data: {}, loading: {}, missing: false, err: {},
+  pid: null, f: 'todas',
+  saving: false, lastWrite: 0,
+  edit: null, editHist: null, cap: null,
+};
+
+/* ═══════ CARGA ═══════ */
+async function rpLoad(pid, force){
+  if(RP.data[pid] && !force) return RP.data[pid];
+  if(RP.loading[pid]) return RP.loading[pid];
+  RP.loading[pid] = (async () => {
+    try{
+      const {data, error} = await db.from('planos_recepcion').select('*').eq('proyecto_id', pid).order('orden').range(0, 4999);
+      if(error) throw error;
+      RP.data[pid] = data || [];
+      RP.missing = false; delete RP.err[pid];
+    }catch(e){
+      if(/planos_recepcion|relation|schema cache|does not exist/i.test(e.message || '')) RP.missing = true;
+      else RP.err[pid] = e.message || 'Error de conexión';
+      RP.data[pid] = RP.data[pid] || [];
+    }finally{ delete RP.loading[pid]; }
+    return RP.data[pid];
+  })();
+  return RP.loading[pid];
+}
+/* Cambios de otra persona: recargar con una pausa; los propios se ignoran por tiempo. */
+function rpRemote(){
+  if(RP.saving || Date.now() - RP.lastWrite < 3000) return;
+  clearTimeout(RP._rt);
+  RP._rt = setTimeout(async () => {
+    await Promise.all(Object.keys(RP.data).map(p => rpLoad(Number(p), true)));
+    rpRerender();
+  }, 900);
+}
+function rpRerender(){
+  if(S.tab === 'rp') renderRp();
+  else if(S.tab === 'projdet') renderProjDetail();
+}
+/** Envuelve una escritura: estado de sincronización, error y redibujo. */
+async function rpDb(op, msg){
+  RP.saving = true; sync('busy');
+  try{
+    await op();
+    sync('ok'); if(msg) toast(msg);
+    return true;
+  }catch(e){
+    sync('err'); toast('Error: ' + (e.message || e), 'err');
+    await rpLoad(RP.pid, true);
+    return false;
+  }finally{
+    RP.saving = false; RP.lastWrite = Date.now();
+    rpRerender();
+  }
+}
+
+/* ═══════ ESTRUCTURA ═══════ */
+const rpByOrden = (a, b) => (a.orden - b.orden) || (a.created_at || '').localeCompare(b.created_at || '');
+/** Grupos a mostrar: la lista general (ingenierías sin capítulo) y cada capítulo. */
+function rpTree(pid){
+  const rows = RP.data[pid] || [];
+  const caps = rows.filter(r => r.tipo === 'capitulo').sort(rpByOrden);
+  const capIds = new Set(caps.map(c => c.id));
+  const ings = rows.filter(r => r.tipo !== 'capitulo');
+  const de = id => ings.filter(r => id ? r.parent_id === id : !capIds.has(r.parent_id)).sort(rpByOrden);
+  const sueltas = de(null), groups = [];
+  if(sueltas.length || !caps.length) groups.push({cap: null, items: sueltas});
+  caps.forEach(c => groups.push({cap: c, items: de(c.id)}));
+  return {rows, caps, ings, groups, porCap: caps.length > 0};
+}
+function rpStats(items){
+  const na  = items.filter(r => r.estado === 'na').length;
+  const rec = items.filter(r => r.estado === 'recibido').length;
+  const apl = items.length - na;
+  return {tot: items.length, na, rec, apl, pend: apl - rec, pct: apl ? Math.round(rec / apl * 100) : 0};
+}
+const rpGrpName = (gr, t) => gr.cap ? gr.cap.nombre : (t.porCap ? 'General' : 'Ingenierías');
+const rpGrpKey  = gr => gr.cap ? gr.cap.id : '';
+const rpUlt = r => { const h = (r && r.historial) || []; return h.length ? h[h.length - 1] : null; };
+const rpMaxOrden = l => l.reduce((m, r) => Math.max(m, Number(r.orden) || 0), 0);
+/** Diseñadores ya usados (aquí y en la revisión de planos), para sugerir. */
+function rpRespAll(){
+  const set = new Set();
+  Object.values(RP.data).forEach(l => l.forEach(r => (r.responsable || '').trim() && set.add(r.responsable.trim())));
+  Object.values(REV.data).forEach(d => d.nodos.forEach(n => (n.responsable || '').trim() && set.add(n.responsable.trim())));
+  return [...set].sort((a, b) => a.localeCompare(b, 'es'));
+}
+
+/* ═══════ TARJETA EN LA FICHA DEL PROYECTO ═══════ */
+function rpChip(r){
+  const st = r.estado || 'pendiente', u = rpUlt(r);
+  const ic = st === 'recibido' ? '✓' : st === 'na' ? '—' : '○';
+  const tip = st === 'recibido' ? `${r.revision || ''} recibida el ${fmtDate(r.f_recibida)}${u && u.por ? ' · registró ' + u.por : ''}`
+            : st === 'na' ? 'No aplica' : 'Pendiente';
+  return `<span class="rp-chip ${st}" title="${escT(tip)}">${ic} ${esc(r.nombre)}${st === 'recibido' && r.revision ? ` <b>${esc(r.revision)}</b>` : ''}</span>`;
+}
+function rpCardHtml(p){
+  if(isObra()) return '';
+  const dis = etapaClass(p.etapa) === 'dis';
+  const D = RP.data[p.id];
+  const head = extra => `<div class="cr-card-h"><span class="ct-t">📥 Recepción de planos</span><div class="ct-hr">${extra || ''}</div></div>`;
+  if(!D){
+    rpLoad(p.id).then(() => { if(S.tab === 'projdet' && S.pdProj === p.id) renderProjDetail(); });
+    return dis ? `<div class="cr-card">${head()}<div class="cr-card-e">Cargando…</div></div>` : '';
+  }
+  if(RP.missing) return dis ? `<div class="cr-card">${head()}<div class="cr-card-e">
+    Falta crear la tabla <code>planos_recepcion</code> en Supabase (archivo <code>recepcion_planos.sql</code>).</div></div>` : '';
+  if(RP.err[p.id]) return dis ? `<div class="cr-card">${head()}<div class="cr-card-e">
+    <span style="color:var(--re)">⚠️ No se pudo cargar la recepción de planos (${esc(RP.err[p.id])}).</span>
+    <button class="btn btn-sm" onclick="rpLoad(${p.id}, true).then(rpRerender)">Reintentar</button></div></div>` : '';
+  if(!D.length){
+    if(!dis) return '';
+    return `<div class="cr-card cr-off">${head()}<div class="cr-card-e">
+      <div><strong>Sin control de recepción</strong><div class="ct-off-s">Qué planos ha entregado el diseñador, ingeniería por ingeniería, con revisión y fecha. En urbanizaciones se separa por capítulos: urbanismo, casas por tipo, departamentos, amenities…</div></div>
+      <div class="cr-card-btns">
+        <button class="btn btn-sm" onclick="rpOpenView(${p.id}, null, 'caps')">Por capítulos</button>
+        <button class="btn btn-pri btn-sm" onclick="rpOpenView(${p.id}, null, 'lista')">Lista única de ingenierías</button></div>
+    </div></div>`;
+  }
+  const t = rpTree(p.id), s = rpStats(t.ings);
+  let body;
+  if(!t.porCap){
+    const l = t.groups[0].items;
+    body = l.length ? `<div class="rp-chips" onclick="rpOpenView(${p.id})">${l.map(rpChip).join('')}</div>`
+                    : '<div class="cr-li-v">Aún no hay ingenierías en la lista.</div>';
+  }else{
+    body = `<div class="rp-ct">${t.groups.map(gr => {
+      const st = rpStats(gr.items);
+      const falt = gr.items.filter(r => r.estado === 'pendiente').map(r => r.nombre);
+      const txt = !st.apl ? 'Sin ingenierías'
+        : falt.length ? 'Faltan: ' + esc(falt.slice(0, 5).join(' · ')) + (falt.length > 5 ? ` y ${falt.length - 5} más` : '')
+        : '✓ Completo';
+      return `<div class="rp-cr" onclick="rpOpenView(${p.id}, '${rpGrpKey(gr)}')">
+        <span class="rp-cn">${esc(rpGrpName(gr, t))}</span>
+        <span class="rv-dbar"><i style="width:${st.pct}%"></i></span>
+        <span class="rp-cc${st.apl && !st.pend ? ' ok' : ''}">${st.rec}/${st.apl}</span>
+        <span class="rp-cf${falt.length ? '' : ' ok'}">${txt}</span></div>`;
+    }).join('')}</div>`;
+  }
+  return `<div class="cr-card">
+    ${head(`<span class="ct-kpi">${s.rec}/${s.apl} recibidas</span>
+      ${s.pend ? `<span class="ct-kpi ambar">${s.pend} pendiente(s)</span>` : ''}
+      <button class="btn btn-pri btn-sm" onclick="rpOpenView(${p.id})">Abrir recepción →</button>`)}
+    <div class="cr-card-b">${body}</div>
+  </div>`;
+}
+
+/* ═══════ VISTA COMPLETA ═══════ */
+async function rpOpenView(pid, capKey, accion){
+  if(isObra()) return;
+  if(RP.pid !== pid) RP.f = 'todas';
+  RP.pid = pid;
+  S.pdProj = pid;
+  S.tab = 'rp';
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nav-b').forEach(b => b.classList.remove('on'));
+  g('sec-rp').classList.add('on');
+  document.querySelector('.nav-b[data-tab="proyectos"]')?.classList.add('on');
+  g('rp-body').innerHTML = '<div class="spin-wrap"><div class="spin"></div><span>Cargando…</span></div>';
+  await rpLoad(pid);
+  renderRp();
+  applyPermissions();
+  window.scrollTo(0, 0);
+  if(capKey !== undefined && capKey !== null)
+    setTimeout(() => g('rpg-' + (capKey || 'gen'))?.scrollIntoView({block: 'start', behavior: 'smooth'}), 30);
+  if(accion === 'lista') rpAddOpen('');
+  if(accion === 'caps') rpCapNew();
+}
+function rpBack(){ openProjDetail(RP.pid); }
+function rpFilt(k){ RP.f = k; renderRp(); }
+
+function renderRp(){
+  if(S.tab !== 'rp') return;
+  const pid = RP.pid, p = S.projects.find(x => x.id === pid);
+  if(!p){ g('rp-body').innerHTML = '<div class="pd-empty">Proyecto no encontrado</div>'; return; }
+  if(RP.missing){ g('rp-body').innerHTML = `<div class="pd-empty">Falta crear la tabla <code>planos_recepcion</code> en Supabase (archivo <code>recepcion_planos.sql</code>).</div>`; return; }
+  if(RP.err[pid]){ g('rp-body').innerHTML = `<div class="pd-empty"><span style="color:var(--re)">⚠️ No se pudo cargar la recepción de planos (${esc(RP.err[pid])}).</span>
+    <div style="margin-top:10px"><button class="btn btn-sm" onclick="rpLoad(${pid}, true).then(rpRerender)">Reintentar</button></div></div>`; return; }
+  const t = rpTree(pid), s = rpStats(t.ings), f = RP.f;
+  const pasa = r => f === 'todas' || (r.estado || 'pendiente') === f;
+  const chip = (k, lbl, n, cls) => `<button class="rv-chip${f === k ? ' on' : ''}${cls ? ' ' + cls : ''}" onclick="rpFilt('${k}')">${lbl} <b>${n}</b></button>`;
+  const grupos = t.groups.map(gr => rpGrpHtml(gr, t, pasa)).join('');
+  const vacio = !t.rows.length;
+  g('rp-body').innerHTML = `
+    <div class="rv-hero">
+      <div class="rv-hero-l">
+        <span class="pd-name">${esc(p.nombre)}</span>
+        <span class="pd-code">📥 Recepción de planos${p.etapa ? ' · ' + esc(p.etapa) : ''}</span>
+      </div>
+      <div class="rv-hero-r">
+        ${vacio ? `<button class="btn btn-sm" onclick="rpAddOpen('')">Lista única de ingenierías</button>` : ''}
+        <button class="btn ${vacio ? 'btn-pri ' : ''}btn-sm" onclick="rpCapNew()">＋ Capítulo</button>
+      </div>
+    </div>
+    ${vacio ? `<div class="rp-g"><div class="pd-empty">Aún no hay ingenierías.<br>
+        Usa <b>Lista única</b> para un proyecto de una sola edificación, o <b>＋ Capítulo</b> para separar urbanismo, casas por tipo, departamentos, amenities…</div></div>`
+    : `<div class="rp-sum">
+        <span class="rp-sum-bar"><i style="width:${s.pct}%"></i></span>
+        <span><b>${s.rec}</b> de <b>${s.apl}</b> ingenierías recibidas (${s.pct}%)${t.porCap ? ` · ${t.caps.length} capítulo(s)` : ''}</span>
+      </div>
+      <div class="rv-chips">${chip('todas', 'Todas', s.tot)}${chip('pendiente', 'Pendientes', s.pend, 'ambar')}${chip('recibido', 'Recibidas', s.rec)}${chip('na', 'No aplica', s.na)}</div>
+      ${grupos || '<div class="rp-g"><div class="pd-empty">Nada con ese filtro.</div></div>'}`}`;
+}
+function rpGrpHtml(gr, t, pasa){
+  const st = rpStats(gr.items), items = gr.items.filter(pasa);
+  if(RP.f !== 'todas' && !items.length) return '';
+  const k = rpGrpKey(gr);
+  const i = gr.cap ? t.caps.indexOf(gr.cap) : -1;
+  const mov = gr.cap && t.caps.length > 1
+    ? `<button class="chk-a" title="Subir" ${i === 0 ? 'disabled' : ''} onclick="rpCapMove('${k}', -1)">↑</button><button class="chk-a" title="Bajar" ${i === t.caps.length - 1 ? 'disabled' : ''} onclick="rpCapMove('${k}', 1)">↓</button>` : '';
+  return `<div class="rp-g" id="rpg-${k || 'gen'}">
+    <div class="rp-gh">
+      <span class="rp-gt">${gr.cap ? '📁 ' : ''}${esc(rpGrpName(gr, t))}</span>
+      ${st.apl ? `<span class="rv-dbar rp-gbar"><i style="width:${st.pct}%"></i></span><span class="rp-cc${st.pend ? '' : ' ok'}">${st.rec}/${st.apl}</span>` : ''}
+      <span class="rp-gacts">${mov}
+        ${st.apl ? `<button class="btn btn-sm" title="Marcar varias ingenierías recibidas en una misma entrega" onclick="rpRegOpen('${k}')">📥 Registrar entrega</button>` : ''}
+        <button class="btn btn-sm" onclick="rpAddOpen('${k}')">＋ Ingenierías</button>
+        ${gr.cap ? `<button class="chk-a" title="Renombrar o eliminar el capítulo" onclick="rpCapEdit('${k}')">✏️</button>` : ''}
+      </span>
+    </div>
+    <div class="rp-gb">${items.length ? items.map(rpItemHtml).join('')
+      : '<div class="chk-empty">Sin ingenierías en este capítulo. Usa “＋ Ingenierías”.</div>'}</div>
+  </div>`;
+}
+function rpItemHtml(r){
+  const st = r.estado || 'pendiente', u = rpUlt(r), h = r.historial || [];
+  const cls = st === 'recibido' ? 'ok' : st === 'na' ? 'na' : '';
+  const meta = [];
+  if(st === 'recibido') meta.push(`<span class="rv-rv">${esc(r.revision || '—')}</span><span>Recibido el ${fmtDate(r.f_recibida)}${u && u.por ? ' · registró ' + esc(u.por) : ''}${u && u.ref ? ' · ' + esc(u.ref) : ''}</span>`);
+  else if(st === 'na') meta.push('<span>No aplica</span>');
+  else meta.push('<span class="rp-pend">Pendiente</span>');
+  if(r.responsable) meta.push(`<span>👤 ${esc(r.responsable)}</span>`);
+  const hist = h.length > 1 ? `<div class="rv-hist">Entregas: ${h.map(x => `${esc(x.rev)} ${fmtDate(x.fecha)}`).join(' → ')}</div>` : '';
+  const nota = r.nota ? `<div class="rp-nota">${esc(r.nota)}</div>` : '';
+  const box = st === 'pendiente' ? ['Registrar recepción', `rpRegOpen(null, '${r.id}')`]
+            : st === 'recibido' ? ['Ver entregas o corregir', `rpEditOpen('${r.id}')`]
+            : ['Reactivar', `rpNa('${r.id}')`];
+  return `<div class="chk-i rp-i ${cls}">
+    <button class="chk-box ${cls}" title="${box[0]}" onclick="${box[1]}">${st === 'recibido' ? '✓' : st === 'na' ? '—' : ''}</button>
+    <div class="chk-main">
+      <div class="chk-tx${st === 'na' ? ' na' : ''}">${esc(r.nombre)}</div>
+      <div class="chk-meta">${meta.join('')}</div>${nota}${hist}
+    </div>
+    <div class="chk-acts">
+      ${st === 'recibido' ? `<button class="chk-a" title="Registrar una revisión nueva" onclick="rpRegOpen(null, '${r.id}')">⟳</button>`
+        : `<button class="chk-a" title="${st === 'na' ? 'Reactivar' : 'Marcar como No aplica'}" onclick="rpNa('${r.id}')">${st === 'na' ? '↩' : '⊘'}</button>`}
+      <button class="chk-a" title="Editar" onclick="rpEditOpen('${r.id}')">✏️</button>
+    </div>
+  </div>`;
+}
+
+/* ═══════ REGISTRAR UNA ENTREGA ═══════ */
+/** Desde un capítulo (varias ingenierías, una sola fecha) o desde una ingeniería. */
+function rpRegOpen(capKey, itemId){
+  const t = rpTree(RP.pid);
+  let items, info, titulo;
+  if(itemId){
+    const r = t.ings.find(x => x.id === itemId); if(!r) return;
+    const gr = t.groups.find(x => x.items.includes(r));
+    items = [r];
+    titulo = r.estado === 'recibido' ? 'Nueva revisión recibida' : 'Registrar recepción';
+    info = (t.porCap && gr ? esc(rpGrpName(gr, t)) + ' › ' : '') + `<b>${esc(r.nombre)}</b>`;
+  }else{
+    const gr = t.groups.find(x => rpGrpKey(x) === (capKey || '')); if(!gr) return;
+    items = gr.items.filter(r => r.estado !== 'na');
+    titulo = 'Registrar entrega';
+    info = (t.porCap ? `Capítulo <b>${esc(rpGrpName(gr, t))}</b>. ` : '') + 'Marca lo que llegó en esta entrega; la fecha y la referencia valen para todas.';
+  }
+  g('rpr-title').textContent = titulo;
+  g('rpr-info').innerHTML = info;
+  g('rpr-head').style.display = items.length > 1 ? '' : 'none';
+  g('rpr-fecha').value = new Date().toLocaleDateString('en-CA');
+  g('rpr-ref').value = '';
+  g('rpr-list').innerHTML = items.map(r => {
+    const rec = r.estado === 'recibido';
+    return `<div class="rp-rr" data-id="${r.id}" data-pend="${rec ? 0 : 1}">
+      <label><input type="checkbox"${items.length === 1 ? ' checked' : ''}>
+        <span>${esc(r.nombre)}<small>${rec ? `Vigente: ${esc(r.revision || '—')} · ${fmtDate(r.f_recibida)}` : 'Pendiente'}</small></span></label>
+      <input type="text" class="rp-rrev" value="${escT(rec ? revNextRev(r.revision) : 'R0')}" title="Revisión recibida" autocomplete="off"
+        oninput="this.parentNode.querySelector('input[type=checkbox]').checked = true"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();rpRegSave()}">
+    </div>`;
+  }).join('');
+  openOv('ov-rpreg');
+  if(items.length === 1) setTimeout(() => g('rpr-list').querySelector('.rp-rrev')?.select(), 50);
+}
+function rpRegAll(modo){
+  g('rpr-list').querySelectorAll('.rp-rr').forEach(el =>
+    el.querySelector('input[type=checkbox]').checked = modo === 'todas' || (modo === 'pend' && el.dataset.pend === '1'));
+}
+async function rpRegSave(){
+  const fecha = g('rpr-fecha').value || null;
+  if(!fecha){ toast('Indica la fecha de recepción', 'err'); return; }
+  const ref = g('rpr-ref').value.trim() || null;
+  const sel = [...g('rpr-list').querySelectorAll('.rp-rr')].filter(el => el.querySelector('input[type=checkbox]').checked);
+  if(!sel.length){ toast('Marca al menos una ingeniería', 'err'); return; }
+  const D = RP.data[RP.pid] || [], ups = [], now = new Date().toISOString();
+  for(const el of sel){
+    const r = D.find(x => x.id === el.dataset.id); if(!r) continue;
+    const rev = el.querySelector('.rp-rrev').value.trim();
+    if(!rev){ toast(`Indica la revisión de ${r.nombre}`, 'err'); return; }
+    if(r.estado === 'recibido' && rev === r.revision){ toast(`${r.nombre} ya está en ${rev}`, 'err'); return; }
+    const hist = [...(r.historial || []), {rev, fecha, ref, por: S.user?.nombre || null, at: now}];
+    ups.push([r, {estado: 'recibido', revision: rev, f_recibida: fecha, historial: hist, updated_at: now}]);
+  }
+  closeOv('ov-rpreg');
+  await rpDb(async () => {
+    for(const [r, u] of ups){
+      const {error} = await db.from('planos_recepcion').update(u).eq('id', r.id);
+      if(error) throw error;
+      Object.assign(r, u);
+    }
+  }, ups.length === 1 ? `${ups[0][0].nombre}: ${ups[0][1].revision} recibida ✓` : `${ups.length} ingenierías registradas ✓`);
+}
+async function rpNa(id){
+  const r = (RP.data[RP.pid] || []).find(x => x.id === id); if(!r) return;
+  const estado = r.estado === 'na' ? ((r.historial || []).length ? 'recibido' : 'pendiente') : 'na';
+  const u = {estado, updated_at: new Date().toISOString()};
+  await rpDb(async () => {
+    const {error} = await db.from('planos_recepcion').update(u).eq('id', id);
+    if(error) throw error;
+    Object.assign(r, u);
+  }, estado === 'na' ? `${r.nombre}: no aplica` : `${r.nombre} reactivada`);
+}
+
+/* ═══════ EDITAR UNA INGENIERÍA ═══════ */
+function rpEditOpen(id){
+  const t = rpTree(RP.pid), r = t.ings.find(x => x.id === id); if(!r) return;
+  RP.edit = id;
+  RP.editHist = JSON.parse(JSON.stringify(r.historial || []));
+  g('rpi-nombre').value = r.nombre || '';
+  g('rpi-resp').value = r.responsable || '';
+  g('rpi-resp-list').innerHTML = rpRespAll().map(x => `<option value="${escT(x)}"/>`).join('');
+  g('rpi-nota').value = r.nota || '';
+  const capIds = new Set(t.caps.map(c => c.id));
+  const suelta = !capIds.has(r.parent_id);
+  g('rpi-cap-f').style.display = t.porCap ? '' : 'none';
+  g('rpi-cap').innerHTML = (suelta || t.groups.some(x => !x.cap) ? '<option value="">General (sin capítulo)</option>' : '') +
+    t.caps.map(c => `<option value="${c.id}">${esc(c.nombre)}</option>`).join('');
+  g('rpi-cap').value = suelta ? '' : r.parent_id;
+  rpHistRender();
+  openOv('ov-rping');
+}
+function rpHistRender(){
+  const h = RP.editHist || [];
+  g('rpi-hist-f').style.display = h.length ? '' : 'none';
+  g('rpi-hist').innerHTML = h.map((x, i) => `<div class="rp-hr">
+    <span class="rv-rv">${esc(x.rev || '—')}</span>
+    <span>${fmtDate(x.fecha)}${x.por ? ' · ' + esc(x.por) : ''}${x.ref ? ' · ' + esc(x.ref) : ''}</span>
+    <button class="chk-a del" title="Quitar esta entrega (corrección)" onclick="rpHistDel(${i})">✕</button></div>`).join('');
+}
+function rpHistDel(i){ RP.editHist.splice(i, 1); rpHistRender(); }
+async function rpEditSave(){
+  const D = RP.data[RP.pid] || [], r = D.find(x => x.id === RP.edit); if(!r) return;
+  const nombre = g('rpi-nombre').value.trim();
+  if(!nombre){ toast('Escribe el nombre de la ingeniería', 'err'); return; }
+  const t = rpTree(RP.pid);
+  const destino = t.porCap ? (g('rpi-cap').value || null) : (t.caps.some(c => c.id === r.parent_id) ? r.parent_id : null);
+  const grDest = t.groups.find(x => rpGrpKey(x) === (destino || ''));
+  const hermanos = grDest ? grDest.items.filter(x => x.id !== r.id) : [];
+  if(hermanos.some(x => revNorm(x.nombre) === revNorm(nombre))){ toast('Ya existe una ingeniería con ese nombre en ese capítulo', 'err'); return; }
+  const h = RP.editHist || [], u = h.length ? h[h.length - 1] : null;
+  const upd = {
+    nombre, responsable: g('rpi-resp').value.trim() || null, nota: g('rpi-nota').value.trim() || null,
+    historial: h, revision: u ? u.rev : null, f_recibida: u ? u.fecha : null,
+    estado: r.estado === 'na' ? 'na' : (h.length ? 'recibido' : 'pendiente'),
+    updated_at: new Date().toISOString(),
+  };
+  const capActual = t.caps.some(c => c.id === r.parent_id) ? r.parent_id : null;
+  if(destino !== capActual){ upd.parent_id = destino; upd.orden = rpMaxOrden(hermanos) + 1; }
+  closeOv('ov-rping');
+  await rpDb(async () => {
+    const {error} = await db.from('planos_recepcion').update(upd).eq('id', r.id);
+    if(error) throw error;
+    Object.assign(r, upd);
+  }, 'Ingeniería actualizada ✓');
+}
+async function rpEditDelete(){
+  const D = RP.data[RP.pid] || [], r = D.find(x => x.id === RP.edit); if(!r) return;
+  const n = (r.historial || []).length;
+  if(!confirm(`¿Eliminar "${r.nombre}"${n ? ` y sus ${n} entrega(s) registrada(s)` : ''}?`)) return;
+  closeOv('ov-rping');
+  await rpDb(async () => {
+    const {error} = await db.from('planos_recepcion').delete().eq('id', r.id);
+    if(error) throw error;
+    RP.data[RP.pid] = D.filter(x => x.id !== r.id);
+  }, 'Ingeniería eliminada');
+}
+
+/* ═══════ CAPÍTULOS Y ALTA DE INGENIERÍAS ═══════ */
+/** Un mismo modal: capítulo nuevo (nombre + ingenierías), agregar ingenierías a
+    un grupo existente o a la lista única, y renombrar/eliminar un capítulo. */
+function rpCapNew(){ rpCapModal({modo: 'nuevo', capKey: null}); }
+function rpAddOpen(capKey){ rpCapModal({modo: 'agregar', capKey: capKey || ''}); }
+function rpCapEdit(capKey){ rpCapModal({modo: 'editar', capKey}); }
+function rpCapModal(m){
+  const t = rpTree(RP.pid);
+  RP.cap = {...m, touched: false};
+  const cap = m.capKey ? t.caps.find(c => c.id === m.capKey) : null;
+  g('rpc-title').textContent = m.modo === 'nuevo' ? 'Nuevo capítulo'
+    : m.modo === 'editar' ? 'Capítulo'
+    : (cap ? `Agregar ingenierías · ${cap.nombre}` : (t.porCap ? 'Agregar ingenierías · General' : 'Lista de ingenierías'));
+  g('rpc-nom-f').style.display = m.modo === 'agregar' ? 'none' : '';
+  g('rpc-nombre').value = cap && m.modo === 'editar' ? cap.nombre : '';
+  g('rpc-ing').style.display = m.modo === 'editar' ? 'none' : '';
+  g('rpc-del').style.display = m.modo === 'editar' ? '' : 'none';
+  g('rpc-ok').textContent = m.modo === 'nuevo' ? 'Crear capítulo' : m.modo === 'editar' ? 'Guardar' : 'Agregar';
+  g('rpc-extra').value = '';
+  if(m.modo !== 'editar'){
+    const otros = t.groups.filter(x => x.items.length && rpGrpKey(x) !== (m.capKey || (m.modo === 'nuevo' ? '__' : '')));
+    g('rpc-src').innerHTML = RP_TPL.map(([k, lbl]) => `<option value="${k}">${lbl}</option>`).join('') +
+      otros.map(x => `<option value="g:${rpGrpKey(x) || '__gen'}">Copiar de: ${esc(rpGrpName(x, t))}</option>`).join('') +
+      '<option value="blank">En blanco (solo las que escriba abajo)</option>';
+    g('rpc-src').value = 'edif';
+    rpCapSrc();
+  }
+  openOv('ov-rpcap');
+  setTimeout(() => (m.modo === 'agregar' ? null : g('rpc-nombre'))?.focus(), 50);
+}
+/** Mientras se escribe el nombre se propone de dónde partir (si no se eligió a mano):
+    "Urbanismo" → plantilla de urbanismo; "Casa tipo B" → copiar "Casa tipo A"
+    (el capítulo con el que más comparte el comienzo del nombre); el resto → edificación. */
+function rpCapNomInput(){
+  if(!RP.cap || RP.cap.modo !== 'nuevo' || RP.cap.touched) return;
+  const n = revNorm(g('rpc-nombre').value), t = rpTree(RP.pid);
+  let v = 'edif';
+  if(/urbani[sz]/.test(n)) v = 'urb';
+  else if(n.length >= 4){
+    let best = null, bl = 0;
+    t.groups.filter(x => x.cap && x.items.length).forEach(x => {
+      const a = revNorm(x.cap.nombre); let i = 0;
+      while(i < a.length && i < n.length && a[i] === n[i]) i++;
+      if(i > bl){ bl = i; best = x; }
+    });
+    if(best && bl >= 4) v = 'g:' + best.cap.id;
+  }
+  if(g('rpc-src').value !== v){ g('rpc-src').value = v; rpCapSrc(); }
+}
+function rpCapSrc(ev){
+  if(ev) RP.cap.touched = true;
+  const t = rpTree(RP.pid), v = g('rpc-src').value, m = RP.cap;
+  let items = [];
+  if(v.startsWith('g:')){
+    const key = v.slice(2) === '__gen' ? '' : v.slice(2);
+    const gr = t.groups.find(x => rpGrpKey(x) === key);
+    items = gr ? gr.items.map(r => ({nombre: r.nombre, resp: r.responsable || ''})) : [];
+  }else if(v !== 'blank'){
+    items = (RP_TPL.find(x => x[0] === v) || [, , []])[2].map(nombre => ({nombre, resp: ''}));
+  }
+  const destino = m.modo === 'agregar' ? t.groups.find(x => rpGrpKey(x) === (m.capKey || '')) : null;
+  const ya = new Set((destino ? destino.items : []).map(r => revNorm(r.nombre)));
+  g('rpc-list').style.display = items.length ? '' : 'none';
+  g('rpc-list').previousElementSibling.style.display = items.length ? '' : 'none';
+  g('rpc-list').innerHTML = items.map(x => {
+    const e = ya.has(revNorm(x.nombre));
+    return `<label><input type="checkbox" data-n="${escT(x.nombre)}" data-r="${escT(x.resp)}"${e ? ' disabled' : ' checked'}>
+      <span${e ? ' class="ya"' : ''}>${esc(x.nombre)}${e ? ' · ya está' : ''}${x.resp ? `<small>${esc(x.resp)}</small>` : ''}</span></label>`;
+  }).join('');
+}
+function rpCapAll(on){ g('rpc-list').querySelectorAll('input:not(:disabled)').forEach(i => i.checked = on); }
+async function rpCapSave(){
+  const m = RP.cap, pid = RP.pid; if(!m) return;
+  const t = rpTree(pid), now = new Date().toISOString();
+  const nombre = g('rpc-nombre').value.trim();
+  const dupCap = id => t.caps.some(c => c.id !== id && revNorm(c.nombre) === revNorm(nombre));
+  if(m.modo === 'editar'){
+    const cap = t.caps.find(c => c.id === m.capKey); if(!cap) return;
+    if(!nombre){ toast('Escribe el nombre del capítulo', 'err'); return; }
+    if(dupCap(cap.id)){ toast('Ya existe un capítulo con ese nombre', 'err'); return; }
+    closeOv('ov-rpcap');
+    await rpDb(async () => {
+      const {error} = await db.from('planos_recepcion').update({nombre, updated_at: now}).eq('id', cap.id);
+      if(error) throw error;
+      cap.nombre = nombre;
+    }, 'Capítulo actualizado ✓');
+    return;
+  }
+  let capRow = null, capId = m.capKey || null;
+  if(m.modo === 'nuevo'){
+    if(!nombre){ toast('Escribe el nombre del capítulo (ej. Casa tipo A)', 'err'); return; }
+    if(dupCap(null)){ toast('Ya existe un capítulo con ese nombre', 'err'); return; }
+    capId = uid();
+    capRow = {id: capId, proyecto_id: pid, parent_id: null, tipo: 'capitulo', orden: rpMaxOrden(t.caps) + 1,
+              nombre, estado: 'pendiente', historial: []};
+  }
+  const destino = capRow ? [] : (t.groups.find(x => rpGrpKey(x) === (capId || '')) || {items: []}).items;
+  const vistos = new Set(destino.map(r => revNorm(r.nombre)));
+  const nuevos = [];
+  const add = (n, resp) => { n = (n || '').trim(); const k = revNorm(n); if(!n || vistos.has(k)) return; vistos.add(k); nuevos.push({n, resp: resp || null}); };
+  g('rpc-list').querySelectorAll('input:checked:not(:disabled)').forEach(i => add(i.dataset.n, i.dataset.r));
+  g('rpc-extra').value.split('\n').forEach(l => add(l));
+  if(!capRow && !nuevos.length){ toast('Elige o escribe al menos una ingeniería que no esté ya en la lista', 'err'); return; }
+  const base = rpMaxOrden(destino) + 1;
+  const filas = nuevos.map((x, i) => ({id: uid(), proyecto_id: pid, parent_id: capId, tipo: 'ingenieria', orden: base + i,
+    nombre: x.n, responsable: x.resp, estado: 'pendiente', historial: []}));
+  closeOv('ov-rpcap');
+  await rpDb(async () => {
+    if(capRow){ const {error} = await db.from('planos_recepcion').insert(capRow); if(error) throw error; }
+    if(filas.length){ const {error} = await db.from('planos_recepcion').insert(filas); if(error) throw error; }
+    await rpLoad(pid, true);
+  }, capRow ? `Capítulo “${nombre}” creado${filas.length ? ` con ${filas.length} ingeniería(s)` : ''} ✓` : `${filas.length} ingeniería(s) agregada(s) ✓`);
+  if(capRow) setTimeout(() => g('rpg-' + capId)?.scrollIntoView({block: 'start', behavior: 'smooth'}), 60);
+}
+async function rpCapDelete(){
+  const m = RP.cap, D = RP.data[RP.pid] || [];
+  const cap = D.find(c => c.id === m?.capKey); if(!cap) return;
+  const hijos = D.filter(r => r.parent_id === cap.id), conEntregas = hijos.filter(r => (r.historial || []).length).length;
+  if(!confirm(`¿Eliminar el capítulo "${cap.nombre}"?` + (hijos.length ? `\n\nSe eliminan también sus ${hijos.length} ingeniería(s)` +
+      (conEntregas ? `, ${conEntregas} de ellas con entregas registradas.` : '.') : ''))) return;
+  closeOv('ov-rpcap');
+  await rpDb(async () => {
+    const {error} = await db.from('planos_recepcion').delete().eq('id', cap.id);
+    if(error) throw error;
+    RP.data[RP.pid] = D.filter(r => r.id !== cap.id && r.parent_id !== cap.id);
+  }, 'Capítulo eliminado');
+}
+async function rpCapMove(capId, dir){
+  const t = rpTree(RP.pid), i = t.caps.findIndex(c => c.id === capId), j = i + dir;
+  if(i < 0 || j < 0 || j >= t.caps.length) return;
+  const a = t.caps[i], b = t.caps[j];
+  let oa = b.orden, ob = a.orden;
+  if(oa === ob){ oa = ob + dir; }          // órdenes repetidos: forzar diferencia
+  await rpDb(async () => {
+    const r1 = await db.from('planos_recepcion').update({orden: oa}).eq('id', a.id); if(r1.error) throw r1.error;
+    const r2 = await db.from('planos_recepcion').update({orden: ob}).eq('id', b.id); if(r2.error) throw r2.error;
+    a.orden = oa; b.orden = ob;
+  });
+}
 
 </script>
 </body>
