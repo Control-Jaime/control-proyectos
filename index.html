@@ -988,6 +988,51 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .rp-hr{display:flex;align-items:center;gap:10px;font-size:12px;padding:3px 2px}
 .rp-hr span:nth-child(2){flex:1;color:var(--mu)}
 @media (max-width:760px){.rp-cr{grid-template-columns:1fr 70px 44px}.rp-cf{grid-column:1/-1}}
+
+/* ══════════ REGISTRO DE DECISIONES ══════════ */
+.dc-card-e{padding:12px 18px;font-size:12.5px;color:var(--mu)}
+.dc-card-b{padding:8px 18px 12px}
+.dc-li{display:grid;grid-template-columns:46px 78px minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:5px 0;font-size:12.5px;cursor:pointer;border-bottom:1px solid var(--b1)}
+.dc-li:last-of-type{border-bottom:none}
+.dc-li:hover .dc-lt{color:var(--ac)}
+.dc-n{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:#0f766e}
+.dc-lf{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu)}
+.dc-lt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dc-lq{font-size:11px;color:var(--mu);white-space:nowrap;max-width:160px;overflow:hidden;text-overflow:ellipsis}
+.dc-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.dc-q{flex:1;min-width:220px;max-width:420px;padding:7px 12px;border:1px solid var(--b1);border-radius:var(--rs);background:var(--card);color:var(--tx);outline:none}
+.dc-q:focus{border-color:var(--ac)}
+.dc-list{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.dc-i{display:flex;gap:14px;padding:12px 18px;border-bottom:1px solid var(--b1);scroll-margin-top:80px;transition:background .4s}
+.dc-i:last-child{border-bottom:none}
+.dc-i:hover{background:var(--surf)}
+.dc-i:hover .dc-acts{opacity:1}
+.dc-i.flash{background:#ccfbf1}
+.dc-num{flex:none;width:80px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#0f766e;padding-top:2px;display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.dc-main{flex:1;min-width:0}
+.dc-tx{font-size:14px;font-weight:600;white-space:pre-wrap;word-break:break-word;line-height:1.45}
+.dc-i.off .dc-tx{text-decoration:line-through;color:var(--mu);font-weight:500}
+.dc-i.off .dc-num{color:var(--di)}
+.dc-meta{font-size:11.5px;color:var(--mu);margin-top:5px;display:flex;gap:12px;flex-wrap:wrap}
+.dc-meta b{color:var(--tx);font-weight:600}
+.dc-meta .dc-reg{color:var(--di)}
+.dc-nota{font-size:12.5px;margin-top:6px;white-space:pre-wrap;word-break:break-word;color:var(--tx);line-height:1.5}
+.dc-lk{font-size:11.5px;color:var(--mu);margin-top:5px}
+.dc-lk a,.dc-cierre a{color:#0f766e;font-weight:600;cursor:pointer}
+.dc-lk a:hover,.dc-cierre a:hover{text-decoration:underline}
+.dc-cierre{margin-top:6px;padding:5px 10px;border-left:3px solid var(--gy);background:var(--surf);font-size:12px;border-radius:0 6px 6px 0;color:var(--mu)}
+.dc-cierre b{color:var(--tx)}
+.dc-cierre.rev{border-left-color:var(--re)}
+.dc-cn{color:var(--tx);white-space:pre-wrap;margin-top:2px}
+.dc-acts{display:flex;align-items:flex-start;gap:4px;flex:none;opacity:.4;transition:opacity .15s}
+.dc-pill{font-family:'Inter',sans-serif;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:8px;white-space:nowrap}
+.dc-pill.reemplazada{background:var(--gy2);color:var(--gy)}
+.dc-pill.revocada{background:var(--re2);color:var(--re)}
+.dc-info{font-size:12.5px;background:#f0fdfa;border-left:3px solid #0f766e;padding:7px 11px;border-radius:0 6px 6px 0;margin-bottom:12px;white-space:pre-wrap;word-break:break-word}
+.dc-info-s{margin-top:4px;font-size:11.5px;color:var(--mu)}
+.apu-dc{color:#0f766e;font-weight:600;cursor:pointer}
+.apu-dc:hover{text-decoration:underline}
+@media (max-width:760px){.dc-li{grid-template-columns:46px 74px minmax(0,1fr)}.dc-lq{display:none}.dc-i{padding:10px 12px;gap:6px 10px;flex-wrap:wrap}.dc-num{width:100%;flex-direction:row;align-items:center}.dc-acts{opacity:1}}
 </style>
 </head>
 <body>
@@ -1129,6 +1174,12 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <div class="sec" id="sec-rp">
       <button class="pd-back" onclick="rpBack()">← Volver al proyecto</button>
       <div id="rp-body"></div>
+    </div>
+
+    <!-- ══════════ REGISTRO DE DECISIONES (vista completa) ══════════ -->
+    <div class="sec" id="sec-dc">
+      <button class="pd-back" onclick="dcBack()">← Volver al proyecto</button>
+      <div id="dc-body"></div>
     </div>
 
     <!-- ══════════ PERSONAS ══════════ -->
@@ -1329,6 +1380,50 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
     <div class="mo-f">
       <button class="btn" onclick="closeOv('ov-apucierre')">Cancelar</button>
       <button class="btn btn-pri" onclick="apuCierreSave()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: DECISIÓN (nueva / editar / reemplazar / desde apunte) ══════════ -->
+<div class="ov" id="ov-dc">
+  <div class="modal">
+    <div class="mo-h"><span class="mo-t" id="dc-title">Nueva decisión</span><button class="mo-x" onclick="closeOv('ov-dc')">✕</button></div>
+    <div class="mo-b">
+      <div class="dc-info" id="dcf-info"></div>
+      <div class="frow one" id="dcf-proj-f"><div class="fld"><label>Proyecto *</label><select id="dcf-proj"></select></div></div>
+      <div class="frow one"><div class="fld"><label>Decisión *</label>
+        <textarea id="dcf-texto" placeholder="Ej. El sistema de alumbrado público no se entrega a CNEL; lo opera y mantiene la administración del condominio" style="min-height:80px"></textarea></div></div>
+      <div class="frow">
+        <div class="fld"><label>Fecha de la decisión *</label><input id="dcf-fecha" type="date"></div>
+        <div class="fld"><label>Quién decidió</label><input id="dcf-quien" type="text" list="dcf-quien-list" placeholder="Cliente, Jefatura, Directorio…" autocomplete="off"><datalist id="dcf-quien-list"></datalist></div>
+      </div>
+      <div class="frow one"><div class="fld"><label>Respaldo</label>
+        <input id="dcf-resp" type="text" placeholder="Ej. Acta de reunión 12-nov-2026 · correo de Gerencia del 14-nov" autocomplete="off"></div></div>
+      <div class="frow one"><div class="fld"><label>Motivo e implicaciones</label>
+        <textarea id="dcf-nota" placeholder="Por qué se decidió y qué cambia: diseño, presupuesto, trámites, operación…" style="min-height:70px"></textarea></div></div>
+      <div class="fld-help" id="dcf-help" style="font-size:11px">Editar es para corregir la redacción o los datos. Si la decisión cambió de fondo, usa <b>⇄ Reemplazar</b>: así la anterior queda en el historial.</div>
+    </div>
+    <div class="mo-f">
+      <button class="btn btn-del" id="dc-del" style="margin-right:auto" onclick="dcDelete()">Eliminar</button>
+      <button class="btn" onclick="closeOv('ov-dc')">Cancelar</button>
+      <button class="btn btn-pri" onclick="dcSave()">Guardar decisión</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: REVOCAR DECISIÓN ══════════ -->
+<div class="ov" id="ov-dcrev">
+  <div class="modal" style="max-width:520px">
+    <div class="mo-h"><span class="mo-t" id="dcr-title">Revocar decisión</span><button class="mo-x" onclick="closeOv('ov-dcrev')">✕</button></div>
+    <div class="mo-b">
+      <div id="dcr-texto" style="font-size:12px;color:var(--mu);margin-bottom:10px;white-space:pre-wrap"></div>
+      <div class="frow one"><div class="fld"><label>Por qué se revoca</label>
+        <textarea id="dcr-nota" placeholder="Quién la dejó sin efecto, cuándo y por qué; dónde consta…" style="min-height:80px"></textarea></div></div>
+      <div style="font-size:11px;color:var(--mu)">Revocar = queda sin efecto y ninguna otra la sustituye. Si hay una decisión nueva en su lugar, usa <b>⇄ Reemplazar</b>.</div>
+    </div>
+    <div class="mo-f">
+      <button class="btn" onclick="closeOv('ov-dcrev')">Cancelar</button>
+      <button class="btn btn-pri" onclick="dcRevSave()">Revocar</button>
     </div>
   </div>
 </div>
@@ -1943,6 +2038,9 @@ function bootApp(){
   g('login').style.display = 'none';
   g('app').style.display = 'block';
   loadAll();
+  // Decisiones: carga aparte, no frena el arranque. En setTimeout porque bootApp puede
+  // correr antes de que el script termine de declarar DC (restoreSession va a mitad del archivo).
+  setTimeout(() => dcEnsure().then(dcRerender), 0);
   subscribeRealtime();
 }
 
@@ -2118,6 +2216,7 @@ function subscribeRealtime(){
     .on('postgres_changes', {event:'*', schema:'public', table:'rev_nodos'},       () => revRemote())
     .on('postgres_changes', {event:'*', schema:'public', table:'rev_obs'},         () => revRemote())
     .on('postgres_changes', {event:'*', schema:'public', table:'planos_recepcion'}, () => rpRemote())
+    .on('postgres_changes', {event:'*', schema:'public', table:'decisiones'},       () => dcRemote())
     .subscribe();
 }
 
@@ -2165,6 +2264,7 @@ function render(){
     case 'crono':      renderCrono();     break;
     case 'rev':        renderRev();       break;
     case 'rp':         renderRp();        break;
+    case 'dc':         renderDc();        break;
   }
   applyPermissions();
 }
@@ -2869,6 +2969,7 @@ function renderProjDetail(){
     </div>
     ${checklistHtml(p)}
     ${ctCardHtml(p)}
+    ${dcCardHtml(p)}
     <div class="pd-cols">
       <div class="pd-panel">
         <div class="pd-panel-h"><span class="pd-panel-t">✅ Tareas</span>
@@ -3896,6 +3997,9 @@ function apuItemHtml(a, showProj){
     (cer && a.cerrado_por)
       ? `<span class="firma">${st.lbl} por ${esc(a.cerrado_por)}${a.cerrado_at ? ' · ' + fmtISO(a.cerrado_at) : ''}</span>`
       : (a.creado_por ? `<span>Anotó ${esc(a.creado_por)}</span>` : ''),
+    // Decisiones registradas a partir de este apunte
+    ...DC.rows.filter(d => d.apunte_id === a.id).sort((x, y) => x.num - y.num).map(d =>
+      `<span class="apu-dc" title="${escT(d.texto)}" onclick="dcFoco('${d.id}')">⚖️ ${dcNum(d)}${d.estado !== 'vigente' ? ' (' + DC_EST[d.estado].lbl.toLowerCase() + ')' : ''}</span>`),
   ].filter(Boolean).join('');
 
   const editable = canEditApu(a);
@@ -3904,6 +4008,7 @@ function apuItemHtml(a, showProj){
     : `<span class="apu-pill" style="background:${st.bg};color:${st.fg};cursor:default">${st.lbl}</span>`;
   const acts = editable
     ? `<button class="apu-a" title="Convertir en tarea" onclick="apuToTask('${a.id}')">➕</button>
+       ${DC.missing ? '' : `<button class="apu-a" title="Registrar como decisión del proyecto" onclick="dcFromApu('${a.id}')">⚖️</button>`}
        <button class="apu-a" title="Editar" onclick="apuEdit('${a.id}')">✏️</button>
        <button class="apu-a del" title="Eliminar" onclick="apuDeleteById('${a.id}')">✕</button>` : '';
 
@@ -7544,6 +7649,388 @@ async function rpCapMove(capId, dir){
     const r2 = await db.from('planos_recepcion').update({orden: ob}).eq('id', b.id); if(r2.error) throw r2.error;
     a.orden = oa; b.orden = ob;
   });
+}
+
+/* ═══════════════════════════════════════════════════
+   REGISTRO DE DECISIONES
+   Lo que se decidió en un proyecto, quién lo decidió, cuándo y con qué
+   respaldo, para poder citarlo meses después ("el alumbrado público de
+   Vía Terra no se entrega a CNEL"). No es una tarea ni un apunte: es un
+   hecho con fecha y autor.
+   Estados: vigente · reemplazada · revocada.
+   Una decisión que cambia de fondo NO se edita: se registra una nueva que
+   la reemplaza (reemplaza_id) y la anterior queda tachada pero visible.
+   Editar es solo para corregir redacción o datos. Revocar = queda sin
+   efecto sin que otra la sustituya (con motivo, firma y fecha).
+   num es correlativo por proyecto (D-01, D-02…) y no cambia nunca.
+   Puede salir de un apunte de seguimiento (apunte_id): el apunte muestra
+   la decisión enlazada.
+   Tabla decisiones (archivo decisiones.sql). Son pocas filas: se cargan
+   todas al entrar (no en loadAll) y se refrescan por realtime.
+   ═══════════════════════════════════════════════════ */
+const DC_EST = {
+  vigente:     {lbl: 'Vigente'},
+  reemplazada: {lbl: 'Reemplazada'},
+  revocada:    {lbl: 'Revocada'},
+};
+const DC_QUIEN = ['Cliente', 'Jefatura', 'Directorio', 'Gerencia', 'Equipo técnico', 'Diseñador', 'Autoridad / municipio'];
+const DC = {
+  rows: [], loaded: false, missing: false, err: null,
+  pid: null, f: 'todas', q: '',
+  saving: false, lastWrite: 0,
+  m: null, revoca: null,
+};
+
+/* ═══════ CARGA ═══════ */
+async function dcLoad(){
+  try{
+    const {data, error} = await db.from('decisiones').select('*').order('num').range(0, 4999);
+    if(error) throw error;
+    DC.rows = data || [];
+    DC.missing = false; DC.err = null;
+  }catch(e){
+    if(/decisiones|relation|schema cache|does not exist/i.test(e.message || '')) DC.missing = true;
+    else DC.err = e.message || 'Error de conexión';
+  }
+  DC.loaded = true;
+}
+/** Carga una sola vez (las llamadas simultáneas comparten la misma promesa). */
+function dcEnsure(){
+  if(DC.loaded) return Promise.resolve();
+  if(!DC._p) DC._p = dcLoad().finally(() => { DC._p = null; });
+  return DC._p;
+}
+function dcRemote(){
+  if(DC.saving || Date.now() - DC.lastWrite < 3000) return;
+  clearTimeout(DC._rt);
+  DC._rt = setTimeout(async () => { await dcLoad(); dcRerender(); }, 900);
+}
+function dcRerender(){
+  if(S.tab === 'dc') renderDc();
+  else if(S.tab === 'projdet') renderProjDetail();
+  else if(S.tab === 'apuntes') renderApuntes();
+}
+/** Envuelve una escritura: estado de sincronización, error y redibujo. msg puede ser función. */
+async function dcDb(op, msg){
+  DC.saving = true; sync('busy');
+  try{
+    await op();
+    sync('ok'); if(msg) toast(typeof msg === 'function' ? msg() : msg);
+    return true;
+  }catch(e){
+    sync('err'); toast('Error: ' + (e.message || e), 'err');
+    await dcLoad();
+    return false;
+  }finally{
+    DC.saving = false; DC.lastWrite = Date.now();
+    dcRerender();
+  }
+}
+
+/* ═══════ AYUDAS ═══════ */
+const dcNum   = d => 'D-' + String(d.num || 0).padStart(2, '0');
+const dcById  = id => DC.rows.find(x => x.id === id) || null;
+const dcOf    = pid => DC.rows.filter(x => x.proyecto_id === pid);
+const dcTrunc = (s, n) => { s = (s || '').replace(/\s+/g, ' ').trim(); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
+/** Más recientes arriba: por fecha de la decisión y, a igual fecha, por número. */
+const dcSort  = l => [...l].sort((a, b) => (b.fecha || '').localeCompare(a.fecha || '') || (b.num - a.num));
+/** Quién decidió: sugerencias fijas + lo ya usado en cualquier proyecto. */
+function dcQuienAll(){
+  const set = new Set(DC_QUIEN);
+  DC.rows.forEach(d => (d.decidio || '').trim() && set.add(d.decidio.trim()));
+  return [...set];
+}
+function dcPasa(d){
+  if(DC.f === 'vigentes' && d.estado !== 'vigente') return false;
+  if(DC.f === 'historial' && d.estado === 'vigente') return false;
+  const q = DC.q.trim().toLowerCase();
+  if(!q) return true;
+  return [dcNum(d), d.texto, d.decidio, d.respaldo, d.nota, d.cierre_nota].some(x => (x || '').toLowerCase().includes(q));
+}
+
+/* ═══════ TARJETA EN LA FICHA DEL PROYECTO ═══════ */
+function dcCardHtml(p){
+  if(isObra()) return '';
+  const head = extra => `<div class="cr-card-h"><span class="ct-t">⚖️ Decisiones</span><div class="ct-hr">${extra || ''}</div></div>`;
+  if(!DC.loaded){
+    dcEnsure().then(() => { if(S.tab === 'projdet' && S.pdProj === p.id) renderProjDetail(); });
+    return `<div class="cr-card">${head()}<div class="cr-card-e">Cargando…</div></div>`;
+  }
+  if(DC.missing) return `<div class="cr-card">${head()}<div class="cr-card-e">
+    Falta crear la tabla <code>decisiones</code> en Supabase (archivo <code>decisiones.sql</code>).</div></div>`;
+  if(DC.err && !DC.rows.length) return `<div class="cr-card">${head()}<div class="cr-card-e">
+    <span style="color:var(--re)">⚠️ No se pudieron cargar las decisiones (${esc(DC.err)}).</span>
+    <button class="btn btn-sm" onclick="dcLoad().then(dcRerender)">Reintentar</button></div></div>`;
+  const all = dcOf(p.id), vig = dcSort(all.filter(d => d.estado === 'vigente'));
+  if(!all.length) return `<div class="cr-card dc-card">${head(`<button class="btn btn-sm" onclick="dcNew(${p.id})">＋ Registrar decisión</button>`)}
+    <div class="dc-card-e">Sin decisiones registradas. Anota aquí lo que se decidió, quién lo decidió y con qué respaldo, para poder citarlo después.</div></div>`;
+  const nH = all.length - vig.length, MAX = 5;
+  const filas = vig.slice(0, MAX).map(d => `<div class="dc-li" onclick="dcOpenView(${p.id}, '${d.id}')" title="${escT(d.texto + (d.decidio ? '\nDecidió: ' + d.decidio : '') + (d.nota ? '\n' + d.nota : ''))}">
+      <span class="dc-n">${dcNum(d)}</span><span class="dc-lf">${fmtDate(d.fecha)}</span>
+      <span class="dc-lt">${esc(dcTrunc(d.texto, 160))}</span><span class="dc-lq">${esc(d.decidio || '')}</span></div>`).join('');
+  return `<div class="cr-card dc-card">
+    ${head(`<span class="ct-kpi">${vig.length} vigente(s)</span>
+      ${nH ? `<span class="ct-kpi" title="Reemplazadas o revocadas">${nH} en historial</span>` : ''}
+      <button class="btn btn-sm" onclick="dcNew(${p.id})">＋ Decisión</button>
+      <button class="btn btn-pri btn-sm" onclick="dcOpenView(${p.id})">Ver registro →</button>`)}
+    <div class="dc-card-b">${filas || '<div class="cr-li-v">No hay decisiones vigentes (todas fueron reemplazadas o revocadas).</div>'}
+      ${vig.length > MAX ? `<div class="cr-li-more" onclick="dcOpenView(${p.id})">Ver las ${vig.length} vigentes →</div>` : ''}</div>
+  </div>`;
+}
+
+/* ═══════ VISTA COMPLETA ═══════ */
+async function dcOpenView(pid, foco){
+  if(isObra()) return;
+  if(DC.pid !== pid){ DC.f = 'todas'; DC.q = ''; }
+  DC.pid = pid;
+  S.pdProj = pid;
+  S.tab = 'dc';
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nav-b').forEach(b => b.classList.remove('on'));
+  g('sec-dc').classList.add('on');
+  document.querySelector('.nav-b[data-tab="proyectos"]')?.classList.add('on');
+  g('dc-body').innerHTML = '<div class="spin-wrap"><div class="spin"></div><span>Cargando…</span></div>';
+  await dcEnsure();
+  renderDc();
+  applyPermissions();
+  window.scrollTo(0, 0);
+  if(foco) dcFoco(foco);
+}
+function dcBack(){ openProjDetail(DC.pid); }
+function dcFilt(k){ DC.f = k; renderDc(); }
+
+function renderDc(){
+  if(S.tab !== 'dc') return;
+  const pid = DC.pid, p = S.projects.find(x => x.id === pid), body = g('dc-body');
+  if(!p){ body.innerHTML = '<div class="pd-empty">Proyecto no encontrado</div>'; return; }
+  if(!DC.loaded){ dcEnsure().then(dcRerender); return; }
+  if(DC.missing){ body.innerHTML = `<div class="pd-empty">Falta crear la tabla <code>decisiones</code> en Supabase (archivo <code>decisiones.sql</code>).</div>`; return; }
+  if(DC.err && !DC.rows.length){ body.innerHTML = `<div class="pd-empty"><span style="color:var(--re)">⚠️ No se pudieron cargar las decisiones (${esc(DC.err)}).</span>
+    <div style="margin-top:10px"><button class="btn btn-sm" onclick="dcLoad().then(dcRerender)">Reintentar</button></div></div>`; return; }
+  // Conservar el foco del buscador si el redibujo llega por realtime mientras se escribe
+  const qa = document.activeElement && document.activeElement.id === 'dc-q' ? document.activeElement.selectionStart : null;
+  const all = dcOf(pid), nV = all.filter(d => d.estado === 'vigente').length, f = DC.f;
+  const chip = (k, lbl, n) => `<button class="rv-chip${f === k ? ' on' : ''}" onclick="dcFilt('${k}')">${lbl} <b>${n}</b></button>`;
+  body.innerHTML = `
+    <div class="rv-hero">
+      <div class="rv-hero-l">
+        <span class="pd-name">${esc(p.nombre)}</span>
+        <span class="pd-code">⚖️ Registro de decisiones${p.etapa ? ' · ' + esc(p.etapa) : ''}</span>
+      </div>
+      <div class="rv-hero-r"><button class="btn btn-pri btn-sm" onclick="dcNew(${pid})">＋ Decisión</button></div>
+    </div>
+    ${all.length ? `<div class="dc-tools">
+        <input id="dc-q" class="dc-q" type="search" placeholder="Buscar en las decisiones…" value="${escT(DC.q)}" oninput="DC.q=this.value;dcListRender()" autocomplete="off">
+        <div class="rv-chips" style="margin:0">${chip('todas', 'Todas', all.length)}${chip('vigentes', 'Vigentes', nV)}${chip('historial', 'Reemplazadas y revocadas', all.length - nV)}</div>
+      </div>
+      <div id="dc-list"></div>`
+    : `<div class="dc-list"><div class="pd-empty">Aún no hay decisiones en este proyecto.<br>
+        Registra lo que se decidió, quién lo decidió y con qué respaldo (acta, correo, oficio).<br>
+        Si cambia más adelante, se <b>reemplaza</b> por una nueva y la anterior queda en el historial.</div></div>`}`;
+  dcListRender();
+  if(qa !== null){ const q = g('dc-q'); if(q){ q.focus(); q.setSelectionRange(qa, qa); } }
+}
+function dcListRender(){
+  const el = g('dc-list'); if(!el) return;
+  const all = dcOf(DC.pid), list = dcSort(all.filter(dcPasa));
+  el.innerHTML = list.length ? `<div class="dc-list">${list.map(d => dcItemHtml(d, all)).join('')}</div>`
+    : '<div class="dc-list"><div class="pd-empty">Nada con ese filtro.</div></div>';
+}
+function dcItemHtml(d, all){
+  const st = d.estado || 'vigente', off = st !== 'vigente';
+  const rep  = all.find(x => x.reemplaza_id === d.id) || null;          // la que la reemplazó
+  const prev = d.reemplaza_id ? all.find(x => x.id === d.reemplaza_id) : null;
+  const apu  = d.apunte_id ? findApu(d.apunte_id) : null;
+  const firma = (x) => `${x.cerrado_por ? ' · ' + esc(x.cerrado_por) : ''}${x.cerrado_at ? ' · ' + fmtISO(x.cerrado_at) : ''}`;
+  const meta = [
+    `<span>📅 ${fmtDate(d.fecha)}</span>`,
+    d.decidio ? `<span>🗣 Decidió: <b>${esc(d.decidio)}</b></span>` : '',
+    d.respaldo ? `<span>📎 ${esc(d.respaldo)}</span>` : '',
+    `<span class="dc-reg">Registró ${esc(d.creado_por || '?')} · ${fmtISO(d.created_at)}</span>`,
+  ].filter(Boolean).join('');
+  const lk = [];
+  if(prev) lk.push(`<div class="dc-lk">↳ Reemplaza a <a onclick="dcFoco('${prev.id}')">${dcNum(prev)}</a> · ${esc(dcTrunc(prev.texto, 110))}</div>`);
+  if(apu) lk.push(`<div class="dc-lk">📌 Salió del apunte: ${esc(dcTrunc(apu.texto, 110))}</div>`);
+  const cierre = st === 'reemplazada'
+    ? `<div class="dc-cierre"><b>Reemplazada</b>${rep ? ` por <a onclick="dcFoco('${rep.id}')">${dcNum(rep)}</a>` : ''}${firma(d)}</div>`
+    : st === 'revocada'
+    ? `<div class="dc-cierre rev"><b>Revocada</b>${firma(d)}${d.cierre_nota ? `<div class="dc-cn">${esc(d.cierre_nota)}</div>` : ''}</div>` : '';
+  const acts = [
+    `<button class="chk-a" title="Editar (corregir redacción o datos)" onclick="dcEdit('${d.id}')">✏️</button>`,
+    st === 'vigente' ? `<button class="chk-a" title="Reemplazar: la decisión cambió de fondo" onclick="dcReemplazar('${d.id}')">⇄</button>
+      <button class="chk-a" title="Revocar: queda sin efecto" onclick="dcRevOpen('${d.id}')">⊘</button>` : '',
+    st === 'revocada' ? `<button class="chk-a" title="Volver a dejarla vigente" onclick="dcReactivar('${d.id}')">↩</button>` : '',
+  ].join('');
+  return `<div class="dc-i${off ? ' off' : ''}" id="dc-${d.id}">
+    <div class="dc-num">${dcNum(d)}${off ? `<span class="dc-pill ${st}">${DC_EST[st].lbl}</span>` : ''}</div>
+    <div class="dc-main">
+      <div class="dc-tx">${esc(d.texto)}</div>
+      <div class="dc-meta">${meta}</div>
+      ${d.nota ? `<div class="dc-nota">${esc(d.nota)}</div>` : ''}
+      ${lk.join('')}${cierre}
+    </div>
+    <div class="dc-acts">${acts}</div>
+  </div>`;
+}
+/** Lleva a una decisión (abre la vista de su proyecto si hace falta) y la resalta. */
+function dcFoco(id){
+  const d = dcById(id); if(!d) return;
+  if(S.tab !== 'dc' || DC.pid !== d.proyecto_id){ dcOpenView(d.proyecto_id, id); return; }
+  if(!dcPasa(d)){ DC.f = 'todas'; DC.q = ''; renderDc(); }
+  setTimeout(() => {
+    const el = g('dc-' + id); if(!el) return;
+    el.scrollIntoView({block: 'center', behavior: 'smooth'});
+    el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1600);
+  }, 30);
+}
+
+/* ═══════ NUEVA / EDITAR / REEMPLAZAR ═══════ */
+function dcNew(pid){ dcModal({pid}); }
+function dcEdit(id){ const d = dcById(id); if(d) dcModal({pid: d.proyecto_id, edit: d}); }
+function dcReemplazar(id){ const d = dcById(id); if(d) dcModal({pid: d.proyecto_id, reemplaza: d}); }
+/** Desde un apunte de seguimiento: texto (o su resolución), proyecto, fecha y quién, ya llenos. */
+async function dcFromApu(id){
+  const a = findApu(id); if(!a) return;
+  await dcEnsure();
+  const p = S.projects.find(x => x.nombre === a.proyecto);
+  dcModal({pid: p ? p.id : null, apunte: a});
+}
+function dcModal(m){
+  if(DC.missing){ toast('Falta crear la tabla decisiones en Supabase (decisiones.sql)', 'err'); return; }
+  DC.m = m;
+  const d = m.edit, r = m.reemplaza, a = m.apunte;
+  g('dc-title').textContent = d ? `Editar ${dcNum(d)}` : r ? `Reemplazar ${dcNum(r)}` : 'Nueva decisión';
+  const info = r ? `Reemplaza a <b>${dcNum(r)}</b> (${fmtDate(r.fecha)}): ${esc(r.texto)}<div class="dc-info-s">Al guardar, ${dcNum(r)} queda como <b>Reemplazada</b> y sigue visible en el registro.</div>`
+             : a ? `Desde el apunte: ${esc(a.texto)}${a.resolucion ? `<div class="dc-info-s"><b>Resolución:</b> ${esc(a.resolucion)}</div>` : ''}` : '';
+  g('dcf-info').innerHTML = info;
+  g('dcf-info').style.display = info ? '' : 'none';
+  // Proyecto: se elige solo al crear desde cero o desde un apunte; editar o reemplazar no cambia de proyecto
+  const elegir = !d && !r;
+  g('dcf-proj-f').style.display = elegir ? '' : 'none';
+  if(elegir){
+    const ps = visibleProjects(true).filter(p => !p.cerrado || p.id === m.pid);
+    g('dcf-proj').innerHTML = '<option value="">— Elige el proyecto —</option>' +
+      ps.map(p => `<option value="${p.id}">${esc(p.nombre)}</option>`).join('');
+    g('dcf-proj').value = m.pid ? String(m.pid) : '';
+  }
+  const hoy = new Date().toLocaleDateString('en-CA');
+  g('dcf-fecha').value  = d ? d.fecha : a && a.cerrado_at ? new Date(a.cerrado_at).toLocaleDateString('en-CA') : hoy;
+  g('dcf-quien').value  = (d ? d.decidio : r ? r.decidio : a ? a.a_quien : '') || '';
+  g('dcf-quien-list').innerHTML = dcQuienAll().map(x => `<option value="${escT(x)}"></option>`).join('');
+  g('dcf-texto').value  = (d ? d.texto : r ? r.texto : a ? (a.resolucion || a.texto) : '') || '';
+  g('dcf-resp').value   = (d ? d.respaldo : '') || '';
+  g('dcf-nota').value   = (d ? d.nota : '') || '';
+  g('dcf-help').style.display = d ? '' : 'none';
+  g('dc-del').style.display = d ? '' : 'none';
+  openOv('ov-dc');
+  setTimeout(() => { const t = g('dcf-texto'); t.focus(); if(r) t.select(); }, 0);
+}
+async function dcSave(){
+  const m = DC.m; if(!m) return;
+  const texto = g('dcf-texto').value.trim(), fecha = g('dcf-fecha').value || null;
+  const pid = m.edit ? m.edit.proyecto_id : m.reemplaza ? m.reemplaza.proyecto_id : (Number(g('dcf-proj').value) || null);
+  if(!pid){ toast('Elige el proyecto', 'err'); return; }
+  if(!fecha){ toast('Indica la fecha de la decisión', 'err'); return; }
+  if(!texto){ toast('Escribe la decisión', 'err'); return; }
+  if(m.reemplaza && texto === (m.reemplaza.texto || '').trim()){
+    toast(`Escribe la decisión nueva: el texto es igual al de ${dcNum(m.reemplaza)}`, 'err'); return; }
+  const now = new Date().toISOString();
+  const campos = {fecha, texto, decidio: g('dcf-quien').value.trim() || null, respaldo: g('dcf-resp').value.trim() || null,
+                  nota: g('dcf-nota').value.trim() || null, updated_at: now};
+  // El modal se cierra solo si se guardó: ante un error de red no se pierde lo escrito
+  const cerrar = ok => { if(ok){ closeOv('ov-dc'); DC.m = null; } return ok; };
+  if(m.edit){
+    const d = dcById(m.edit.id); if(!d){ cerrar(true); return; }
+    cerrar(await dcDb(async () => {
+      const {error} = await db.from('decisiones').update(campos).eq('id', d.id);
+      if(error) throw error;
+      Object.assign(d, campos);
+    }, `${dcNum(d)} actualizada ✓`));
+    return;
+  }
+  let nueva = null, insertada = false;
+  const ok = await dcDb(async () => {
+    // El número es el siguiente del proyecto; si otro usuario tomó el mismo a la vez, se recarga y reintenta
+    for(let intento = 0; ; intento++){
+      const num = dcOf(pid).reduce((mx, x) => Math.max(mx, x.num || 0), 0) + 1;
+      nueva = {id: uid(), proyecto_id: pid, num, ...campos, estado: 'vigente',
+               reemplaza_id: m.reemplaza ? m.reemplaza.id : null, apunte_id: m.apunte ? m.apunte.id : null,
+               creado_por: S.user?.nombre || '?', created_at: now};
+      const {error} = await db.from('decisiones').insert(nueva);
+      if(!error){ insertada = true; break; }
+      if(error.code === '23505' && intento < 2){ await dcLoad(); continue; }
+      throw error;
+    }
+    DC.rows.push(nueva);
+    if(m.reemplaza){
+      const old = dcById(m.reemplaza.id);
+      if(old){
+        const u = {estado: 'reemplazada', cerrado_por: S.user?.nombre || '?', cerrado_at: now, updated_at: now};
+        const {error} = await db.from('decisiones').update(u).eq('id', old.id);
+        if(error) throw error;
+        Object.assign(old, u);
+      }
+    }
+  }, () => m.reemplaza ? `${dcNum(nueva)} registrada; ${dcNum(m.reemplaza)} queda reemplazada ✓` : `Decisión ${dcNum(nueva)} registrada ✓`);
+  cerrar(ok || insertada);   // si ya se insertó, reintentar duplicaría la decisión
+  if(ok && S.tab === 'dc' && DC.pid === pid) dcFoco(nueva.id);
+}
+/** Borrar es para un registro hecho por error. Si la borrada reemplazaba a otra,
+    la anterior vuelve a quedar vigente. */
+async function dcDelete(){
+  const d = DC.m && DC.m.edit ? dcById(DC.m.edit.id) : null; if(!d) return;
+  const all = dcOf(d.proyecto_id);
+  const prev = d.reemplaza_id ? dcById(d.reemplaza_id) : null;
+  const revive = !!(prev && prev.estado === 'reemplazada' && !all.some(x => x.id !== d.id && x.reemplaza_id === prev.id));
+  if(!confirm(`¿Eliminar ${dcNum(d)}?\n\n"${d.texto}"\n\nEliminar es solo para un registro hecho por error. Si la decisión cambió, usa Reemplazar o Revocar para que quede en el historial.` +
+      (revive ? `\n\n${dcNum(prev)} volverá a quedar vigente.` : ''))) return;
+  closeOv('ov-dc'); DC.m = null;
+  await dcDb(async () => {
+    const {error} = await db.from('decisiones').delete().eq('id', d.id);
+    if(error) throw error;
+    DC.rows = DC.rows.filter(x => x.id !== d.id);
+    DC.rows.forEach(x => { if(x.reemplaza_id === d.id) x.reemplaza_id = null; });
+    if(revive){
+      const u = {estado: 'vigente', cerrado_por: null, cerrado_at: null, updated_at: new Date().toISOString()};
+      const r2 = await db.from('decisiones').update(u).eq('id', prev.id);
+      if(r2.error) throw r2.error;
+      Object.assign(prev, u);
+    }
+  }, `${dcNum(d)} eliminada`);
+}
+
+/* ═══════ REVOCAR / REACTIVAR ═══════ */
+function dcRevOpen(id){
+  const d = dcById(id); if(!d) return;
+  DC.revoca = id;
+  g('dcr-title').textContent = `Revocar ${dcNum(d)}`;
+  g('dcr-texto').textContent = d.texto || '';
+  g('dcr-nota').value = d.cierre_nota || '';
+  openOv('ov-dcrev');
+  setTimeout(() => g('dcr-nota').focus(), 0);
+}
+async function dcRevSave(){
+  const d = dcById(DC.revoca);
+  closeOv('ov-dcrev'); DC.revoca = null;
+  if(!d) return;
+  const now = new Date().toISOString();
+  const u = {estado: 'revocada', cerrado_por: S.user?.nombre || '?', cerrado_at: now,
+             cierre_nota: g('dcr-nota').value.trim() || null, updated_at: now};
+  await dcDb(async () => {
+    const {error} = await db.from('decisiones').update(u).eq('id', d.id);
+    if(error) throw error;
+    Object.assign(d, u);
+  }, `${dcNum(d)} revocada`);
+}
+/** Deshace una revocación. El motivo se conserva (oculto), como la resolución de los apuntes. */
+async function dcReactivar(id){
+  const d = dcById(id); if(!d || d.estado !== 'revocada') return;
+  const u = {estado: 'vigente', cerrado_por: null, cerrado_at: null, updated_at: new Date().toISOString()};
+  await dcDb(async () => {
+    const {error} = await db.from('decisiones').update(u).eq('id', d.id);
+    if(error) throw error;
+    Object.assign(d, u);
+  }, `${dcNum(d)} vigente de nuevo`);
 }
 
 </script>
