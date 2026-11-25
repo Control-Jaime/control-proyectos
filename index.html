@@ -425,6 +425,10 @@ td{padding:10px 14px;font-size:13px;vertical-align:middle}
 .chk-fill{height:100%;background:var(--gr);border-radius:3px;transition:width .25s}
 .chk-cnt{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold-tx);font-weight:600}
 .chk-b{padding:6px 0}
+.chk-more{padding:8px 18px;font-size:12px;font-weight:600;color:var(--gold-tx);cursor:pointer}
+.chk-more:hover{background:#fffaeb;text-decoration:underline}
+.chk-min .chk-h{border-bottom:none}
+.chk-ok{font-size:11px;font-weight:700;color:var(--gr);background:var(--gr2);padding:2px 8px;border-radius:10px;margin-left:4px}
 .chk-i{display:flex;align-items:flex-start;gap:10px;padding:9px 18px;border-bottom:1px solid #f5ecd4;transition:background .1s}
 .chk-i:last-child{border-bottom:none}
 .chk-i:hover{background:#fffaeb}
@@ -2876,6 +2880,7 @@ async function projDelete(){
    ═══════════════════════════════════════════════════ */
 async function openProjDetail(id){
   S.pdProj = id; S.pdAdd = false; S.pdEdit = null;
+  S.chkRecent = new Set();   // puntos cerrados en esta visita: se ocultan al volver a entrar
   S.tab = 'projdet';
   document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
   document.querySelectorAll('.nav-b').forEach(b => b.classList.remove('on'));
@@ -2992,14 +2997,33 @@ function renderProjDetail(){
    Estados: pendiente | verificado | na  (no aplica)
    Al verificar se firma con nombre y fecha.
    ═══════════════════════════════════════════════════ */
+/* Los puntos cerrados (verificados y N/A) se ocultan en la ficha (25-nov-2026):
+   solo se ven los pendientes, más "Ver los N verificados". Lo que se marca en
+   esta visita a la ficha sigue a la vista (S.chkRecent) para poder corregir un
+   clic equivocado; openProjDetail() lo limpia. S.chkVer[pid] = mostrar todos. */
 function checklistHtml(p){
   const pts    = Array.isArray(p.puntos) ? p.puntos : [];
   const nOk    = pts.filter(x => x.estado === 'verificado').length;
   const nNa    = pts.filter(x => x.estado === 'na').length;
   const nAplic = pts.length - nNa;
   const pct    = nAplic ? Math.round(nOk/nAplic*100) : 0;
+  const verTodos = !!(S.chkVer && S.chkVer[p.id]);
+  const recent   = S.chkRecent || new Set();
+  const cerrado  = it => (it.estado || 'pendiente') !== 'pendiente';
+  const visible  = it => !cerrado(it) || verTodos || recent.has(it.id) || it.id === S.pdEdit;
+  const vis      = pts.filter(visible);
+  const ocultos  = pts.filter(it => !visible(it));
+  const nCerr    = pts.filter(cerrado).length;
+  const okO = ocultos.filter(x => x.estado === 'verificado').length, naO = ocultos.length - okO;
+  const lblOcultos = [okO ? `${okO} verificado${okO > 1 ? 's' : ''}` : '', naO ? `${naO} no aplica` : ''].filter(Boolean).join(' y ');
+  // Pie de la lista: mostrar los ocultos u ocultarlos de nuevo
+  const pie = ocultos.length && vis.length
+      ? `<div class="chk-more" onclick="chkVerTodos(${p.id}, true)">Ver ${ocultos.length > 1 ? 'los' : 'el'} ${lblOcultos} ▾</div>`
+    : verTodos && nCerr
+      ? `<div class="chk-more" onclick="chkVerTodos(${p.id}, false)">Ocultar verificados y no aplica ▴</div>` : '';
+  const todoCerrado = pts.length > 0 && !vis.length;   // tarjeta en una sola línea
 
-  const rows = pts.length ? pts.map(it => {
+  const rows = pts.length ? vis.map(it => {
     const st  = it.estado || 'pendiente';
     const cls = st === 'verificado' ? 'ok' : (st === 'na' ? 'na' : '');
     const mark= st === 'verificado' ? '✓' : (st === 'na' ? '—' : '');
@@ -3016,7 +3040,7 @@ function checklistHtml(p){
         <button class="chk-a" title="${st==='na'?'Reactivar':'Marcar como No aplica'}" onclick="chkNa('${it.id}')">${st==='na'?'↩':'⊘'}</button>
         <button class="chk-a del" title="Eliminar" onclick="chkDelete('${it.id}')">✕</button>
       </div></div>`;
-  }).join('') : '<div class="chk-empty">Sin puntos todavía. Agrega aquí lo que siempre debas verificar en este proyecto.</div>';
+  }).join('') + pie : '<div class="chk-empty">Sin puntos todavía. Agrega aquí lo que siempre debas verificar en este proyecto.</div>';
 
   const editing = S.pdEdit ? pts.find(x => x.id === S.pdEdit) : null;
   const form = (S.pdAdd || editing) ? `<div class="chk-form">
@@ -3040,18 +3064,22 @@ function checklistHtml(p){
       </span>
     </div>` : '';
 
-  return `<div class="chk">
+  return `<div class="chk${todoCerrado ? ' chk-min' : ''}">
     <div class="chk-h">
-      <span class="chk-t">📌 Puntos de verificación</span>
+      <span class="chk-t">📌 Puntos de verificación${todoCerrado ? `<span class="chk-ok">${nAplic ? '✓ Todo verificado' : 'Nada pendiente'}</span>` : ''}</span>
       <div class="chk-prog">
         ${nAplic ? `<div class="chk-bar"><div class="chk-fill" style="width:${pct}%"></div></div><span class="chk-cnt">${nOk}/${nAplic} verificados</span>` : ''}
+        ${todoCerrado ? `<button class="btn btn-sm" onclick="chkVerTodos(${p.id}, true)">Ver ${ocultos.length > 1 ? 'los' : 'el'} ${ocultos.length}</button>` : ''}
         ${(S.pdAdd || editing) ? '' : '<button class="btn btn-sm" onclick="chkAdd()">＋ Agregar punto</button>'}
       </div>
     </div>
-    <div class="chk-b">${rows}</div>
+    ${todoCerrado ? '' : `<div class="chk-b">${rows}</div>`}
     ${form}${imp}
   </div>`;
 }
+function chkVerTodos(pid, on){ S.chkVer = S.chkVer || {}; S.chkVer[pid] = on; renderProjDetail(); }
+/** Recuerda lo que se cierra en esta visita a la ficha, para no esconderlo de golpe. */
+function chkRecent(id){ (S.chkRecent = S.chkRecent || new Set()).add(id); }
 function chkList(){ const p = pdProject(); return (p && Array.isArray(p.puntos)) ? JSON.parse(JSON.stringify(p.puntos)) : []; }
 async function chkPersist(arr, msg){
   if(!S.pdProj) return;
@@ -3089,13 +3117,13 @@ async function chkSave(){
 async function chkToggle(id){
   const arr = chkList(); const it = arr.find(x => x.id === id); if(!it) return;
   if(it.estado === 'verificado'){ it.estado = 'pendiente'; it.verif_por = null; it.verif_at = null; }
-  else { it.estado = 'verificado'; it.verif_por = S.user?.nombre || '?'; it.verif_at = new Date().toISOString(); }
+  else { it.estado = 'verificado'; it.verif_por = S.user?.nombre || '?'; it.verif_at = new Date().toISOString(); chkRecent(id); }
   await chkPersist(arr);
 }
 async function chkNa(id){
   const arr = chkList(); const it = arr.find(x => x.id === id); if(!it) return;
   if(it.estado === 'na'){ it.estado = 'pendiente'; }
-  else { it.estado = 'na'; it.verif_por = null; it.verif_at = null; }
+  else { it.estado = 'na'; it.verif_por = null; it.verif_at = null; chkRecent(id); }
   await chkPersist(arr);
 }
 async function chkDelete(id){
